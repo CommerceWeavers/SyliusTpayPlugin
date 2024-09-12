@@ -31,6 +31,7 @@
         "sylius/sylius": "<1.12"
     },
     "require-dev": {
+        "coduo/php-matcher": "^6.0",
         "phpspec/prophecy-phpunit": "^2.2",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^1.8.1",

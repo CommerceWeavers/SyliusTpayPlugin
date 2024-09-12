@@ -71,3 +71,7 @@ jobs:
 
             -   name: Run tests
                 run: vendor/bin/phpunit
+
+            -   name: Run Tpay contract tests
+                if: "${{ inputs.type == 'daily' }}"
+                run: vendor/bin/phpunit --testsuite contract_external
