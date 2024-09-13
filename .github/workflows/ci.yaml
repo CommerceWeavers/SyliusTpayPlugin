@@ -42,10 +42,14 @@ jobs:
             APP_ENV: test
             DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
             STATE_MACHINE_DEFAULT_ADAPTER: ${{ matrix.state_machine }}
-            TPAY_API_URL: 'http://host.orb.internal:4000'
             PANTHER_WEB_SERVER_DIR: './tests/Application/public'
             PANTHER_NO_SANDBOX: 1
             PANTHER_CHROME_ARGUMENTS: '--disable-dev-shm-usage --window-size=1400,900'
+            TPAY_API_URL: 'http://localhost:4000'
+            TPAY_CLIENT_ID: '{{ secrets.TPAY_CLIENT_ID }}'
+            TPAY_CLIENT_SECRET: '{{ secrets.TPAY_CLIENT_SECRET }}'
+            TPAY_CARDS_API: '{{ secrets.TPAY_CARDS_API }}'
+            PAYUM_CYPHER_KEY: '{{ secrets.PAYUM_CYPHER_KEY }}'
 
         steps:
             -
