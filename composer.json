@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "sylius/core-bundle": "^1.12",
         "tpay-com/tpay-openapi-php": "^1.8",
         "payum/core": "^1.7",
