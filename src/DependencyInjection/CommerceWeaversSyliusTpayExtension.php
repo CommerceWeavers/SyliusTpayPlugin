@@ -20,6 +20,13 @@ final class CommerceWeaversSyliusTpayExtension extends AbstractResourceExtension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.php');
+
+        /** @var string $environment */
+        $environment = $container->getParameter('kernel.environment');
+
+        if (str_starts_with($environment, 'test')) {
+            $loader->load('services_test.php');
+        }
     }
 
     public function prepend(ContainerBuilder $container): void

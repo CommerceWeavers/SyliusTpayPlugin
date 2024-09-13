@@ -16,6 +16,9 @@ abstract class TpayTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->tpay = new TpayApi(getenv('TPAY_CLIENT_ID'), getenv('TPAY_CLIENT_SECRET'));
+        $clientId = getenv('TPAY_CLIENT_ID') ?: throw new \RuntimeException('TPAY_CLIENT_ID environment variable is required to run Tpay contract test.');
+        $clientSecret = getenv('TPAY_CLIENT_SECRET') ?: throw new \RuntimeException('TPAY_CLIENT_SECRET environment variable is required to run Tpay contract test.');
+
+        $this->tpay = new TpayApi($clientId, $clientSecret, productionMode: false);
     }
 }

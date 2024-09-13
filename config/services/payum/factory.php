@@ -16,7 +16,7 @@ use Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder;
 return function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set(TpayGatewayFactory::class, GatewayFactoryBuilder::class)
+    $services->set('commerce_weavers_sylius_tpay.payum.factory.tpay_gateway', GatewayFactoryBuilder::class)
         ->args([
             TpayGatewayFactory::class,
         ])

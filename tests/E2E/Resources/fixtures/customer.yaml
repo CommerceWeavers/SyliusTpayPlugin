@@ -1,0 +1,32 @@
+Sylius\Component\Core\Model\Address:
+    address_tony:
+        firstName: "Tony"
+        lastName: "Doe"
+        customer: '@customer_tony'
+        company: "CocaCola"
+        street: "Green Avenue"
+        countryCode: "US"
+        city: "New York"
+        postcode: "00000"
+        phoneNumber: "123456789"
+        provinceCode: "US-WY"
+        provinceName: "Wyoming"
+
+Sylius\Component\Core\Model\ShopUser:
+    shop_user_tony:
+        plainPassword: "sylius"
+        roles: [ROLE_USER]
+        enabled: true
+        verifiedAt: "<(new \\DateTime())>"
+        customer: "@customer_tony"
+        username: "tony\\@nonexisting.cw"
+        usernameCanonical: "tony\\@nonexisting.cw"
+
+Sylius\Component\Core\Model\Customer:
+    customer_tony:
+        firstName: "Tony"
+        lastName: "Doe"
+        email: "tony\\@nonexisting.cw"
+        emailCanonical: "tony\\@nonexisting.cw"
+        birthday: "<(new \\DateTime())>"
+        defaultAddress: '@address_tony'

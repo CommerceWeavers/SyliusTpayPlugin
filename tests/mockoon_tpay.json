@@ -1,0 +1,113 @@
+{
+  "uuid": "056988e1-0ddd-4d0b-a1e7-eaa1d84a1219",
+  "lastMigration": 32,
+  "name": "Mockoon tpay",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 4000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "5b0daede-d7b8-4329-8ee4-cfedffc699d0",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "transactions",
+      "responses": [
+        {
+          "uuid": "17c69722-7d20-440d-b03c-9539727cb84f",
+          "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"d3a9826d92c48cb8c185\",\n  \"transactionId\": \"ta_bKvkJX9Knk9Ol4od\",\n  \"title\": \"TR-CWM-CS7LW1X\",\n  \"posId\": \"ps_e4dkPVDEm4Jg726q\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-06-12 21:29:35\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"Test transaction\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZWxRLdG1bqY\",\n    \"email\": \"jan.nowak@example.com\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": null,\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"{{body 'callbacks.payerUrls.success'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "b4085aff-5a8b-4f26-b601-dfb3537f7494",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "oauth/auth",
+      "responses": [
+        {
+          "uuid": "ff3c2a62-486d-4731-acab-ead16a0d5088",
+          "body": "{\n  \"issued_at\": 1718215429,\n  \"scope\": \"read\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 7200,\n  \"client_id\": \"01HH1N1V033B5FMB6TXPWZVATY-01J06SX1HPPFG0D8907TWBG871\",\n  \"access_token\": \"3a06d08eb804f8bb4a8b2c82bf14c15cbae79ef6\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "b4085aff-5a8b-4f26-b601-dfb3537f7494"
+    },
+    {
+      "type": "route",
+      "uuid": "5b0daede-d7b8-4329-8ee4-cfedffc699d0"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

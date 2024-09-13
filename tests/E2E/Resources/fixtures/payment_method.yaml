@@ -1,0 +1,65 @@
+Sylius\Component\Core\Model\PaymentMethod:
+    tpay:
+        code: 'tpay'
+        enabled: true
+        gatewayConfig: '@gateway_tpay'
+        translations:
+            - '@tpay_payment_method_translation'
+        channels: ['@channel_web']
+    tpay_card:
+        code: 'tpay_card'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_card'
+        translations:
+            - '@tpay_card_payment_method_translation'
+        channels: ['@channel_web']
+    tpay_blik:
+        code: 'tpay_blik'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_blik'
+        translations:
+            - '@tpay_blik_payment_method_translation'
+        channels: ['@channel_web']
+
+Sylius\Bundle\PayumBundle\Model\GatewayConfig:
+    gateway_tpay:
+        gatewayName: 'Tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: '<getenv("TPAY_CLIENT_ID")>'
+            client_secret: '<getenv("TPAY_CLIENT_SECRET")>'
+            type: 'redirect'
+            production_mode: false
+    gateway_tpay_card:
+        gatewayName: 'Tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: '<getenv("TPAY_CLIENT_ID")>'
+            client_secret: '<getenv("TPAY_CLIENT_SECRET")>'
+            type: 'card'
+            production_mode: false
+    gateway_tpay_blik:
+        gatewayName: 'Tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: '<getenv("TPAY_CLIENT_ID")>'
+            client_secret: '<getenv("TPAY_CLIENT_SECRET")>'
+            type: 'blik'
+            production_mode: false
+
+Sylius\Component\Payment\Model\PaymentMethodTranslation:
+    tpay_payment_method_translation:
+        name: 'Tpay'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay'
+    tpay_card_payment_method_translation:
+        name: 'Card (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_card'
+    tpay_blik_payment_method_translation:
+        name: 'BLIK (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_blik'
