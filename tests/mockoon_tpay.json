@@ -20,17 +20,79 @@
           "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"d3a9826d92c48cb8c185\",\n  \"transactionId\": \"ta_bKvkJX9Knk9Ol4od\",\n  \"title\": \"TR-CWM-CS7LW1X\",\n  \"posId\": \"ps_e4dkPVDEm4Jg726q\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-06-12 21:29:35\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"Test transaction\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZWxRLdG1bqY\",\n    \"email\": \"jan.nowak@example.com\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": null,\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"{{body 'callbacks.payerUrls.success'}}\"\n}",
           "latency": 0,
           "statusCode": 200,
-          "label": "",
+          "label": "Redirect",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "pay.groupId",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ed30e0d4-13ca-4b92-acb9-65946ef1520d",
+          "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"d3a9826d92c48cb8c185\",\n  \"transactionId\": \"ta_bKvkJX9Knk9Ol4od\",\n  \"title\": \"TR-CWM-CS7LW1X\",\n  \"posId\": \"ps_e4dkPVDEm4Jg726q\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-06-12 21:29:35\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"Test transaction\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZWxRLdG1bqY\",\n    \"email\": \"jan.nowak@example.com\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": null,\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"{{body 'callbacks.payerUrls.success'}}\"\n}\n{{setGlobalVar 'callbacks_payers_urls_success' (body 'callbacks.payerUrls.success')}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Card",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "pay.groupId",
+              "value": "103",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3f11934d-183b-4e7d-b127-38f7bdaddb55",
+          "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"b6325d51e8c4b9130476\",\n  \"transactionId\": \"ta_jrkNGj5L29pnlbqw\",\n  \"title\": \"TR-BRA-CCP1S9X\",\n  \"posId\": \"ps_NyRBLzV5kelrpjaM\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-05-08 21:01:15\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"test transaction via BLIK\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZ3qyPPG1bqY\",\n    \"email\": \"<jan.nowak@tpay.com>\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": \"pay_by_link\",\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"<https://secure.tpay.com/?title=TR-BRA-CCP1S9X&uid=01HXCS9KVQBDZDDWDHP1TZKJ1K>\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Blik",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "pay.groupId",
+              "value": "150",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -65,6 +127,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "0b6be9e5-c227-4fa9-a8c5-fc7a0daf9881",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "transactions/:id/pay",
+      "responses": [
+        {
+          "uuid": "53879045-689d-4e82-a5a3-583af9b15177",
+          "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"858fa92dc62db44e2c1f\",\n  \"transactionId\": \"ta_9jQLGqzeY2eOVK01\",\n  \"title\": \"TR-CWM-CNYHA6X\",\n  \"posId\": \"ps_e4dkPVDEm4Jg726q\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-06-06 21:31:35\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"Testowa płatność kartowa\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZWxRLdG1bqY\",\n    \"email\": \"jan.nowak@example.com\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": \"pay_by_link\",\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"{{getGlobalVar 'callbacks_payers_urls_success'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -75,6 +166,10 @@
     {
       "type": "route",
       "uuid": "5b0daede-d7b8-4329-8ee4-cfedffc699d0"
+    },
+    {
+      "type": "route",
+      "uuid": "0b6be9e5-c227-4fa9-a8c5-fc7a0daf9881"
     }
   ],
   "proxyMode": false,

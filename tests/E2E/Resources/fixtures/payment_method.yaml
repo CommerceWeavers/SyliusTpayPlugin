@@ -36,6 +36,7 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
         config:
             client_id: '<getenv("TPAY_CLIENT_ID")>'
             client_secret: '<getenv("TPAY_CLIENT_SECRET")>'
+            cards_api: '<getenv("TPAY_CARDS_API")>'
             type: 'card'
             production_mode: false
     gateway_tpay_blik:

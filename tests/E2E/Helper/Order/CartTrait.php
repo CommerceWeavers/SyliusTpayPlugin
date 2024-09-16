@@ -23,7 +23,13 @@ trait CartTrait
 
     public function processWithPaymentMethod(string $paymentMethodCode): void
     {
-        $this->client->submitForm('Next', ['sylius_checkout_select_payment[payments][0][method]' => $paymentMethodCode]);
+        $this->client->executeScript(
+            sprintf(
+                'document.querySelector(\'[name="sylius_checkout_select_payment[payments][0][method]"][value="%s"]\').checked = true',
+                $paymentMethodCode,
+            ),
+        );
+        $this->client->submitForm('Next');
     }
 
     public function placeOrder(): void
