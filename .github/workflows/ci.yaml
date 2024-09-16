@@ -101,7 +101,8 @@ jobs:
                 uses: actions/upload-artifact@v3
                 if: failure()
                 with:
-                    name: "Logs"
+                    name: "Logs for (Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}, State Machine ${{ matrix.state_machine }})"
                     path: |
                         tests/Application/var/log
+                        tests/Application/var/panther
                     if-no-files-found: ignore
