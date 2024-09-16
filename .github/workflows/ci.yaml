@@ -46,10 +46,10 @@ jobs:
             PANTHER_NO_SANDBOX: 1
             PANTHER_CHROME_ARGUMENTS: '--disable-dev-shm-usage --window-size=1400,900'
             TPAY_API_URL: 'http://localhost:4000'
-            TPAY_CLIENT_ID: '{{ secrets.TPAY_CLIENT_ID }}'
-            TPAY_CLIENT_SECRET: '{{ secrets.TPAY_CLIENT_SECRET }}'
-            TPAY_CARDS_API: '{{ secrets.TPAY_CARDS_API }}'
-            PAYUM_CYPHER_KEY: '{{ secrets.PAYUM_CYPHER_KEY }}'
+            TPAY_CLIENT_ID: ${{ secrets.TPAY_CLIENT_ID }}
+            TPAY_CLIENT_SECRET: ${{ secrets.TPAY_CLIENT_SECRET }}
+            TPAY_CARDS_API: ${{ secrets.TPAY_CARDS_API }}
+            PAYUM_CYPHER_KEY: ${{ secrets.PAYUM_CYPHER_KEY }}
 
         steps:
             -
