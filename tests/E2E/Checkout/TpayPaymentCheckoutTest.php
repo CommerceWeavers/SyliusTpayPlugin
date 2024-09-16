@@ -49,7 +49,9 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
     public function test_it_completes_the_checkout_using_credit_card(): void
     {
         $this->processWithPaymentMethod('tpay_card');
+        file_put_contents(dirname(__DIR__, 3) . '/tests/Application/var/log/one.html', $this->client->getPageSource());
         $this->fillCardData('John Doe', self::CARD_NUMBER, '123', '01', '2029');
+        file_put_contents(dirname(__DIR__, 3) . '/tests/Application/var/log/two.html', $this->client->getPageSource());
         $this->placeOrder();
 
         $this->assertPageTitleContains('Thank you!');

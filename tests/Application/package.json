@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "@sylius-ui/frontend": "^1.0"
+  },
+  "dependencies": {
+    "@sentry/browser": "^8.30.0"
   }
 }

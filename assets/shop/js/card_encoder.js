@@ -1,4 +1,31 @@
 import * as JSEncrypt from './jsencrypt.min';
+import * as Sentry from "@sentry/browser";
+
+Sentry.init({
+  dsn: "https://b4aeb8f84d49fdbae7d336d446bf46b6@o4507962673725440.ingest.de.sentry.io/4507962677395536",
+
+  // Alternatively, use `process.env.npm_package_version` for a dynamic release version
+  // if your build tool supports it.
+  release: "my-project-name@2.3.12",
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration(),
+    Sentry.captureConsoleIntegration(),
+  ],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for tracing.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+
+  // Set `tracePropagationTargets` to control for which URLs trace propagation should be enabled
+  tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+
+  // Capture Replay for 10% of all sessions,
+  // plus for 100% of sessions with an error
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('[name="sylius_checkout_complete"]');

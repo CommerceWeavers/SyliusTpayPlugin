@@ -16,3 +16,4 @@ jobs:
         uses: ./.github/workflows/ci.yaml
         with:
             type: "daily"
+        secrets: inherit
