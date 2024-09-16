@@ -52,7 +52,7 @@
         "symfony/monolog-bundle": "^3.10",
         "symfony/panther": "^2.1",
         "symfony/web-profiler-bundle": "^5.4 || ^6.0",
-        "theofidry/alice-data-fixtures": "^1.7"
+        "theofidry/alice-data-fixtures": "^1.6"
     },
     "config": {
         "sort-packages": true,
