@@ -60,6 +60,7 @@ final class TpayGatewayConfigurationType extends AbstractType
                         'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.redirect' => 'redirect',
                         'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.card' => 'card',
                         'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.blik' => 'blik',
+                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.pay_by_link' => 'pay-by-link',
                     ],
                 ],
             )

@@ -12,5 +12,8 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(TpayExtension::class)->tag('twig.extension');
 
-    $services->set(TpayRuntime::class)->args([service('payum.dynamic_gateways.cypher')])->tag('twig.runtime');
+    $services->set(TpayRuntime::class)->args([
+        service('payum.dynamic_gateways.cypher'),
+        service('commerce_weavers_tpay.tpay.provider.tpay_api_bank_list'),
+    ])->tag('twig.runtime');
 };

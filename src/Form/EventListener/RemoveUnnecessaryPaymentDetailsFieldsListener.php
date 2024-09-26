@@ -21,5 +21,9 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
         if (!isset($data['blik_token'])) {
             $form->remove('blik_token');
         }
+
+        if (!isset($data['pay_by_link_channel_id'])) {
+            $form->remove('pay_by_link_channel_id');
+        }
     }
 }

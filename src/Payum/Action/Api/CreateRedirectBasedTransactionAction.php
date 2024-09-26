@@ -9,6 +9,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInter
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
 use Payum\Core\Reply\HttpRedirect;
+use Payum\Core\Security\CypherInterface;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -65,6 +66,9 @@ class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionActi
 
         $details = $model->getDetails();
 
-        return !isset($details['tpay']['card']) && !isset($details['tpay']['blik_token']);
+        return !isset($details['tpay']['card']) &&
+            !isset($details['tpay']['blik_token']) &&
+            !isset($details['tpay']['pay_by_link_channel_id'])
+        ;
     }
 }

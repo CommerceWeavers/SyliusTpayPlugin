@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Twig;
 
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterface;
 use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
@@ -13,6 +14,7 @@ final class TpayRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private CypherInterface $cypher,
+        private TpayApiBankListProviderInterface $bankListProvider,
     ) {
     }
 
@@ -23,5 +25,10 @@ final class TpayRuntime implements RuntimeExtensionInterface
         }
 
         return $gatewayConfig->getConfig()[$key] ?? null;
+    }
+
+    public function getAvailableBanks(): array
+    {
+        return $this->bankListProvider->provide();
     }
 }

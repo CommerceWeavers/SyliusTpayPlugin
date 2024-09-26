@@ -11,6 +11,7 @@ commerce_weavers_sylius_tpay:
                 card: 'Karta (na stronie)'
                 label: 'Typ'
                 redirect: 'Przekierowanie do Tpay'
+                pay_by_link: 'Pay by link'
     shop:
         order_summary:
             blik:

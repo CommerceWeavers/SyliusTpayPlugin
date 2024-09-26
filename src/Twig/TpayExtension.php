@@ -16,6 +16,7 @@ final class TpayExtension extends AbstractExtension
     {
         return [
             new TwigFunction('cw_tpay_get_gateway_config_value', [TpayRuntime::class, 'getConfigValue']),
+            new TwigFunction('cw_tpay_get_available_banks', [TpayRuntime::class, 'getAvailableBanks']),
         ];
     }
 }

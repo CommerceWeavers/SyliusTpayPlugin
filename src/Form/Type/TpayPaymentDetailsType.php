@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -12,7 +13,7 @@ use Symfony\Component\Form\FormEvents;
 final class TpayPaymentDetailsType extends AbstractType
 {
     public function __construct(
-        private object $removeUnnecessaryPaymentDetailsFieldsListener,
+        private readonly object $removeUnnecessaryPaymentDetailsFieldsListener,
     ) {
     }
 
@@ -35,6 +36,13 @@ final class TpayPaymentDetailsType extends AbstractType
                 [
                     'property_path' => '[blik_token]',
                     'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.blik.token',
+                ],
+            )
+            ->add(
+                'pay_by_link_channel_id',
+                HiddenType::class,
+                [
+                    'property_path' => '[pay_by_link_channel_id]',
                 ],
             )
         ;

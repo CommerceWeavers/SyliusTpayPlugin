@@ -6,8 +6,9 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateBlik0TransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateCardTransactionAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreatePayByLinkTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateRedirectBasedTransactionAction;
-use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateTransactionAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\GetBankGroupListAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\PayWithCardAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\CaptureAction;
@@ -65,5 +66,18 @@ return function(ContainerConfigurator $container): void {
     ;
 
     $services->set(RefundAction::class)
-        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.refund']);
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.refund'])
+    ;
+
+    $services->set(GetBankGroupListAction::class)
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.get_bank_groups'])
+    ;
+
+    $services->set(CreatePayByLinkTransactionAction::class)
+        ->args([
+            service('commerce_weavers_tpay.tpay.factory.create_pay_by_link_payment_payload'),
+            service('commerce_weavers_tpay.payum.factory.token.notify'),
+        ])
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_pay_by_link_transaction'])
+    ;
 };

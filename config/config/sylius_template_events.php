@@ -17,6 +17,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_card.html.twig',
                         'priority' => 5,
                     ],
+                    'pay-by-link' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_payByLink.html.twig',
+                        'priority' => 5,
+                    ]
                 ],
             ],
             'sylius.shop.layout.javascripts' => [
