@@ -33,7 +33,7 @@ final class NotifyActionTest extends TestCase
         $this->request->getModel()->willReturn($this->model->reveal());
     }
 
-    public function it_supports_only_notify_requests(): void
+    public function test_it_supports_only_notify_requests(): void
     {
         $action = $this->createTestSubject();
 

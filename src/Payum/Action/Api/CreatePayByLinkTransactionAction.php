@@ -10,13 +10,11 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryI
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Reply\HttpRedirect;
-use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 
 final class CreatePayByLinkTransactionAction extends AbstractCreateTransactionAction implements GatewayAwareInterface
 {
-    use GenericTokenFactoryAwareTrait;
     use GatewayAwareTrait;
 
     public function __construct(
@@ -33,18 +31,17 @@ final class CreatePayByLinkTransactionAction extends AbstractCreateTransactionAc
     {
         /** @var PaymentInterface $model */
         $model = $request->getModel();
-        $details = $model->getDetails();
         $token = $request->getToken();
         Assert::notNull($token);
 
         $localeCode = $this->getLocaleCodeFrom($model);
-
         $notifyToken = $this->notifyTokenFactory->create($model, $token->getGatewayName(), $localeCode);
 
         $response = $this->api->transactions()->createTransaction(
             $this->createPayByLinkPayloadFactory->createFrom($model, $notifyToken->getTargetUrl(), $localeCode),
         );
 
+        $details = $model->getDetails();
         $details['tpay']['transaction_id'] = $response['transactionId'];
         $details['tpay']['status'] = $response['status'];
         $details['tpay']['transaction_payment_url'] = $response['transactionPaymentUrl'];

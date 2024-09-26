@@ -14,33 +14,48 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function test_it_removes_card_field_once_card_data_is_not_set(): void
+    public function test_it_leaves_blik_field_once_blik_token_is_set(): void
     {
         $form = $this->prophesize(FormInterface::class);
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldNotBeCalled();
+        $form->remove('pay_by_link_channel_id')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), ['blik_token' => '123456']);
 
         $this->createTestSubject()->__invoke($event);
     }
 
-    public function test_it_removes_blik_token_field_once_blik_token_is_not_set(): void
+    public function test_it_leaves_card_field_once_card_is_set(): void
     {
         $form = $this->prophesize(FormInterface::class);
         $form->remove('card')->shouldNotBeCalled();
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
+        $form->remove('pay_by_link_channel_id')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), ['card' => 'h45h']);
 
         $this->createTestSubject()->__invoke($event);
     }
 
-    public function test_it_removes_both_card_and_blik_token_if_none_of_them_is_passed(): void
+    public function test_it_leaves_pbl_channel_id_field_once_pbl_channel_id_is_set(): void
     {
         $form = $this->prophesize(FormInterface::class);
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
+        $form->remove('pay_by_link_channel_id')->shouldNotBeCalled();
+
+        $event = new FormEvent($form->reveal(), ['pay_by_link_channel_id' => 1]);
+
+        $this->createTestSubject()->__invoke($event);
+    }
+
+    public function test_it_removes_all_additional_fields_if_none_of_them_are_passed(): void
+    {
+        $form = $this->prophesize(FormInterface::class);
+        $form->remove('card')->shouldBeCalled()->willReturn($form);
+        $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
+        $form->remove('pay_by_link_channel_id')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), []);
 

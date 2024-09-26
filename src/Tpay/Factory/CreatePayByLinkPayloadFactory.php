@@ -21,7 +21,7 @@ final class CreatePayByLinkPayloadFactory implements CreatePayByLinkPayloadFacto
         /** @var array{pay: array<string, mixed>} $payload */
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
-        /** @var array{tpay?: array{pay_by_link?: string}} $paymentDetails */
+        /** @var array{tpay?: array{pay_by_link_channel_id?: string}} $paymentDetails */
         $paymentDetails = $payment->getDetails();
         $bankGroupId = $paymentDetails['tpay']['pay_by_link_channel_id']
             ?? throw new \InvalidArgumentException('The given payment does not have a bank selected.');

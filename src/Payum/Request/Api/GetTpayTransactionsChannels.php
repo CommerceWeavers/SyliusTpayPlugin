@@ -6,7 +6,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api;
 
 use Payum\Core\Request\Generic;
 
-class GetBankGroupList extends Generic
+class GetTpayTransactionsChannels extends Generic
 {
     protected array $result;
 

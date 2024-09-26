@@ -8,7 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateBlik0TransactionActi
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateCardTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreatePayByLinkTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateRedirectBasedTransactionAction;
-use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\GetBankGroupListAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\GetTpayTransactionsChannelsAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\PayWithCardAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\CaptureAction;
@@ -69,8 +69,8 @@ return function(ContainerConfigurator $container): void {
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.refund'])
     ;
 
-    $services->set(GetBankGroupListAction::class)
-        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.get_bank_groups'])
+    $services->set(GetTpayTransactionsChannelsAction::class)
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.get_transactions_channels'])
     ;
 
     $services->set(CreatePayByLinkTransactionAction::class)

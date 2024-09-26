@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 
-use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\GetBankGroupList;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\GetTpayTransactionsChannels;
 
-// TODO rename to get channels
-class GetBankGroupListAction extends BaseApiAwareAction
+class GetTpayTransactionsChannelsAction extends BaseApiAwareAction
 {
     /**
-     * @param GetBankGroupList $request
+     * @param GetTpayTransactionsChannels $request
      */
     public function execute($request): void
     {
@@ -21,6 +20,6 @@ class GetBankGroupListAction extends BaseApiAwareAction
 
     public function supports($request): bool
     {
-        return $request instanceof GetBankGroupList;
+        return $request instanceof GetTpayTransactionsChannels;
     }
 }

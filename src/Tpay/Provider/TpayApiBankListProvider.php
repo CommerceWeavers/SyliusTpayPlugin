@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Provider;
 
-use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\GetBankGroupList;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\GetTpayTransactionsChannels;
 use Payum\Core\Model\ArrayObject;
 use Payum\Core\Payum;
 use Tpay\OpenApi\Utilities\TpayException;
@@ -21,7 +21,7 @@ final class TpayApiBankListProvider implements TpayApiBankListProviderInterface
     {
         $gateway = $this->payum->getGateway('tpay');
 
-        $gateway->execute($result = new GetBankGroupList(new ArrayObject()), true);
+        $gateway->execute($result = new GetTpayTransactionsChannels(new ArrayObject()), true);
 
         $result = $result->getResult();
 
