@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\PaymentInterface;
 final class CreatePayByLinkPayloadFactory implements CreatePayByLinkPayloadFactoryInterface
 {
     public function __construct(
-        private CreateRedirectBasedPaymentPayloadFactoryInterface $createRedirectBasedPaymentPayloadFactory,
+        private readonly CreateRedirectBasedPaymentPayloadFactoryInterface $createRedirectBasedPaymentPayloadFactory,
     ) {
     }
 

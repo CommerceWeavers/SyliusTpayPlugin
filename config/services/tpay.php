@@ -51,7 +51,8 @@ return function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_tpay.tpay.provider.tpay_api_bank_list', TpayApiBankListProvider::class)
         ->args([
-            service('payum')
+            service('payum'),
+            service('cache.app')
         ])
         ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_tpay.provider.tpay_api_bank_list')
     ;

@@ -1,5 +1,4 @@
 {% set payment = order.lastCartPayment() %}
-{% set banks = cw_tpay_get_available_banks() %}
 
 {# TODO remove comments and move style and js to different file (how to) #}
 {% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'pay-by-link' %}
@@ -24,14 +23,14 @@
 
     .bank-container {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
-        gap: 15px; /* Spacing between tiles */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
     }
 </style>
 
 <div class="bank-container">
     {% for bank in banks %}
-        <div class="bank-tile" data-bank-id="{{ bank.id }}" onclick="selectBank('{{ bank.id }}')">
+        <div class="bank-tile" data-bank-id="{{ bank.id }}">
             <img src="{{ bank.image.url }}" alt="{{ bank.name }}">
             <p>{{ bank.name }}</p>
         </div>
@@ -41,18 +40,19 @@
 {{ form_row(form.tpay.pay_by_link_channel_id) }}
 
 <script>
-    function selectBank(bankId) {
-        // Remove 'selected' class from all tiles
-        document.querySelectorAll('.bank-tile').forEach(function(tile) {
-            tile.classList.remove('selected');
+    document.addEventListener("DOMContentLoaded", function() {
+        const tiles = document.querySelectorAll('.bank-tile');
+        const hiddenInput = document.getElementById('sylius_checkout_complete_tpay_pay_by_link_channel_id');
+
+        tiles.forEach(tile => {
+            tile.addEventListener('click', function () {
+                tiles.forEach(tileElement => tileElement.classList.remove('selected'));
+
+                tile.classList.add('selected');
+
+                hiddenInput.value = tile.getAttribute('data-bank-id');
+            });
         });
-
-        // Add 'selected' class to the clicked tile
-        let clickedTile = document.querySelector('[data-bank-id="' + bankId + '"]');
-        clickedTile.classList.add('selected');
-
-        // Set the hidden input value to the clicked tile's ID
-        document.getElementById('sylius_checkout_complete_tpay_pay_by_link_channel_id').value = bankId;
-    }
+    });
 </script>
 {% endif %}

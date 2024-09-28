@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Provider;
 
+use CommerceWeavers\SyliusTpayPlugin\Payum\Exception\UnableToGetBankListException;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\GetTpayTransactionsChannels;
 use Payum\Core\Model\ArrayObject;
 use Payum\Core\Payum;
-use Tpay\OpenApi\Utilities\TpayException;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 final class TpayApiBankListProvider implements TpayApiBankListProviderInterface
 {
-    // TODO make it cached (but here or inside of GetBankGroupListAction?)
     public function __construct(
-        private Payum $payum,
+        private readonly Payum $payum,
+        private readonly CacheInterface $cache,
     ) {
     }
 
@@ -21,17 +23,19 @@ final class TpayApiBankListProvider implements TpayApiBankListProviderInterface
     {
         $gateway = $this->payum->getGateway('tpay');
 
-        $gateway->execute($result = new GetTpayTransactionsChannels(new ArrayObject()), true);
+        /** @var GetTpayTransactionsChannels $value */
+        $value = $this->cache->get('tpay_bank_list', function (ItemInterface $item) use ($gateway): GetTpayTransactionsChannels {
+            $item->expiresAfter(new \DateInterval('P1D'));
+            $gateway->execute($value = new GetTpayTransactionsChannels(new ArrayObject()), true);
 
-        $result = $result->getResult();
+            return $value;
+        });
+
+        $result = $value->getResult();
 
         if (!isset($result['result']) || 'success' !== $result['result']) {
-            throw new TpayException('Unable to get banks list. Response: ' . json_encode($result));
+            throw new UnableToGetBankListException('Unable to get banks list. Response: ' . json_encode($result));
         }
-
-        // TODO if from L28:30 or this ?
-        // Assert::keyExists($result, 'result', 'Unable to get banks list. Response: '.json_encode($result));
-        // Assert::same($result['result'], 'success', 'Unable to get banks list. Response: '.json_encode($result));
 
         return array_filter($result['channels'], static function ($channel) {
             return $channel['instantRedirection'] === true &&
