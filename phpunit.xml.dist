@@ -28,6 +28,9 @@
         <server name="KERNEL_CLASS_PATH" value="/tests/Application/src/Kernel.php" />
         <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
         <server name="PANTHER_ERROR_SCREENSHOT_DIR" value="tests/Application/var/panther" />
+        <server name="PANTHER_WEB_SERVER_DIR" value="./tests/Application/public" />
+        <server name="PANTHER_NO_SANDBOX" value="1" />
+        <server name="PANTHER_CHROME_ARGUMENTS" value="--disable-dev-shm-usage --window-size=1400,900" />
         <server name="FIXTURES_DIR" value="../Api/DataFixtures" /> <!-- relative to tests/Application dir -->
         <server name="EXPECTED_RESPONSE_DIR" value="../Api/Responses" /> <!-- relative to tests/Application dir -->
 
