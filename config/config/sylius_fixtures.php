@@ -121,6 +121,21 @@ return function(SyliusFixturesConfig $fixtures): void {
                     ],
                     'enabled' => true,
                 ],
+                'google_pay' => [
+                    'code' => 'tpay_google_pay',
+                    'name' => 'Google Pay (Tpay)',
+                    'gatewayFactory' => 'tpay',
+                    'gatewayName' => 'tpay',
+                    'gatewayConfig' => [
+                        'merchant_id' => '%env(string:TPAY_MERCHANT_ID)%',
+                        'type' => 'google_pay',
+                        'production_mode' => false,
+                    ],
+                    'channels' => [
+                        'FASHION_WEB',
+                    ],
+                    'enabled' => true,
+                ],
             ],
         ],
     ]);
