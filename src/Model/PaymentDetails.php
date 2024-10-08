@@ -6,6 +6,14 @@ namespace CommerceWeavers\SyliusTpayPlugin\Model;
 
 class PaymentDetails
 {
+    public const CARD_TYPE = 'card_type';
+
+    public const BLIK_TYPE = 'blik_type';
+
+    public const PBL_TYPE = 'pbl_type';
+
+    public const REDIRECT_TYPE = 'redirect_type';
+
     public function __construct(
         private ?string $transactionId,
         private ?string $result = null,
@@ -17,6 +25,7 @@ class PaymentDetails
         private ?string $paymentUrl = null,
         private ?string $successUrl = null,
         private ?string $failureUrl = null,
+        private ?string $payByLinkChannelId = null,
     ) {
     }
 
@@ -100,6 +109,33 @@ class PaymentDetails
         $this->failureUrl = $failureUrl;
     }
 
+    public function getPayByLinkChannelId(): ?string
+    {
+        return $this->payByLinkChannelId;
+    }
+
+    public function setPayByLinkChannelId(?string $payByLinkChannelId): void
+    {
+        $this->payByLinkChannelId = $payByLinkChannelId;
+    }
+
+    public function getType(): string
+    {
+        if ($this->getEncodedCardData()) {
+            return self::CARD_TYPE;
+        }
+
+        if ($this->getBlikToken()) {
+            return self::BLIK_TYPE;
+        }
+
+        if ($this->getPayByLinkChannelId()) {
+            return self::PBL_TYPE;
+        }
+
+        return self::REDIRECT_TYPE;
+    }
+
     public function clearSensitiveData(): void
     {
         $this->blikToken = null;
@@ -117,6 +153,7 @@ class PaymentDetails
             $details['tpay']['payment_url'] ?? null,
             $details['tpay']['success_url'] ?? null,
             $details['tpay']['failure_url'] ?? null,
+            $details['tpay']['pay_by_link_channel_id'] ?? null,
         );
     }
 
@@ -132,6 +169,7 @@ class PaymentDetails
                 'payment_url' => $this->paymentUrl,
                 'success_url' => $this->successUrl,
                 'failure_url' => $this->failureUrl,
+                'pay_by_link_channel_id' => $this->payByLinkChannelId,
             ],
         ];
     }

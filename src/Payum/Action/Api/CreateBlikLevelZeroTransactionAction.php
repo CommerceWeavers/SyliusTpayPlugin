@@ -62,8 +62,8 @@ final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransacti
             return false;
         }
 
-        $details = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return isset($details['tpay']['blik_token']);
+        return $paymentDetails->getType() === $paymentDetails::BLIK_TYPE;
     }
 }

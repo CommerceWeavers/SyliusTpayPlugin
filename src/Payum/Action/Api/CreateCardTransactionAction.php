@@ -20,8 +20,8 @@ final class CreateCardTransactionAction extends AbstractCreateTransactionAction 
     use GatewayAwareTrait;
 
     public function __construct(
-        private CreateCardPaymentPayloadFactoryInterface $createCardPaymentPayloadFactory,
-        private NotifyTokenFactoryInterface $notifyTokenFactory,
+        private readonly CreateCardPaymentPayloadFactoryInterface $createCardPaymentPayloadFactory,
+        private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
     ) {
         parent::__construct();
     }
@@ -64,8 +64,8 @@ final class CreateCardTransactionAction extends AbstractCreateTransactionAction 
             return false;
         }
 
-        $details = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return isset($details['tpay']['card']);
+        return $paymentDetails->getType() === $paymentDetails::CARD_TYPE;
     }
 }

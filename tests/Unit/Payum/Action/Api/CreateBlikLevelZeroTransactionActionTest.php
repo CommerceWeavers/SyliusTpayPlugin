@@ -129,6 +129,7 @@ final class CreateBlikLevelZeroTransactionActionTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
+                'pay_by_link_channel_id' => null
             ],
         ])->shouldBeCalled();
 
@@ -183,6 +184,7 @@ final class CreateBlikLevelZeroTransactionActionTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
+                'pay_by_link_channel_id' => null
             ],
         ])->shouldBeCalled();
 

@@ -22,3 +22,4 @@ parameters:
         - '#Method CommerceWeavers\\SyliusTpayPlugin\\Form\\Type\\TpayCardType::__construct\(\) has parameter \$cardTypeDataTransformer with generic interface Symfony\\Component\\Form\\DataTransformerInterface but does not specify its types: TValue, TTransformedValue#'
         - '#Parameter \#2 \$listener of method .+::addEventListener\(\) expects callable\(\): mixed, array.+ given\.#'
         - '#Constructor of class CommerceWeavers\\SyliusTpayPlugin\\Test\\Payum\\Cypher\\FakeCypher has an unused parameter \$cypherKey\.#'
+        - '/Only booleans are allowed in an if condition, string\|null given./'

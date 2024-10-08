@@ -96,6 +96,7 @@ final class PayWithCardActionTest extends TestCase
                 'payment_url' => 'http://example.com',
                 'success_url' => null,
                 'failure_url' => null,
+                'pay_by_link_channel_id' => null
             ],
         ])->shouldBeCalled();
 
@@ -146,6 +147,7 @@ final class PayWithCardActionTest extends TestCase
                 'payment_url' => 'http://example.com',
                 'success_url' => null,
                 'failure_url' => null,
+                'pay_by_link_channel_id' => null
             ],
         ])->shouldBeCalled();
 

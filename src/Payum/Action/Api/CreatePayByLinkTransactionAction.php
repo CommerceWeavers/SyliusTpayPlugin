@@ -66,8 +66,8 @@ final class CreatePayByLinkTransactionAction extends AbstractCreateTransactionAc
             return false;
         }
 
-        $details = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return isset($details['tpay']['pay_by_link_channel_id']);
+        return $paymentDetails->getType() === $paymentDetails::PBL_TYPE;
     }
 }
