@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action;
 
+use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
@@ -21,9 +22,9 @@ final class GetStatusAction implements ActionInterface, GatewayAwareInterface
     {
         /** @var PaymentInterface $model */
         $model = $request->getFirstModel();
-        $paymentDetails = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        switch ($paymentDetails['tpay']['status']) {
+        switch ($paymentDetails->getStatus()) {
             case 'correct':
             case PaymentInterface::STATE_COMPLETED:
                 $request->markCaptured();
