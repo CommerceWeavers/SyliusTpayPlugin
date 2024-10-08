@@ -74,6 +74,7 @@ final class PayHandlerTest extends TestCase
                 'result' => null,
                 'status' => null,
                 'blik_token' => null,
+                'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => null,
                 'success_url' => 'https://cw.nonexisting/success',

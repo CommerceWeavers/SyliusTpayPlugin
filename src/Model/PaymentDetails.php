@@ -13,6 +13,8 @@ class PaymentDetails
         #[\SensitiveParameter]
         private ?string $blikToken = null,
         #[\SensitiveParameter]
+        private ?string $googlePayToken = null,
+        #[\SensitiveParameter]
         private ?string $encodedCardData = null,
         private ?string $paymentUrl = null,
         private ?string $successUrl = null,
@@ -60,6 +62,16 @@ class PaymentDetails
         $this->blikToken = $blikToken;
     }
 
+    public function getGooglePayToken(): ?string
+    {
+        return $this->googlePayToken;
+    }
+
+    public function setGooglePayToken(string $googlePayToken): void
+    {
+        $this->googlePayToken = $googlePayToken;
+    }
+
     public function getEncodedCardData(): ?string
     {
         return $this->encodedCardData;
@@ -103,6 +115,7 @@ class PaymentDetails
     public function clearSensitiveData(): void
     {
         $this->blikToken = null;
+        $this->googlePayToken = null;
         $this->encodedCardData = null;
     }
 
@@ -113,6 +126,7 @@ class PaymentDetails
             $details['tpay']['result'] ?? null,
             $details['tpay']['status'] ?? null,
             $details['tpay']['blik_token'] ?? null,
+            $details['tpay']['google_pay_token'] ?? null,
             $details['tpay']['card'] ?? null,
             $details['tpay']['payment_url'] ?? null,
             $details['tpay']['success_url'] ?? null,
@@ -128,6 +142,7 @@ class PaymentDetails
                 'result' => $this->result,
                 'status' => $this->status,
                 'blik_token' => $this->blikToken,
+                'google_pay_token' => $this->googlePayToken,
                 'card' => $this->encodedCardData,
                 'payment_url' => $this->paymentUrl,
                 'success_url' => $this->successUrl,
