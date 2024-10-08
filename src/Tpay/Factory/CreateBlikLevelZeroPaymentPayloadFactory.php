@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PayGroup;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class CreateBlikLevelZeroPaymentPayloadFactory implements CreateBlikLevelZeroPaymentPayloadFactoryInterface
@@ -25,7 +26,7 @@ final class CreateBlikLevelZeroPaymentPayloadFactory implements CreateBlikLevelZ
         $paymentDetails = $payment->getDetails();
         $blikToken = $paymentDetails['tpay']['blik_token'] ?? throw new \InvalidArgumentException('The given payment does not have a blik code.');
 
-        $payload['pay']['groupId'] = 150;
+        $payload['pay']['groupId'] = PayGroup::BLIK;
         $payload['pay']['blikPaymentData'] = [];
         $payload['pay']['blikPaymentData']['blikToken'] = $blikToken;
 

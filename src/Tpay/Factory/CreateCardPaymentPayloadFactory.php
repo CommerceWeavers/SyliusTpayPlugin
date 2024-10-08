@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PayGroup;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class CreateCardPaymentPayloadFactory implements CreateCardPaymentPayloadFactoryInterface
@@ -21,7 +22,7 @@ final class CreateCardPaymentPayloadFactory implements CreateCardPaymentPayloadF
         /** @var array{pay: array<string, mixed>} $payload */
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
-        $payload['pay']['groupId'] = 103;
+        $payload['pay']['groupId'] = PayGroup::CARD;
 
         return $payload;
     }
