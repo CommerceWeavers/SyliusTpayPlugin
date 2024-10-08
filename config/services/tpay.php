@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateBlikLevelZeroPaymentPayl
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateBlikLevelZeroPaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateCardPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateCardPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateGooglePayPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactory;
@@ -45,6 +46,13 @@ return static function(ContainerConfigurator $container): void {
             service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
         ])
         ->alias(CreateCardPaymentPayloadFactoryInterface::class, 'commerce_weavers_tpay.factory.create_card_payment_payload')
+    ;
+
+    $services->set('commerce_weavers_tpay.tpay.factory.create_google_pay_payment_payload', CreateGooglePayPaymentPayloadFactory::class)
+        ->args([
+            service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
+        ])
+        ->alias(CreateGooglePayPaymentPayloadFactory::class, 'commerce_weavers_tpay.tpay.factory.create_google_pay_payment_payload')
     ;
 
     $services->set('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload', CreateRedirectBasedPaymentPayloadFactory::class)

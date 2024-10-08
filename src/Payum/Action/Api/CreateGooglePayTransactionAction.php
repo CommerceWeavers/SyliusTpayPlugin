@@ -7,17 +7,17 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateGooglePayPaymentPayloadFactoryInterface;
 use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionAction
+final class CreateGooglePayTransactionAction extends AbstractCreateTransactionAction
 {
     use GenericTokenFactoryAwareTrait;
 
     public function __construct(
-        private readonly CreateRedirectBasedPaymentPayloadFactoryInterface $createRedirectBasedPaymentPayloadFactory,
+        private readonly CreateGooglePayPaymentPayloadFactoryInterface $createGooglePayPaymentPayloadFactory,
         private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
     ) {
         parent::__construct();
@@ -31,19 +31,22 @@ class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionActi
         /** @var PaymentInterface $model */
         $model = $request->getModel();
         $gatewayName = $request->getToken()?->getGatewayName() ?? $this->getGatewayNameFrom($model);
-
         $localeCode = $this->getLocaleCodeFrom($model);
         $notifyToken = $this->notifyTokenFactory->create($model, $gatewayName, $localeCode);
-
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
         $response = $this->api->transactions()->createTransaction(
-            $this->createRedirectBasedPaymentPayloadFactory->createFrom($model, $notifyToken->getTargetUrl(), $localeCode),
+            $this->createGooglePayPaymentPayloadFactory->createFrom($model, $notifyToken->getTargetUrl(), $localeCode),
         );
 
-        $paymentDetails->setStatus($response['status']);
         $paymentDetails->setTransactionId($response['transactionId']);
-        $paymentDetails->setPaymentUrl($response['transactionPaymentUrl']);
+        $paymentDetails->setStatus($response['status']);
+
+        if ($this->is3dSecureRedirectRequired($paymentDetails)) {
+            $paymentDetails->setPaymentUrl(
+                $response['transactionPaymentUrl'] ?? throw new \InvalidArgumentException('Cannot perform 3DS redirect. Missing transactionPaymentUrl in the response.'),
+            );
+        }
 
         $model->setDetails($paymentDetails->toArray());
 
@@ -66,10 +69,11 @@ class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionActi
 
         $details = $model->getDetails();
 
-        return !isset($details['tpay']['card']) &&
-            !isset($details['tpay']['blik_token']) &&
-            !isset($details['tpay']['pay_by_link_channel_id']) &&
-            !isset($details['tpay']['google_pay_token'])
-        ;
+        return isset($details['tpay']['google_pay_token']);
+    }
+
+    private function is3dSecureRedirectRequired(PaymentDetails $paymentDetails): bool
+    {
+        return $paymentDetails->getStatus() === 'pending';
     }
 }

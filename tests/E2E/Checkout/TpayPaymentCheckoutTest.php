@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Checkout;
 
+use Facebook\WebDriver\WebDriverBy;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\CartTrait;
@@ -62,5 +63,13 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->placeOrder();
 
         $this->assertPageTitleContains('Waiting for payment');
+    }
+
+    public function test_it_completes_the_checkout_using_google_pay(): void
+    {
+        $this->processWithPaymentMethod('tpay_google_pay');
+        $this->client->findElement(WebDriverBy::id('cw-tpay-google-pay-container'))->click();
+
+        $this->assertPageTitleContains('Thank you!');
     }
 }
