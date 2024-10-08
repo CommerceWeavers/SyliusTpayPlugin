@@ -5,12 +5,13 @@
 {% set googleMerchantId = gatewayConfig.config['google_merchant_id'] ?? '' %}
 
 <div id="cw-tpay-google-pay-container"></div>
+{{ form_row(form.tpay.google_pay_token) }}
 
 <script>
     const ENVIRONMENT = '{{ productionMode ? 'PRODUCTION' : 'TEST' }}';
     const TPAY_MERCHANT_ID = '{{ tpayMerchantId }}';
     const GOOGLE_MERCHANT_ID = '{{ googleMerchantId }}';
-    const CURRENCY_CODE = '{{ order.currencyCode }}';
+    const CURRENCY_CODE = 'PLN';
     const COUNTRY_CODE = '{{ order.localeCode|slice(-2, 2) }}';
     const TOTAL_PRICE = '{{ (order.total / 100)|format }}';
 
@@ -236,11 +237,11 @@
      * @see {@link https://developers.google.com/pay/api/web/reference/response-objects#PaymentData|PaymentData object reference}
      */
     function processPayment(paymentData) {
-        paymentToken = paymentData.paymentMethodData.tokenizationData.token;
-        checkoutCompleteForm = document.querySelector("[name=sylius_checkout_complete]");
+        const paymentToken = paymentData.paymentMethodData.tokenizationData.token;
+        const checkoutCompleteForm = document.querySelector('[name=sylius_checkout_complete]');
+        const googlePayTokenInput = document.querySelector('[name="sylius_checkout_complete[tpay][google_pay_token]"]')
 
-        // TODO: inject paymentToken into form
-
+        googlePayTokenInput.value = paymentToken;
         checkoutCompleteForm.submit();
 
     }

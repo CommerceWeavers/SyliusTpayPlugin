@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Constraints\Length;
 
 final class TpayPaymentDetailsType extends AbstractType
@@ -40,6 +41,18 @@ final class TpayPaymentDetailsType extends AbstractType
                     'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
                         new Length(exactly: 6, groups: ['sylius_checkout_complete']),
+                    ],
+                ],
+            )
+            ->add(
+                'google_pay_token',
+                HiddenType::class,
+                [
+                    'property_path' => '[google_pay_token]',
+                    'label' => false,
+                    'validation_groups' => ['sylius_checkout_complete'],
+                    'constraints' => [
+                        new Json(groups: ['sylius_checkout_complete']),
                     ],
                 ],
             )
