@@ -7,6 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListenerInterface;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListenerInterface;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\PreventSavingEmptyPasswordFieldsListener;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -58,10 +59,10 @@ final class TpayGatewayConfigurationType extends AbstractType
                 [
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.label',
                     'choices' => [
-                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.redirect' => 'redirect',
-                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.card' => 'card',
-                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.blik' => 'blik',
-                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.pay_by_link' => 'pay-by-link',
+                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.redirect' => PaymentType::REDIRECT,
+                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.card' => PaymentType::CARD,
+                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.blik' => PaymentType::BLIK,
+                        'commerce_weavers_sylius_tpay.admin.gateway_configuration.type.pay_by_link' => PaymentType::PAY_BY_LINK,
                     ],
                 ],
             )
