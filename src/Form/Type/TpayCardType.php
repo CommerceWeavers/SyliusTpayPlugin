@@ -72,15 +72,28 @@ final class TpayCardType extends AbstractType
             )
             ->add(
                 'expiration_date_year',
-                TextType::class,
+                ChoiceType::class,
                 [
                     'mapped' => false,
                     'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.year',
+                    'choices' => $this->getCardValidYearsRange(),
                 ],
             )
             ->add('card', HiddenType::class)
         ;
 
         $builder->addModelTransformer($this->cardTypeDataTransformer);
+    }
+
+    private function getCardValidYearsRange(): array
+    {
+        $result = [];
+        $currentYear = (int) date('Y');
+
+        foreach (range($currentYear, $currentYear + 10) as $year) {
+            $result[$year] = $year;
+        }
+
+        return $result;
     }
 }
