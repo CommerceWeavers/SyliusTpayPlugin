@@ -127,7 +127,10 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
                     'gatewayConfig' => [
+                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
+                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
                         'merchant_id' => '%env(string:TPAY_MERCHANT_ID)%',
+                        'google_merchant_id' => '%env(string:TPAY_GOOGLE_MERCHANT_ID)%',
                         'type' => 'google_pay',
                         'production_mode' => false,
                     ],
