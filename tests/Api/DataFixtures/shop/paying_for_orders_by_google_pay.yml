@@ -1,0 +1,56 @@
+imports:
+    - common/cart.yml
+    - common/channel.yml
+    - common/shipping_method.yml
+
+Sylius\Component\Core\Model\PaymentMethod:
+    tpay_card:
+        code: 'tpay_card'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_card'
+        translations:
+            - '@tpay_card_payment_method_translation'
+        channels: ['@channel_web']
+    tpay_google_pay:
+        code: 'tpay_google_pay'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_google_pay'
+        translations:
+            - '@tpay_google_pay_payment_method_translation'
+        channels: ['@channel_web']
+
+Sylius\Bundle\PayumBundle\Model\GatewayConfig:
+    gateway_tpay_card:
+        gatewayName: 'tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            cards_api: 'encrypted_<getenv("TPAY_CARDS_API")>'
+            type: 'card'
+            production_mode: false
+            encrypted: true
+    gateway_tpay_google_pay:
+        gatewayName: 'tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>',
+            merchant_id: 'encrypted_<getenv("TPAY_MERCHANT_ID")>',
+            google_merchant_id: 'encrypted_<getenv("TPAY_GOOGLE_MERCHANT_ID")>',
+            type: 'google_pay'
+            production_mode: false
+            encrypted: true
+
+Sylius\Component\Payment\Model\PaymentMethodTranslation:
+    tpay_card_payment_method_translation:
+        name: 'Card (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_card'
+    tpay_google_pay_payment_method_translation:
+        name: 'Google Pay (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_google_pay'

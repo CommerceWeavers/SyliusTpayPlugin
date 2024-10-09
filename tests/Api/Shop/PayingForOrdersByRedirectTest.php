@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Api\Shop;
 
-use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\JsonApiTestCase;
@@ -43,38 +42,5 @@ final class PayingForOrdersByRedirectTest extends JsonApiTestCase
 
         $this->assertResponseCode($response, Response::HTTP_OK);
         $this->assertResponse($response, 'shop/paying_for_orders_by_redirect/test_paying_with_redirect_based_payment_type');
-    }
-
-    private function doPlaceOrder(
-        string $tokenValue,
-        string $email = 'sylius@example.com',
-        string $productVariantCode = 'MUG_BLUE',
-        string $shippingMethodCode = 'UPS',
-        string $paymentMethodCode = 'tpay',
-        int $quantity = 1,
-        ?\DateTimeImmutable $checkoutCompletedAt = null,
-
-    ): OrderInterface {
-        $this->checkSetUpOrderPlacerCalled();
-
-        $this->pickUpCart($tokenValue);
-        $this->addItemToCart($productVariantCode, $quantity, $tokenValue);
-        $cart = $this->updateCartWithAddressAndCouponCode($tokenValue, $email);
-        $this->dispatchShippingMethodChooseCommand(
-            $tokenValue,
-            $shippingMethodCode,
-            (string)$cart->getShipments()->first()->getId(),
-        );
-        $this->dispatchPaymentMethodChooseCommand(
-            $tokenValue,
-            $paymentMethodCode,
-            (string)$cart->getLastPayment()->getId(),
-        );
-
-        $order = $this->dispatchCompleteOrderCommand($tokenValue);
-
-        $this->setCheckoutCompletedAt($order, $checkoutCompletedAt);
-
-        return $order;
     }
 }
