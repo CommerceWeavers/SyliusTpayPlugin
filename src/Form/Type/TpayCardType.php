@@ -54,6 +54,7 @@ final class TpayCardType extends AbstractType
                 [
                     'mapped' => false,
                     'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.month.label',
+                    'placeholder' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.month_placeholder',
                     'choices' => [
                         'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.month.january' => '01',
                         'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.month.february' => '02',
@@ -76,6 +77,7 @@ final class TpayCardType extends AbstractType
                 [
                     'mapped' => false,
                     'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.year',
+                    'placeholder' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.expiration_date.year_placeholder',
                     'choices' => $this->getCardValidYearsRange(),
                 ],
             )

@@ -7,3 +7,9 @@ commerce_weavers_sylius_tpay:
             encoded_card_data:
                 length: 'The card data cannot be empty.'
                 required: 'The card data is required.'
+            card:
+                cvc: 'The CVC must be composed of 3 digits.'
+                expiration_month: 'The expiry month must be later than or equal to the current month.'
+                expiration_year: 'The expiry year must be later than or equal to the current year.'
+                number: 'The card number must be composed of 16 digits.'
+                name: 'The cardholder name is required.'
