@@ -4,7 +4,7 @@
 {% set tpayMerchantId = gatewayConfig.config['merchant_id'] ?? '' %}
 {% set googleMerchantId = gatewayConfig.config['google_merchant_id'] ?? '' %}
 
-<div id="cw-tpay-google-pay-container"></div>
+<div id="cw-tpay-google-pay-container" style="margin: 2em auto 0 auto; width: 330px; height: 54px;"></div>
 {{ form_row(form.tpay.google_pay_token) }}
 
 <script>
@@ -175,6 +175,10 @@
         const button =
             paymentsClient.createButton({
                 onClick: onGooglePaymentButtonClicked,
+                buttonColor: 'default',
+                buttonType: 'order',
+                buttonRadius: 4,
+                buttonSizeMode: 'fill',
                 allowedPaymentMethods: [baseCardPaymentMethod]
             });
         document.getElementById('cw-tpay-google-pay-container').appendChild(button);
