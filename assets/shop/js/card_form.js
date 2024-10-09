@@ -2,6 +2,7 @@ import * as JSEncrypt from './jsencrypt.min';
 
 export class CardForm {
   #form;
+  #cardHolderName;
   #cardNumber;
   #cardOperatorIcon;
   #cardsApi;
@@ -13,7 +14,7 @@ export class CardForm {
 
   constructor(selector) {
     this.#form = document.querySelector(selector);
-
+    this.#cardHolderName = this.#form.querySelector('[data-tpay-card-holder-name]');
     this.#cardNumber = this.#form.querySelector('[data-tpay-card-number]');
     this.#cardOperatorIcon = this.#form.querySelector('[data-tpay-card-operator-icon]');
     this.#cardsApi = this.#form.querySelector('[data-tpay-cards-api]');
@@ -65,6 +66,10 @@ export class CardForm {
     });
   }
 
+  isCardHolderNameValid() {
+    return this.getCardHolderName().replaceAll(' ', '').length > 0;
+  }
+
   isCvcValid() {
     const regex = new RegExp(/^\d{3}$/);
 
@@ -87,6 +92,10 @@ export class CardForm {
 
   isExpirationYearValid() {
     return this.getExpirationYear() >= new Date().getFullYear();
+  }
+
+  getCardHolderName() {
+    return this.#form.querySelector('[data-tpay-card-holder-name]').value.trim();
   }
 
   getCardNumber() {
@@ -133,12 +142,14 @@ export class CardForm {
 
   #registerEvents() {
     this.#cvc.addEventListener('change', this.#validateCvc.bind(this));
+    this.#cardHolderName.addEventListener('change', this.#validateCardHolderName.bind(this));
     this.#cardNumber.addEventListener('change', this.#validateCardNumber.bind(this));
     this.#cardNumber.addEventListener('keyup', this.#updateCardOperatorIcon.bind(this));
     this.#expirationMonth.addEventListener('change', this.#validateExpirationDate.bind(this));
     this.#expirationYear.addEventListener('change', this.#validateExpirationDate.bind(this));
 
     this.#form.addEventListener('submit', (event) => {
+      this.#validateCardHolderName();
       this.#validateCardNumber();
       this.#validateCvc();
       this.#validateExpirationDate();
@@ -158,6 +169,15 @@ export class CardForm {
 
       this.#form.submit();
     });
+  }
+
+  #validateCardHolderName() {
+    if (this.isCardHolderNameValid()) {
+      this.#clearErrors(this.#cardHolderName);
+      return;
+    }
+
+    this.#addError(this.#cardHolderName);
   }
 
   #validateCvc() {

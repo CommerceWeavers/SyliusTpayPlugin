@@ -35,7 +35,7 @@ commerce_weavers_sylius_tpay:
                         november: 'November'
                         december: 'December'
                     month_placeholder: 'Choose a month'
-                    year: Year
+                    year: 'Year'
                     year_placeholder: 'Choose a year'
                 holder_name: 'Cardholder name'
                 number: 'Number'
