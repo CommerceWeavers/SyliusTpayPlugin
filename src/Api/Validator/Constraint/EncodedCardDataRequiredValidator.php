@@ -16,8 +16,6 @@ final class EncodedCardDataRequiredValidator extends AbstractPayValidator
 {
     public const ENCODED_CARD_DATA_FIELD_NAME = 'encodedCardData';
 
-    private const TYPE = 'type';
-
     private const CARD = 'card';
 
     public function __construct(

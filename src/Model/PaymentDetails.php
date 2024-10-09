@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Model;
 
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
+
 class PaymentDetails
 {
-    public const CARD_TYPE = 'card_type';
-
-    public const BLIK_TYPE = 'blik_type';
-
-    public const PBL_TYPE = 'pbl_type';
-
-    public const REDIRECT_TYPE = 'redirect_type';
-
     public function __construct(
         private ?string $transactionId,
         private ?string $result = null,
@@ -122,18 +116,18 @@ class PaymentDetails
     public function getType(): string
     {
         if ($this->getEncodedCardData()) {
-            return self::CARD_TYPE;
+            return PaymentType::CARD;
         }
 
         if ($this->getBlikToken()) {
-            return self::BLIK_TYPE;
+            return PaymentType::BLIK;
         }
 
         if ($this->getPayByLinkChannelId()) {
-            return self::PBL_TYPE;
+            return PaymentType::PAY_BY_LINK;
         }
 
-        return self::REDIRECT_TYPE;
+        return PaymentType::REDIRECT;
     }
 
     public function clearSensitiveData(): void

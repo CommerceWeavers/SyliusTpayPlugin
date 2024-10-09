@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Command;
 
+use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\CreateTransactionFactoryInterface;
 use Payum\Core\Payum;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
 
 abstract class AbstractPayByHandler
 {
@@ -48,5 +50,22 @@ abstract class AbstractPayByHandler
         $paymentMethod = $payment->getMethod();
 
         return $paymentMethod?->getGatewayConfig()?->getGatewayName() ?? throw new \InvalidArgumentException('Gateway name cannot be determined.');
+    }
+
+    protected function createResultFrom(PaymentInterface $payment, bool $isRedirected = true): PayResult
+    {
+        $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
+
+        Assert::notNull($paymentDetails->getStatus(), 'Payment status is required to create a result.');
+
+        if ($isRedirected) {
+            Assert::notNull($paymentDetails->getPaymentUrl(), 'Payment URL is required to create a result.');
+        }
+
+        // TODO factory?
+        return new PayResult(
+            $paymentDetails->getStatus(),
+            $paymentDetails->getPaymentUrl(),
+        );
     }
 }
