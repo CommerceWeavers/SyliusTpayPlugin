@@ -7,3 +7,9 @@ commerce_weavers_sylius_tpay:
             encoded_card_data:
                 length: 'Dane karty nie mogą być puste.'
                 required: 'Dane karty są wymagane.'
+            card:
+                cvc: 'Kod CVC musi składać się z 3 cyfr.'
+                expiration_month: 'Miesiąc ważności musi być późniejszy lub równy bieżącemu miesiącowi.'
+                expiration_year: 'Rok ważności musi być późniejszy lub równy bieżącemu roku.'
+                number: 'Numer karty musi składać się z 16 cyfr.'
+                name: 'Imię i nazwisko właściciela karty są wymagane.'

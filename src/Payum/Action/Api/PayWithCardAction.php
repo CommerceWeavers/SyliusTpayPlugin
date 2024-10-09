@@ -6,6 +6,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\PayWithCard;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PayGroup;
 use Payum\Core\Reply\HttpRedirect;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
@@ -25,7 +26,7 @@ class PayWithCardAction extends BaseApiAwareAction
         Assert::notNull($paymentDetails->getTransactionId(), 'Transaction ID is required to pay with card.');
 
         $response = $this->api->transactions()->createPaymentByTransactionId([
-            'groupId' => 103,
+            'groupId' => PayGroup::CARD,
             'cardPaymentData' => [
                 'card' => $paymentDetails->getEncodedCardData(),
             ],

@@ -34,6 +34,9 @@ commerce_weavers_sylius_tpay:
                         october: 'Październik'
                         november: 'Listopad'
                         december: 'Grudzień'
+                    month_placeholder: 'Wybierz miesiąc'
+                    year: 'Rok'
+                    year_placeholder: 'Wybierz rok'
                 holder_name: 'Imię i nazwisko właściciela'
                 number: 'Numer'
         waiting_for_payment:
