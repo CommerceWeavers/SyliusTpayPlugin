@@ -1,0 +1,8 @@
+CommerceWeavers\SyliusTpayPlugin\Api\Resource\Bank:
+    collectionOperations:
+        get: ~
+    itemOperations:
+        get: ~
+    properties:
+        id:
+            identifier: true
