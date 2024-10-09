@@ -16,6 +16,11 @@
                 <value>commerce_weavers_tpay:shop:order:pay</value>
             </option>
         </constraint>
+        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\PayByLinkChannelIdAvailable">
+            <option name="groups">
+                <value>commerce_weavers_tpay:shop:order:pay</value>
+            </option>
+        </constraint>
         <property name="blikToken">
             <constraint name="Length">
                 <option name="value">6</option>

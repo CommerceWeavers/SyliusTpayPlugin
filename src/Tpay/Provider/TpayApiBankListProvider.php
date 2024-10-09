@@ -25,7 +25,9 @@ final class TpayApiBankListProvider implements TpayApiBankListProviderInterface
         return array_filter($result['channels'], static function (array $channel) {
             return
                 ($channel['instantRedirection'] ?? false) === true &&
-                ($channel['onlinePayment'] ?? false) === true
+                ($channel['onlinePayment'] ?? false) === true &&
+                // TODO should we show non available ones as well?
+                ($channel['available'] ?? false) === true
             ;
         });
     }

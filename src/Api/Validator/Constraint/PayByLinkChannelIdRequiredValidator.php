@@ -13,10 +13,8 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Webmozart\Assert\Assert;
 
-class PayByLinkChannelIdRequiredValidator extends AbstractPayValidator
+final class PayByLinkChannelIdRequiredValidator extends AbstractPayValidator
 {
-    // TODO also there is a need for validator that will check if provided ID is valid (bank exists)
-    // although it might fail by just what will Tpay would do, it might work as there are channels that are not banks
     public const PAY_BY_LINK_CHANNEL_ID_FIELD_NAME = 'payByLinkChannelId';
 
     public function __construct(
