@@ -20,6 +20,15 @@
                 </option>
             </constraint>
         </property>
+        <property name="googlePayToken">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">google_pay</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.google_pay.required</option>
+                <option name="groups">
+                    <value>commerce_weavers_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+        </property>
         <property name="encodedCardData">
             <constraint name="Length">
                 <option name="min">1</option>

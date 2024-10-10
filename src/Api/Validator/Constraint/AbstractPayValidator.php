@@ -44,7 +44,7 @@ abstract class AbstractPayValidator extends ConstraintValidator
             return null;
         }
 
-        if (is_a($gatewayConfig, CryptedInterface::class)) {
+        if ($gatewayConfig instanceof CryptedInterface) {
             $gatewayConfig->decrypt($this->cypher);
         }
 

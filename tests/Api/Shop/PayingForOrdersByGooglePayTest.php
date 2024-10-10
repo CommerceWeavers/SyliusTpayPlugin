@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Api\Shop;
 
+use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\JsonApiTestCase;
@@ -114,7 +115,7 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
         $this->assertResponseViolations($response, [
             [
                 'propertyPath' => 'googlePayToken',
-                'code' => '275416a8-bd6f-4990-96ed-a2da514ce2f9',
+                'code' => NotBlankIfGatewayConfigTypeEquals::FIELD_REQUIRED_ERROR,
                 'message' => 'The Google Pay token is required.',
             ]
         ]);
