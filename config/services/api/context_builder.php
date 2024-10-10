@@ -10,11 +10,11 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Serializer\ContextBuilder\OrderTokenAwa
 return function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set('commerce_weavers_tpay.api.serializer.context_builder.order_token_aware', OrderTokenAwareContextBuilder::class)
+    $services->set('commerce_weavers_sylius_tpay.api.serializer.context_builder.order_token_aware', OrderTokenAwareContextBuilder::class)
         ->decorate('api_platform.serializer.context_builder')
         ->args([
             service('.inner'),
         ])
-        ->alias(OrderTokenAwareContextBuilderInterface::class, 'commerce_weavers_tpay.api.serializer.context_builder.order_token_aware.inner')
+        ->alias(OrderTokenAwareContextBuilderInterface::class, 'commerce_weavers_sylius_tpay.api.serializer.context_builder.order_token_aware.inner')
     ;
 };

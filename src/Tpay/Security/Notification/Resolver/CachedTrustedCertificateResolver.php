@@ -9,7 +9,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 final class CachedTrustedCertificateResolver implements TrustedCertificateResolverInterface
 {
-    public const COMMERCE_WEAVERS_TPAY_CERTIFICATE = 'commerce_weavers_tpay_trusted_certificate';
+    public const COMMERCE_WEAVERS_SYLIUS_TPAY_CERTIFICATE = 'commerce_weavers_sylius_tpay_trusted_certificate';
 
     public function __construct(
         private readonly CacheInterface $cache,
@@ -20,7 +20,7 @@ final class CachedTrustedCertificateResolver implements TrustedCertificateResolv
 
     public function resolve(bool $production = false): string
     {
-        $certificate = $this->cache->get(self::COMMERCE_WEAVERS_TPAY_CERTIFICATE, function (ItemInterface $item) use ($production) {
+        $certificate = $this->cache->get(self::COMMERCE_WEAVERS_SYLIUS_TPAY_CERTIFICATE, function (ItemInterface $item) use ($production) {
             $item->expiresAfter($this->cacheTtlInSeconds);
 
             return $this->decorated->resolve($production);

@@ -29,7 +29,7 @@ final class CachedTrustedCertificateResolverTest extends TestCase
     public function test_it_caches_trusted_certificate(): void
     {
         $this->cache
-            ->get('commerce_weavers_tpay_trusted_certificate', Argument::type('callable'))
+            ->get('commerce_weavers_sylius_tpay_trusted_certificate', Argument::type('callable'))
             ->shouldBeCalled()
             ->willReturn('trusted_certificate')
         ;
@@ -42,7 +42,7 @@ final class CachedTrustedCertificateResolverTest extends TestCase
     public function test_it_throws_an_exception_if_resolved_certificate_is_not_a_string(): void
     {
         $this->cache
-            ->get('commerce_weavers_tpay_trusted_certificate', Argument::type('callable'))
+            ->get('commerce_weavers_sylius_tpay_trusted_certificate', Argument::type('callable'))
             ->shouldBeCalled()
             ->willReturn(42)
         ;

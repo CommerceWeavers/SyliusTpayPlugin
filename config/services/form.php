@@ -24,9 +24,9 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(TpayGatewayConfigurationType::class)
         ->args([
-            service('commerce_weavers_tpay.form.event_listener.decrypt_gateway_config'),
-            service('commerce_weavers_tpay.form.event_listener.encrypt_gateway_config'),
-            service('commerce_weavers_tpay.form.event_listener.prevent_saving_empty_password_fields'),
+            service('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config'),
+            service('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config'),
+            service('commerce_weavers_sylius_tpay.form.event_listener.prevent_saving_empty_password_fields'),
         ])
         ->tag(
             'sylius.gateway_configuration_type',
@@ -37,35 +37,35 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(TpayCardType::class)
         ->args([
-            service('commerce_weavers_tpay.form.data_transformer.card_type'),
+            service('commerce_weavers_sylius_tpay.form.data_transformer.card_type'),
         ])
         ->tag('form.type')
     ;
 
     $services->set(TpayPaymentDetailsType::class)
         ->args([
-            service('commerce_weavers_tpay.form.event_listener.remove_unnecessary_payment_details_fields'),
+            service('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields'),
         ])
         ->tag('form.type')
     ;
 
-    $services->set('commerce_weavers_tpay.form.data_transformer.card_type', CardTypeDataTransformer::class);
+    $services->set('commerce_weavers_sylius_tpay.form.data_transformer.card_type', CardTypeDataTransformer::class);
 
     $services
-        ->set('commerce_weavers_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)
+        ->set('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)
         ->args([
             service('payum.dynamic_gateways.cypher'),
         ])
     ;
 
     $services
-        ->set('commerce_weavers_tpay.form.event_listener.encrypt_gateway_config', EncryptGatewayConfigListener::class)
+        ->set('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config', EncryptGatewayConfigListener::class)
         ->args([
             service('payum.dynamic_gateways.cypher'),
         ])
     ;
 
-    $services->set('commerce_weavers_tpay.form.event_listener.prevent_saving_empty_password_fields', PreventSavingEmptyPasswordFieldsListener::class);
+    $services->set('commerce_weavers_sylius_tpay.form.event_listener.prevent_saving_empty_password_fields', PreventSavingEmptyPasswordFieldsListener::class);
 
-    $services->set('commerce_weavers_tpay.form.event_listener.remove_unnecessary_payment_details_fields', RemoveUnnecessaryPaymentDetailsFieldsListener::class);
+    $services->set('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields', RemoveUnnecessaryPaymentDetailsFieldsListener::class);
 };

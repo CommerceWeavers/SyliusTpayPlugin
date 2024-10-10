@@ -11,7 +11,7 @@ use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 return function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set('commerce_weavers_tpay.api.doctrine.query_item_extension.order_shop_user', OrderShopUserItemExtension::class)
+    $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_shop_user', OrderShopUserItemExtension::class)
         ->decorate(\Sylius\Bundle\ApiBundle\Doctrine\QueryItemExtension\OrderShopUserItemExtension::class)
         ->args([
             service('.inner'),
@@ -19,7 +19,7 @@ return function(ContainerConfigurator $container): void {
         ])
     ;
 
-    $services->set('commerce_weavers_tpay.api.doctrine.query_item_extension.order_visitor', OrderVisitorItemExtension::class)
+    $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_visitor', OrderVisitorItemExtension::class)
         ->decorate(\Sylius\Bundle\ApiBundle\Doctrine\QueryItemExtension\OrderVisitorItemExtension::class)
         ->args([
             service('.inner'),

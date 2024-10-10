@@ -25,40 +25,40 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(CaptureAction::class)
         ->args([
-            service('commerce_weavers.tpay.payum.factory.create_transaction'),
+            service('commerce_weavers_sylius_tpay.payum.factory.create_transaction'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.capture'])
     ;
 
     $services->set(CreateCardTransactionAction::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_card_payment_payload'),
-            service('commerce_weavers_tpay.payum.factory.token.notify'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_card_payment_payload'),
+            service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_card_transaction'])
     ;
 
     $services->set(CreateBlikLevelZeroTransactionAction::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_blik_level_zero_payment_payload'),
-            service('commerce_weavers_tpay.payum.factory.token.notify'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_blik_level_zero_payment_payload'),
+            service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_blik_level_zero_transaction'])
     ;
 
     $services->set(CreateRedirectBasedTransactionAction::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
-            service('commerce_weavers_tpay.payum.factory.token.notify'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_redirect_based_transaction'])
     ;
 
     $services->set(NotifyAction::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.security.notification.factory.basic_payment'),
-            service('commerce_weavers_tpay.tpay.security.notification.verifier.checksum'),
-            service('commerce_weavers_tpay.tpay.security.notification.verifier.signature'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.factory.basic_payment'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.checksum'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.notify'])
     ;
@@ -81,8 +81,8 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(CreatePayByLinkTransactionAction::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_pay_by_link_payment_payload'),
-            service('commerce_weavers_tpay.payum.factory.token.notify'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_payment_payload'),
+            service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_pay_by_link_transaction'])
     ;

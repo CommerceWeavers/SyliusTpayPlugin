@@ -25,14 +25,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
             'sylius.shop.layout.javascripts' => [
                 'blocks' => [
-                    'commerce_weavers_tpay_scripts' => [
+                    'commerce_weavers_sylius_tpay_scripts' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/scripts.html.twig',
                     ],
                 ],
             ],
             'sylius.shop.layout.stylesheets' => [
                 'blocks' => [
-                    'commerce_weavers_tpay_styles' => [
+                    'commerce_weavers_sylius_tpay_styles' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/styles.html.twig',
                     ],
                 ],

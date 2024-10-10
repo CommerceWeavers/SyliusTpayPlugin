@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 
 final class CachedTpayTransactionChannelResolver implements TpayTransactionChannelResolverInterface
 {
-    public const COMMERCE_WEAVERS_TPAY_TRANSACTION_CHANNELS = 'commerce_wavers_tpay_transaction_channels';
+    public const COMMERCE_WEAVERS_SYLIUS_TPAY_TRANSACTION_CHANNELS = 'commerce_wavers_tpay_transaction_channels';
 
     public function __construct(
         private readonly TpayTransactionChannelResolver $decorated,
@@ -21,7 +21,7 @@ final class CachedTpayTransactionChannelResolver implements TpayTransactionChann
 
     public function resolve(): array
     {
-        $result = $this->cache->get(self::COMMERCE_WEAVERS_TPAY_TRANSACTION_CHANNELS, function (ItemInterface $item): array {
+        $result = $this->cache->get(self::COMMERCE_WEAVERS_SYLIUS_TPAY_TRANSACTION_CHANNELS, function (ItemInterface $item): array {
             $item->expiresAfter($this->cacheTtlInSeconds);
 
             return $this->decorated->resolve();

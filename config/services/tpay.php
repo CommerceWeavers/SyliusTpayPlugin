@@ -33,103 +33,103 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterf
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set('commerce_weavers_tpay.tpay.factory.create_blik_level_zero_payment_payload', CreateBlikLevelZeroPaymentPayloadFactory::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_blik_level_zero_payment_payload', CreateBlikLevelZeroPaymentPayloadFactory::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
         ])
-        ->alias(CreateBlikLevelZeroPaymentPayloadFactoryInterface::class, 'commerce_weavers_tpay.factory.create_blik_level_zero_payment_payload')
+        ->alias(CreateBlikLevelZeroPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.factory.create_blik_level_zero_payment_payload')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.factory.create_card_payment_payload', CreateCardPaymentPayloadFactory::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_card_payment_payload', CreateCardPaymentPayloadFactory::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
         ])
-        ->alias(CreateCardPaymentPayloadFactoryInterface::class, 'commerce_weavers_tpay.factory.create_card_payment_payload')
+        ->alias(CreateCardPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.factory.create_card_payment_payload')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload', CreateRedirectBasedPaymentPayloadFactory::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload', CreateRedirectBasedPaymentPayloadFactory::class)
         ->args([
             service('router'),
-            param('commerce_weavers_tpay.payum.create_transaction.success_route'),
-            param('commerce_weavers_tpay.payum.create_transaction.error_route'),
+            param('commerce_weavers_sylius_tpay.payum.create_transaction.success_route'),
+            param('commerce_weavers_sylius_tpay.payum.create_transaction.error_route'),
         ])
-        ->alias(CreateRedirectBasedPaymentPayloadFactoryInterface::class, 'commerce_weavers_tpay.factory.create_redirect_based_payment_payload')
+        ->alias(CreateRedirectBasedPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.factory.create_redirect_based_payment_payload')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.factory.create_pay_by_link_payment_payload', CreatePayByLinkPayloadFactory::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_payment_payload', CreatePayByLinkPayloadFactory::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
         ])
-        ->alias(CreatePayByLinkPayloadFactoryInterface::class, 'commerce_weavers_tpay.factory.create_pay_by_link_payment_payload')
+        ->alias(CreatePayByLinkPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.factory.create_pay_by_link_payment_payload')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.factory.basic_payment', BasicPaymentFactory::class)
-        ->alias(BasicPaymentFactory::class, 'commerce_weavers_tpay.security.notification.factory.basic_payment')
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.factory.basic_payment', BasicPaymentFactory::class)
+        ->alias(BasicPaymentFactory::class, 'commerce_weavers_sylius_tpay.security.notification.factory.basic_payment')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.factory.x509', X509Factory::class)
-        ->alias(X509FactoryInterface::class, 'commerce_weavers_tpay.security.notification.factory.x509')
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.factory.x509', X509Factory::class)
+        ->alias(X509FactoryInterface::class, 'commerce_weavers_sylius_tpay.security.notification.factory.x509')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.resolver.certificate', CertificateResolver::class)
-        ->alias(CertificateResolverInterface::class, 'commerce_weavers_tpay.security.notification.resolver.certificate')
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.certificate', CertificateResolver::class)
+        ->alias(CertificateResolverInterface::class, 'commerce_weavers_sylius_tpay.security.notification.resolver.certificate')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.resolver.cached_certificate', CachedCertificateResolver::class)
-        ->decorate('commerce_weavers_tpay.tpay.security.notification.resolver.certificate')
-        ->args([
-            service('cache.app'),
-            service('.inner'),
-            param('commerce_weavers_tpay.certificate.cache_ttl_in_seconds'),
-        ])
-    ;
-
-    $services->set('commerce_weavers_tpay.tpay.security.notification.resolver.trusted_certificate', TrustedCertificateResolver::class)
-        ->alias(TrustedCertificateResolverInterface::class, 'commerce_weavers_tpay.security.notification.resolver.trusted_certificate')
-    ;
-
-    $services->set('commerce_weavers_tpay.tpay.security.notification.resolver.cached_trusted_certificate', CachedTrustedCertificateResolver::class)
-        ->decorate('commerce_weavers_tpay.tpay.security.notification.resolver.trusted_certificate')
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.cached_certificate', CachedCertificateResolver::class)
+        ->decorate('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.certificate')
         ->args([
             service('cache.app'),
             service('.inner'),
-            param('commerce_weavers_tpay.certificate.cache_ttl_in_seconds'),
+            param('commerce_weavers_sylius_tpay.certificate.cache_ttl_in_seconds'),
         ])
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.verifier.checksum', ChecksumVerifier::class)
-        ->alias(ChecksumVerifierInterface::class, 'commerce_weavers_tpay.security.notification.verifier.checksum')
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.trusted_certificate', TrustedCertificateResolver::class)
+        ->alias(TrustedCertificateResolverInterface::class, 'commerce_weavers_sylius_tpay.security.notification.resolver.trusted_certificate')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.security.notification.verifier.signature', SignatureVerifier::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.cached_trusted_certificate', CachedTrustedCertificateResolver::class)
+        ->decorate('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.trusted_certificate')
         ->args([
-            service('commerce_weavers_tpay.tpay.security.notification.resolver.certificate'),
-            service('commerce_weavers_tpay.tpay.security.notification.resolver.trusted_certificate'),
-            service('commerce_weavers_tpay.tpay.security.notification.factory.x509'),
+            service('cache.app'),
+            service('.inner'),
+            param('commerce_weavers_sylius_tpay.certificate.cache_ttl_in_seconds'),
         ])
-        ->alias(SignatureVerifierInterface::class, 'commerce_weavers_tpay.security.notification.verifier.signature')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.provider.tpay_api_bank_list', TpayApiBankListProvider::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.checksum', ChecksumVerifier::class)
+        ->alias(ChecksumVerifierInterface::class, 'commerce_weavers_sylius_tpay.security.notification.verifier.checksum')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature', SignatureVerifier::class)
         ->args([
-            service('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.certificate'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.resolver.trusted_certificate'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.factory.x509'),
         ])
-        ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_tpay.provider.tpay_api_bank_list')
+        ->alias(SignatureVerifierInterface::class, 'commerce_weavers_sylius_tpay.security.notification.verifier.signature')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver', TpayTransactionChannelResolver::class)
+    $services->set('commerce_weavers_sylius_tpay.tpay.provider.tpay_api_bank_list', TpayApiBankListProvider::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.resolver.tpay_transaction_channel_resolver'),
+        ])
+        ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_sylius_tpay.provider.tpay_api_bank_list')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.resolver.tpay_transaction_channel_resolver', TpayTransactionChannelResolver::class)
         ->args([
             service('payum'),
         ])
-        ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_tpay.resolver.tpay_transaction_channel_resolver')
+        ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_sylius_tpay.resolver.tpay_transaction_channel_resolver')
     ;
 
-    $services->set('commerce_weavers_tpay.tpay.resolver.cached_tpay_transaction_channel_resolver', CachedTpayTransactionChannelResolver::class)
-        ->decorate('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver')
+    $services->set('commerce_weavers_sylius_tpay.tpay.resolver.cached_tpay_transaction_channel_resolver', CachedTpayTransactionChannelResolver::class)
+        ->decorate('commerce_weavers_sylius_tpay.tpay.resolver.tpay_transaction_channel_resolver')
         ->args([
             service('.inner'),
             service('cache.app'),
-            param('commerce_weavers_tpay.tpay_transaction_channels.cache_ttl_in_seconds'),
+            param('commerce_weavers_sylius_tpay.tpay_transaction_channels.cache_ttl_in_seconds'),
         ])
     ;
 };

@@ -93,7 +93,7 @@ final class ResolveNextRouteActionTest extends TestCase
         $action = $this->createTestSubject();
         $action->execute($this->request->reveal());
 
-        $this->request->setRouteName('commerce_weavers_tpay_waiting_for_payment')->shouldHaveBeenCalled();
+        $this->request->setRouteName('commerce_weavers_sylius_tpay_waiting_for_payment')->shouldHaveBeenCalled();
         $this->request->setRouteParameters(['payum_token' => 'token_hash'])->shouldHaveBeenCalled();
     }
 

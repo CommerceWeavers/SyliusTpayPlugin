@@ -11,7 +11,7 @@ return function(ContainerConfigurator $container): void {
                 'before' => [
                     'tpay_refund_payment' => [
                         'on' => ['refund'],
-                        'do' => ['@commerce_weavers.tpay.refunding.dispatcher.refund', 'dispatch'],
+                        'do' => ['@commerce_weavers_sylius_tpay.refunding.dispatcher.refund', 'dispatch'],
                         'args' => ['object'],
                     ],
                 ],

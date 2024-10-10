@@ -18,7 +18,7 @@ class CommerceWeaversSyliusTpay {
 
     const shopConfig = Encore.getWebpackConfig();
 
-    shopConfig.name = 'commerce_weavers_tpay_shop';
+    shopConfig.name = 'commerce_weavers_sylius_tpay_shop';
 
     Encore.reset();
 

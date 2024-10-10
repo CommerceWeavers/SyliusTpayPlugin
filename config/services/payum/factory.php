@@ -25,24 +25,24 @@ return function(ContainerConfigurator $container): void {
         ->tag('payum.gateway_factory_builder', ['factory' => TpayGatewayFactory::NAME])
     ;
 
-    $services->set('commerce_weavers.tpay.payum.factory.notify', NotifyFactory::class)
-        ->alias(NotifyFactoryInterface::class, 'commerce_weavers.tpay.payum.factory.notify')
+    $services->set('commerce_weavers_sylius_tpay.payum.factory.notify', NotifyFactory::class)
+        ->alias(NotifyFactoryInterface::class, 'commerce_weavers_sylius_tpay.payum.factory.notify')
     ;
 
-    $services->set('commerce_weavers.tpay.payum.factory.create_transaction', CreateTransactionFactory::class)
-        ->alias(CreateTransactionFactoryInterface::class, 'commerce_weavers.tpay.payum.factory.create_transaction')
+    $services->set('commerce_weavers_sylius_tpay.payum.factory.create_transaction', CreateTransactionFactory::class)
+        ->alias(CreateTransactionFactoryInterface::class, 'commerce_weavers_sylius_tpay.payum.factory.create_transaction')
     ;
 
-    $services->set('commerce_weavers_tpay.payum.factory.notify_data', NotifyDataFactory::class)
-        ->alias(NotifyDataFactoryInterface::class, 'commerce_weavers_tpay.payum.factory.notify_data')
+    $services->set('commerce_weavers_sylius_tpay.payum.factory.notify_data', NotifyDataFactory::class)
+        ->alias(NotifyDataFactoryInterface::class, 'commerce_weavers_sylius_tpay.payum.factory.notify_data')
     ;
 
-    $services->set('commerce_weavers_tpay.payum.factory.token.notify', NotifyTokenFactory::class)
+    $services->set('commerce_weavers_sylius_tpay.payum.factory.token.notify', NotifyTokenFactory::class)
         ->args([
             service('payum'),
             service('router'),
-            param('commerce_weavers_tpay.payum.create_transaction.notify_route'),
+            param('commerce_weavers_sylius_tpay.payum.create_transaction.notify_route'),
         ])
-        ->alias(NotifyTokenFactoryInterface::class, 'commerce_weavers_tpay.payum.factory.token.notify')
+        ->alias(NotifyTokenFactoryInterface::class, 'commerce_weavers_sylius_tpay.payum.factory.token.notify')
     ;
 };

@@ -9,7 +9,7 @@ return static function(ContainerConfigurator $container): void {
 
     $parameters = $container->parameters();
 
-    $parameters->set('commerce_weavers_tpay.certificate.cache_ttl_in_seconds', 300);
-    $parameters->set('commerce_weavers_tpay.tpay_transaction_channels.cache_ttl_in_seconds', 300);
-    $parameters->set('commerce_weavers_tpay.waiting_for_payment.refresh_interval', 5);
+    $parameters->set('commerce_weavers_sylius_tpay.certificate.cache_ttl_in_seconds', 300);
+    $parameters->set('commerce_weavers_sylius_tpay.tpay_transaction_channels.cache_ttl_in_seconds', 300);
+    $parameters->set('commerce_weavers_sylius_tpay.waiting_for_payment.refresh_interval', 5);
 };
