@@ -80,23 +80,11 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
         $this->assertFalse($isSupported);
     }
 
-    public function test_it_does_not_support_requests_with_payment_model_containing_tpay_card(): void
+    /** @dataProvider notSupportedPaymentDetailsDataProvider */
+    public function test_it_does_not_support_requests_with_not_eligible_payment_model(array $paymentDetails): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['card' => 'some_value']]);
-
-        $request = $this->prophesize(CreateTransaction::class);
-        $request->getModel()->willReturn($payment);
-
-        $isSupported = $this->createTestSubject()->supports($request->reveal());
-
-        $this->assertFalse($isSupported);
-    }
-
-    public function test_it_does_not_support_requests_with_payment_model_containing_tpay_blik(): void
-    {
-        $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['blik_token' => 'some_value']]);
+        $payment->getDetails()->willReturn($paymentDetails);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);
@@ -150,6 +138,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
                 'result' => null,
                 'status' => 'pending',
                 'blik_token' => null,
+                'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
@@ -215,6 +204,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
                 'result' => null,
                 'status' => 'pending',
                 'blik_token' => null,
+                'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
@@ -242,6 +232,16 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
         $request->getToken()->willReturn(null);
 
         $this->createTestSubject()->execute($request->reveal());
+    }
+
+    private function notSupportedPaymentDetailsDataProvider(): array
+    {
+        return [
+            [['tpay' => ['card' => 'some_value']]],
+            [['tpay' => ['blik_token' => 'some_value']]],
+            [['tpay' => ['pay_by_link_channel_id' => 'some_value']]],
+            [['tpay' => ['google_pay_token' => 'some_value']]],
+        ];
     }
 
     private function createTestSubject(): CreateRedirectBasedTransactionAction

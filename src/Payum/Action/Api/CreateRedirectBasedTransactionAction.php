@@ -17,8 +17,8 @@ class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionActi
     use GenericTokenFactoryAwareTrait;
 
     public function __construct(
-        private CreateRedirectBasedPaymentPayloadFactoryInterface $createRedirectBasedPaymentPayloadFactory,
-        private NotifyTokenFactoryInterface $notifyTokenFactory,
+        private readonly CreateRedirectBasedPaymentPayloadFactoryInterface $createRedirectBasedPaymentPayloadFactory,
+        private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
     ) {
         parent::__construct();
     }
@@ -68,7 +68,8 @@ class CreateRedirectBasedTransactionAction extends AbstractCreateTransactionActi
 
         return !isset($details['tpay']['card']) &&
             !isset($details['tpay']['blik_token']) &&
-            !isset($details['tpay']['pay_by_link_channel_id'])
+            !isset($details['tpay']['pay_by_link_channel_id']) &&
+            !isset($details['tpay']['google_pay_token'])
         ;
     }
 }

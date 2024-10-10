@@ -1,0 +1,9 @@
+{% set payment = order.lastCartPayment() %}
+
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'google_pay' %}
+    {% include '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_google_pay.html.twig' %}
+{% else %}
+    <button type="submit" class="ui huge primary fluid icon labeled button" {{ sylius_test_html_attribute('confirmation-button') }}>
+        <i class="check icon"></i> {{ 'sylius.ui.place_order'|trans }}
+    </button>
+{% endif %}

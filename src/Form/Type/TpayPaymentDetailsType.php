@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 
+use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayToken;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,6 +41,18 @@ final class TpayPaymentDetailsType extends AbstractType
                     'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
                         new Length(exactly: 6, groups: ['sylius_checkout_complete']),
+                    ],
+                ],
+            )
+            ->add(
+                'google_pay_token',
+                HiddenType::class,
+                [
+                    'property_path' => '[google_pay_token]',
+                    'label' => false,
+                    'validation_groups' => ['sylius_checkout_complete'],
+                    'constraints' => [
+                        new EncodedGooglePayToken(groups: ['sylius_checkout_complete']),
                     ],
                 ],
             )

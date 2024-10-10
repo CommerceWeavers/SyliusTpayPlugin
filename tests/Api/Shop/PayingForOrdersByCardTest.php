@@ -89,7 +89,7 @@ final class PayingForOrdersByCardTest extends JsonApiTestCase
         ]];
     }
 
-    public function test_paying_with_providing_an_empt_card_data(): void
+    public function test_paying_with_providing_an_empty_card_data(): void
     {
         $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
 
@@ -111,40 +111,8 @@ final class PayingForOrdersByCardTest extends JsonApiTestCase
         $this->assertResponseViolations($response, [
             [
                 'propertyPath' => 'encodedCardData',
-                'message' => 'The card data cannot be empty.',
+                'message' => 'The card data is required.',
             ]
-        ]);    }
-
-    private function doPlaceOrder(
-        string $tokenValue,
-        string $email = 'sylius@example.com',
-        string $productVariantCode = 'MUG_BLUE',
-        string $shippingMethodCode = 'UPS',
-        string $paymentMethodCode = 'tpay',
-        int $quantity = 1,
-        ?\DateTimeImmutable $checkoutCompletedAt = null,
-
-    ): OrderInterface {
-        $this->checkSetUpOrderPlacerCalled();
-
-        $this->pickUpCart($tokenValue);
-        $this->addItemToCart($productVariantCode, $quantity, $tokenValue);
-        $cart = $this->updateCartWithAddressAndCouponCode($tokenValue, $email);
-        $this->dispatchShippingMethodChooseCommand(
-            $tokenValue,
-            $shippingMethodCode,
-            (string)$cart->getShipments()->first()->getId(),
-        );
-        $this->dispatchPaymentMethodChooseCommand(
-            $tokenValue,
-            $paymentMethodCode,
-            (string)$cart->getLastPayment()->getId(),
-        );
-
-        $order = $this->dispatchCompleteOrderCommand($tokenValue);
-
-        $this->setCheckoutCompletedAt($order, $checkoutCompletedAt);
-
-        return $order;
+        ]);
     }
 }

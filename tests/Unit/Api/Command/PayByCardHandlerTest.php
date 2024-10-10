@@ -79,6 +79,7 @@ final class PayByCardHandlerTest extends TestCase
                 'result' => null,
                 'status' => null,
                 'blik_token' => null,
+                'google_pay_token' => null,
                 'card' => 'encoded_card_data',
                 'payment_url' => null,
                 'success_url' => null,
