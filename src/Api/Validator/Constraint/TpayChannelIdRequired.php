@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 
 class TpayChannelIdRequired extends Constraint
 {
-    public const PAY_BY_LINK_CHANNEL_ID_REQUIRED_ERROR = '9378e788-938d-4fff-934e-448afb4ca410';
+    public const TPAY_CHANNEL_ID_REQUIRED_ERROR = '9378e788-938d-4fff-934e-448afb4ca410';
 
     public string $message = 'commerce_weavers_sylius_tpay.shop.pay.pay_by_link_channel.required';
 

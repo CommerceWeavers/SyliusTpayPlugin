@@ -28,7 +28,7 @@ return function(ContainerConfigurator $container): void {
         ->tag('validator.constraint_validator')
     ;
 
-    $services->set('commerce_weavers_tpay.api.validator.constraint.pay_by_link_channel_id_required_validator', TpayChannelIdRequiredValidator::class)
+    $services->set('commerce_weavers_tpay.api.validator.constraint.tpay_channel_id_required_validator', TpayChannelIdRequiredValidator::class)
         ->args([
             service('sylius.repository.order'),
             service('payum.dynamic_gateways.cypher'),
@@ -36,7 +36,7 @@ return function(ContainerConfigurator $container): void {
         ->tag('validator.constraint_validator')
     ;
 
-    $services->set('commerce_weavers_tpay.api.validator.constraint.pay_by_link_channel_id_eligibility_validator', TpayChannelIdEligibilityValidator::class)
+    $services->set('commerce_weavers_tpay.api.validator.constraint.tpay_channel_id_eligibility_validator', TpayChannelIdEligibilityValidator::class)
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.provider.tpay_api_channel_list'),
         ])

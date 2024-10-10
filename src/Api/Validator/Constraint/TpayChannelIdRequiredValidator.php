@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
 
 final class TpayChannelIdRequiredValidator extends AbstractPayValidator
 {
-    public const PAY_BY_LINK_CHANNEL_ID_FIELD_NAME = 'payByLinkChannelId';
+    public const TPAY_CHANNEL_ID_FIELD_NAME = 'payByLinkChannelId';
 
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
@@ -24,7 +24,7 @@ final class TpayChannelIdRequiredValidator extends AbstractPayValidator
         parent::__construct($cypher);
     }
 
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         Assert::isInstanceOf($value, Pay::class);
         /** @var TpayChannelIdRequired $constraint */
@@ -52,8 +52,8 @@ final class TpayChannelIdRequiredValidator extends AbstractPayValidator
         }
 
         $this->context->buildViolation($constraint->message)
-            ->atPath(self::PAY_BY_LINK_CHANNEL_ID_FIELD_NAME)
-            ->setCode($constraint::PAY_BY_LINK_CHANNEL_ID_REQUIRED_ERROR)
+            ->atPath(self::TPAY_CHANNEL_ID_FIELD_NAME)
+            ->setCode($constraint::TPAY_CHANNEL_ID_REQUIRED_ERROR)
             ->addViolation()
         ;
     }

@@ -13,14 +13,14 @@ use Webmozart\Assert\Assert;
 
 final class TpayChannelIdEligibilityValidator extends ConstraintValidator
 {
-    public const PAY_BY_LINK_CHANNEL_ID_FIELD_NAME = 'tpayChannelId';
+    public const TPAY_CHANNEL_ID_FIELD_NAME = 'tpayChannelId';
 
     public function __construct(
         private readonly TpayApiChannelListProviderInterface $tpayApiChannelListProvider,
     ) {
     }
 
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         Assert::isInstanceOf($value, Pay::class);
         /** @var TpayChannelIdEligibility $constraint */
@@ -46,8 +46,8 @@ final class TpayChannelIdEligibilityValidator extends ConstraintValidator
 
         if (null === $channel) {
             $this->context->buildViolation($constraint->doesNotExistMessage)
-                ->atPath(self::PAY_BY_LINK_CHANNEL_ID_FIELD_NAME)
-                ->setCode($constraint::PAY_BY_LINK_CHANNEL_ID_AVAILABLE_ERROR)
+                ->atPath(self::TPAY_CHANNEL_ID_FIELD_NAME)
+                ->setCode($constraint::TPAY_CHANNEL_ID_AVAILABLE_ERROR)
                 ->addViolation()
             ;
 
@@ -56,8 +56,8 @@ final class TpayChannelIdEligibilityValidator extends ConstraintValidator
 
         if (false === $channel->getAvailable()) {
             $this->context->buildViolation($constraint->availableMessage)
-                ->atPath(self::PAY_BY_LINK_CHANNEL_ID_FIELD_NAME)
-                ->setCode($constraint::PAY_BY_LINK_CHANNEL_ID_AVAILABLE_ERROR)
+                ->atPath(self::TPAY_CHANNEL_ID_FIELD_NAME)
+                ->setCode($constraint::TPAY_CHANNEL_ID_AVAILABLE_ERROR)
                 ->addViolation()
             ;
 
@@ -72,8 +72,8 @@ final class TpayChannelIdEligibilityValidator extends ConstraintValidator
         }
 
         $this->context->buildViolation($constraint->notABankMessage)
-            ->atPath(self::PAY_BY_LINK_CHANNEL_ID_FIELD_NAME)
-            ->setCode($constraint::PAY_BY_LINK_CHANNEL_ID_AVAILABLE_ERROR)
+            ->atPath(self::TPAY_CHANNEL_ID_FIELD_NAME)
+            ->setCode($constraint::TPAY_CHANNEL_ID_AVAILABLE_ERROR)
             ->addViolation()
         ;
     }
