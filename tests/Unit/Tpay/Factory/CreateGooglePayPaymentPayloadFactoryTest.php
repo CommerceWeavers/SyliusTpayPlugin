@@ -29,7 +29,7 @@ final class CreateGooglePayPaymentPayloadFactoryTest extends TestCase
             ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
             ->willReturn(['some' => 'data'])
         ;
-        $payment->getDetails()->willReturn(['tpay' => ['google_pay_token' => 'blahblahblah']]);
+        $payment->getDetails()->willReturn(['tpay' => ['google_pay_token' => 'YmxhaGJsYWhibGFo']]);
 
         $payload = $this
             ->createTestSubject()

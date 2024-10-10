@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Api\Shop;
 
+use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedGooglePayToken;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +65,7 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
         $this->assertResponseViolations($response, [
             [
                 'propertyPath' => 'googlePayToken',
-                'code' => 'c146928c-f22b-4802-ba90-5fb9952e7ee8',
+                'code' => EncodedGooglePayToken::NOT_ENCODED_ERROR,
                 'message' => 'The Google Pay token must be a JSON object encoded with Base64.',
             ]
         ]);
@@ -90,7 +91,7 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
         $this->assertResponseViolations($response, [
             [
                 'propertyPath' => 'googlePayToken',
-                'code' => 'c146928c-f22b-4802-ba90-5fb9952e7ee8',
+                'code' => EncodedGooglePayToken::NOT_JSON_ENCODED_ERROR,
                 'message' => 'The Google Pay token must be a JSON object encoded with Base64.',
             ]
         ]);

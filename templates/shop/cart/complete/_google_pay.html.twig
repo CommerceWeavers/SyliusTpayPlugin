@@ -241,7 +241,7 @@
      * @see {@link https://developers.google.com/pay/api/web/reference/response-objects#PaymentData|PaymentData object reference}
      */
     function processPayment(paymentData) {
-        const paymentToken = paymentData.paymentMethodData.tokenizationData.token;
+        const paymentToken = btoa(paymentData.paymentMethodData.tokenizationData.token);
         const checkoutCompleteForm = document.querySelector('[name=sylius_checkout_complete]');
         const googlePayTokenInput = document.querySelector('[name="sylius_checkout_complete[tpay][google_pay_token]"]')
 

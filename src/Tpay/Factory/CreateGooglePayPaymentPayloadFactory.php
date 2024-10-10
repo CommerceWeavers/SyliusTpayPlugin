@@ -25,7 +25,7 @@ final class CreateGooglePayPaymentPayloadFactory implements CreateGooglePayPayme
         $googlePayToken = $paymentDetails['tpay']['google_pay_token'] ?? throw new \InvalidArgumentException('The given payment does not have a Google Pay token.');
 
         $payload['pay']['groupId'] = self::GOOGLE_PAY_GROUP_ID;
-        $payload['pay']['googlePayPaymentData'] = base64_encode($googlePayToken);
+        $payload['pay']['googlePayPaymentData'] = $googlePayToken;
 
         return $payload;
     }
