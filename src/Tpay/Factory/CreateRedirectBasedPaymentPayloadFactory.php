@@ -8,12 +8,14 @@ use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
 final class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBasedPaymentPayloadFactoryInterface
 {
     public function __construct(
         private readonly RouterInterface $router,
+        private readonly TranslatorInterface $translator,
         private readonly string $successRoute,
         private readonly string $errorRoute,
     ) {
@@ -35,7 +37,10 @@ final class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBa
 
         return [
             'amount' => number_format($amount / 100, 2, thousands_separator: ''),
-            'description' => sprintf('zamówienie #%s', $order->getNumber()), // TODO: Introduce translations
+            'description' => $this->translator->trans(
+                'commerce_weavers_sylius_tpay.tpay.transaction_description',
+                ['%orderNumber%' => $order->getNumber()],
+            ),
             'payer' => [
                 'email' => $customer->getEmail(),
                 'name' => $billingAddress->getFullName(),

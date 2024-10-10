@@ -50,6 +50,7 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload', CreateRedirectBasedPaymentPayloadFactory::class)
         ->args([
             service('router'),
+            service('translator'),
             param('commerce_weavers_sylius_tpay.payum.create_transaction.success_route'),
             param('commerce_weavers_sylius_tpay.payum.create_transaction.error_route'),
         ])

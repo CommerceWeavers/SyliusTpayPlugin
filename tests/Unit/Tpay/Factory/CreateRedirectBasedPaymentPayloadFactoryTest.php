@@ -15,17 +15,27 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\InvalidArgumentException;
 
 final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
+    private const TRANSLATED_DESCRIPTION = 'Zamówienie #000000001';
     private RouterInterface|ObjectProphecy $router;
+
+    private TranslatorInterface|ObjectProphecy $translator;
 
     protected function setUp(): void
     {
         $this->router = $this->prophesize(RouterInterface::class);
+        $this->translator = $this->prophesize(TranslatorInterface::class);
+
+        $this->translator->trans(
+            'commerce_weavers_sylius_tpay.shop.api.description.order',
+            ['%orderNumber%' => '000000001']
+        )->willReturn(self::TRANSLATED_DESCRIPTION);
     }
 
     public function test_it_returns_a_payload_for_a_redirect_based_payment(): void
@@ -59,7 +69,7 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
 
         $this->assertSame([
             'amount' => '10.50',
-            'description' => 'zamówienie #000000001',
+            'description' => self::TRANSLATED_DESCRIPTION,
             'payer' => [
                 'email' => 'don.matteo@sandomierz.org',
                 'name' => 'Don Matteo',
@@ -136,6 +146,7 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
     {
         return new CreateRedirectBasedPaymentPayloadFactory(
             $this->router->reveal(),
+            $this->translator->reveal(),
             'cw_success',
             'cw_error',
         );
