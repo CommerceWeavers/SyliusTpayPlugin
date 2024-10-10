@@ -25,7 +25,7 @@
                     <value>commerce_weavers_tpay:shop:order:pay</value>
                 </option>
             </constraint>
-            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedGooglePayToken">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayToken">
                 <option name="groups">
                     <value>commerce_weavers_tpay:shop:order:pay</value>
                 </option>

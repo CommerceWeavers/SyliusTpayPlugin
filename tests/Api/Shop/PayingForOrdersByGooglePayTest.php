@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Api\Shop;
 
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedGooglePayToken;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
+use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\JsonApiTestCase;

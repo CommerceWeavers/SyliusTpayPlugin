@@ -2,23 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Validator\Constraint;
+namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Validator\Constraint;
 
-use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedGooglePayToken;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedGooglePayTokenValidator;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEqualsValidator;
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
+use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayToken;
+use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayTokenValidator;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
-use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\PaymentInterface;
-use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Exception\MissingOptionsException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
