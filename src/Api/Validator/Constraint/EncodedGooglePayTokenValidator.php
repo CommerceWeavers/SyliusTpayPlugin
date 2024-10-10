@@ -25,9 +25,9 @@ final class EncodedGooglePayTokenValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $decodedValue = base64_decode($value);
+        $decodedValue = base64_decode($value, true);
 
-        if (base64_encode($decodedValue) !== $value) {
+        if (false === $decodedValue || base64_encode($decodedValue) !== $value) {
             $this->context
                 ->buildViolation($constraint->notEncodedErrorMessage)
                 ->setCode($constraint::NOT_ENCODED_ERROR)

@@ -12,7 +12,6 @@ final class NotBlankIfGatewayConfigTypeEquals extends Constraint
 
     public string $fieldRequiredErrorMessage = 'commerce_weavers_sylius_tpay.shop.pay.field.not_blank';
 
-    /** @var string[] */
     protected static $errorNames = [
         self::FIELD_REQUIRED_ERROR => 'FIELD_REQUIRED_ERROR',
     ];

@@ -16,7 +16,6 @@ final class EncodedGooglePayToken extends Constraint
 
     public string $notJsonEncodedErrorMessage = 'commerce_weavers_sylius_tpay.shop.pay.google_pay_token.not_json_encoded';
 
-    /** @var string[] */
     protected static $errorNames = [
         self::NOT_ENCODED_ERROR => 'NOT_ENCODED_ERROR',
         self::NOT_JSON_ENCODED_ERROR => 'NOT_JSON_ENCODED_ERROR',
