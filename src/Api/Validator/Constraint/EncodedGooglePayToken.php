@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint;
 
 use Symfony\Component\Validator\Constraint;

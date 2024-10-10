@@ -51,7 +51,7 @@ final class EncodedGooglePayTokenValidator extends ConstraintValidator
     private function isJsonValid(string $json): bool
     {
         try {
-            json_decode($json, flags: JSON_THROW_ON_ERROR);
+            json_decode($json, flags: \JSON_THROW_ON_ERROR);
         } catch (\JsonException) {
             return false;
         }

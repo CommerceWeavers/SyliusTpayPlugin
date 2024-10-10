@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping https://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay">
-        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\BlikTokenRequired">
-            <option name="groups">
-                <value>commerce_weavers_tpay:shop:order:pay</value>
-            </option>
-        </constraint>
-        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\EncodedCardDataRequired">
-            <option name="groups">
-                <value>commerce_weavers_tpay:shop:order:pay</value>
-            </option>
-        </constraint>
         <property name="blikToken">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">blik</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.required</option>
+                <option name="groups">
+                    <value>commerce_weavers_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
             <constraint name="Length">
                 <option name="value">6</option>
-                <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.blik.length</option>
+                <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.length</option>
                 <option name="groups">
                     <value>commerce_weavers_tpay:shop:order:pay</value>
                 </option>
@@ -35,9 +32,9 @@
             </constraint>
         </property>
         <property name="encodedCardData">
-            <constraint name="Length">
-                <option name="min">1</option>
-                <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.encoded_card_data.length</option>
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">card</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.encoded_card_data.required</option>
                 <option name="groups">
                     <value>commerce_weavers_tpay:shop:order:pay</value>
                 </option>
