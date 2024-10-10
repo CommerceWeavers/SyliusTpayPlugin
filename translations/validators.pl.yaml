@@ -7,3 +7,9 @@ commerce_weavers_sylius_tpay:
             encoded_card_data:
                 length: 'Dane karty nie mogą być puste.'
                 required: 'Dane karty są wymagane.'
+            tpay_channel_id:
+                length: 'Id kanału banku nie może być puste.'
+                required: 'Id kanału banku jest wymagane.'
+                does_not_exist: 'Kanał z podanym id nie istnieje.'
+                available: 'Kanał z podanym id nie jest dostępny.'
+                not_a_bank: 'Kanał z podanym id nie jest bankiem.'

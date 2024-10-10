@@ -14,6 +14,7 @@ final class Pay implements OrderTokenAwareInterface
         public readonly string $failureUrl,
         public readonly ?string $blikToken = null,
         public readonly ?string $encodedCardData = null,
+        public readonly ?string $tpayChannelId = null,
     ) {
     }
 

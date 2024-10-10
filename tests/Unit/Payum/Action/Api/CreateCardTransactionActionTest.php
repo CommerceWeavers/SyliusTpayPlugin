@@ -135,6 +135,7 @@ final class CreateCardTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
+                'tpay_channel_id' => null
             ],
         ])->shouldBeCalled();
 
@@ -193,6 +194,7 @@ final class CreateCardTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
+                'tpay_channel_id' => null
             ],
         ])->shouldBeCalled();
 

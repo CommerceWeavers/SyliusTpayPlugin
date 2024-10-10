@@ -12,6 +12,8 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiChannelListProvider;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\CachedTpayTransactionChannelResolver;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\TpayTransactionChannelResolver;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Factory\BasicPaymentFactory;
@@ -115,6 +117,13 @@ return static function(ContainerConfigurator $container): void {
             service('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver'),
         ])
         ->alias(TpayApiBankListProviderInterface::class, 'commerce_weavers_tpay.provider.tpay_api_bank_list')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.provider.tpay_api_channel_list', TpayApiChannelListProvider::class)
+        ->args([
+            service('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver'),
+        ])
+        ->alias(TpayApiChannelListProviderInterface::class, 'commerce_weavers_sylius_tpay.provider.tpay_api_channel_list')
     ;
 
     $services->set('commerce_weavers_tpay.tpay.resolver.tpay_transaction_channel_resolver', TpayTransactionChannelResolver::class)

@@ -14,6 +14,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 abstract class AbstractPayValidator extends ConstraintValidator
 {
+    public const TYPE = 'type';
+
     public function __construct(
         private readonly CypherInterface $cypher,
     ) {

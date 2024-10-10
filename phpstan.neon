@@ -1,7 +1,6 @@
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
     treatPhpDocTypesAsCertain: false
     paths:
         - src
@@ -13,6 +12,8 @@ parameters:
 
     ignoreErrors:
         -
+            identifier: missingType.iterableValue
+        -
             identifier: missingType.generics # ignore missing type generics, as it is complicated when supported for Sylius 1.12 and 1.13 is required
         - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'
         - '/Parameter \#1 \$request \([^)]+\) of method [^:]+::execute\(\) should be contravariant with parameter \$request \(mixed\) of method Payum\\Core\\Action\\ActionInterface::execute\(\)/'
@@ -22,3 +23,6 @@ parameters:
         - '#Method CommerceWeavers\\SyliusTpayPlugin\\Form\\Type\\TpayCardType::__construct\(\) has parameter \$cardTypeDataTransformer with generic interface Symfony\\Component\\Form\\DataTransformerInterface but does not specify its types: TValue, TTransformedValue#'
         - '#Parameter \#2 \$listener of method .+::addEventListener\(\) expects callable\(\): mixed, array.+ given\.#'
         - '#Constructor of class CommerceWeavers\\SyliusTpayPlugin\\Test\\Payum\\Cypher\\FakeCypher has an unused parameter \$cypherKey\.#'
+        -
+            message: '/Only booleans are allowed in an if condition, string\|null given./'
+            path: src/Model/PaymentDetails.php

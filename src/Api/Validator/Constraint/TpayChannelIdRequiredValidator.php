@@ -6,17 +6,16 @@ namespace CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint;
 
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Payum\Core\Security\CypherInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Exception\UnexpectedValueException;
+use Webmozart\Assert\Assert;
 
-final class BlikTokenRequiredValidator extends AbstractPayValidator
+final class TpayChannelIdRequiredValidator extends AbstractPayValidator
 {
-    public const BLIK_TOKEN_FIELD_NAME = 'blikToken';
-
-    private const BLIK = 'blik';
+    public const TPAY_CHANNEL_ID_FIELD_NAME = 'payByLinkChannelId';
 
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
@@ -27,19 +26,11 @@ final class BlikTokenRequiredValidator extends AbstractPayValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!is_object($value)) {
-            throw new UnexpectedValueException($value, OrderInterface::class);
-        }
+        Assert::isInstanceOf($value, Pay::class);
+        /** @var TpayChannelIdRequired $constraint */
+        Assert::isInstanceOf($constraint, TpayChannelIdRequired::class);
 
-        if (!is_a($value, Pay::class)) {
-            throw new UnexpectedValueException($value, OrderInterface::class);
-        }
-
-        if (!is_a($constraint, BlikTokenRequired::class)) {
-            throw new UnexpectedValueException($constraint, BlikTokenRequired::class);
-        }
-
-        if (null !== $value->blikToken) {
+        if (null !== $value->tpayChannelId) {
             return;
         }
 
@@ -53,13 +44,16 @@ final class BlikTokenRequiredValidator extends AbstractPayValidator
         /** @var array{type?: string} $config */
         $config = $this->getGatewayConfigFromOrder($order);
 
-        if (!isset($config[self::TYPE]) || self::BLIK !== $config[self::TYPE]) {
+        if (
+            !isset($config[self::TYPE]) ||
+            PaymentType::PAY_BY_LINK !== $config[self::TYPE]
+        ) {
             return;
         }
 
         $this->context->buildViolation($constraint->message)
-            ->atPath(self::BLIK_TOKEN_FIELD_NAME)
-            ->setCode($constraint::BLIK_TOKEN_REQUIRED_ERROR)
+            ->atPath(self::TPAY_CHANNEL_ID_FIELD_NAME)
+            ->setCode($constraint::TPAY_CHANNEL_ID_REQUIRED_ERROR)
             ->addViolation()
         ;
     }

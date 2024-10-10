@@ -1,0 +1,10 @@
+CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayChannel:
+    collectionOperations:
+        get:
+            path: /shop/tpay-channels
+    itemOperations:
+        get:
+            path: /shop/tpay-channels/{id}
+    properties:
+        id:
+            identifier: true
