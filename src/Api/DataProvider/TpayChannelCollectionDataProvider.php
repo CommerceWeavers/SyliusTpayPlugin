@@ -6,13 +6,13 @@ namespace CommerceWeavers\SyliusTpayPlugin\Api\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayBank;
+use CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayChannel;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterface;
 
-final class TpayBankCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class TpayChannelCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private readonly TpayApiBankListProviderInterface $apiBankListProvider
+        private readonly TpayApiBankListProviderInterface $apiBankListProvider,
     ) {
     }
 
@@ -21,12 +21,12 @@ final class TpayBankCollectionDataProvider implements ContextAwareCollectionData
         $transactionChannels = $this->apiBankListProvider->provide();
 
         foreach ($transactionChannels as $transactionChannel) {
-            yield TpayBank::FromArray($transactionChannel);
+            yield TpayChannel::FromArray($transactionChannel);
         }
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return TpayBank::class === $resourceClass;
+        return TpayChannel::class === $resourceClass;
     }
 }

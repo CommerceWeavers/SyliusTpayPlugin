@@ -15,16 +15,16 @@ final class PayByLinkHandler extends AbstractPayByHandler
     {
         $payment = $this->findOr404($command->paymentId);
 
-        $this->setTransactionData($payment, $command->payByLinkChannelId);
+        $this->setTransactionData($payment, $command->tpayChannelId);
         $this->createTransaction($payment);
 
         return $this->createResultFrom($payment);
     }
 
-    private function setTransactionData(PaymentInterface $payment, string $payByLinkChannelId): void
+    private function setTransactionData(PaymentInterface $payment, string $tpayChannelId): void
     {
         $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
-        $paymentDetails->setPayByLinkChannelId($payByLinkChannelId);
+        $paymentDetails->setTpayChannelId($tpayChannelId);
 
         $payment->setDetails($paymentDetails->toArray());
     }

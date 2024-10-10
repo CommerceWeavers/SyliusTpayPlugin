@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Validator\Constraint;
 
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\PayByLinkChannelIdRequired;
-use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\PayByLinkChannelIdRequiredValidator;
+use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdRequired;
+use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdRequiredValidator;
 use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
-class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCase
+class TpayChannelIdRequiredValidatorTest extends ConstraintValidatorTestCase
 {
     use ProphecyTrait;
 
@@ -40,14 +40,14 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->validator->validate('not_an_object', new PayByLinkChannelIdRequired());
+        $this->validator->validate('not_an_object', new TpayChannelIdRequired());
     }
 
     public function test_it_throws_an_exception_if_a_value_has_an_invalid_type(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->validator->validate(new \stdClass(), new PayByLinkChannelIdRequired());
+        $this->validator->validate(new \stdClass(), new TpayChannelIdRequired());
     }
 
     public function test_it_throws_an_exception_if_a_constraint_has_an_invalid_type(): void
@@ -59,7 +59,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
                 'order_token',
                 'https://cw.nonexisting/success',
                 'https://cw.nonexisting/failure',
-                payByLinkChannelId: '11'),
+                tpayChannelId: '11'),
             $this->prophesize(Constraint::class)->reveal(),
         );
     }
@@ -71,8 +71,8 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
                 'order_token',
                 'https://cw.nonexisting/success',
                 'https://cw.nonexisting/failure',
-                payByLinkChannelId: '11'),
-            new PayByLinkChannelIdRequired(),
+                tpayChannelId: '11'),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -87,7 +87,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
                 'https://cw.nonexisting/success',
                 'https://cw.nonexisting/failure'
             ),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -101,7 +101,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token','https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -118,7 +118,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token', 'https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -138,7 +138,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token', 'https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -164,7 +164,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token', 'https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
     }
 
@@ -186,7 +186,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token', 'https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->assertNoViolation();
@@ -210,7 +210,7 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate(
             new Pay('order_token', 'https://cw.nonexisting/success', 'https://cw.nonexisting/failure'),
-            new PayByLinkChannelIdRequired(),
+            new TpayChannelIdRequired(),
         );
 
         $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.pay_by_link_channel.required')
@@ -220,9 +220,9 @@ class PayByLinkChannelIdRequiredValidatorTest extends ConstraintValidatorTestCas
         ;
     }
 
-    protected function createValidator(): PayByLinkChannelIdRequiredValidator
+    protected function createValidator(): TpayChannelIdRequiredValidator
     {
-        return new PayByLinkChannelIdRequiredValidator(
+        return new TpayChannelIdRequiredValidator(
             $this->orderRepository->reveal(),
             $this->cypher->reveal()
         );

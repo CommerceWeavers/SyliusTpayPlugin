@@ -21,13 +21,13 @@ final class PayByLinkFactory implements NextCommandFactoryInterface
         /** @var int $paymentId */
         $paymentId = $payment->getId();
         /** @var string $payByLinkChannelId */
-        $payByLinkChannelId = $command->payByLinkChannelId;
+        $payByLinkChannelId = $command->tpayChannelId;
 
         return new PayByLink($paymentId, $payByLinkChannelId);
     }
 
     public function supports(Pay $command, PaymentInterface $payment): bool
     {
-        return $command->payByLinkChannelId !== null && $payment->getId() !== null;
+        return $command->tpayChannelId !== null && $payment->getId() !== null;
     }
 }

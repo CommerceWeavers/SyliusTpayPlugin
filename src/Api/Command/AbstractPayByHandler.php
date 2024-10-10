@@ -62,7 +62,6 @@ abstract class AbstractPayByHandler
             Assert::notNull($paymentDetails->getPaymentUrl(), 'Payment URL is required to create a result.');
         }
 
-        // TODO factory?
         return new PayResult(
             $paymentDetails->getStatus(),
             $paymentDetails->getPaymentUrl(),

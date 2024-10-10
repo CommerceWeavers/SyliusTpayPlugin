@@ -19,7 +19,7 @@ class PaymentDetails
         private ?string $paymentUrl = null,
         private ?string $successUrl = null,
         private ?string $failureUrl = null,
-        private ?string $payByLinkChannelId = null,
+        private ?string $tpayChannelId = null,
     ) {
     }
 
@@ -103,14 +103,14 @@ class PaymentDetails
         $this->failureUrl = $failureUrl;
     }
 
-    public function getPayByLinkChannelId(): ?string
+    public function getTpayChannelId(): ?string
     {
-        return $this->payByLinkChannelId;
+        return $this->tpayChannelId;
     }
 
-    public function setPayByLinkChannelId(?string $payByLinkChannelId): void
+    public function setTpayChannelId(?string $tpayChannelId): void
     {
-        $this->payByLinkChannelId = $payByLinkChannelId;
+        $this->tpayChannelId = $tpayChannelId;
     }
 
     public function getType(): string
@@ -123,7 +123,7 @@ class PaymentDetails
             return PaymentType::BLIK;
         }
 
-        if ($this->getPayByLinkChannelId()) {
+        if ($this->getTpayChannelId()) {
             return PaymentType::PAY_BY_LINK;
         }
 
@@ -147,7 +147,7 @@ class PaymentDetails
             $details['tpay']['payment_url'] ?? null,
             $details['tpay']['success_url'] ?? null,
             $details['tpay']['failure_url'] ?? null,
-            $details['tpay']['pay_by_link_channel_id'] ?? null,
+            $details['tpay']['tpay_channel_id'] ?? null,
         );
     }
 
@@ -163,7 +163,7 @@ class PaymentDetails
                 'payment_url' => $this->paymentUrl,
                 'success_url' => $this->successUrl,
                 'failure_url' => $this->failureUrl,
-                'pay_by_link_channel_id' => $this->payByLinkChannelId,
+                'tpay_channel_id' => $this->tpayChannelId,
             ],
         ];
     }

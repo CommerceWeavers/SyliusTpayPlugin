@@ -6,24 +6,24 @@ namespace CommerceWeavers\SyliusTpayPlugin\Api\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayBank;
+use CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayChannel;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterface;
 
-final class TpayBankItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
+final class TpayChannelItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private readonly TpayApiBankListProviderInterface $apiBankListProvider
+        private readonly TpayApiBankListProviderInterface $apiBankListProvider,
     ) {
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?TpayBank
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?TpayChannel
     {
         $transactionChannels = $this->apiBankListProvider->provide();
 
-        /** @var TpayBank $transactionChannel */
+        /** @var array $transactionChannel */
         foreach ($transactionChannels as $transactionChannel) {
-            if ($transactionChannel->getId() === $id) {
-                return TpayBank::FromArray($transactionChannel);
+            if ($transactionChannel['id'] === $id) {
+                return TpayChannel::FromArray($transactionChannel);
             }
         }
 
@@ -32,6 +32,6 @@ final class TpayBankItemDataProvider implements ItemDataProviderInterface, Restr
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return TpayBank::class === $resourceClass;
+        return TpayChannel::class === $resourceClass;
     }
 }

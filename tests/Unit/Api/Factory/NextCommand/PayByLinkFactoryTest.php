@@ -27,23 +27,23 @@ final class PayByLinkFactoryTest extends TestCase
     {
         $factory = $this->createTestSubject();
 
-        $this->assertFalse($factory->supports($this->createCommand(payByLinkChannelId: '1'), new Payment()));
+        $this->assertFalse($factory->supports($this->createCommand(tpayChannelId: '1'), new Payment()));
     }
 
     public function test_it_supports_a_command_with_an_encoded_card_data(): void
     {
         $factory = $this->createTestSubject();
 
-        $this->assertTrue($factory->supports($this->createCommand(payByLinkChannelId: '1'), $this->createPayment()));
+        $this->assertTrue($factory->supports($this->createCommand(tpayChannelId: '1'), $this->createPayment()));
     }
 
-    private function createCommand(?string $token = null, ?string $payByLinkChannelId = null): Pay
+    private function createCommand(?string $token = null, ?string $tpayChannelId = null): Pay
     {
         return new Pay(
             $token ?? 'token',
             'https://cw.nonexisting/success',
             'https://cw.nonexisting/failure',
-            payByLinkChannelId: $payByLinkChannelId,
+            tpayChannelId: $tpayChannelId,
         );
     }
 

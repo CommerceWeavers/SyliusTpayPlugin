@@ -8,7 +8,7 @@ final class PayByLink
 {
     public function __construct(
         public readonly int $paymentId,
-        public readonly string $payByLinkChannelId,
+        public readonly string $tpayChannelId,
     ) {
     }
 }

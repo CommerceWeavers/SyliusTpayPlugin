@@ -13,7 +13,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Webmozart\Assert\Assert;
 
-final class PayByLinkChannelIdRequiredValidator extends AbstractPayValidator
+final class TpayChannelIdRequiredValidator extends AbstractPayValidator
 {
     public const PAY_BY_LINK_CHANNEL_ID_FIELD_NAME = 'payByLinkChannelId';
 
@@ -27,10 +27,10 @@ final class PayByLinkChannelIdRequiredValidator extends AbstractPayValidator
     public function validate($value, Constraint $constraint): void
     {
         Assert::isInstanceOf($value, Pay::class);
-        /** @var PayByLinkChannelIdRequired $constraint */
-        Assert::isInstanceOf($constraint, PayByLinkChannelIdRequired::class);
+        /** @var TpayChannelIdRequired $constraint */
+        Assert::isInstanceOf($constraint, TpayChannelIdRequired::class);
 
-        if (null !== $value->payByLinkChannelId) {
+        if (null !== $value->tpayChannelId) {
             return;
         }
 

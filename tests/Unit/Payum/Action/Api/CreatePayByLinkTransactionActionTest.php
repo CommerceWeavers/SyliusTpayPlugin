@@ -43,7 +43,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
     public function test_it_supports_create_transaction_requests_with_a_valid_payment_model(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['pay_by_link_channel_id' => '1']]);
+        $payment->getDetails()->willReturn(['tpay' => ['tpay_channel_id' => '1']]);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);
@@ -131,7 +131,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'pay_by_link_channel_id' => null
+                'tpay_channel_id' => null
             ],
         ])->shouldBeCalled();
 

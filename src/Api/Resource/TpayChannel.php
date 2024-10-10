@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Resource;
 
-class TpayBank
+class TpayChannel
 {
     public function __construct(
         private ?string $id,
         private ?string $name,
         private ?string $fullName,
         private ?array $image,
-        private ?string $available,
+        private ?bool $available,
         private ?bool $onlinePayment,
         private ?bool $instantRedirection,
         private ?array $groups,
@@ -59,12 +59,12 @@ class TpayBank
         $this->image = $image;
     }
 
-    public function getAvailable(): ?string
+    public function getAvailable(): ?bool
     {
         return $this->available;
     }
 
-    public function setAvailable(?string $available): void
+    public function setAvailable(?bool $available): void
     {
         $this->available = $available;
     }
@@ -109,7 +109,7 @@ class TpayBank
         $this->constraints = $constraints;
     }
 
-    public static function FromArray(mixed $data): self
+    public static function FromArray(array $data): self
     {
         return new self(
             $data['id'] ?? null,
@@ -122,6 +122,5 @@ class TpayBank
             $data['groups'] ?? null,
             $data['constraints'] ?? null,
         );
-
     }
 }

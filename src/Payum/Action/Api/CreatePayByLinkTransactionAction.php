@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Reply\HttpRedirect;
@@ -68,6 +69,6 @@ final class CreatePayByLinkTransactionAction extends AbstractCreateTransactionAc
 
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return $paymentDetails->getType() === $paymentDetails::PBL_TYPE;
+        return $paymentDetails->getType() === PaymentType::PAY_BY_LINK;
     }
 }

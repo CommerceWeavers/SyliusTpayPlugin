@@ -11,12 +11,12 @@
                 <value>commerce_weavers_tpay:shop:order:pay</value>
             </option>
         </constraint>
-        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\PayByLinkChannelIdRequired">
+        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdRequired">
             <option name="groups">
                 <value>commerce_weavers_tpay:shop:order:pay</value>
             </option>
         </constraint>
-        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\PayByLinkChannelIdAvailable">
+        <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdEligibility">
             <option name="groups">
                 <value>commerce_weavers_tpay:shop:order:pay</value>
             </option>
@@ -39,7 +39,7 @@
                 </option>
             </constraint>
         </property>
-        <property name="payByLinkChannelId">
+        <property name="tpayChannelId">
             <constraint name="Length">
                 <option name="min">1</option>
                 <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.pay_by_link_channel.length</option>

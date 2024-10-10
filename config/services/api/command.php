@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\AbstractPayByHandler;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByBlikHandler;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByCardHandler;
+use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByLinkHandler;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByRedirectHandler;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayHandler;
 
@@ -42,6 +43,11 @@ return function(ContainerConfigurator $container): void {
     ;
 
     $services->set('commerce_weavers_tpay.api.command.pay_by_redirect_handler', PayByRedirectHandler::class)
+        ->parent('commerce_weavers_tpay.api.command.abstract_pay_by_handler')
+        ->tag('messenger.message_handler')
+    ;
+
+    $services->set('commerce_weavers_tpay.api.command.pay_by_link_handler', PayByLinkHandler::class)
         ->parent('commerce_weavers_tpay.api.command.abstract_pay_by_handler')
         ->tag('messenger.message_handler')
     ;

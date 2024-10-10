@@ -154,7 +154,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'pay_by_link_channel_id' => null
+                'tpay_channel_id' => null
             ],
         ])->shouldBeCalled();
 
@@ -220,7 +220,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'pay_by_link_channel_id' => null
+                'tpay_channel_id' => null
             ],
         ])->shouldBeCalled();
 

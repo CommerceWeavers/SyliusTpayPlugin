@@ -9,6 +9,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInter
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\PayWithCard;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateCardPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
@@ -66,6 +67,6 @@ final class CreateCardTransactionAction extends AbstractCreateTransactionAction 
 
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return $paymentDetails->getType() === $paymentDetails::CARD_TYPE;
+        return $paymentDetails->getType() === PaymentType::CARD;
     }
 }
