@@ -38,7 +38,7 @@ final class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBa
         return [
             'amount' => number_format($amount / 100, 2, thousands_separator: ''),
             'description' => $this->translator->trans(
-                'commerce_weavers_sylius_tpay.shop.api.description.order',
+                'commerce_weavers_sylius_tpay.tpay.transaction_description',
                 ['%orderNumber%' => $order->getNumber()],
             ),
             'payer' => [

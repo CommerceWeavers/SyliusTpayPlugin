@@ -39,6 +39,5 @@ commerce_weavers_sylius_tpay:
         waiting_for_payment:
             title: 'Oczekiwanie na płatność'
             we_are_waiting_for_payment: 'Oczekujemy na potwierdzenie płatności'
-        api:
-            description:
-                order: 'Zamówienie #%orderNumber%'
+    tpay:
+        transaction_description: 'Order #%orderNumber%'
