@@ -18,13 +18,13 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
         parent::setUp();
 
         $this->setUpOrderPlacer();
+
+        $this->loadFixturesFromFile('shop/paying_for_orders_by_google_pay.yml');
     }
 
     public function test_paying_with_a_valid_google_pay_token_for_an_order(): void
     {
-        $this->loadFixturesFromFile('shop/paying_for_orders_by_google_pay');
-
-        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_google_apy');
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_google_pay');
 
         $this->client->request(
             Request::METHOD_POST,
@@ -33,7 +33,7 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
             content: json_encode([
                 'successUrl' => 'https://example.com/success',
                 'failureUrl' => 'https://example.com/failure',
-                'googlePayToken' => 'base64token',
+                'googlePayToken' => 'eyJzaWduYXR1cmUiOiJNRVFDSUhnbFFGYWVqWitaZS9mcGljaDV6bDY1b0hyTW0vM1FUU0RRRnMwQzJRZ1ZBaUJYZWZyNXRVWlEwRzNaUk1EeVRDbFVZSUE2MnI3U2VDS0Q2eFVUdXJRL1JBXHUwMDNkXHUwMDNkIiwiaW50ZXJtZWRpYXRlU2lnbmluZ0tleSI6eyJzaWduZWRLZXkiOiJ7XCJrZXlWYWx1ZVwiOlwiTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFTERpU2ZMaUhXZnVJeStSQi80NUtXaFZZaW1CRzlFUVRwV0VTdkR0bnRPc1ZNSzRPTFlIUEh5Y3JFU2NFd0hNNDRDWVRqbEo2MFhna0pnUDFQK2Zpa0FcXHUwMDNkXFx1MDAzZFwiLFwia2V5RXhwaXJhdGlvblwiOlwiMTcyOTEyNDc5NzY1OVwifSIsInNpZ25hdHVyZXMiOlsiTUVVQ0lFaTUvVEVQOFZuWDJ6QU5za0I5RHZITDNKM2lrMVpFR1R5K05UcjllUjdHQWlFQXFpL0NzOGk1Nm84eElLZ3hEZ21jQ1ZKejBYRm1qcThzc0dUR0V1dENTZklcdTAwM2QiXX0sInByb3RvY29sVmVyc2lvbiI6IkVDdjIiLCJzaWduZWRNZXNzYWdlIjoie1wiZW5jcnlwdGVkTWVzc2FnZVwiOlwiQmNFcHlVZEkwQnczS3UwYVkrR0JwbTd1YnNBQ2RlVGFSdE5zMlVvbFd4MlBXMks1amZUbHVvTllqLzFRRExxY21jY1dLdisvY2pKVDBtdGlCMnVlVGMxdTRPek5ScHdONDZFRVJLVHpjWXpIMzBmUm0xaFVBdHB2M3ZtS1FEd3RjRVM2emtsYVREWGZhUjRqVVJydDJoUlRvOEpNU2VWZE1DU2l5QWxXMTVhVk9GU0xCcld3bmNIUFpDSUw4RDNpbk5qWFhqbUcxVmRhQnp2WU5HRncyb2lHTUY0bXhNV3NQZUFJRkJONzdzbm4vTWxZZ1lCaXdlQjFYb1JpY0o2ZFFJaGlId1RjTHpjTStxaGM4L05xZm5IT2gyLy9uNDcwamxwdTg1NFRVMVVZcjlvdDl3REt1QmFGRHREVUtJeFhEZTNhT1U2aEN0UWNBR0grMmRTZVNnSXJJMXFLSDdObm9pR3grNjdjRlFMcGFrbjNJeTJLVjJuUVBCdHl3ckJ2blVFSzMyMEp0WVlFNWxBYTRBVGFobUNXMGxINnY4empPdk5JV3pCK25SSEVrK01qWGtSdjllNVBES3NvZkRhcy9UUmRSM1hNZ1JTWmliampMQ2gxZFBIR1hZVENTNUgrM2dPa3prRkNjdmlIWG4wWHJrdENGdjhnZnBFK2RsMlNNQWdDOVlYdzdFb1FkVmJqS2VnaHRQY3dhb2xhblhycThVZWNHU2lpaVFcXHUwMDNkXFx1MDAzZFwiLFwiZXBoZW1lcmFsUHVibGljS2V5XCI6XCJCSTZVQWNVa2xkWDJpUmE0ZExTajUyZWloZU16VHZ4SjVBSUEydWgzeXdRZWlLOTh1WThLbFdmOGRBSUhGZis0QXBHWjJGZS82dXZJZlorcU1VcDRidkFcXHUwMDNkXCIsXCJ0YWdcIjpcIkhyekhhN1BvOTFsTHdGRVpyREhzNWc4NGpEdHdPNTFFazBOa2J6U2JoV1lcXHUwMDNkXCJ9In0=',
             ]),
         );
 
@@ -45,8 +45,6 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
 
     public function test_paying_with_not_encoded_google_pay_token(): void
     {
-        $this->loadFixturesFromFile('shop/paying_for_orders_by_google_pay');
-
         $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_google_pay');
 
         $this->client->request(
@@ -73,8 +71,6 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
 
     public function test_paying_with_a_google_pay_token_that_is_not_a_json_object(): void
     {
-        $this->loadFixturesFromFile('shop/paying_for_orders_by_google_pay');
-
         $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_google_pay');
 
         $this->client->request(
@@ -84,7 +80,7 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
             content: json_encode([
                 'successUrl' => 'https://example.com/success',
                 'failureUrl' => 'https://example.com/failure',
-                'googlePayToken' => 'base64invalidToken',
+                'googlePayToken' => 'c29tZUludmFsaWRWYWx1ZQ==',
             ]),
         );
 
@@ -101,8 +97,6 @@ final class PayingForOrdersByGooglePayTest extends JsonApiTestCase
 
     public function test_paying_without_providing_a_google_pay_token(): void
     {
-        $this->loadFixturesFromFile('shop/paying_for_orders_by_google_pay');
-
         $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_google_pay');
 
         $this->client->request(
