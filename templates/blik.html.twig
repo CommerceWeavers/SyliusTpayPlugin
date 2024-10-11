@@ -1,0 +1,3 @@
+{% if cw_tpay_get_gateway_config_value(method.gatewayConfig, 'type') == 'blik' %}
+    {{ form_row(form.tpay.blik_token) }}
+{% endif %}
