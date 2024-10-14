@@ -46,7 +46,7 @@ class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
         $response = $this->client->getResponse();
 
         $this->assertResponseCode($response, Response::HTTP_OK);
-        $this->assertResponse($response, 'shop/paying_for_orders_by_redirect/test_paying_with_visa_mobile_payment_type');
+        $this->assertResponse($response, 'shop/paying_for_orders_by_visa_mobile/test_paying_with_visa_mobile_payment_type');
     }
 
     private function doPlaceOrder(

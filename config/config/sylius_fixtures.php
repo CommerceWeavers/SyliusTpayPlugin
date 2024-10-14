@@ -7,7 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Symfony\Config\SyliusFixturesConfig;
 
-return function(SyliusFixturesConfig $fixtures): void {
+return static function(SyliusFixturesConfig $fixtures): void {
     $defaultSuite = $fixtures->suites('default');
     $defaultSuite->fixtures('shipping_method', [
         'options' => [
@@ -144,7 +144,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'gatewayConfig' => [
                         'client_id' => '%env(string:TPAY_CLIENT_ID)%',
                         'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'type' => 'visa-mobile',
+                        'type' => PaymentType::VISA_MOBILE,
                         'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
                         'production_mode' => false,
                     ],
