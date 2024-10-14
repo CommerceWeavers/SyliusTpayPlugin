@@ -37,5 +37,8 @@
         <attribute name="tpayChannelId">
             <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
+        <attribute name="isVisaMobilePayment">
+            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+        </attribute>
     </class>
 </serializer>

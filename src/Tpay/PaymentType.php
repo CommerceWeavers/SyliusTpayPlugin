@@ -17,4 +17,6 @@ class PaymentType
     public const GOOGLE_PAY = 'google_pay';
 
     public const APPLE_PAY = 'apple_pay';
+
+    public const VISA_MOBILE = 'visa_mobile';
 }

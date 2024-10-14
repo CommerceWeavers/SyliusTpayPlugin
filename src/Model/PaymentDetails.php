@@ -24,6 +24,7 @@ class PaymentDetails
         private ?string $successUrl = null,
         private ?string $failureUrl = null,
         private ?string $tpayChannelId = null,
+        private ?bool $visaMobile = false,
     ) {
     }
 
@@ -149,6 +150,16 @@ class PaymentDetails
         };
     }
 
+    public function getVisaMobile(): ?bool
+    {
+        return $this->visaMobile;
+    }
+
+    public function setVisaMobile(bool $visaMobile): void
+    {
+        $this->visaMobile = $visaMobile;
+    }
+
     public function clearSensitiveData(): void
     {
         $this->applePayToken = null;
@@ -171,6 +182,7 @@ class PaymentDetails
             $details['tpay']['success_url'] ?? null,
             $details['tpay']['failure_url'] ?? null,
             $details['tpay']['tpay_channel_id'] ?? null,
+            $details['tpay']['visa_mobile'] ?? false,
         );
     }
 
@@ -189,6 +201,7 @@ class PaymentDetails
                 'success_url' => $this->successUrl,
                 'failure_url' => $this->failureUrl,
                 'tpay_channel_id' => $this->tpayChannelId,
+                'visa_mobile' => $this->visaMobile,
             ],
         ];
     }
