@@ -10,6 +10,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateCardTransactionActio
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateGooglePayTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreatePayByLinkTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateRedirectBasedTransactionAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateVisaMobileTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\GetTpayTransactionsChannelsAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\PayWithCardAction;
@@ -19,7 +20,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Action\RefundAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\ResolveNextRouteAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\TpayGatewayFactory;
 
-return function(ContainerConfigurator $container): void {
+return static function(ContainerConfigurator $container): void {
     $services = $container->services();
     $services->defaults()
         ->public()
@@ -70,6 +71,14 @@ return function(ContainerConfigurator $container): void {
             service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_redirect_based_transaction'])
+    ;
+
+    $services->set(CreateVisaMobileTransactionAction::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_visa_mobile_payment_payload'),
+            service('commerce_weavers_sylius_tpay.payum.factory.token.notify'),
+        ])
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.create_visa_mobile_transaction'])
     ;
 
     $services->set(NotifyAction::class)

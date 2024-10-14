@@ -1,0 +1,6 @@
+{% set payment = order.lastCartPayment() %}
+
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'visa-mobile' %}
+    {% dump(form.tpay) %}
+    {{ form_row(form.tpay.visa_mobile) }}
+{% endif %}
