@@ -64,6 +64,14 @@ final class TpayPaymentDetailsType extends AbstractType
                     'property_path' => '[tpay_channel_id]',
                 ],
             )
+            ->add(
+                'visa_mobile',
+                HiddenType::class,
+                [
+                    'property_path' => '[visa_mobile]',
+                    'data' => true,
+                ],
+            )
         ;
 
         $builder->addEventListener(

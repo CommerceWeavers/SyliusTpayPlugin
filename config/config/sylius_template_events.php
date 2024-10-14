@@ -32,6 +32,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'pay-by-link' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_payByLink.html.twig',
                         'priority' => 5,
+                    ],
+                    'visa-mobile' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_visaMobile.html.twig',
+                        'priority' => 5,
                     ]
                 ],
             ],
