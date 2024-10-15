@@ -8,6 +8,7 @@ final class PayByVisaMobile
 {
     public function __construct(
         public readonly int $paymentId,
+        public readonly string $visaMobilePhoneNumber,
     ) {
     }
 }

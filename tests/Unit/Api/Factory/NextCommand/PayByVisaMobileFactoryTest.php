@@ -18,11 +18,11 @@ class PayByVisaMobileFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function test_it_does_not_support_a_command_without_an_visa_mobile_data(): void
+    public function test_it_does_not_support_a_command_without_an_visa_mobile_phone_number(): void
     {
         $factory = $this->createTestSubject();
 
-        $this->assertFalse($factory->supports($this->createCommand(isVisaMobilePayment: false), $this->createPayment()));
+        $this->assertFalse($factory->supports($this->createCommand(), $this->createPayment()));
     }
 
     public function test_it_does_not_support_a_command_without_a_payment_with_id(): void
@@ -32,16 +32,16 @@ class PayByVisaMobileFactoryTest extends TestCase
         $this->assertFalse($factory->supports($this->createCommand(), new Payment()));
     }
 
-    public function test_it_supports_a_command_with_a_visa_mobile_payment_set_as_true(): void
+    public function test_it_supports_a_command_with_a_visa_mobile_phone_number(): void
     {
         $factory = $this->createTestSubject();
 
-        $this->assertTrue($factory->supports($this->createCommand(), $this->createPayment()));
+        $this->assertTrue($factory->supports($this->createCommand(visaMobilePhoneNumber: '44123456789'), $this->createPayment()));
     }
 
     public function test_it_creates_a_pay_by_visa_mobile_command(): void
     {
-        $command = $this->createTestSubject()->create($this->createCommand(), $this->createPayment());
+        $command = $this->createTestSubject()->create($this->createCommand(visaMobilePhoneNumber: '44123456789'), $this->createPayment());
 
         $this->assertInstanceOf(PayByVisaMobile::class, $command);
     }
@@ -53,13 +53,13 @@ class PayByVisaMobileFactoryTest extends TestCase
         $this->createTestSubject()->create($this->createCommand(), new Payment());
     }
 
-    private function createCommand(?string $token = null, bool $isVisaMobilePayment = true): Pay
+    private function createCommand(?string $token = null, ?string $visaMobilePhoneNumber = null): Pay
     {
         return new Pay(
             $token ?? 'token',
             'https://cw.nonexisting/success',
             'https://cw.nonexisting/failure',
-            isVisaMobilePayment: $isVisaMobilePayment,
+            visaMobilePhoneNumber: $visaMobilePhoneNumber,
         );
     }
 

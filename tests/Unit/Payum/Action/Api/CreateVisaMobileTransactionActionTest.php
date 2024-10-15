@@ -39,7 +39,7 @@ class CreateVisaMobileTransactionActionTest extends TestCase
     public function test_it_supports_create_transaction_requests_with_a_valid_payment_model(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile' => true]]);
+        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile_phone_number' => '44123456789']]);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);

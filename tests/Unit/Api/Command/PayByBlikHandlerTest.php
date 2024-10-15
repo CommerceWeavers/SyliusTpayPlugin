@@ -86,7 +86,7 @@ final class PayByBlikHandlerTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
-                'visa_mobile' => false,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 

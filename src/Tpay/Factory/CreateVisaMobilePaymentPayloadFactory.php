@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\PayGroup;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
@@ -20,15 +21,14 @@ final class CreateVisaMobilePaymentPayloadFactory implements CreateVisaMobilePay
         /** @var array{pay: array<string, mixed>} $payload */
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
-        /** @phpstan-param array{tpay?: array{visa_mobile?: bool}} $paymentDetails */
-        $paymentDetails = $payment->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
 
-        Assert::keyExists(
-            $paymentDetails['tpay'],
-            'visa_mobile',
-            'The given payment is not visa mobile payment type.',
+        Assert::notNull(
+            $visaMobilePhoneNumber = $paymentDetails->getVisaMobilePhoneNumber(),
+            'The given payment has no visa mobile phone number.',
         );
 
+        $payload['payer']['phone'] = $visaMobilePhoneNumber;
         $payload['pay']['groupId'] = PayGroup::VISA_MOBILE;
 
         return $payload;

@@ -20,12 +20,14 @@ final class PayByVisaMobileFactory implements NextCommandFactoryInterface
 
         /** @var int $paymentId */
         $paymentId = $payment->getId();
+        /** @var string $visaMobilePhoneNumber */
+        $visaMobilePhoneNumber = $command->visaMobilePhoneNumber;
 
-        return new PayByVisaMobile($paymentId);
+        return new PayByVisaMobile($paymentId, $visaMobilePhoneNumber);
     }
 
     public function supports(Pay $command, PaymentInterface $payment): bool
     {
-        return $command->isVisaMobilePayment === true && $payment->getId() !== null;
+        return $command->visaMobilePhoneNumber !== null && $payment->getId() !== null;
     }
 }

@@ -24,7 +24,7 @@ class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
         $this->setUpOrderPlacer();
     }
 
-    public function test_paying_with_redirect_based_payment_type(): void
+    public function test_paying_with_visa_mobile_based_payment_type(): void
     {
         $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
 
@@ -37,6 +37,9 @@ class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
             content: json_encode([
                 'successUrl' => 'https://example.com/success',
                 'failureUrl' => 'https://example.com/failure',
+                'payer' => [
+                    'phone' => '44123456789',
+                ],
                 'pay' => [
                     'groupId' => PayGroup::VISA_MOBILE,
                 ],

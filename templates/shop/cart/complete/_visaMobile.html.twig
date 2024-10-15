@@ -1,6 +1,14 @@
 {% set payment = order.lastCartPayment() %}
 
 {% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'visa-mobile' %}
-    {% dump(form.tpay) %}
-    {{ form_row(form.tpay.visa_mobile) }}
+    <div class="ui stackable grid">
+        <div class="ui column eight wide">
+            <div class="ui small icon message">
+                <i class="payment icon"></i>
+                <div class="content">
+                    {{ form_row(form.tpay.visa_mobile_phone_number) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endif %}

@@ -26,7 +26,7 @@ class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
     public function test_it_throws_exception_if_payment_visa_mobile_key_is_missing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The given payment is not visa mobile payment type.');
+        $this->expectExceptionMessage('The given payment has no visa mobile phone number.');
 
         $payment = $this->prophesize(PaymentInterface::class);
 
@@ -41,7 +41,7 @@ class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
     {
         $payment = $this->prophesize(PaymentInterface::class);
 
-        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile' => true]]);
+        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile_phone_number' => '44123456789']]);
 
         $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, 'https://cw.org/notify', 'pl_PL')->willReturn(['some' => 'data']);
 
@@ -49,6 +49,9 @@ class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
 
         $this->assertSame([
             'some' => 'data',
+            'payer' => [
+                'phone' => '44123456789',
+            ],
             'pay' => [
                 'groupId' => PayGroup::VISA_MOBILE,
             ],
