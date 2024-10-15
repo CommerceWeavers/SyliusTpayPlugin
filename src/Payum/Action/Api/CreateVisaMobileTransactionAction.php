@@ -23,6 +23,9 @@ final class CreateVisaMobileTransactionAction extends AbstractCreateTransactionA
         parent::__construct();
     }
 
+    /**
+     * @param CreateTransaction $request
+     */
     public function execute($request): void
     {
         /** @var PaymentInterface $model */
@@ -63,7 +66,6 @@ final class CreateVisaMobileTransactionAction extends AbstractCreateTransactionA
 
         $details = $model->getDetails();
 
-        // TODO: Refactor after task #72
         return isset($details['tpay']['visa_mobile']);
     }
 }

@@ -133,7 +133,8 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
                 'payment_url' => 'https://tpay.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => null
+                'tpay_channel_id' => null,
+                'visa_mobile' => false,
             ],
         ])->shouldBeCalled();
 

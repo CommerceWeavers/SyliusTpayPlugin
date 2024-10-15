@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Command;
 
-use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByBlik;
-use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByBlikHandler;
+use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByVisaMobile;
+use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByVisaMobileHandler;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\CreateTransactionFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use Payum\Core\GatewayInterface;
@@ -19,8 +19,9 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\InvalidArgumentException;
 
-final class PayByBlikHandlerTest extends TestCase
+class PayByVisaMobileHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -44,7 +45,7 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn(null);
 
-        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
     }
 
     public function test_it_throws_an_exception_if_a_gateway_name_cannot_be_determined(): void
@@ -59,10 +60,52 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn($payment);
 
-        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
     }
 
-    public function test_it_creates_a_blik_based_transaction(): void
+    public function test_it_throws_an_exception_if_payment_details_does_not_have_a_set_status(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Payment status is required to create a result.');
+
+        $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->getGatewayName()->willReturn('tpay');
+
+        $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+
+        $payment = $this->prophesize(PaymentInterface::class);
+        $payment->getMethod()->willReturn($paymentMethod);
+        $payment->getDetails()->willReturn(['tpay' => ['status' => null]]);
+        $payment->setDetails([
+            'tpay' => [
+                'transaction_id' => null,
+                'result' => null,
+                'status' => null,
+                'blik_token' => null,
+                'google_pay_token' => null,
+                'card' => null,
+                'payment_url' => null,
+                'success_url' => null,
+                'failure_url' => null,
+                'visa_mobile' => true,
+            ],
+        ])->shouldBeCalled();
+
+        $this->paymentRepository->find(1)->willReturn($payment);
+
+        $createTransaction = $this->prophesize(CreateTransaction::class);
+
+        $this->createTransactionFactory->createNewWithModel($payment)->willReturn($createTransaction);
+
+        $gateway = $this->prophesize(GatewayInterface::class);
+
+        $this->payum->getGateway('tpay')->willReturn($gateway);
+
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
+    }
+
+    public function test_it_creates_a_visa_mobile_based_transaction(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
         $gatewayConfig->getGatewayName()->willReturn('tpay');
@@ -72,21 +115,19 @@ final class PayByBlikHandlerTest extends TestCase
 
         $payment = $this->prophesize(PaymentInterface::class);
         $payment->getMethod()->willReturn($paymentMethod);
-        $payment->getDetails()->willReturn([], ['tpay' => ['status' => 'success']]);
+        $payment->getDetails()->willReturn(['tpay' => ['status' => 'pending', 'payment_url' => 'https://cw.org/pay']]);
         $payment->setDetails([
             'tpay' => [
                 'transaction_id' => null,
                 'result' => null,
-                'status' => null,
-                'apple_pay_token' => null,
-                'blik_token' => '777123',
+                'status' => 'pending',
+                'blik_token' => null,
                 'google_pay_token' => null,
                 'card' => null,
-                'payment_url' => null,
+                'payment_url' => 'https://cw.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => null,
-                'visa_mobile' => false,
+                'visa_mobile' => true,
             ],
         ])->shouldBeCalled();
 
@@ -101,14 +142,15 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->payum->getGateway('tpay')->willReturn($gateway);
 
-        $result = $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $result = $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
 
-        self::assertSame('success', $result->status);
+        self::assertSame('pending', $result->status);
+        self::assertSame('https://cw.org/pay', $result->transactionPaymentUrl);
     }
 
-    private function createTestSubject(): PayByBlikHandler
+    private function createTestSubject(): PayByVisaMobileHandler
     {
-        return new PayByBlikHandler(
+        return new PayByVisaMobileHandler(
             $this->paymentRepository->reveal(),
             $this->payum->reveal(),
             $this->createTransactionFactory->reveal(),

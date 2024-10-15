@@ -122,6 +122,7 @@ final class CreateGooglePayTransactionActionTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
+                'visa_mobile' => false,
             ],
         ])->shouldBeCalled();
     }
@@ -167,6 +168,7 @@ final class CreateGooglePayTransactionActionTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
+                'visa_mobile' => false,
             ],
         ])->shouldBeCalled();
 
@@ -249,6 +251,7 @@ final class CreateGooglePayTransactionActionTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
+                'visa_mobile' => false,
             ],
         ])->shouldBeCalled();
     }
