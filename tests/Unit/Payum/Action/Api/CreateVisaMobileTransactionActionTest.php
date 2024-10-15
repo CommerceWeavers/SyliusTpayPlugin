@@ -20,18 +20,18 @@ class CreateVisaMobileTransactionActionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private TpayApi|ObjectProphecy $tpayApi;
+    private TpayApi|ObjectProphecy $api;
 
     private CreateVisaMobilePaymentPayloadFactoryInterface|ObjectProphecy $createVisaMobilePaymentPayloadFactory;
 
-    private GenericTokenFactoryInterface|ObjectProphecy $tokenFactoryInterface;
+    private GenericTokenFactoryInterface|ObjectProphecy $tokenFactory;
 
-    private NotifyTokenFactoryInterface|ObjectProphecy $notifyTokenFactoryInterface;
+    private NotifyTokenFactoryInterface|ObjectProphecy $notifyTokenFactory;
 
     protected function setUp(): void
     {
         $this->api = $this->prophesize(TpayApi::class);
-        $this->createRedirectBasedPaymentPayloadFactory = $this->prophesize(CreateVisaMobilePaymentPayloadFactoryInterface::class);
+        $this->createVisaMobilePaymentPayloadFactory = $this->prophesize(CreateVisaMobilePaymentPayloadFactoryInterface::class);
         $this->tokenFactory = $this->prophesize(GenericTokenFactoryInterface::class);
         $this->notifyTokenFactory = $this->prophesize(NotifyTokenFactoryInterface::class);
     }
@@ -39,7 +39,7 @@ class CreateVisaMobileTransactionActionTest extends TestCase
     public function test_it_supports_create_transaction_requests_with_a_valid_payment_model(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn([]);
+        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile' => true]]);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);
@@ -66,7 +66,7 @@ class CreateVisaMobileTransactionActionTest extends TestCase
     {
         $action = new CreateVisaMobileTransactionAction(
             $this->createVisaMobilePaymentPayloadFactory->reveal(),
-            $this->notifyTokenFactoryInterface->reveal(),
+            $this->notifyTokenFactory->reveal(),
         );
 
         $action->setApi($this->api->reveal());

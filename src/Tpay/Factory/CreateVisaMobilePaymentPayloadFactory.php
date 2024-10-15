@@ -20,11 +20,13 @@ final class CreateVisaMobilePaymentPayloadFactory implements CreateVisaMobilePay
         /** @var array{pay: array<string, mixed>} $payload */
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
-        /** @var array{tpay?: array{visa_mobile?: string}} $paymentDetails */
+        /** @phpstan-param array{tpay?: array{visa_mobile?: bool}} $paymentDetails */
         $paymentDetails = $payment->getDetails();
 
-        Assert::keyExists($paymentDetails['tpay'], 'visa_mobile',
-            'The given payment is not visa mobile payment type.'
+        Assert::keyExists(
+            $paymentDetails['tpay'],
+            'visa_mobile',
+            'The given payment is not visa mobile payment type.',
         );
 
         $payload['pay']['groupId'] = PayGroup::VISA_MOBILE;

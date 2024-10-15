@@ -82,6 +82,7 @@ final class PayHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => 'https://cw.nonexisting/success',
                 'failure_url' => 'https://cw.nonexisting/failure',
+                'visa_mobile' => false,
             ],
         ])->shouldBeCalled();
 
