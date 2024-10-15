@@ -7,6 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\EncodedGooglePayToken;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -65,11 +66,10 @@ final class TpayPaymentDetailsType extends AbstractType
                 ],
             )
             ->add(
-                'visa_mobile',
-                HiddenType::class,
+                'visa_mobile_phone_number',
+                TelType::class,
                 [
-                    'property_path' => '[visa_mobile]',
-                    'data' => true,
+                    'property_path' => '[visa_mobile_phone_number]',
                 ],
             )
         ;

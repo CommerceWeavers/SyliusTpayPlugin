@@ -20,7 +20,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldNotBeCalled();
         $form->remove('tpay_channel_id')->shouldBeCalled()->willReturn($form);
-        $form->remove('visa_mobile')->shouldBeCalled()->willReturn($form);
+        $form->remove('visa_mobile_phone_number')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), ['blik_token' => '123456']);
 
@@ -33,7 +33,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
         $form->remove('card')->shouldNotBeCalled();
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
         $form->remove('tpay_channel_id')->shouldBeCalled()->willReturn($form);
-        $form->remove('visa_mobile')->shouldBeCalled()->willReturn($form);
+        $form->remove('visa_mobile_phone_number')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), ['card' => 'h45h']);
 
@@ -46,7 +46,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
         $form->remove('tpay_channel_id')->shouldNotBeCalled();
-        $form->remove('visa_mobile')->shouldBeCalled()->willReturn($form);
+        $form->remove('visa_mobile_phone_number')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), ['tpay_channel_id' => 1]);
 
@@ -59,9 +59,9 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
         $form->remove('tpay_channel_id')->shouldBeCalled()->willReturn($form);
-        $form->remove('visa_mobile')->shouldNotBeCalled();
+        $form->remove('visa_mobile_phone_number')->shouldNotBeCalled();
 
-        $event = new FormEvent($form->reveal(), ['visa_mobile' => true]);
+        $event = new FormEvent($form->reveal(), ['visa_mobile_phone_number' => true]);
 
         $this->createTestSubject()->__invoke($event);
     }
@@ -72,7 +72,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListenerTest extends TestCase
         $form->remove('card')->shouldBeCalled()->willReturn($form);
         $form->remove('blik_token')->shouldBeCalled()->willReturn($form);
         $form->remove('tpay_channel_id')->shouldBeCalled()->willReturn($form);
-        $form->remove('visa_mobile')->shouldBeCalled()->willReturn($form);
+        $form->remove('visa_mobile_phone_number')->shouldBeCalled()->willReturn($form);
 
         $event = new FormEvent($form->reveal(), []);
 

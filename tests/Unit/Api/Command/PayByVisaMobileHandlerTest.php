@@ -45,7 +45,7 @@ class PayByVisaMobileHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn(null);
 
-        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1, visaMobilePhoneNumber: '44123456789'));
     }
 
     public function test_it_throws_an_exception_if_a_gateway_name_cannot_be_determined(): void
@@ -60,7 +60,7 @@ class PayByVisaMobileHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn($payment);
 
-        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1, visaMobilePhoneNumber: '44123456789'));
     }
 
     public function test_it_throws_an_exception_if_payment_details_does_not_have_a_set_status(): void
@@ -88,7 +88,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
-                'visa_mobile' => true,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 
@@ -102,7 +102,7 @@ class PayByVisaMobileHandlerTest extends TestCase
 
         $this->payum->getGateway('tpay')->willReturn($gateway);
 
-        $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
+        $this->createTestSubject()->__invoke(new PayByVisaMobile(1, visaMobilePhoneNumber: '44123456789'));
     }
 
     public function test_it_creates_a_visa_mobile_based_transaction(): void
@@ -115,7 +115,7 @@ class PayByVisaMobileHandlerTest extends TestCase
 
         $payment = $this->prophesize(PaymentInterface::class);
         $payment->getMethod()->willReturn($paymentMethod);
-        $payment->getDetails()->willReturn(['tpay' => ['status' => 'pending', 'payment_url' => 'https://cw.org/pay']]);
+        $payment->getDetails()->willReturn(['tpay' => ['status' => 'pending', 'payment_url' => 'https://cw.org/pay', 'visa_mobile_phone_number' => '44123456789']]);
         $payment->setDetails([
             'tpay' => [
                 'transaction_id' => null,
@@ -127,7 +127,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'payment_url' => 'https://cw.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
-                'visa_mobile' => true,
+                'visa_mobile_phone_number' => '44123456789',
             ],
         ])->shouldBeCalled();
 
@@ -142,7 +142,7 @@ class PayByVisaMobileHandlerTest extends TestCase
 
         $this->payum->getGateway('tpay')->willReturn($gateway);
 
-        $result = $this->createTestSubject()->__invoke(new PayByVisaMobile(1));
+        $result = $this->createTestSubject()->__invoke(new PayByVisaMobile(1, visaMobilePhoneNumber: '44123456789'));
 
         self::assertSame('pending', $result->status);
         self::assertSame('https://cw.org/pay', $result->transactionPaymentUrl);

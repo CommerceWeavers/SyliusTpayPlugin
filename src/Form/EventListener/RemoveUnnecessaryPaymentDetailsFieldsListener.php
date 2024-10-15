@@ -26,8 +26,8 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
             $form->remove('tpay_channel_id');
         }
 
-        if (!isset($data['visa_mobile'])) {
-            $form->remove('visa_mobile');
+        if (!isset($data['visa_mobile_phone_number'])) {
+            $form->remove('visa_mobile_phone_number');
         }
     }
 }

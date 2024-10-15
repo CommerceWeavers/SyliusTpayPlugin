@@ -25,7 +25,7 @@ final class PayByVisaMobileHandler extends AbstractPayByHandler
     private function setTransactionData(PaymentInterface $payment): void
     {
         $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
-        $paymentDetails->setVisaMobile(true);
+        $paymentDetails->setVisaMobilePhoneNumber($paymentDetails->getVisaMobilePhoneNumber());
 
         $payment->setDetails($paymentDetails->toArray());
     }
