@@ -90,7 +90,8 @@ final class PayByLinkHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => '1'
+                'tpay_channel_id' => '1',
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 
@@ -131,7 +132,8 @@ final class PayByLinkHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => '1'
+                'tpay_channel_id' => '1',
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 

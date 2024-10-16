@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -58,8 +59,8 @@ final class CreateVisaMobileTransactionAction extends AbstractCreateTransactionA
             return false;
         }
 
-        $details = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return isset($details['tpay']['visa_mobile_phone_number']);
+        return $paymentDetails->getType() === PaymentType::VISA_MOBILE;
     }
 }

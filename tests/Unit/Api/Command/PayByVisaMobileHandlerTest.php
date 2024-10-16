@@ -88,6 +88,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
+                'tpay_channel_id' => null,
                 'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
@@ -127,6 +128,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'payment_url' => 'https://cw.org/pay',
                 'success_url' => null,
                 'failure_url' => null,
+                'tpay_channel_id' => null,
                 'visa_mobile_phone_number' => '44123456789',
             ],
         ])->shouldBeCalled();

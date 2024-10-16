@@ -1,6 +1,6 @@
 {% set payment = order.lastCartPayment() %}
 
-{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'visa-mobile' %}
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'visa_mobile' %}
     <div class="ui stackable grid">
         <div class="ui column eight wide">
             <div class="ui small icon message">
@@ -12,8 +12,8 @@
                             {{ form_widget(form.tpay.visa_mobile_phone_number, {
                                 attr: {
                                     'data-locale': app.request.locale|slice(3, 2),
-                                    'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.number'|trans({}, 'validators'),
-                                    'data-visa-mobile-phone-number': ''
+                                    'data-validation-error-length': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.length'|trans({}, 'validators'),
+                                    'data-validation-error-required': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.required'|trans({}, 'validators'),
                                 }
                             }) }}
                         </div>

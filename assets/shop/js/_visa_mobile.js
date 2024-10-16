@@ -1,26 +1,11 @@
-import 'intl-tel-input/build/css/intlTelInput.css';
-
-import intlTelInput from 'intl-tel-input';
-
-const inputElement = '#sylius_checkout_complete_tpay_visa_mobile_phone_number';
-
-const input = document.querySelector(inputElement);
-const locale = input.dataset.locale;
-
-const iti = intlTelInput(input, {
-  initialCountry: locale,
-  strictMode: true,
-  nationalMode: true,
-  utilsScript: "/intl-tel-input/js/utils.js?1727952657388",
-  loadUtilsOnInit: () => import("intl-tel-input/utils"),
-});
-
 document.addEventListener('DOMContentLoaded', () => {
+  const COUNTRY_CODED_MOBILE_PHONE_LENGTH = 11;
+
   let form = document.querySelector('[name="sylius_checkout_complete"]');
   let phoneNumber = form.querySelector('[data-visa-mobile-phone-number]');
 
   form.addEventListener('submit', (event) => {
-    validateVisaMobilePhoneNumber();
+    validateVisaMobilePhoneNumber(phoneNumber);
 
     const isValid = form.querySelectorAll('.sylius-validation-error').length === 0;
 
@@ -33,14 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    phoneNumber.value = iti.getNumber().replace(/\D/g, '');
 
     form.submit();
   });
 
-  function validateVisaMobilePhoneNumber() {
-      if (iti.isValidNumber()) {
+  function validateVisaMobilePhoneNumber(field) {
+      let fieldLength = field.value.length;
+
+      if (fieldLength === COUNTRY_CODED_MOBILE_PHONE_LENGTH) {
         clearErrors(phoneNumber);
+        return;
+      }
+
+      if (fieldLength === 0) {
+        addError(phoneNumber, 'validationErrorRequired');
         return;
       }
 
@@ -54,15 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
     errorContainer.innerHTML = '';
   }
 
-  function addError(field) {
+  function addError(field, validationErrorName = 'validationErrorLength') {
     const tpayField = field.closest('[data-tpay-field]');
     const errorContainer = tpayField.querySelector('[data-tpay-error-container]');
 
-    errorContainer.innerHTML = createErrorElement(field);
+    errorContainer.innerHTML = createErrorElement(field, validationErrorName);
   }
 
-  function createErrorElement(field) {
-    const errorMessage = field.dataset.validationError;
+  function createErrorElement(field, validationErrorName = 'validationErrorLength') {
+    const errorMessage = field.dataset[validationErrorName];
 
     return `
     <div class="ui red pointing label sylius-validation-error">
