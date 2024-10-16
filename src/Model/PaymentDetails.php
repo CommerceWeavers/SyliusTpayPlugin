@@ -146,6 +146,7 @@ class PaymentDetails
             null !== $this->getTpayChannelId() => PaymentType::PAY_BY_LINK,
             null !== $this->getGooglePayToken() => PaymentType::GOOGLE_PAY,
             null !== $this->getApplePayToken() => PaymentType::APPLE_PAY,
+            null !== $this->getVisaMobilePhoneNumber() => PaymentType::VISA_MOBILE,
             default => PaymentType::REDIRECT,
         };
     }

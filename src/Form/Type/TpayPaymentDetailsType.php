@@ -70,6 +70,10 @@ final class TpayPaymentDetailsType extends AbstractType
                 TelType::class,
                 [
                     'property_path' => '[visa_mobile_phone_number]',
+                    'attr' => [
+                        'placeholder' => 'commerce_weavers_sylius_tpay.shop.order_summary.visa_mobile.placeholder',
+                        'maxLength' => 11,
+                    ],
                 ],
             )
         ;

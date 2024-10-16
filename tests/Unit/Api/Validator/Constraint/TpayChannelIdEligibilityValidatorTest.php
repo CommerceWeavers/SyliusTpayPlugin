@@ -87,7 +87,7 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     public function test_it_builds_violation_if_tpay_channel_id_does_not_exist(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getConfig()->willReturn(['type' => 'pay-by-link']);
+        $gatewayConfig->getConfig()->willReturn(['type' => 'pay_by_link']);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
@@ -111,7 +111,7 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     public function test_it_builds_violation_if_tpay_channel_id_is_not_available(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getConfig()->willReturn(['type' => 'pay-by-link']);
+        $gatewayConfig->getConfig()->willReturn(['type' => 'pay_by_link']);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
@@ -132,7 +132,7 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     public function test_it_builds_violation_if_tpay_channel_id_is_not_a_bank(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getConfig()->willReturn(['type' => 'pay-by-link']);
+        $gatewayConfig->getConfig()->willReturn(['type' => 'pay_by_link']);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
@@ -160,7 +160,7 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     public function test_it_does_nothing_if_tpay_channel_id_is_eligible(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getConfig()->willReturn(['type' => 'pay-by-link']);
+        $gatewayConfig->getConfig()->willReturn(['type' => 'pay_by_link']);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());

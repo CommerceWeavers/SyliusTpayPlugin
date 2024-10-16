@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\ContextProvider;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterface;
 use Sylius\Bundle\UiBundle\ContextProvider\ContextProviderInterface;
 use Sylius\Bundle\UiBundle\Registry\TemplateBlock;
@@ -32,7 +33,7 @@ final class BankListContextProvider implements ContextProviderInterface
         $paymentMethod = $payment->getMethod();
         Assert::isInstanceOf($paymentMethod, PaymentMethodInterface::class);
 
-        if (($paymentMethod->getGatewayConfig()?->getConfig()['type'] ?? null) === 'pay-by-link') {
+        if (($paymentMethod->getGatewayConfig()?->getConfig()['type'] ?? null) === PaymentType::PAY_BY_LINK) {
             $templateContext['banks'] = $this->bankListProvider->provide();
         }
 

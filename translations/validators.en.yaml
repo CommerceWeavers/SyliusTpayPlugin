@@ -24,5 +24,4 @@ commerce_weavers_sylius_tpay:
                 name: 'The cardholder name is required.'
             visa_mobile:
                 required: 'The mobile phone number is required.'
-                number: 'The mobile phone number is not valid.'
                 length: 'The mobile phone must be composed of 11 digits (national code and phone number).'
