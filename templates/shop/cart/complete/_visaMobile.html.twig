@@ -6,7 +6,19 @@
             <div class="ui small icon message">
                 <i class="payment icon"></i>
                 <div class="content">
-                    {{ form_row(form.tpay.visa_mobile_phone_number) }}
+                    <div class="field required" data-tpay-field>
+                        {{ form_label(form.tpay.visa_mobile_phone_number) }}
+                        <div class="field">
+                            {{ form_widget(form.tpay.visa_mobile_phone_number, {
+                                attr: {
+                                    'data-locale': app.request.locale|slice(3, 2),
+                                    'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.number'|trans({}, 'validators'),
+                                    'data-visa-mobile-phone-number': ''
+                                }
+                            }) }}
+                        </div>
+                        <div data-tpay-error-container></div>
+                    </div>
                 </div>
             </div>
         </div>
