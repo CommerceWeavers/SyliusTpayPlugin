@@ -7,6 +7,14 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('sylius_ui', [
         'events' => [
+            'cw.tpay.shop.checkout.complete.navigation' => [
+                'blocks' => [
+                    'google_pay' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_google_pay.html.twig',
+                        'priority' => 5,
+                    ],
+                ],
+            ],
             'cw.tpay.shop.select_payment.choice_item_form' => [
                 'blocks' => [
                     'blik' => [
