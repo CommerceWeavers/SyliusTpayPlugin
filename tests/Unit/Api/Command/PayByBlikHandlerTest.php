@@ -44,7 +44,7 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn(null);
 
-        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123', true));
     }
 
     public function test_it_throws_an_exception_if_a_gateway_name_cannot_be_determined(): void
@@ -59,7 +59,7 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->paymentRepository->find(1)->willReturn($payment);
 
-        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $this->createTestSubject()->__invoke(new PayByBlik(1, '777123', false));
     }
 
     public function test_it_creates_a_blik_based_transaction(): void
@@ -80,6 +80,7 @@ final class PayByBlikHandlerTest extends TestCase
                 'status' => null,
                 'apple_pay_token' => null,
                 'blik_token' => '777123',
+                'blik_save_alias' => true,
                 'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => null,
@@ -101,7 +102,7 @@ final class PayByBlikHandlerTest extends TestCase
 
         $this->payum->getGateway('tpay')->willReturn($gateway);
 
-        $result = $this->createTestSubject()->__invoke(new PayByBlik(1, '777123'));
+        $result = $this->createTestSubject()->__invoke(new PayByBlik(1, '777123', true));
 
         self::assertSame('success', $result->status);
     }

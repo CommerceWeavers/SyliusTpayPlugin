@@ -16,6 +16,7 @@ class PaymentDetails
         private ?string $applePayToken = null,
         #[\SensitiveParameter]
         private ?string $blikToken = null,
+        private ?bool $blikSaveAlias = null,
         #[\SensitiveParameter]
         private ?string $googlePayToken = null,
         #[\SensitiveParameter]
@@ -77,6 +78,16 @@ class PaymentDetails
     public function setBlikToken(string $blikToken): void
     {
         $this->blikToken = $blikToken;
+    }
+
+    public function isBlikSaveAlias(): ?bool
+    {
+        return $this->blikSaveAlias;
+    }
+
+    public function setBlikSaveAlias(bool $saveAlias): void
+    {
+        $this->blikSaveAlias = $saveAlias;
     }
 
     public function getGooglePayToken(): ?string
@@ -178,6 +189,7 @@ class PaymentDetails
             $details['tpay']['status'] ?? null,
             $details['tpay']['apple_pay_token'] ?? null,
             $details['tpay']['blik_token'] ?? null,
+            $details['tpay']['blik_save_alias'] ?? null,
             $details['tpay']['google_pay_token'] ?? null,
             $details['tpay']['card'] ?? null,
             $details['tpay']['payment_url'] ?? null,
@@ -197,6 +209,7 @@ class PaymentDetails
                 'status' => $this->status,
                 'apple_pay_token' => $this->applePayToken,
                 'blik_token' => $this->blikToken,
+                'blik_save_alias' => $this->blikSaveAlias,
                 'google_pay_token' => $this->googlePayToken,
                 'card' => $this->encodedCardData,
                 'payment_url' => $this->paymentUrl,

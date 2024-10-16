@@ -54,13 +54,23 @@ final class PayByBlikFactoryTest extends TestCase
         $this->assertSame('777123', $command->blikToken);
     }
 
-    private function createCommand(?string $token = null, ?string $blikToken = null): Pay
+    public function test_it_creates_a_pay_by_blik_command_with_save_alias(): void
+    {
+        $command = $this->createTestSubject()->create($this->createCommand(blikToken: '777123', blikSaveAlias: true), $this->createPayment());
+
+        $this->assertInstanceOf(PayByBlik::class, $command);
+        $this->assertSame('777123', $command->blikToken);
+        $this->assertTrue($command->blikSaveAlias);
+    }
+
+    private function createCommand(?string $token = null, ?string $blikToken = null, bool $blikSaveAlias = false): Pay
     {
         return new Pay(
             $token ?? 'token',
             'https://cw.nonexisting/success',
             'https://cw.nonexisting/failure',
             blikToken: $blikToken,
+            blikSaveAlias: $blikSaveAlias,
         );
     }
 

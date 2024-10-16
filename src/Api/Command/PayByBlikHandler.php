@@ -15,16 +15,17 @@ final class PayByBlikHandler extends AbstractPayByHandler
     {
         $payment = $this->findOr404($command->paymentId);
 
-        $this->setTransactionData($payment, $command->blikToken);
+        $this->setTransactionData($payment, $command);
         $this->createTransaction($payment);
 
         return $this->createResultFrom($payment, isRedirectedBased: false);
     }
 
-    private function setTransactionData(PaymentInterface $payment, string $blikToken): void
+    private function setTransactionData(PaymentInterface $payment, PayByBlik $payByBlik): void
     {
         $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
-        $paymentDetails->setBlikToken($blikToken);
+        $paymentDetails->setBlikToken($payByBlik->blikToken);
+        $paymentDetails->setBlikSaveAlias($payByBlik->blikSaveAlias);
 
         $payment->setDetails($paymentDetails->toArray());
     }
