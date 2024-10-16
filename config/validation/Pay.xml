@@ -63,5 +63,21 @@
                 </option>
             </constraint>
         </property>
+        <property name="visaMobilePhoneNumber">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">visa_mobile</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile_phone_number.required</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="value">11</option>
+                <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile_phone_number.length</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+        </property>
     </class>
 </constraint-mapping>

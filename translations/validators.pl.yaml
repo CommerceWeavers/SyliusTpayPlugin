@@ -23,3 +23,7 @@ commerce_weavers_sylius_tpay:
                 expiration_year: 'Rok ważności musi być bieżący lub późniejszy.'
                 number: 'Numer karty musi składać się z 16 cyfr.'
                 name: 'Imię i nazwisko właściciela karty są wymagane.'
+            visa_mobile:
+                number: 'Numer telefonu nie jest prawidłowy.'
+                required: 'Numer telefonu jest wymagany.'
+                length: 'Numer telefonu musi składać się z 11 cyfr (numer kierunkowy oraz numer telefonu).'
