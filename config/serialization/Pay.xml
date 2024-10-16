@@ -25,6 +25,9 @@
         <attribute name="blikToken">
             <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
+        <attribute name="blikSaveAlias">
+            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+        </attribute>
         <attribute name="googlePayToken">
             <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
