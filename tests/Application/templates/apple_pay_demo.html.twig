@@ -1,0 +1,136 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block content %}
+    <h1>Apple Pay Payment Token Generator</h1>
+    <form class="ui form">
+        <div class="field">
+            <label>Order Total Amount</label>
+            <input type="number" name="amount" placeholder="Amount" data-amount>
+        </div>
+        <div class="field">
+            <label>Apple Merchant Identifier</label>
+            <input type="text" name="apple-pay-merchant-id" placeholder="Apple Merchant Identifier" data-merchant-identifier>
+        </div>
+        <div class="field">
+            <apple-pay-button data-apple-pay-button buttonstyle="black" type="plain" onclick="onApplePayButtonClicked()" locale="pl-PL"></apple-pay-button>
+        </div>
+        <div class="field">
+            <label>Generated payment token</label>
+            <textarea name="apple-pay-token" data-apple-pay-token-input disabled></textarea>
+        </div>
+    </form>
+
+    <script crossorigin src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
+    <script>
+        async function onApplePayButtonClicked() {
+            if (!PaymentRequest) {
+                return;
+            }
+
+            const amount = document.querySelector('[data-amount]').value;
+            const merchantIdentifier = document.querySelector('[data-merchant-identifier]').value;
+
+            try {
+                const paymentMethodData = [{
+                    "supportedMethods": "https://apple.com/apple-pay",
+                    "data": {
+                        "version": 3,
+                        "merchantIdentifier": merchantIdentifier,
+                        "merchantCapabilities": [
+                            "supports3DS"
+                        ],
+                        "supportedNetworks": [
+                            "masterCard",
+                            "visa"
+                        ],
+                        "countryCode": "PL"
+                    }
+                }];
+
+                console.log(paymentMethodData);
+
+                // Define PaymentDetails
+                const paymentDetails = {
+                    "total": {
+                        "label": "Demo (Card is not charged)",
+                        "amount": {
+                            "value": amount / 100,
+                            "currency": "PLN"
+                        }
+                    }
+                };
+                // Define PaymentOptions
+                const paymentOptions = {
+                    "requestPayerName": false,
+                    "requestBillingAddress": false,
+                    "requestPayerEmail": false,
+                    "requestPayerPhone": false,
+                    "requestShipping": false,
+                    "shippingType": "shipping"
+                };
+
+                // Create PaymentRequest
+                const request = new PaymentRequest(paymentMethodData, paymentDetails, paymentOptions);
+
+                request.onmerchantvalidation = async event => {
+                    await fetch('/en_US/tpay/apple-pay/init', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            domainName: window.location.hostname,
+                            displayName: 'Demo Payment',
+                            validationUrl: event.validationURL,
+                        })
+                    }).then(async response => {
+                        if (response.status === 200) {
+                            const result = await response.json();
+
+                            event.complete(JSON.parse(atob(result.session)));
+                        }
+                    });
+                };
+
+                request.onpaymentmethodchange = event => {
+                    if (event.methodDetails.type !== undefined) {
+                        // Define PaymentDetailsUpdate based on the selected payment method.
+                        // No updates or errors needed, pass an object with the same total.
+                        const paymentDetailsUpdate = {
+                            'total': paymentDetails.total
+                        };
+                        event.updateWith(paymentDetailsUpdate);
+                    } else if (event.methodDetails.couponCode !== undefined) {
+                        // Define PaymentDetailsUpdate based on the coupon code.
+                        const total = calculateTotal(event.methodDetails.couponCode);
+                        const displayItems = calculateDisplayItem(event.methodDetails.couponCode);
+                        const shippingOptions = calculateShippingOptions(event.methodDetails.couponCode);
+                        const error = calculateError(event.methodDetails.couponCode);
+
+                        event.updateWith({
+                            total: total,
+                            displayItems: displayItems,
+                            shippingOptions: shippingOptions,
+                            modifiers: [
+                                {
+                                    data: {
+                                        additionalShippingMethods: shippingOptions,
+                                    },
+                                },
+                            ],
+                            error: error,
+                        });
+                    }
+                };
+
+                const response = await request.show();
+                const status = "success";
+                await response.complete(status);
+
+                document.querySelector('[data-apple-pay-token-input]').value = btoa(JSON.stringify(response.details.token.paymentData));
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+{% endblock %}
