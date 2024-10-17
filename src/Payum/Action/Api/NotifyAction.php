@@ -6,6 +6,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Factory\BasicPaymentFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\ChecksumVerifierInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifierInterface;
@@ -52,18 +53,9 @@ final class NotifyAction extends BaseApiAwareAction implements GatewayAwareInter
             throw new HttpResponse('FALSE - Invalid signature', 400);
         }
 
-        /** @var string $status */
-        $status = $paymentData->tr_status;
-
-        $newPaymentStatus = match (true) {
-            str_contains($status, 'TRUE') => PaymentInterface::STATE_COMPLETED,
-            str_contains($status, 'CHARGEBACK') => PaymentInterface::STATE_REFUNDED,
-            default => PaymentInterface::STATE_FAILED,
-        };
-
-        $paymentDetails->setStatus($newPaymentStatus);
-
         $model->setDetails($paymentDetails->toArray());
+
+        $this->gateway->execute(new NotifyTransaction($model, $paymentData));
     }
 
     public function supports($request): bool
