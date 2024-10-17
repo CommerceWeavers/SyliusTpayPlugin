@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Payum\Action\Api;
 
-use CommerceWeavers\SyliusTpayPlugin\Model\BlikAliasInterface;
+use CommerceWeavers\SyliusTpayPlugin\Entity\BlikAliasInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAliasRegisterAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify\NotifyData;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasRegister;
