@@ -14,7 +14,7 @@ use Payum\Core\Security\HttpRequestVerifierInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class PaymentNotificationAction
+final class TpayNotificationAction
 {
     public function __construct(
         private readonly Payum $payum,

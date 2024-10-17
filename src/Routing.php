@@ -6,9 +6,9 @@ namespace CommerceWeavers\SyliusTpayPlugin;
 
 final class Routing
 {
-    public const WEBHOOK_PAYMENT_NOTIFICATION = 'commerce_weavers_sylius_tpay_payment_notification';
+    public const WEBHOOK_TPAY_NOTIFICATION = 'commerce_weavers_sylius_tpay_notification';
 
-    public const WEBHOOK_PAYMENT_NOTIFICATION_PATH = '/webhook/{_locale}/tpay/payment-notification';
+    public const WEBHOOK_TPAY_NOTIFICATION_PATH = '/webhook/{_locale}/tpay/notification';
 
     public const SHOP_PAYMENT_FAILED = 'commerce_weavers_sylius_tpay_payment_failed';
 
