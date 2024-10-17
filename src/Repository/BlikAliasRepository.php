@@ -12,7 +12,7 @@ final class BlikAliasRepository extends EntityRepository implements BlikAliasRep
 {
     public function findOneByCustomer(CustomerInterface $customer): ?BlikAliasInterface
     {
-        /** @phpstan-var BlikAliasInterface|null $blikAlias */
+        /** @phpstan-var BlikAliasInterface|null */
         return $this->createQueryBuilder('o')
             ->andWhere('o.customer = :customer')
             ->setParameter('customer', $customer)

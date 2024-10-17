@@ -20,8 +20,8 @@ final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransacti
     use GenericTokenFactoryAwareTrait;
 
     public function __construct(
-        private CreateBlikLevelZeroPaymentPayloadFactoryInterface $createBlikLevelZeroPaymentPayloadFactory,
-        private NotifyTokenFactoryInterface $notifyTokenFactory,
+        private readonly CreateBlikLevelZeroPaymentPayloadFactoryInterface $createBlikLevelZeroPaymentPayloadFactory,
+        private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
     ) {
         parent::__construct();
     }
@@ -62,8 +62,8 @@ final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransacti
             return false;
         }
 
-        $details = $model->getDetails();
+        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return isset($details['tpay']['blik_token']);
+        return $paymentDetails->isBlik();
     }
 }

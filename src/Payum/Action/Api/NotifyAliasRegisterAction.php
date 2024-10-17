@@ -15,7 +15,7 @@ final class NotifyAliasRegisterAction implements ActionInterface
 {
     public function __construct(
         private readonly BlikAliasResolverInterface $blikAliasResolver,
-        private readonly ObjectManager $objectManager,
+        private readonly ObjectManager $blikAliasManager,
     ) {
     }
 
@@ -27,9 +27,8 @@ final class NotifyAliasRegisterAction implements ActionInterface
         /** @var PaymentInterface $model */
         $model = $request->getModel();
         $data = $request->getData();
-        $content = json_decode($data->requestContent, true);
-
         /** @var array{msg_value?: array{value?: string, expirationDate?: string}} $content */
+        $content = json_decode($data->requestContent, true);
         $msgValue = $content['msg_value'] ?? throw new \InvalidArgumentException('The msg_value is missing.');
         $aliasValue = $msgValue['value'] ?? throw new \InvalidArgumentException('The msg_value.value is missing.');
         $aliasExpirationDate = $msgValue['expirationDate'] ?? throw new \InvalidArgumentException('The msg_value.expirationDate is missing.');
@@ -41,7 +40,7 @@ final class NotifyAliasRegisterAction implements ActionInterface
         $blikAlias->setValue($aliasValue);
         $blikAlias->setExpirationDate(new \DateTimeImmutable($aliasExpirationDate));
 
-        $this->objectManager->persist($blikAlias);
+        $this->blikAliasManager->persist($blikAlias);
     }
 
     public function supports($request): bool

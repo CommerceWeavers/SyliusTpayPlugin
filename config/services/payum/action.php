@@ -11,6 +11,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreatePayByLinkTransaction
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\CreateRedirectBasedTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\GetTpayTransactionsChannelsAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAliasRegisterAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\PayWithCardAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\CaptureAction;
@@ -66,14 +67,24 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(NotifyAction::class)
         ->args([
-            service('commerce_weavers_sylius_tpay.tpay.security.notification.factory.basic_payment'),
-            service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.checksum'),
             service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature'),
         ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.notify'])
     ;
 
+    $services->set(NotifyAliasRegisterAction::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.resolver.blik_alias'),
+            service('commerce_weavers_sylius_tpay.manager.blik_alias'),
+        ])
+        ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.notify_alias_register'])
+    ;
+
     $services->set(NotifyTransactionAction::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.factory.basic_payment'),
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.checksum'),
+        ])
         ->tag('payum.action', ['factory' => TpayGatewayFactory::NAME, 'alias' => 'cw.tpay.notify_transaction'])
     ;
 

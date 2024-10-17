@@ -13,6 +13,7 @@ class PaymentDetails
         #[\SensitiveParameter]
         private ?string $blikToken = null,
         private ?bool $blikSaveAlias = null,
+        private ?bool $blikUseAlias = null,
         #[\SensitiveParameter]
         private ?string $googlePayToken = null,
         #[\SensitiveParameter]
@@ -58,7 +59,7 @@ class PaymentDetails
         return $this->blikToken;
     }
 
-    public function setBlikToken(string $blikToken): void
+    public function setBlikToken(?string $blikToken): void
     {
         $this->blikToken = $blikToken;
     }
@@ -71,6 +72,16 @@ class PaymentDetails
     public function setBlikSaveAlias(bool $saveAlias): void
     {
         $this->blikSaveAlias = $saveAlias;
+    }
+
+    public function isBlikUseAlias(): ?bool
+    {
+        return $this->blikUseAlias;
+    }
+
+    public function setBlikUseAlias(bool $useAlias): void
+    {
+        $this->blikUseAlias = $useAlias;
     }
 
     public function getGooglePayToken(): ?string
@@ -130,6 +141,11 @@ class PaymentDetails
         $this->encodedCardData = null;
     }
 
+    public function isBlik(): bool
+    {
+        return null !== $this->blikToken || true === $this->blikUseAlias;
+    }
+
     public static function fromArray(array $details): self
     {
         return new self(
@@ -138,6 +154,7 @@ class PaymentDetails
             $details['tpay']['status'] ?? null,
             $details['tpay']['blik_token'] ?? null,
             $details['tpay']['blik_save_alias'] ?? null,
+            $details['tpay']['blik_use_alias'] ?? null,
             $details['tpay']['google_pay_token'] ?? null,
             $details['tpay']['card'] ?? null,
             $details['tpay']['payment_url'] ?? null,
@@ -155,6 +172,7 @@ class PaymentDetails
                 'status' => $this->status,
                 'blik_token' => $this->blikToken,
                 'blik_save_alias' => $this->blikSaveAlias,
+                'blik_use_alias' => $this->blikUseAlias,
                 'google_pay_token' => $this->googlePayToken,
                 'card' => $this->encodedCardData,
                 'payment_url' => $this->paymentUrl,
