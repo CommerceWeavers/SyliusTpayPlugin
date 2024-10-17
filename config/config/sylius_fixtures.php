@@ -49,6 +49,17 @@ return function(SyliusFixturesConfig $fixtures): void {
             ],
         ],
     ]);
+
+    $tpayConfig = [
+        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
+        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
+        'cards_api' => '%env(string:TPAY_CARDS_API)%',
+        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
+        'google_merchant_id' => '%env(string:TPAY_GOOGLE_MERCHANT_ID)%',
+        'merchant_id' => '%env(string:TPAY_MERCHANT_ID)%',
+        'production_mode' => false,
+    ];
+
     $defaultSuite->fixtures('payment_method', [
         'options' => [
             'custom' => [
@@ -57,14 +68,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Tpay',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'cards_api' => '%env(string:TPAY_CARDS_API)%',
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'type' => PaymentType::REDIRECT,
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::REDIRECT],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -75,14 +79,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Card (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'cards_api' => '%env(string:TPAY_CARDS_API)%',
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'type' => PaymentType::CARD,
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::CARD],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -93,13 +90,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Blik (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'type' => PaymentType::BLIK,
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::BLIK],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -110,13 +101,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Pay by Link (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'type' => PaymentType::PAY_BY_LINK,
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::PAY_BY_LINK],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -127,15 +112,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Google Pay (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'merchant_id' => '%env(string:TPAY_MERCHANT_ID)%',
-                        'google_merchant_id' => '%env(string:TPAY_GOOGLE_MERCHANT_ID)%',
-                        'type' => PaymentType::GOOGLE_PAY,
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::GOOGLE_PAY],
                     'channels' => [
                         'FASHION_WEB',
                     ],
