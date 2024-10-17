@@ -16,7 +16,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-class CreateVisaMobileTransactionActionTest extends TestCase
+final class CreateVisaMobileTransactionActionTest extends TestCase
 {
     use ProphecyTrait;
 
