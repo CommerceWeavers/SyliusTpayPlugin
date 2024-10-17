@@ -12,7 +12,7 @@ use Tests\CommerceWeavers\SyliusTpayPlugin\Api\JsonApiTestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\Utils\CardEncrypterTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\Utils\OrderPlacerTrait;
 
-class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
+final class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
 {
     use CardEncrypterTrait;
     use OrderPlacerTrait;

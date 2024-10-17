@@ -12,7 +12,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
+final class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
 {
     use ProphecyTrait;
 

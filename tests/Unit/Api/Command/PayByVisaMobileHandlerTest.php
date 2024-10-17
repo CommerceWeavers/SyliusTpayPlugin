@@ -21,7 +21,7 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\InvalidArgumentException;
 
-class PayByVisaMobileHandlerTest extends TestCase
+final class PayByVisaMobileHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -82,6 +82,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'transaction_id' => null,
                 'result' => null,
                 'status' => null,
+                'apple_pay_token' => null,
                 'blik_token' => null,
                 'google_pay_token' => null,
                 'card' => null,
@@ -123,6 +124,7 @@ class PayByVisaMobileHandlerTest extends TestCase
                 'result' => null,
                 'status' => 'pending',
                 'blik_token' => null,
+                'apple_pay_token' => null,
                 'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => 'https://cw.org/pay',
