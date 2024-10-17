@@ -11,7 +11,7 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\Checksu
 use Payum\Core\Reply\HttpResponse;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-class NotifyTransactionAction extends BaseApiAwareAction
+final class NotifyTransactionAction extends BaseApiAwareAction
 {
     public function __construct(
         private readonly BasicPaymentFactoryInterface $basicPaymentFactory,

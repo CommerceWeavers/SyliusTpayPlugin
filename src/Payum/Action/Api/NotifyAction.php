@@ -6,6 +6,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasRegister;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifierInterface;
 use Payum\Core\Action\ActionInterface;
@@ -39,7 +40,16 @@ final class NotifyAction implements ActionInterface, GatewayAwareInterface
 
         $model->setDetails($paymentDetails->toArray());
 
-        $this->gateway->execute(new NotifyTransaction($model, $requestData));
+        try {
+            $requestContent = json_decode($requestData->requestContent, true, flags: \JSON_THROW_ON_ERROR);
+
+            if ('ALIAS_REGISTER' === $requestContent['event']) {
+                $this->gateway->execute(new NotifyAliasRegister($model, $requestData));
+            }
+        } catch (\JsonException) {
+            $this->gateway->execute(new NotifyTransaction($model, $requestData));
+        }
+
     }
 
     public function supports($request): bool
