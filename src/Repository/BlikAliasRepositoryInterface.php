@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Repository;
 
-use CommerceWeavers\SyliusTpayPlugin\Model\BlikAliasInterface;
+use CommerceWeavers\SyliusTpayPlugin\Entity\BlikAliasInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 

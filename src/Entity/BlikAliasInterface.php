@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CommerceWeavers\SyliusTpayPlugin\Model;
+namespace CommerceWeavers\SyliusTpayPlugin\Entity;
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Resource\Model\ResourceInterface;

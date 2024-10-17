@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Factory;
 
-use CommerceWeavers\SyliusTpayPlugin\Model\BlikAliasInterface;
+use CommerceWeavers\SyliusTpayPlugin\Entity\BlikAliasInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
