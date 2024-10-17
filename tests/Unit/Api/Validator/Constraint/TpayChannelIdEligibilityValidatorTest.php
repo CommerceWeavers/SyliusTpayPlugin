@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
-class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTestCase
+final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTestCase
 {
     use ProphecyTrait;
 

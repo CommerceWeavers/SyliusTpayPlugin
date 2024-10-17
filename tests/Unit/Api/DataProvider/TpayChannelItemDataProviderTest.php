@@ -13,7 +13,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Product\Model\ProductInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class TpayChannelItemDataProviderTest extends TestCase
+final class TpayChannelItemDataProviderTest extends TestCase
 {
     use ProphecyTrait;
 

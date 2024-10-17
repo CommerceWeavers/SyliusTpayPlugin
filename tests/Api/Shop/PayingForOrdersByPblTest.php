@@ -11,7 +11,7 @@ use Tests\CommerceWeavers\SyliusTpayPlugin\Api\JsonApiTestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\Utils\CardEncrypterTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Api\Utils\OrderPlacerTrait;
 
-class PayingForOrdersByPblTest extends JsonApiTestCase
+final class PayingForOrdersByPblTest extends JsonApiTestCase
 {
     use CardEncrypterTrait;
     use OrderPlacerTrait;

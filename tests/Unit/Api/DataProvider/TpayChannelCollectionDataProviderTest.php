@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Sylius\Component\Product\Model\ProductInterface;
 
-class TpayChannelCollectionDataProviderTest extends TestCase
+final class TpayChannelCollectionDataProviderTest extends TestCase
 {
     use ProphecyTrait;
 
