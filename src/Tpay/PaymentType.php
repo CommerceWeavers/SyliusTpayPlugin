@@ -10,11 +10,13 @@ class PaymentType
 
     public const BLIK = 'blik';
 
-    public const PAY_BY_LINK = 'pay-by-link';
+    public const PAY_BY_LINK = 'pay_by_link';
 
     public const REDIRECT = 'redirect';
 
     public const GOOGLE_PAY = 'google_pay';
 
     public const APPLE_PAY = 'apple_pay';
+
+    public const VISA_MOBILE = 'visa_mobile';
 }

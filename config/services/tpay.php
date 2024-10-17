@@ -17,8 +17,8 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayl
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProvider;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiBankListProviderInterface;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiChannelListProvider;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiChannelListProviderInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactory;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\CachedTpayTransactionChannelResolver;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\TpayTransactionChannelResolver;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Factory\BasicPaymentFactory;
@@ -66,6 +66,13 @@ return static function(ContainerConfigurator $container): void {
         ->alias(CreateGooglePayPaymentPayloadFactory::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_google_pay_payment_payload')
     ;
 
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_visa_mobile_payment_payload', CreateVisaMobilePaymentPayloadFactory::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+        ])
+        ->alias(CreateVisaMobilePaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_visa_mobile_payment_payload')
+    ;
+
     $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload', CreateRedirectBasedPaymentPayloadFactory::class)
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.routing.generator.callback_url'),
@@ -79,6 +86,13 @@ return static function(ContainerConfigurator $container): void {
             service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
         ])
         ->alias(CreatePayByLinkPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_payment_payload')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_visa_mobile_payment_payload', CreateVisaMobilePaymentPayloadFactory::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+        ])
+        ->alias(CreateVisaMobilePaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_visa_mobile_payment_payload')
     ;
 
     $services->set('commerce_weavers_sylius_tpay.tpay.security.notification.factory.basic_payment', BasicPaymentFactory::class)

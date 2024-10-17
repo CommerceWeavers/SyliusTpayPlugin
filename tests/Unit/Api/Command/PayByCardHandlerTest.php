@@ -86,7 +86,8 @@ final class PayByCardHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => null
+                'tpay_channel_id' => null,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 

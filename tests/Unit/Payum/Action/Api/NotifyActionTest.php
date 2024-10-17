@@ -93,13 +93,12 @@ final class NotifyActionTest extends TestCase
                 'apple_pay_token' => null,
                 'blik_token' => null,
                 'google_pay_token' => null,
-                'blik_token' => null,
-                'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
-                'tpay_channel_id' => null
+                'tpay_channel_id' => null,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 

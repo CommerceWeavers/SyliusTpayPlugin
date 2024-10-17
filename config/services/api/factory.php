@@ -10,10 +10,11 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommand\PayByCardFactory;
 use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommand\PayByGooglePayFactory;
 use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommand\PayByLinkFactory;
 use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommand\PayByRedirectFactory;
+use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommand\PayByVisaMobileFactory;
 use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommandFactory;
 use CommerceWeavers\SyliusTpayPlugin\Api\Factory\NextCommandFactoryInterface;
 
-return function(ContainerConfigurator $container): void {
+return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('commerce_weavers_sylius_tpay.api.factory.next_command', NextCommandFactory::class)
@@ -47,6 +48,10 @@ return function(ContainerConfigurator $container): void {
     ;
 
     $services->set('commerce_weavers_sylius_tpay.api.factory.next_command.pay_by_link', PayByLinkFactory::class)
+        ->tag('commerce_weavers_sylius_tpay.api.factory.next_command')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.api.factory.next_command.pay_by_visa_mobile', PayByVisaMobileFactory::class)
         ->tag('commerce_weavers_sylius_tpay.api.factory.next_command')
     ;
 };
