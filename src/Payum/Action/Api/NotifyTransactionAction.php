@@ -6,11 +6,20 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyTransaction;
-use Payum\Core\Action\ActionInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Factory\BasicPaymentFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\ChecksumVerifierInterface;
+use Payum\Core\Reply\HttpResponse;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-class NotifyTransactionAction implements ActionInterface
+class NotifyTransactionAction extends BaseApiAwareAction
 {
+    public function __construct(
+        private readonly BasicPaymentFactoryInterface $basicPaymentFactory,
+        private readonly ChecksumVerifierInterface $checksumVerifier,
+    ) {
+        parent::__construct();
+    }
+
     /**
      * @param NotifyTransaction $request
      */
@@ -19,7 +28,17 @@ class NotifyTransactionAction implements ActionInterface
         /** @var PaymentInterface $model */
         $model = $request->getModel();
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
-        $basicPayment = $request->getBasicPayment();
+        $requestData = $request->getData();
+
+        $basicPayment = $this->basicPaymentFactory->createFromArray($requestData->requestParameters);
+        $isChecksumValid = $this->checksumVerifier->verify(
+            $basicPayment,
+            $this->api->getNotificationSecretCode() ?? throw new \RuntimeException('Notification secret code is not set'),
+        );
+
+        if (!$isChecksumValid) {
+            throw new HttpResponse('FALSE - Invalid checksum', 400);
+        }
 
         /** @var string $status */
         $status = $basicPayment->tr_status;
