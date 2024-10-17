@@ -8,7 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayPaymentFailedPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayThankYouPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayWaitingForPaymentPage;
 use CommerceWeavers\SyliusTpayPlugin\Controller\InitApplePayPaymentAction;
-use CommerceWeavers\SyliusTpayPlugin\Controller\PaymentNotificationAction;
+use CommerceWeavers\SyliusTpayPlugin\Controller\TpayNotificationAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\RetryPaymentAction;
 
 return function(ContainerConfigurator $container): void {
@@ -48,7 +48,7 @@ return function(ContainerConfigurator $container): void {
         ->tag('controller.service_arguments')
     ;
 
-    $services->set(PaymentNotificationAction::class)
+    $services->set(TpayNotificationAction::class)
         ->args([
             service('payum'),
             service('commerce_weavers_sylius_tpay.payum.factory.notify'),
