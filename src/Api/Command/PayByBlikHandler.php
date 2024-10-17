@@ -26,6 +26,7 @@ final class PayByBlikHandler extends AbstractPayByHandler
         $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
         $paymentDetails->setBlikToken($payByBlik->blikToken);
         $paymentDetails->setBlikSaveAlias($payByBlik->blikSaveAlias);
+        $paymentDetails->setBlikUseAlias($payByBlik->blikUseAlias);
 
         $payment->setDetails($paymentDetails->toArray());
     }

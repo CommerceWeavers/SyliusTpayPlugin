@@ -81,6 +81,8 @@ final class PayByCardHandlerTest extends TestCase
                 'apple_pay_token' => null,
                 'apple_pay_token' => null,
                 'blik_token' => null,
+                'blik_save_alias' => null,
+                'blik_use_alias' => null,
                 'google_pay_token' => null,
                 'card' => 'encoded_card_data',
                 'payment_url' => null,

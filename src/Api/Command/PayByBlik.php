@@ -8,8 +8,9 @@ final class PayByBlik
 {
     public function __construct(
         public readonly int $paymentId,
-        public readonly string $blikToken,
-        public readonly bool $blikSaveAlias,
+        public readonly ?string $blikToken,
+        public readonly bool $blikSaveAlias = false,
+        public readonly bool $blikUseAlias = false,
     ) {
     }
 }

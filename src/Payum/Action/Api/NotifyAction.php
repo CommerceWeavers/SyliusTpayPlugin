@@ -41,15 +41,16 @@ final class NotifyAction implements ActionInterface, GatewayAwareInterface
         $model->setDetails($paymentDetails->toArray());
 
         try {
+            /** @var array $requestContent */
             $requestContent = json_decode($requestData->requestContent, true, flags: \JSON_THROW_ON_ERROR);
 
-            if ('ALIAS_REGISTER' === $requestContent['event']) {
+            // FIXME: Refactor me, please! I'm a temporary solution to handle different types of notifications.
+            if ('ALIAS_REGISTER' === ($requestContent['event'] ?? null)) {
                 $this->gateway->execute(new NotifyAliasRegister($model, $requestData));
             }
         } catch (\JsonException) {
             $this->gateway->execute(new NotifyTransaction($model, $requestData));
         }
-
     }
 
     public function supports($request): bool

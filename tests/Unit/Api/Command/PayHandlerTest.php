@@ -75,6 +75,8 @@ final class PayHandlerTest extends TestCase
                 'status' => null,
                 'apple_pay_token' => null,
                 'blik_token' => null,
+                'blik_save_alias' => null,
+                'blik_use_alias' => null,
                 'google_pay_token' => null,
                 'card' => null,
                 'tpay_channel_id' => null,
