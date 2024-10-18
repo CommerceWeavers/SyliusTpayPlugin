@@ -9,6 +9,18 @@ use Symfony\Config\SyliusFixturesConfig;
 
 return function(SyliusFixturesConfig $fixtures): void {
     $defaultSuite = $fixtures->suites('default');
+    $defaultSuite->fixtures('channel', [
+        'options' => [
+            'custom' => [
+                'fashion_web_store' => [
+                    'base_currency' => 'PLN',
+                    'currencies' => ['PLN'],
+                    'locales' => ['pl_PL'],
+                    'default_locale' => 'pl_PL',
+                ],
+            ],
+        ],
+    ]);
     $defaultSuite->fixtures('shipping_method', [
         'options' => [
             'custom' => [
@@ -123,14 +135,7 @@ return function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Apple Pay (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'merchant_id' => '%env(string:TPAY_MERCHANT_ID)%',
-                        'type' => PaymentType::APPLE_PAY,
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::APPLE_PAY],
                     'channels' => [
                         'FASHION_WEB',
                     ],

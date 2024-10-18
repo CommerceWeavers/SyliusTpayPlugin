@@ -1,0 +1,11 @@
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'apple_pay' %}
+    <input type="hidden" data-apple-pay-amount value="{{ (order.total / 100)|abs }}">
+    <input type="hidden" data-apple-pay-merchant-identifier value="{{ cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'apple_pay_merchant_id') }}">
+    <input type="hidden" data-apple-pay-currency value="{{ order.currencyCode }}">
+    <input type="hidden" data-apple-pay-channel-name value="{{ order.channel.name }}" />
+
+    <apple-pay-button data-apple-pay-button buttonstyle="black" type="plain" locale="{{ order.localeCode|replace({'_': '-'}) }}"></apple-pay-button>
+    {{ form_row(form.tpay.apple_pay_token, { attr: { 'data-apple-pay-token-input': '' } }) }}
+
+    <script crossorigin src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
+{% endif %}

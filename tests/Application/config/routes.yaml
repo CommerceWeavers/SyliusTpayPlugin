@@ -1,0 +1,5 @@
+acme_apple_pay_demo:
+    path:          /apple-pay-demo
+    controller:    Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template:  'apple_pay_demo.html.twig'
