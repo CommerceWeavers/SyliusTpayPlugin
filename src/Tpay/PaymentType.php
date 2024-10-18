@@ -10,7 +10,7 @@ class PaymentType
 
     public const BLIK = 'blik';
 
-    public const PAY_BY_LINK = 'pay-by-link';
+    public const PAY_BY_LINK = 'pay_by_link';
 
     public const REDIRECT = 'redirect';
 
