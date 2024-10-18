@@ -79,7 +79,6 @@
                 </option>
             </constraint>
             <constraint name="Length">
-                <option name="allowEmptyString">true</option>
                 <option name="min">9</option>
                 <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.min_length</option>
                 <option name="groups">

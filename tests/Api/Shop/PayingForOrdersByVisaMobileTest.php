@@ -24,7 +24,34 @@ final class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
         $this->setUpOrderPlacer();
     }
 
-    public function test_it_returns_violation_if_phone_number_is_empty(): void
+    public function test_it_returns_violation_if_phone_number_is_null(): void
+    {
+        $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
+
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_visa_mobile');
+
+        $this->client->request(
+            Request::METHOD_POST,
+            sprintf('/api/v2/shop/orders/%s/pay', $order->getTokenValue()),
+            server: self::CONTENT_TYPE_HEADER,
+            content: json_encode([
+                'successUrl' => 'https://example.com/success',
+                'failureUrl' => 'https://example.com/failure',
+                'visaMobilePhoneNumber' => null,
+            ]),
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseViolations($response, [
+            [
+                'propertyPath' => 'visaMobilePhoneNumber',
+                'message' => 'The mobile phone number is required.',
+            ],
+        ]);
+    }
+
+    public function test_it_returns_violations_if_phone_number_is_empty(): void
     {
         $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
 
@@ -47,6 +74,10 @@ final class PayingForOrdersByVisaMobileTest extends JsonApiTestCase
             [
                 'propertyPath' => 'visaMobilePhoneNumber',
                 'message' => 'The mobile phone number is required.',
+            ],
+            [
+                'propertyPath' => 'visaMobilePhoneNumber',
+                'message' => 'The mobile phone must be composed minimum of 9 digits.',
             ],
         ]);
     }

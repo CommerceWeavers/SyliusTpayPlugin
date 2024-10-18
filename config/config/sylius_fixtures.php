@@ -137,17 +137,11 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'enabled' => true,
                 ],
                 'visa_mobile' => [
-                    'code' => 'visa_mobile',
+                    'code' => 'tpay_visa_mobile',
                     'name' => 'Visa mobile (Tpay)',
                     'gatewayFactory' => 'tpay',
                     'gatewayName' => 'tpay',
-                    'gatewayConfig' => [
-                        'client_id' => '%env(string:TPAY_CLIENT_ID)%',
-                        'client_secret' => '%env(string:TPAY_CLIENT_SECRET)%',
-                        'type' => PaymentType::VISA_MOBILE,
-                        'notification_security_code' => '%env(string:TPAY_NOTIFICATION_SECURITY_CODE)%',
-                        'production_mode' => false,
-                    ],
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::VISA_MOBILE],
                     'channels' => [
                         'FASHION_WEB',
                     ],
