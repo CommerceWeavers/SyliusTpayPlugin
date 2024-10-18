@@ -12,6 +12,11 @@
 
         <field name="value" column="value" />
         <field name="expirationDate" column="expiration_date" type="datetime" />
+        <field name="registered" column="registered" type="boolean">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
 
         <one-to-one field="customer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
             <join-column name="customer_id" nullable="false" on-delete="CASCADE" />

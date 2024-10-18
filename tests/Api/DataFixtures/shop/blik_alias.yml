@@ -1,5 +1,7 @@
 CommerceWeavers\SyliusTpayPlugin\Entity\BlikAlias:
     blik_alias_john_doe:
         value: 'f6fcb158-4ceb-432f-8265-923cd45727b4'
-        expirationDate: <dateTimeBetween('+1 day', '+1 month')>
         customer: '@customer_john_doe'
+        __calls:
+            - redefine: []
+            - register: [ "<dateTimeBetween('+1 day', '+1 month')>" ]
