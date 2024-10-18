@@ -70,6 +70,40 @@
           "callbacks": []
         },
         {
+          "uuid": "5baf42f8-0ff0-44b5-a058-c10782d7f0e6",
+          "body": "{\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": \"pay_by_link\",\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    },\n    \"errors\": [\n      {\n        \"errorCode\": \"payment_failed\",\n        \"errorMessage\": \"aliases: Too many aliases found for aliasValue: user_unique_alias_123\"\n      }\n    ],\n    \"alternatives\": [\n      {\n        \"applicationName\": \"My qwerty bank\",\n        \"applicationCode\": \"1ec8f352-463c-6334-be44-9fede70e64b8\"\n      },\n      {\n        \"applicationName\": \"My azerty bank\",\n        \"applicationCode\": \"1ec8fe63-ea6e-6b48-ac6f-f7f170888d37\"\n      }\n    ]\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Blik with an alias registered in many bank apps",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "pay.blikPaymentData.aliases.value",
+              "value": "ambiguous_value",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "pay.groupId",
+              "value": "150",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
           "uuid": "3f11934d-183b-4e7d-b127-38f7bdaddb55",
           "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"b6325d51e8c4b9130476\",\n  \"transactionId\": \"ta_jrkNGj5L29pnlbqw\",\n  \"title\": \"TR-BRA-CCP1S9X\",\n  \"posId\": \"ps_NyRBLzV5kelrpjaM\",\n  \"status\": \"pending\",\n  \"date\": {\n    \"creation\": \"2024-05-08 21:01:15\",\n    \"realization\": null\n  },\n  \"amount\": 0.1,\n  \"currency\": \"PLN\",\n  \"description\": \"test transaction via BLIK\",\n  \"hiddenDescription\": \"\",\n  \"payer\": {\n    \"payerId\": \"py_a9rjlZ3qyPPG1bqY\",\n    \"email\": \"<jan.nowak@tpay.com>\",\n    \"name\": \"Jan Nowak\",\n    \"phone\": \"\",\n    \"address\": \"\",\n    \"city\": \"\",\n    \"country\": \"PL\",\n    \"postalCode\": \"\"\n  },\n  \"payments\": {\n    \"status\": \"pending\",\n    \"method\": \"pay_by_link\",\n    \"amountPaid\": 0,\n    \"date\": {\n      \"realization\": null\n    }\n  },\n  \"transactionPaymentUrl\": \"<https://secure.tpay.com/?title=TR-BRA-CCP1S9X&uid=01HXCS9KVQBDZDDWDHP1TZKJ1K>\"\n}",
           "latency": 0,

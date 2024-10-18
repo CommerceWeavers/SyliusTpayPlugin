@@ -1,0 +1,5 @@
+CommerceWeavers\SyliusTpayPlugin\Entity\BlikAlias:
+    blik_alias_john_doe:
+        value: 'ambiguous_value'
+        expirationDate: <dateTimeBetween('+1 day', '+1 month')>
+        customer: '@customer_john_doe'
