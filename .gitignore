@@ -5,7 +5,6 @@
 /etc/build/*
 !/etc/build/.gitkeep
 
-/tests/Application/public/.well-known/
 /tests/Application/yarn.lock
 
 /.phpunit.result.cache
