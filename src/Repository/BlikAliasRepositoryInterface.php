@@ -10,5 +10,7 @@ use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
 interface BlikAliasRepositoryInterface extends RepositoryInterface
 {
+    public function findOneByValue(string $value): ?BlikAliasInterface;
+
     public function findOneByCustomer(CustomerInterface $customer): ?BlikAliasInterface;
 }

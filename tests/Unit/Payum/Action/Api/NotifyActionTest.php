@@ -7,6 +7,8 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Payum\Action\Api;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify\NotifyData;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasRegister;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasUnregister;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifierInterface;
 use Payum\Core\GatewayInterface;
@@ -68,27 +70,38 @@ final class NotifyActionTest extends TestCase
 
         $this->signatureVerifier->verify('jws', 'content')->willReturn(true);
 
-        $this->model->getDetails()->willReturn([]);
-        $this->model->setDetails([
-            'tpay' => [
-                'transaction_id' => null,
-                'result' => null,
-                'status' => null,
-                'apple_pay_token' => null,
-                'blik_token' => null,
-                'blik_save_alias' => null,
-                'blik_use_alias' => null,
-                'google_pay_token' => null,
-                'card' => null,
-                'payment_url' => null,
-                'success_url' => null,
-                'failure_url' => null,
-                'tpay_channel_id' => null,
-                'visa_mobile_phone_number' => null,
-            ],
-        ])->shouldBeCalled();
-
         $this->gateway->execute(Argument::type(NotifyTransaction::class))->shouldBeCalled();
+
+        $this->createTestSubject()->execute($this->request->reveal());
+    }
+
+    public function test_it_executes_notify_alias_register_request(): void
+    {
+        $this->request->getData()->willReturn(new NotifyData(
+            'jws',
+            '{"event":"ALIAS_REGISTER"}',
+            [],
+        ));
+
+        $this->signatureVerifier->verify('jws', '{"event":"ALIAS_REGISTER"}')->willReturn(true);
+
+        $this->gateway->execute(Argument::type(NotifyAliasRegister::class))->shouldBeCalled();
+
+        $this->createTestSubject()->execute($this->request->reveal());
+    }
+
+    /** @dataProvider unregisterEventsDataProvider */
+    public function test_it_executes_notify_alias_unregister_request(string $event): void
+    {
+        $this->request->getData()->willReturn(new NotifyData(
+            'jws',
+            $content = sprintf('{"event":"%s"}', $event),
+            [],
+        ));
+
+        $this->signatureVerifier->verify('jws', $content)->willReturn(true);
+
+        $this->gateway->execute(Argument::type(NotifyAliasUnregister::class))->shouldBeCalled();
 
         $this->createTestSubject()->execute($this->request->reveal());
     }
@@ -126,5 +139,13 @@ final class NotifyActionTest extends TestCase
         $action->setGateway($this->gateway->reveal());
 
         return $action;
+    }
+
+    private function unregisterEventsDataProvider(): array
+    {
+        return [
+            ['ALIAS_UNREGISTER'],
+            ['ALIAS_EXPIRED'],
+        ];
     }
 }
