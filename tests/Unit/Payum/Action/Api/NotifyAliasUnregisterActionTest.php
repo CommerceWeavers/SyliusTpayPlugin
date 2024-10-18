@@ -5,80 +5,39 @@ declare(strict_types=1);
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Payum\Action\Api;
 
 use CommerceWeavers\SyliusTpayPlugin\Entity\BlikAliasInterface;
-use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAliasRegisterAction;
+use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\NotifyAliasUnregisterAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify\NotifyData;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasRegister;
-use CommerceWeavers\SyliusTpayPlugin\Resolver\BlikAliasResolverInterface;
+use CommerceWeavers\SyliusTpayPlugin\Repository\BlikAliasRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 use Payum\Core\Reply\HttpResponse;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\PaymentInterface;
 
-final class NotifyAliasRegisterActionTest extends TestCase
+final class NotifyAliasUnregisterActionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BlikAliasResolverInterface|ObjectProphecy $blikAliasResolver;
+    private BlikAliasRepositoryInterface|ObjectProphecy $blikAliasRepository;
 
-    private ObjectManager|ObjectProphecy $objectManager;
+    private ObjectManager|ObjectProphecy $blikAliasManager;
 
     protected function setUp(): void
     {
-        $this->blikAliasResolver = $this->prophesize(BlikAliasResolverInterface::class);
-        $this->objectManager = $this->prophesize(ObjectManager::class);
+        $this->blikAliasRepository = $this->prophesize(BlikAliasRepositoryInterface::class);
+        $this->blikAliasManager = $this->prophesize(ObjectManager::class);
     }
 
-    public function test_it_saves_blik_alias(): void
+    public function test_it_removes_unregistered_blik_alias(): void
     {
-        $model = $this->prophesize(PaymentInterface::class);
-        $order = $this->prophesize(OrderInterface::class);
-        $customer = $this->prophesize(CustomerInterface::class);
         $blikAlias = $this->prophesize(BlikAliasInterface::class);
         $data = new NotifyData(
             'jws',
             <<<JSON
                 {
                     "id": "1010",
-                    "event": "ALIAS_REGISTER",
-                    "msg_value": {
-                        "value": "user_unique_alias_123",
-                        "type": "UID",
-                        "expirationDate": "2024-11-02 14:15:01"
-                    },
-                    "md5sum": "d303c5af701cdfcaed02f66603239eef"
-                }
-            JSON,
-            []
-        );
-        $request = $this->prophesize(NotifyAliasRegister::class);
-        $request->getModel()->willReturn($model);
-        $request->getData()->willReturn($data);
-        $model->getOrder()->willReturn($order);
-        $order->getCustomer()->willReturn($customer);
-        $this->blikAliasResolver->resolve($customer)->willReturn($blikAlias);
-
-        $this->expectExceptionObject(new HttpResponse('TRUE', 200));
-
-        $this->createTestSubject()->execute($request->reveal());
-
-        $blikAlias->setValue('user_unique_alias_123')->shouldBeCalled();
-        $blikAlias->setExpirationDate(new \DateTimeImmutable('2024-11-02 14:15:01'))->shouldBeCalled();
-        $this->objectManager->persist($blikAlias)->shouldBeCalled();
-    }
-
-    public function test_it_throws_exception_if_msg_value_expiration_date_does_not_exist(): void
-    {
-        $model = $this->prophesize(PaymentInterface::class);
-        $data = new NotifyData(
-            'jws',
-            <<<JSON
-                {
-                    "id": "1010",
-                    "event": "ALIAS_REGISTER",
+                    "event": "ALIAS_UNREGISTER",
                     "msg_value": {
                         "value": "user_unique_alias_123",
                         "type": "UID"
@@ -89,18 +48,47 @@ final class NotifyAliasRegisterActionTest extends TestCase
             []
         );
         $request = $this->prophesize(NotifyAliasRegister::class);
-        $request->getModel()->willReturn($model);
         $request->getData()->willReturn($data);
+        $this->blikAliasRepository->findOneByValue('user_unique_alias_123')->willReturn($blikAlias);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The msg_value.expirationDate is missing.');
+        $this->expectExceptionObject(new HttpResponse('TRUE', 200));
 
         $this->createTestSubject()->execute($request->reveal());
+
+        $this->blikAliasManager->remove($blikAlias)->shouldBeCalled();
+    }
+
+    public function test_it_removes_expired_blik_alias(): void
+    {
+        $blikAlias = $this->prophesize(BlikAliasInterface::class);
+        $data = new NotifyData(
+            'jws',
+            <<<JSON
+                {
+                    "id": "1010",
+                    "event": "ALIAS_EXPIRED",
+                    "msg_value": {
+                        "value": "user_unique_alias_123",
+                        "type": "UID"
+                    },
+                    "md5sum": "d303c5af701cdfcaed02f66603239eef"
+                }
+            JSON,
+            []
+        );
+        $request = $this->prophesize(NotifyAliasRegister::class);
+        $request->getData()->willReturn($data);
+        $this->blikAliasRepository->findOneByValue('user_unique_alias_123')->willReturn($blikAlias);
+
+        $this->expectExceptionObject(new HttpResponse('TRUE', 200));
+
+        $this->createTestSubject()->execute($request->reveal());
+
+        $this->blikAliasManager->remove($blikAlias)->shouldBeCalled();
     }
 
     public function test_it_throws_exception_if_msg_value_value_does_not_exist(): void
     {
-        $model = $this->prophesize(PaymentInterface::class);
         $data = new NotifyData(
             'jws',
             <<<JSON
@@ -117,7 +105,6 @@ final class NotifyAliasRegisterActionTest extends TestCase
             []
         );
         $request = $this->prophesize(NotifyAliasRegister::class);
-        $request->getModel()->willReturn($model);
         $request->getData()->willReturn($data);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -126,35 +113,37 @@ final class NotifyAliasRegisterActionTest extends TestCase
         $this->createTestSubject()->execute($request->reveal());
     }
 
-    public function test_it_throws_exception_if_msg_value_does_not_exist(): void
+    public function test_it_throws_exception_if_blik_alias_not_found(): void
     {
-        $model = $this->prophesize(PaymentInterface::class);
         $data = new NotifyData(
             'jws',
             <<<JSON
                 {
                     "id": "1010",
-                    "event": "ALIAS_REGISTER",
+                    "event": "ALIAS_EXPIRED",
+                    "msg_value": {
+                        "value": "user_unique_alias_123",
+                        "type": "UID"
+                    },
                     "md5sum": "d303c5af701cdfcaed02f66603239eef"
                 }
             JSON,
             []
         );
         $request = $this->prophesize(NotifyAliasRegister::class);
-        $request->getModel()->willReturn($model);
         $request->getData()->willReturn($data);
+        $this->blikAliasRepository->findOneByValue('user_unique_alias_123')->willReturn(null);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The msg_value is missing.');
+        $this->expectExceptionObject(new HttpResponse('FALSE - Alias not found', 400));
 
         $this->createTestSubject()->execute($request->reveal());
     }
 
-    private function createTestSubject(): NotifyAliasRegisterAction
+    private function createTestSubject(): NotifyAliasUnregisterAction
     {
-        return new NotifyAliasRegisterAction(
-            $this->blikAliasResolver->reveal(),
-            $this->objectManager->reveal(),
+        return new NotifyAliasUnregisterAction(
+            $this->blikAliasRepository->reveal(),
+            $this->blikAliasManager->reveal(),
         );
     }
 }

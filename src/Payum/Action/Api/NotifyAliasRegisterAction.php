@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\NotifyAliasRegister;
 use CommerceWeavers\SyliusTpayPlugin\Resolver\BlikAliasResolverInterface;
 use Doctrine\Persistence\ObjectManager;
 use Payum\Core\Action\ActionInterface;
+use Payum\Core\Reply\HttpResponse;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -41,6 +42,8 @@ final class NotifyAliasRegisterAction implements ActionInterface
         $blikAlias->setExpirationDate(new \DateTimeImmutable($aliasExpirationDate));
 
         $this->blikAliasManager->persist($blikAlias);
+
+        throw new HttpResponse('TRUE', 200);
     }
 
     public function supports($request): bool
