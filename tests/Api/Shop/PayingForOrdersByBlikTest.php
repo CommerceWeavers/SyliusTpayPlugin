@@ -123,37 +123,4 @@ final class PayingForOrdersByBlikTest extends JsonApiTestCase
             ]
         ]);
     }
-
-    private function doPlaceOrder(
-        string $tokenValue,
-        string $email = 'sylius@example.com',
-        string $productVariantCode = 'MUG_BLUE',
-        string $shippingMethodCode = 'UPS',
-        string $paymentMethodCode = 'tpay',
-        int $quantity = 1,
-        ?\DateTimeImmutable $checkoutCompletedAt = null,
-
-    ): OrderInterface {
-        $this->checkSetUpOrderPlacerCalled();
-
-        $this->pickUpCart($tokenValue);
-        $this->addItemToCart($productVariantCode, $quantity, $tokenValue);
-        $cart = $this->updateCartWithAddressAndCouponCode($tokenValue, $email);
-        $this->dispatchShippingMethodChooseCommand(
-            $tokenValue,
-            $shippingMethodCode,
-            (string)$cart->getShipments()->first()->getId(),
-        );
-        $this->dispatchPaymentMethodChooseCommand(
-            $tokenValue,
-            $paymentMethodCode,
-            (string)$cart->getLastPayment()->getId(),
-        );
-
-        $order = $this->dispatchCompleteOrderCommand($tokenValue);
-
-        $this->setCheckoutCompletedAt($order, $checkoutCompletedAt);
-
-        return $order;
-    }
 }

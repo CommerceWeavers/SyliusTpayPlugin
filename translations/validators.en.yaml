@@ -24,4 +24,5 @@ commerce_weavers_sylius_tpay:
                 name: 'The cardholder name is required.'
             visa_mobile:
                 required: 'The mobile phone number is required.'
-                length: 'The mobile phone must be composed of 11 digits (national code and phone number).'
+                min_length: 'The mobile phone must be composed minimum of 9 digits.'
+                regex: 'The mobile phone must consist only of digits.'

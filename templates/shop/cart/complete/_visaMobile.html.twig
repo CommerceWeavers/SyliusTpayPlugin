@@ -8,7 +8,8 @@
                 <div class="content">
                     <div class="field required" data-tpay-field>
                         {{ form_label(form.tpay.visa_mobile_phone_number) }}
-                        <div class="field">
+                        <div class="ui left labeled input">
+                            <div class="ui label">+48</div>
                             {{ form_widget(form.tpay.visa_mobile_phone_number, {
                                 attr: {
                                     'data-locale': app.request.locale|slice(3, 2),
@@ -17,7 +18,7 @@
                                 }
                             }) }}
                         </div>
-                        <div data-tpay-error-container></div>
+                        <div data-tpay-error-container>{{ form_errors(form.tpay.visa_mobile_phone_number) }}</div>
                     </div>
                 </div>
             </div>

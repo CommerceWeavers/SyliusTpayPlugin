@@ -44,7 +44,7 @@ commerce_weavers_sylius_tpay:
                 holder_name: 'Imię i nazwisko właściciela'
                 number: 'Numer'
             visa_mobile:
-                placeholder: 'Numer telefonu z kodem kierunkowym'
+                placeholder: 'Numer telefonu'
         payment_failed:
             retry_payment: 'Ponów płatność'
             subtitle: 'Nie byliśmy w stanie jej pomyślnie przetworzyć'

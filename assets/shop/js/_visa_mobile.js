@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let form = document.querySelector('[name="sylius_checkout_complete"]');
   let phoneNumber = form.querySelector('[data-visa-mobile-phone-number]');
 
+  if (null === phoneNumber) {
+    return;
+  }
+
   form.addEventListener('submit', (event) => {
     validateVisaMobilePhoneNumber(phoneNumber);
 

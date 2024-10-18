@@ -8,5 +8,5 @@
   "@type": "PayResult",
   "@id": "/api/v2/.well-known/genid/@string@",
   "status": "pending",
-  "transactionPaymentUrl": "@string@"
+  "transactionPaymentUrl": "https://example.com/success"
 }
