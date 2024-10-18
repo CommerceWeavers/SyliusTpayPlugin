@@ -23,6 +23,6 @@ return static function(ContainerConfigurator $container): void {
         ->set('commerce_weavers_sylius_tpay.waiting_for_payment.refresh_interval', 5)
         ->set('commerce_weavers_sylius_tpay.payum.create_transaction.success_route', Routing::SHOP_THANK_YOU)
         ->set('commerce_weavers_sylius_tpay.payum.create_transaction.failure_route', Routing::SHOP_PAYMENT_FAILED)
-        ->set('commerce_weavers_sylius_tpay.payum.create_transaction.notify_route', Routing::WEBHOOK_TPAY_NOTIFICATION)
+        ->set('commerce_weavers_sylius_tpay.payum.create_transaction.notify_route', Routing::WEBHOOK_PAYMENT_NOTIFICATION)
     ;
 };

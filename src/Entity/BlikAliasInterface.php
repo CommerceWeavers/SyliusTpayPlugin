@@ -15,7 +15,13 @@ interface BlikAliasInterface extends ResourceInterface
 
     public function getExpirationDate(): ?\DateTimeInterface;
 
-    public function setExpirationDate(?\DateTimeInterface $expirationDate): void;
+    public function isRegistered(): bool;
+
+    public function redefine(): void;
+
+    public function register(?\DateTimeInterface $expirationDate): void;
+
+    public function unregister(): void;
 
     public function getCustomer(): ?CustomerInterface;
 

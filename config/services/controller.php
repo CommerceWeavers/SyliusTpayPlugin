@@ -7,6 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayPaymentFailedPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayThankYouPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayWaitingForPaymentPage;
+use CommerceWeavers\SyliusTpayPlugin\Controller\PaymentNotificationAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\InitApplePayPaymentAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\TpayNotificationAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\RetryPaymentAction;
@@ -48,7 +49,7 @@ return function(ContainerConfigurator $container): void {
         ->tag('controller.service_arguments')
     ;
 
-    $services->set(TpayNotificationAction::class)
+    $services->set(PaymentNotificationAction::class)
         ->args([
             service('payum'),
             service('commerce_weavers_sylius_tpay.payum.factory.notify'),
@@ -64,6 +65,15 @@ return function(ContainerConfigurator $container): void {
             service('sylius.repository.order'),
             service('router'),
             service('request_stack'),
+        ])
+        ->tag('controller.service_arguments')
+    ;
+
+    $services->set(TpayNotificationAction::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature'),
+            service('commerce_weavers_sylius_tpay.repository.blik_alias'),
+            service('commerce_weavers_sylius_tpay.manager.blik_alias'),
         ])
         ->tag('controller.service_arguments')
     ;

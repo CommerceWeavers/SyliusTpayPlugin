@@ -4,63 +4,50 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Controller;
 
-use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\NotifyDataFactoryInterface;
-use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\NotifyFactoryInterface;
-use Payum\Core\GatewayInterface;
-use Payum\Core\Payum;
-use Payum\Core\Reply\HttpResponse;
-use Payum\Core\Reply\ReplyInterface;
-use Payum\Core\Security\HttpRequestVerifierInterface;
+use CommerceWeavers\SyliusTpayPlugin\Repository\BlikAliasRepositoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifierInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class TpayNotificationAction
 {
     public function __construct(
-        private readonly Payum $payum,
-        private readonly NotifyFactoryInterface $notifyFactory,
-        private readonly NotifyDataFactoryInterface $notifyDataFactory,
+        private readonly SignatureVerifierInterface $signatureVerifier,
+        private readonly BlikAliasRepositoryInterface $blikAliasRepository,
+        private readonly ObjectManager $blikAliasManager,
     ) {
     }
 
     public function __invoke(Request $request): Response
     {
-        $token = $this->getHttpRequestVerifier()->verify($request);
-        $gateway = $this->getGateway($token->getGatewayName());
-
         /** @var string $signature */
         $signature = $request->headers->get('x-jws-signature');
-
-        /** @var string $content */
-        $content = $request->getContent();
-
-        $notify = $this->notifyFactory->createNewWithModel(
-            $token,
-            $this->notifyDataFactory->create(
-                $signature,
-                $content,
-                $request->request->all(),
-            ),
-        );
-
-        try {
-            $gateway->execute($notify);
-
-            return new Response('TRUE');
-        } catch (HttpResponse $reply) {
-            return new Response($reply->getContent(), $reply->getStatusCode(), $reply->getHeaders());
-        } catch (ReplyInterface $reply) {
-            throw new \LogicException('Unsupported reply', previous: $reply);
+        if (!$this->signatureVerifier->verify($signature, $request->getContent())) {
+            return new Response('FALSE - Invalid signature', Response::HTTP_BAD_REQUEST);
         }
-    }
 
-    private function getHttpRequestVerifier(): HttpRequestVerifierInterface
-    {
-        return $this->payum->getHttpRequestVerifier();
-    }
+        /** @var array{event?: string, msg_value?: array{value?: string, expirationDate?: string}} $content */
+        $content = json_decode($request->getContent(), true);
 
-    private function getGateway(string $gatewayName): GatewayInterface
-    {
-        return $this->payum->getGateway($gatewayName);
+        $event = $content['event'] ?? throw new \InvalidArgumentException('The event is missing.');
+        $msgValue = $content['msg_value'] ?? throw new \InvalidArgumentException('The msg_value is missing.');
+        $aliasValue = $msgValue['value'] ?? throw new \InvalidArgumentException('The msg_value.value is missing.');
+        $aliasExpirationDate = $msgValue['expirationDate'] ?? null;
+
+        $blikAlias = $this->blikAliasRepository->findOneByValue($aliasValue);
+        if ($blikAlias === null) {
+            return new Response('FALSE - Alias not found', Response::HTTP_BAD_REQUEST);
+        }
+
+        match ($event) {
+            'ALIAS_REGISTER' => $blikAlias->register(null === $aliasExpirationDate ? null : new \DateTimeImmutable($aliasExpirationDate)),
+            'ALIAS_UNREGISTER', 'ALIAS_EXPIRED' => $blikAlias->unregister(),
+            default => throw new \InvalidArgumentException('Unsupported event'),
+        };
+
+        $this->blikAliasManager->flush();
+
+        return new Response('TRUE');
     }
 }
