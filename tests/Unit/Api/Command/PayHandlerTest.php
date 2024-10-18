@@ -74,7 +74,6 @@ final class PayHandlerTest extends TestCase
                 'result' => null,
                 'status' => null,
                 'apple_pay_token' => null,
-                'apple_pay_token' => null,
                 'blik_token' => null,
                 'google_pay_token' => null,
                 'card' => null,
@@ -82,6 +81,7 @@ final class PayHandlerTest extends TestCase
                 'payment_url' => null,
                 'success_url' => 'https://cw.nonexisting/success',
                 'failure_url' => 'https://cw.nonexisting/failure',
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 

@@ -92,6 +92,7 @@ final class PayByGooglePayHandlerTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
         $gateway->execute($createTransaction, catchReply: true)->shouldBeCalled();
@@ -130,6 +131,7 @@ final class PayByGooglePayHandlerTest extends TestCase
                 'success_url' => null,
                 'failure_url' => null,
                 'tpay_channel_id' => null,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
         $gateway->execute($createTransaction, catchReply: true)->shouldBeCalled();

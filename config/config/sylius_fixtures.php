@@ -7,7 +7,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Symfony\Config\SyliusFixturesConfig;
 
-return function(SyliusFixturesConfig $fixtures): void {
+return static function(SyliusFixturesConfig $fixtures): void {
     $defaultSuite = $fixtures->suites('default');
     $defaultSuite->fixtures('shipping_method', [
         'options' => [
@@ -131,6 +131,17 @@ return function(SyliusFixturesConfig $fixtures): void {
                         'type' => PaymentType::APPLE_PAY,
                         'production_mode' => false,
                     ],
+                    'channels' => [
+                        'FASHION_WEB',
+                    ],
+                    'enabled' => true,
+                ],
+                'visa_mobile' => [
+                    'code' => 'tpay_visa_mobile',
+                    'name' => 'Visa mobile (Tpay)',
+                    'gatewayFactory' => 'tpay',
+                    'gatewayName' => 'tpay',
+                    'gatewayConfig' => $tpayConfig + ['type' => PaymentType::VISA_MOBILE],
                     'channels' => [
                         'FASHION_WEB',
                     ],

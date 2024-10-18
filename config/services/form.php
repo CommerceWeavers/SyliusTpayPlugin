@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\DataTransformer\CardTypeDataTransformer;
+use CommerceWeavers\SyliusTpayPlugin\Form\DataTransformer\VisaMobilePhoneDataTransformer;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\PreventSavingEmptyPasswordFieldsListener;
@@ -55,6 +56,8 @@ return function(ContainerConfigurator $container): void {
     ;
 
     $services->set('commerce_weavers_sylius_tpay.form.data_transformer.card_type', CardTypeDataTransformer::class);
+
+    $services->set('commerce_weavers_sylius_tpay.form.data_transformer.visa_mobile_phone', VisaMobilePhoneDataTransformer::class);
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)

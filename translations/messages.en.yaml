@@ -43,6 +43,8 @@ commerce_weavers_sylius_tpay:
                     year_placeholder: 'Choose a year'
                 holder_name: 'Cardholder name'
                 number: 'Number'
+            visa_mobile:
+                placeholder: 'Phone number'
         payment_failed:
             retry_payment: 'Retry payment'
             subtitle: 'We were unable to process it successfully'

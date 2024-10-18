@@ -1,6 +1,6 @@
 {% set payment = order.lastCartPayment() %}
 
-{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'pay-by-link' %}
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'pay_by_link' %}
 <div class="bank-container">
     {% for bank in banks %}
         <div class="bank-tile" data-bank-id="{{ bank.id }}">

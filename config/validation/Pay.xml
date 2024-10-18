@@ -50,6 +50,13 @@
             </constraint>
         </property>
         <property name="tpayChannelId">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">pay_by_link</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.encoded_card_data.required</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdEligibility">
                 <option name="groups">
                     <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
@@ -58,6 +65,29 @@
             <constraint name="Length">
                 <option name="min">1</option>
                 <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.pay_by_link_channel.length</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="visaMobilePhoneNumber">
+            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
+                <option name="paymentMethodType">visa_mobile</option>
+                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.required</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="min">9</option>
+                <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.min_length</option>
+                <option name="groups">
+                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                </option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^\d+$/</option>
+                <option name="message">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.regex</option>
                 <option name="groups">
                     <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>

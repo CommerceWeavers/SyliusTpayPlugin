@@ -34,6 +34,13 @@ Sylius\Component\Core\Model\PaymentMethod:
         translations:
             - '@tpay_pbl_payment_method_translation'
         channels: [ '@channel_web' ]
+    tpay_visa_mobile:
+        code: 'tpay_visa_mobile'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_visa_mobile'
+        translations:
+            - '@tpay_visa_mobile_payment_method_translation'
+        channels: [ '@channel_web' ]
 
 Sylius\Bundle\PayumBundle\Model\GatewayConfig:
     gateway_tpay:
@@ -78,7 +85,16 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
         config:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
-            type: 'pay-by-link'
+            type: 'pay_by_link'
+            production_mode: false
+            encrypted: true
+    gateway_tpay_visa_mobile:
+        gatewayName: 'tpay'
+        factoryName: 'tpay'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            type: 'visa_mobile'
             production_mode: false
             encrypted: true
 
@@ -108,3 +124,8 @@ Sylius\Component\Payment\Model\PaymentMethodTranslation:
         locale: 'en_US'
         description: '<paragraph(2)>'
         translatable: '@tpay_pbl'
+    tpay_visa_mobile_payment_method_translation:
+        name: 'Visa mobile (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_visa_mobile'

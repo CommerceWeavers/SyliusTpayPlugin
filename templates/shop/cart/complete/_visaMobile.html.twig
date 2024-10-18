@@ -1,0 +1,27 @@
+{% set payment = order.lastCartPayment() %}
+
+{% if cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'type') == 'visa_mobile' %}
+    <div class="ui stackable grid">
+        <div class="ui column eight wide">
+            <div class="ui small icon message">
+                <i class="payment icon"></i>
+                <div class="content">
+                    <div class="field required" data-tpay-field>
+                        {{ form_label(form.tpay.visa_mobile_phone_number) }}
+                        <div class="ui left labeled input">
+                            <div class="ui label">+48</div>
+                            {{ form_widget(form.tpay.visa_mobile_phone_number, {
+                                attr: {
+                                    'data-locale': app.request.locale|slice(3, 2),
+                                    'data-validation-error-length': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.length'|trans({}, 'validators'),
+                                    'data-validation-error-required': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.required'|trans({}, 'validators'),
+                                }
+                            }) }}
+                        </div>
+                        <div data-tpay-error-container>{{ form_errors(form.tpay.visa_mobile_phone_number) }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

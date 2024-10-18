@@ -63,7 +63,7 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
         config:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
-            type: 'pay-by-link'
+            type: 'pay_by_link'
             production_mode: false
             encrypted: true
 

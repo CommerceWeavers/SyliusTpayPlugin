@@ -56,4 +56,13 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
 
         $this->assertPageTitleContains('Waiting for payment');
     }
+
+    public function test_it_completes_the_checkout_using_visa_mobile(): void
+    {
+        $this->processWithPaymentMethod('tpay_visa_mobile');
+        $this->fillVisaMobile(self::FORM_ID, '123123123');
+        $this->placeOrder();
+
+        $this->assertPageTitleContains('Waiting for payment');
+    }
 }

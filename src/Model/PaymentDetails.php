@@ -24,6 +24,7 @@ class PaymentDetails
         private ?string $successUrl = null,
         private ?string $failureUrl = null,
         private ?string $tpayChannelId = null,
+        private ?string $visaMobilePhoneNumber = null,
     ) {
     }
 
@@ -145,8 +146,19 @@ class PaymentDetails
             null !== $this->getTpayChannelId() => PaymentType::PAY_BY_LINK,
             null !== $this->getGooglePayToken() => PaymentType::GOOGLE_PAY,
             null !== $this->getApplePayToken() => PaymentType::APPLE_PAY,
+            null !== $this->getVisaMobilePhoneNumber() => PaymentType::VISA_MOBILE,
             default => PaymentType::REDIRECT,
         };
+    }
+
+    public function getVisaMobilePhoneNumber(): ?string
+    {
+        return $this->visaMobilePhoneNumber;
+    }
+
+    public function setVisaMobilePhoneNumber(?string $visaMobilePhoneNumber): void
+    {
+        $this->visaMobilePhoneNumber = $visaMobilePhoneNumber;
     }
 
     public function clearSensitiveData(): void
@@ -171,6 +183,7 @@ class PaymentDetails
             $details['tpay']['success_url'] ?? null,
             $details['tpay']['failure_url'] ?? null,
             $details['tpay']['tpay_channel_id'] ?? null,
+            $details['tpay']['visa_mobile_phone_number'] ?? null,
         );
     }
 
@@ -189,6 +202,7 @@ class PaymentDetails
                 'success_url' => $this->successUrl,
                 'failure_url' => $this->failureUrl,
                 'tpay_channel_id' => $this->tpayChannelId,
+                'visa_mobile_phone_number' => $this->visaMobilePhoneNumber,
             ],
         ];
     }
