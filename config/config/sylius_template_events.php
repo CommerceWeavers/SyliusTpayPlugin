@@ -9,6 +9,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'events' => [
             'cw.tpay.shop.checkout.complete.navigation' => [
                 'blocks' => [
+                    'apple_pay' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_apple_pay.html.twig',
+                        'priority' => 5,
+                    ],
                     'google_pay' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_google_pay.html.twig',
                         'priority' => 5,

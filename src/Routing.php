@@ -6,6 +6,10 @@ namespace CommerceWeavers\SyliusTpayPlugin;
 
 final class Routing
 {
+    public const INIT_APPLE_PAY_PAYMENT = 'commerce_weavers_sylius_tpay_init_apple_pay_payment';
+
+    public const INIT_APPLE_PAY_PAYMENT_PATH = '/tpay/apple-pay/init';
+
     public const WEBHOOK_PAYMENT_NOTIFICATION = 'commerce_weavers_sylius_tpay_payment_notification';
 
     public const WEBHOOK_PAYMENT_NOTIFICATION_PATH = '/webhook/{_locale}/tpay/payment-notification';

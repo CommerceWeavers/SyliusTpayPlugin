@@ -10,7 +10,7 @@ class PayGroup
 
     public const CARD = 103;
 
-    public const APPLE_PAY = 75;
+    public const APPLE_PAY = 170;
 
     public const GOOGLE_PAY = 166;
 

@@ -83,6 +83,13 @@ final class TpayGatewayConfigurationType extends AbstractType
                 ],
             )
             ->add(
+                'apple_pay_merchant_id',
+                TextType::class,
+                [
+                    'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.apple_pay_merchant_id',
+                ],
+            )
+            ->add(
                 'notification_security_code',
                 PasswordType::class,
                 [

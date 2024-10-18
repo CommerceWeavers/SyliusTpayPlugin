@@ -15,6 +15,7 @@ return static function(ContainerConfigurator $container): void {
         ->set('env(TPAY_CLIENT_SECRET)', '')
         ->set('env(TPAY_CARDS_API)', '')
         ->set('env(TPAY_GOOGLE_MERCHANT_ID)', '')
+        ->set('env(TPAY_APPLE_PAY_MERCHANT_ID)', '')
         ->set('env(TPAY_MERCHANT_ID)', '')
         ->set('env(TPAY_NOTIFICATION_SECURITY_CODE)', '')
         ->set('commerce_weavers_sylius_tpay.certificate.cache_ttl_in_seconds', 300)

@@ -6,6 +6,7 @@ commerce_weavers_sylius_tpay:
             client_id: 'Identyfikator klienta'
             client_secret: 'Hasło klienta'
             google_merchant_id: 'Identyfikator sprzedawcy Google'
+            apple_pay_merchant_id: 'Identyfikator sprzedawcy Google Pay'
             production_mode: 'Tryb produkcyjny'
             merchant_id: 'ID sprzedawcy'
             notification_security_code: 'Kod bezpieczeństwa (Powiadomienia)'

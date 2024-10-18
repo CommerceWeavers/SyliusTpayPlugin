@@ -21,7 +21,7 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
             merchant_id: 'encrypted_<getenv("TPAY_MERCHANT_ID")>'
-            apple_merchant_id: 'encrypted_<getenv("TPAY_GOOGLE_MERCHANT_ID")>'
+            apple_pay_merchant_id: 'encrypted_<getenv("TPAY_APPLE_PAY_MERCHANT_ID")>'
             type: 'apple_pay'
             production_mode: false
             encrypted: true
