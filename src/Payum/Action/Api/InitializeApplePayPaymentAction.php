@@ -15,6 +15,7 @@ final class InitializeApplePayPaymentAction extends AbstractCreateTransactionAct
 
     /**
      * @param InitializeApplePayPayment $request
+     *
      * @throws TpayException
      */
     public function execute($request): void
@@ -22,6 +23,7 @@ final class InitializeApplePayPaymentAction extends AbstractCreateTransactionAct
         /** @var ArrayObject $model */
         $model = $request->getModel();
 
+        /** @var array<string, mixed> $result */
         $result = $this->api->applePay()->init([
             'domainName' => $model['domainName'],
             'displayName' => $model['displayName'],

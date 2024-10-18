@@ -12,5 +12,6 @@ use Tpay\OpenApi\Model\Fields\Field;
 class DomainName extends Field
 {
     protected $name = 'domainName';
+
     protected $type = self::STRING;
 }

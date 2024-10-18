@@ -11,6 +11,7 @@ class ApplePayApi extends ApiAction
 {
     /**
      * @param array<string, mixed> $fields
+     *
      * @return array<string, mixed>|string
      */
     public function init(array $fields): array|string

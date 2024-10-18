@@ -9,6 +9,7 @@ use Tpay\OpenApi\Api\Authorization\AuthorizationApi;
 use Tpay\OpenApi\Api\TpayApi as BaseTpayApi;
 use Tpay\OpenApi\Model\Objects\Authorization\Token;
 use Tpay\OpenApi\Utilities\TpayException;
+use Webmozart\Assert\Assert;
 
 class TpayApi extends BaseTpayApi
 {
@@ -41,6 +42,8 @@ class TpayApi extends BaseTpayApi
     {
         $this->authorize();
         if (null === $this->applePayApi) {
+            Assert::notNull($this->token);
+
             $this->applePayApi = (new ApplePayApi($this->token, $this->productionMode))
                 ->overrideApiUrl($this->apiUrl);
 
@@ -57,10 +60,14 @@ class TpayApi extends BaseTpayApi
      */
     private function authorize(): void
     {
-        if (
-            $this->token instanceof Token
-            && time() <= $this->token->issued_at->getValue() + $this->token->expires_in->getValue()
-        ) {
+        if (!$this->token instanceof Token) {
+            return;
+        }
+
+        /** @var int $expirationTime */
+        $expirationTime = $this->token->issued_at->getValue() + $this->token->expires_in->getValue();
+
+        if (time() > $expirationTime) {
             return;
         }
 
@@ -82,8 +89,8 @@ class TpayApi extends BaseTpayApi
                 sprintf(
                     'Authorization error. HTTP code: %d, response: %s',
                     $authApi->getHttpResponseCode(),
-                    json_encode($authApi->getRequestResult())
-                )
+                    json_encode($authApi->getRequestResult()),
+                ),
             );
         }
 

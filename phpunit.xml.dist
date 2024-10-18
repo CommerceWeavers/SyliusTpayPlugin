@@ -36,6 +36,7 @@
 
         <env name="APP_ENV" value="test"/>
         <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="TPAY_API_URL" value="http://localhost:4000" />
     </php>
 
     <extensions>

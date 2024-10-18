@@ -12,5 +12,6 @@ use Tpay\OpenApi\Model\Fields\Field;
 class DisplayName extends Field
 {
     protected $name = 'displayName';
+
     protected $type = self::STRING;
 }

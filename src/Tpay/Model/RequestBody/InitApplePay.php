@@ -11,7 +11,7 @@ use Tpay\OpenApi\Model\Objects\Objects;
 
 class InitApplePay extends Objects
 {
-    const OBJECT_FIELDS = [
+    public const OBJECT_FIELDS = [
         'domainName' => DomainName::class,
         'displayName' => DisplayName::class,
         'validationUrl' => ValidationUrl::class,
