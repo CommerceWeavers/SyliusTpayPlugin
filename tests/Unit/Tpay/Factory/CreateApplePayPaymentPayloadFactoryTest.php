@@ -41,7 +41,7 @@ final class CreateApplePayPaymentPayloadFactoryTest extends TestCase
         $this->assertSame([
             'some' => 'data',
             'pay' => [
-                'groupId' => 75,
+                'groupId' => 170,
                 'applePayPaymentData' => 'ewogInRwYXkiIDogIkhlbGxvIFdvcmxkIgp9',
             ],
         ], $payload);
