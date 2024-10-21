@@ -1,0 +1,12 @@
+<div class="ui column eight wide">
+    <div class="bank-container">
+        {% for bank in banks %}
+            <div class="bank-tile" data-bank-id="{{ bank.id }}">
+                <img src="{{ bank.image.url }}" alt="{{ bank.name }}">
+                <p>{{ bank.name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {{ form_row(form.tpay.tpay_channel_id) }}
+</div>
