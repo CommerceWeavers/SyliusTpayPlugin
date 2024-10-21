@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 abstract class AbstractAwareContextBuilder implements AwareContextBuilderInterface
 {
-    public function __construct (
+    public function __construct(
         private readonly SerializerContextBuilderInterface $decoratedContextBuilder,
     ) {
     }

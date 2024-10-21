@@ -8,7 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Command\Contract\OrderTokenAwareInterfa
 
 final class InitializeApplePaySession implements OrderTokenAwareInterface
 {
-    public function __construct (
+    public function __construct(
         public readonly string $orderToken,
         public readonly string $domainName,
         public readonly string $displayName,

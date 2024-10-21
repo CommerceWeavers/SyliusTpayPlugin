@@ -44,8 +44,11 @@ class TpayApi extends BaseTpayApi
         if (null === $this->applePayApi) {
             Assert::notNull($this->token);
 
-            $this->applePayApi = (new ApplePayApi($this->token, $this->productionMode))
-                ->overrideApiUrl($this->apiUrlOverride);
+            $this->applePayApi = (new ApplePayApi($this->token, $this->productionMode));
+
+            if ($this->apiUrlOverride) {
+                $this->applePayApi->overrideApiUrl($this->apiUrlOverride);
+            }
 
             if ($this->clientName) {
                 $this->applePayApi->setClientName($this->clientName);

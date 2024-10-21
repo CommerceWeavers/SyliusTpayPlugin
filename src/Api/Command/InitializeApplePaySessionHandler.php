@@ -10,11 +10,12 @@ use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
 final class InitializeApplePaySessionHandler
 {
-    public function __construct (
+    public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly GatewayInterface $gateway,
     ) {
@@ -34,6 +35,9 @@ final class InitializeApplePaySessionHandler
                 $output = new ArrayObject(),
             ),
         );
+
+        Assert::string($output['result']);
+        Assert::string($output['session']);
 
         return new InitializeApplePaySessionResult(
             $output['result'],

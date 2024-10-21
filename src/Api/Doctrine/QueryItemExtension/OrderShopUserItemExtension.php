@@ -59,12 +59,4 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
             ->setParameter($customerParameterName, $customer->getId())
         ;
     }
-
-    /**
-     * @return array<string>
-     */
-    private function getAllowedOperations(): array
-    {
-        return [self::SHOP_PAY_OPERATION, self::SHOP_CANCEL_LAST_PAYMENT_OPERATION, self::SHOP_INITIALIZE_APPLE_PAY_SESSION_OPERATION];
-    }
 }
