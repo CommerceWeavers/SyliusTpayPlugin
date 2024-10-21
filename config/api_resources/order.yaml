@@ -16,6 +16,33 @@
                 - 'commerce_weavers_sylius_tpay:shop:order:pay'
             openapi_context:
                 summary: 'Pay for the order'
+        shop_initialize_apple_pay_session:
+            method: 'POST'
+            path: '/shop/orders/{tokenValue}/apple-pay-session'
+            messenger: 'input'
+            input: 'CommerceWeavers\SyliusTpayPlugin\Api\Command\InitializeApplePaySession'
+            status: 201
+            denormalization_context:
+                groups:
+                    - 'commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session'
+            normalization_context:
+                groups:
+                    - 'commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session_result'
+            validation_groups:
+                - 'commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session'
+            openapi_context:
+                summary: 'Initialize Apple Pay payment session'
+                parameters:
+                    -   name: tokenValue
+                        in: path
+                        required: true
+                        schema:
+                            type: string
+                    -   name: paymentId
+                        in: path
+                        required: true
+                        schema:
+                            type: integer
         shop_cancel_last_payment:
             method: 'PATCH'
             path: '/shop/orders/{tokenValue}/cancel-last-payment'

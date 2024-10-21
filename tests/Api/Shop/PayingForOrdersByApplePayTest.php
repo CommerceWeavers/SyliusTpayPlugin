@@ -23,6 +23,32 @@ final class PayingForOrdersByApplePayTest extends JsonApiTestCase
         $this->loadFixturesFromFile('shop/paying_for_orders_by_apple_pay.yml');
     }
 
+    public function test_it_initializes_an_apple_pay_session(): void
+    {
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_apple_pay');
+
+        $this->client->request(
+            Request::METHOD_POST,
+            sprintf('/api/v2/shop/orders/%s/apple-pay-session', $order->getTokenValue()),
+            server: self::CONTENT_TYPE_HEADER,
+            content: json_encode([
+                'successUrl' => 'https://example.com/success',
+                'failureUrl' => 'https://example.com/failure',
+                'domainName' => 'cw.nonexisting',
+                'displayName' => 'Commerce Weavers',
+                'validationUrl' => 'https://cw.nonexisting/validation',
+            ]),
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponse(
+            $response,
+            'shop/paying_for_orders_by_apple_pay/test_initializing_an_apple_pay_session',
+            Response::HTTP_CREATED,
+        );
+    }
+
     public function test_paying_with_a_valid_apple_pay_token_for_an_order(): void
     {
         $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_apple_pay');

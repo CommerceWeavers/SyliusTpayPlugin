@@ -24,7 +24,7 @@ class TpayApi extends BaseTpayApi
         private readonly string $clientSecret,
         private readonly bool $productionMode = false,
         private readonly string $scope = 'read',
-        ?string $apiUrlOverride = null,
+        private readonly ?string $apiUrlOverride = null,
         private readonly ?string $clientName = null,
         private readonly ?string $notificationSecretCode = null,
     ) {
@@ -44,8 +44,11 @@ class TpayApi extends BaseTpayApi
         if (null === $this->applePayApi) {
             Assert::notNull($this->token);
 
-            $this->applePayApi = (new ApplePayApi($this->token, $this->productionMode))
-                ->overrideApiUrl($this->apiUrl);
+            $this->applePayApi = (new ApplePayApi($this->token, $this->productionMode));
+
+            if ($this->apiUrlOverride) {
+                $this->applePayApi->overrideApiUrl($this->apiUrlOverride);
+            }
 
             if ($this->clientName) {
                 $this->applePayApi->setClientName($this->clientName);
@@ -60,7 +63,6 @@ class TpayApi extends BaseTpayApi
      */
     private function authorize(): void
     {
-        /** @phpstan-ignore-next-line */
         if (
             $this->token instanceof Token &&
             time() <= $this->token->issued_at->getValue() + $this->token->expires_in->getValue()

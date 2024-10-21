@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Serializer\ContextBuilder;
 
-use CommerceWeavers\SyliusTpayPlugin\Api\Command\Contract\OrderTokenAwareInterface;
+use CommerceWeavers\SyliusTpayPlugin\Api\Command\Contract\PaymentIdAwareInterface;
 
-final class OrderTokenAwareContextBuilder extends AbstractAwareContextBuilder
+final class PaymentIdAwareContextBuilder extends AbstractAwareContextBuilder
 {
     public function getAttributeKey(): string
     {
-        return 'tokenValue';
+        return 'paymentId';
     }
 
     public function getSupportedInterface(): string
     {
-        return OrderTokenAwareInterface::class;
+        return PaymentIdAwareInterface::class;
     }
 
     public function getPropertyNameAccessorMethodName(): string
     {
-        return 'getOrderTokenPropertyName';
+        return 'getPaymentIdPropertyName';
     }
 }

@@ -6,6 +6,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface as LegacyQueryNameGeneratorInterface;
+use CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension\Provider\AllowedOrderOperationsProviderInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -13,13 +14,10 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 
 final class OrderShopUserItemExtension implements QueryItemExtensionInterface
 {
-    public const SHOP_PAY_OPERATION = 'shop_pay';
-
-    public const SHOP_CANCEL_LAST_PAYMENT_OPERATION = 'shop_cancel_last_payment';
-
     public function __construct(
         private readonly QueryItemExtensionInterface $decorated,
         private readonly UserContextInterface $userContext,
+        private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
     }
 
@@ -35,7 +33,7 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
             return;
         }
 
-        if (!in_array($operationName, $this->getAllowedOperations(), true)) {
+        if (!in_array($operationName, $this->allowedOrderOperationsProvider->provide(), true)) {
             $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operationName, $context);
 
             return;
@@ -60,13 +58,5 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
             ->andWhere(sprintf('%s.customer = :%s', $rootAlias, $customerParameterName))
             ->setParameter($customerParameterName, $customer->getId())
         ;
-    }
-
-    /**
-     * @return array<string>
-     */
-    private function getAllowedOperations(): array
-    {
-        return [self::SHOP_PAY_OPERATION, self::SHOP_CANCEL_LAST_PAYMENT_OPERATION];
     }
 }

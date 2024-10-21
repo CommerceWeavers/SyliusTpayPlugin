@@ -266,6 +266,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "7156e806-bfaf-4a61-8635-144c74efc290",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "wallet/applepay/init",
+      "responses": [
+        {
+          "uuid": "b5e188ce-1522-4f14-aa59-0e28ebb07c67",
+          "body": "{\n  \"result\": \"success\",\n  \"requestId\": \"85136c79cbf9fe36bb9\",\n  \"session\": \"apple-pay-token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -284,6 +313,10 @@
     {
       "type": "route",
       "uuid": "e4a22d76-46eb-41c1-b11b-4691771080df"
+    },
+    {
+      "type": "route",
+      "uuid": "7156e806-bfaf-4a61-8635-144c74efc290"
     }
   ],
   "proxyMode": false,

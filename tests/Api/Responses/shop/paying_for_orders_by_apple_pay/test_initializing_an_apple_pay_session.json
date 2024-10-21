@@ -1,0 +1,12 @@
+{
+  "@context": {
+    "@vocab": "http://localhost/api/v2/docs.jsonld#",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+    "result": "InitializeApplePaySessionResult/result",
+    "session": "InitializeApplePaySessionResult/session"
+  },
+  "@type": "InitializeApplePaySessionResult",
+  "@id": "/api/v2/.well-known/genid/@string@",
+  "result": "success",
+  "session": "apple-pay-token"
+}
