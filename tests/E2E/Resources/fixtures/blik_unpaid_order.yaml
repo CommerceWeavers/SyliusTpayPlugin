@@ -119,7 +119,7 @@ App\Entity\Order:
         number: '000000001'
         tokenValue: 'tokenValue1'
         channel: '@channel_web'
-        currencyCode: 'USD'
+        currencycode: 'PLN'
         localeCode: 'en_US'
         customer: '@customer_tony'
         state: 'new'
@@ -144,7 +144,7 @@ Sylius\Component\Core\Model\Payment:
     unpaid_order_payment_tpay_blik:
         method: '@tpay_blik'
         order: '@unpaid_order'
-        currency_code: 'USD'
+        currency_code: 'PLN'
         amount: 100
         state: new
         details: '[]'

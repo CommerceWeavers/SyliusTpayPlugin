@@ -1,3 +1,4 @@
+{% if not (method.gatewayConfig.gatewayName == 'tpay' and order.currencyCode != 'PLN') %}
 <div class="item" {{ sylius_test_html_attribute('payment-item') }}>
     <div class="field">
         <div class="ui radio checkbox" {{ sylius_test_html_attribute('payment-method-checkbox') }}>
@@ -13,3 +14,4 @@
         {# SyliusTpayPlugin customization <<< #}
     </div>
 </div>
+{% endif %}

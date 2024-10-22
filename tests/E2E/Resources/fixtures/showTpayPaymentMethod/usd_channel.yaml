@@ -5,7 +5,7 @@ Sylius\Component\Core\Model\Channel:
         hostname: 'localhost'
         contactEmail: 'web@sylius.com'
         description: 'Lorem ipsum'
-        baseCurrency: '@currency_pln'
+        baseCurrency: '@currency_usd'
         defaultLocale: '@locale_en'
         locales: ['@locale_en', '@locale_pl']
         color: 'black'
@@ -15,8 +15,8 @@ Sylius\Component\Core\Model\Channel:
         shopBillingData: '@channel_web_billing_data'
 
 Sylius\Component\Currency\Model\Currency:
-    currency_pln:
-        code: 'PLN'
+    currency_usd:
+        code: 'USD'
 
 Sylius\Component\Core\Model\ShopBillingData:
     channel_web_billing_data:

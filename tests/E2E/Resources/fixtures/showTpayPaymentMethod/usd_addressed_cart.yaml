@@ -1,11 +1,11 @@
 include:
-    - common/channel.yaml
-    - common/country.yaml
-    - common/customer.yaml
-    - common/payment_method.yaml
-    - common/shipping_category.yaml
-    - common/shipping_method.yaml
-    - common/tax_category.yaml
+    - usd_channel.yaml
+    - ../common/country.yaml
+    - ../common/customer.yaml
+    - ../common/payment_method.yaml
+    - ../common/shipping_category.yaml
+    - ../common/shipping_method.yaml
+    - ../common/tax_category.yaml
 
 Sylius\Component\Core\Model\Product:
     product:
@@ -115,17 +115,13 @@ Sylius\Component\Product\Model\ProductOptionValueTranslation:
         translatable: '@product_option_value_color_red'
 
 App\Entity\Order:
-    unpaid_order:
-        number: '000000001'
-        tokenValue: 'tokenValue1'
+    addressed_cart:
         channel: '@channel_web'
-        currencycode: 'PLN'
+        currencycode: 'USD'
         localeCode: 'en_US'
         customer: '@customer_tony'
-        state: 'new'
-        checkoutState: 'completed'
-        paymentState: 'awaiting_payment'
-        shippingState: 'ready'
+        state: 'cart'
+        checkoutState: 'addressed'
         createdByGuest: false
         shippingAddress: '@address_tony'
         billingAddress: '@address_tony'
@@ -139,13 +135,3 @@ Sylius\Component\Core\Model\OrderItem:
 Sylius\Component\Core\Model\OrderItemUnit:
     order_item_unit:
         __construct: ['@order_item']
-        
-Sylius\Component\Core\Model\Payment:
-    unpaid_order_payment_tpay_card:
-        method: '@tpay_card'
-        order: '@unpaid_order'
-        currency_code: 'PLN'
-        amount: 100
-        state: new
-        details: '[]'
-    

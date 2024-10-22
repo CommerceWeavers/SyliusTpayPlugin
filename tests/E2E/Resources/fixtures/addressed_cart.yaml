@@ -117,7 +117,7 @@ Sylius\Component\Product\Model\ProductOptionValueTranslation:
 App\Entity\Order:
     addressed_cart:
         channel: '@channel_web'
-        currencyCode: 'USD'
+        currencycode: 'PLN'
         localeCode: 'en_US'
         customer: '@customer_tony'
         state: 'cart'

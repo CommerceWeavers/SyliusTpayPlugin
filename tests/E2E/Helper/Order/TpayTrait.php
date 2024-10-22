@@ -36,4 +36,9 @@ trait TpayTrait
     {
         return $this->client->findElement(WebDriverBy::xpath($xpath));
     }
+
+    public function getPaymentMethodByName(string $paymentMethodName): ?WebDriverElement
+    {
+        return $this->findElementByXpath(sprintf("//label[text()='%s']", $paymentMethodName));
+    }
 }

@@ -9,6 +9,17 @@ use Symfony\Config\SyliusFixturesConfig;
 
 return static function(SyliusFixturesConfig $fixtures): void {
     $defaultSuite = $fixtures->suites('default');
+    $defaultSuite->fixtures('channel', [
+        'options' => [
+            'custom' => [
+                'fashion_web_store' => [
+                    'currencies' => [
+                        'PLN',
+                    ],
+                ],
+            ],
+        ],
+    ]);
     $defaultSuite->fixtures('shipping_method', [
         'options' => [
             'custom' => [
