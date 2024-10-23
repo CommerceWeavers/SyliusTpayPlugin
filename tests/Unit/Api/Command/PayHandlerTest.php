@@ -59,6 +59,51 @@ final class PayHandlerTest extends TestCase
         $this->createTestSubject()->__invoke($this->createCommand());
     }
 
+    public function test_it_throws_an_exception_if_next_command_is_not_instance_of_pay_result(): void
+    {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Expected instance of CommerceWeavers\SyliusTpayPlugin\Api\Command\PayResult, but got stdClass');
+
+        $order = $this->prophesize(OrderInterface::class);
+        $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment = $this->prophesize(PaymentInterface::class));
+
+        $this->orderRepository->findOneByTokenValue('token')->willReturn($order);
+
+        $payment->getId()->willReturn(1);
+        $payment->getDetails()->willReturn([]);
+        $payment->setDetails([
+            'tpay' => [
+                'transaction_id' => null,
+                'result' => null,
+                'status' => null,
+                'apple_pay_token' => null,
+                'blik_token' => null,
+                'google_pay_token' => null,
+                'card' => null,
+                'tpay_channel_id' => null,
+                'payment_url' => null,
+                'success_url' => 'https://cw.nonexisting/success',
+                'failure_url' => 'https://cw.nonexisting/failure',
+                'visa_mobile_phone_number' => null,
+            ],
+        ])->shouldBeCalled();
+
+        $this->nextCommandFactory->create(Argument::type(Pay::class), $payment)->willReturn(new PayByBlik(1, '777123'));
+
+        $payResult = new \StdClass();
+        $payResultEnvelope = new Envelope(new \stdClass(), [new HandledStamp($payResult, 'dummy_handler')]);
+
+        $this->messageBus
+            ->dispatch(Argument::that(function (PayByBlik $pay): bool {
+                return $pay->blikToken === '777123' && $pay->paymentId === 1;
+            }))
+            ->shouldBeCalled()
+            ->willReturn($payResultEnvelope)
+        ;
+
+        $this->createTestSubject()->__invoke($this->createCommand(blikToken: '777123'));
+    }
+
     public function test_it_executes_pay_by_blik_command_if_a_blik_token_is_passed(): void
     {
         $order = $this->prophesize(OrderInterface::class);

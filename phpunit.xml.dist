@@ -41,5 +41,32 @@
 
     <extensions>
         <extension class="Symfony\Component\Panther\ServerExtension" />
+
+        <bootstrap class="RobinIngelbrecht\PHPUnitCoverageTools\PhpUnitExtension">
+            <parameter name="exitOnLowCoverage" value="0|1"/>
+            <parameter name="cleanUpCloverXml" value="0|1"/>
+        </bootstrap>
     </extensions>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+        <exclude>
+            <directory>src/Api/Doctrine</directory>
+            <directory>src/Api/Resource</directory>
+            <directory>src/Controller</directory>
+            <directory>src/DependencyInjection</directory>
+            <directory>src/Fixture</directory>
+            <directory>src/Form</directory>
+            <directory>src/Model</directory>
+            <directory>src/Test</directory>
+            <directory>src/Twig</directory>
+            <file>src/CommerceWeaversSyliusTpayPlugin.php</file>
+        </exclude>
+    </coverage>
+
+    <logging>
+        <testdoxText outputFile="testdox.txt"/>
+    </logging>
 </phpunit>

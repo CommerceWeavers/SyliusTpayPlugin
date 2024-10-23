@@ -9,7 +9,6 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayC
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEqualsValidator;
 use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
@@ -20,7 +19,6 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintValidatorTestCase
@@ -39,6 +37,16 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         parent::setUp();
 
         $this->setObject(new Pay('orderToken123', 'http://example.com?success', 'http://example.com?failure'));
+    }
+
+    public function test_constraint_targets_is_property_constraint(): void
+    {
+        $constraint = new NotBlankIfGatewayConfigTypeEquals();
+
+        $this->assertSame(
+            Constraint::PROPERTY_CONSTRAINT,
+            $constraint->getTargets()
+        );
     }
 
     public function test_it_throws_an_exception_if_a_constraint_has_an_invalid_type(): void
@@ -103,7 +111,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn(null);
 
         $this->validator->validate(
-            't00k33n',
+            '',
             new NotBlankIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
@@ -119,7 +127,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $payment->getMethod()->willReturn(null);
 
         $this->validator->validate(
-            't00k33n',
+            '',
             new NotBlankIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
@@ -137,7 +145,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $paymentMethod->getGatewayConfig()->willReturn(null);
 
         $this->validator->validate(
-            't00k33n',
+            '',
             new NotBlankIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
