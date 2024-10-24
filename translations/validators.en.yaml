@@ -19,6 +19,7 @@ commerce_weavers_sylius_tpay:
                 not_a_bank: 'Channel with provided id is not a bank.'
             card:
                 cvc: 'The CVC must be composed of 3 digits.'
+                expiration_month: 'The expiration month must be the current month or later.'
                 expiration_year: 'The expiration year must be the current year or later.'
                 number: 'The card number must be composed of 16 digits.'
                 name: 'The cardholder name is required.'

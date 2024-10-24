@@ -49,7 +49,7 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->loginShopUser('tony@nonexisting.cw', 'sylius');
 
         $this->client->get('/en_US/order/tokenValue1');
-        $this->fillCardData(self::SELECT_FIRST_PAYMENT_FORM_ID, 'John Doe', self::CARD_NUMBER, self::CARD_CVC, self::CARD_EXPIRATION_DATE_MONTH, self::CARD_EXPIRATION_DATE_YEAR);
+        $this->fillCardData(self::SELECT_FIRST_PAYMENT_FORM_ID, self::CARD_NUMBER, self::CARD_CVC, self::CARD_EXPIRATION_DATE_MONTH, self::CARD_EXPIRATION_DATE_YEAR);
         $this->client->submitForm('Pay');
 
         $this->assertPageTitleContains('Thank you');
@@ -79,7 +79,7 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->client->get('/en_US/order/tokenValue1');
         $form = $this->client->getCrawler()->selectButton('Pay')->form();
         $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Card (Tpay)')]"))->click();
-        $this->fillCardData(self::SELECT_FIRST_PAYMENT_FORM_ID, 'John Doe', self::CARD_NUMBER, self::CARD_CVC, self::CARD_EXPIRATION_DATE_MONTH, self::CARD_EXPIRATION_DATE_YEAR);
+        $this->fillCardData(self::SELECT_FIRST_PAYMENT_FORM_ID, self::CARD_NUMBER, self::CARD_CVC, self::CARD_EXPIRATION_DATE_MONTH, self::CARD_EXPIRATION_DATE_YEAR);
         $this->client->submitForm('Pay');
 
         $this->assertPageTitleContains('Thank you');

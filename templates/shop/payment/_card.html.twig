@@ -2,13 +2,6 @@
     <div class="ui small icon message">
         <i class="payment icon"></i>
         <div class="content">
-            <div class="field" data-tpay-field>
-                {{ form_row(form.tpay.card.holder_name, { attr: {
-                    'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.card.name'|trans({}, 'validators'),
-                    'data-tpay-card-holder-name': ''
-                } }) }}
-                <div data-tpay-error-container></div>
-            </div>
             <div class="field">
                 <div class="field required" data-tpay-field>
                     {{ form_label(form.tpay.card.number) }}

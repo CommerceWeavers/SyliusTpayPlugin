@@ -27,14 +27,6 @@ final class TpayCardType extends AbstractType
     {
         $builder
             ->add(
-                'holder_name',
-                TextType::class,
-                [
-                    'mapped' => false,
-                    'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.holder_name',
-                ],
-            )
-            ->add(
                 'number',
                 TextType::class,
                 [
