@@ -53,10 +53,6 @@ abstract class AbstractAwareContextBuilder implements AwareContextBuilderInterfa
 
     private function getConstructorArgumentName(string $inputClass): string
     {
-        if (!is_a($inputClass, $this->getSupportedInterface(), true)) {
-            throw new \InvalidArgumentException(sprintf('The class "%s" must implement "%s".', $inputClass, $this->getSupportedInterface()));
-        }
-
         return [$inputClass, $this->getPropertyNameAccessorMethodName()]();
     }
 

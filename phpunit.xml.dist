@@ -62,7 +62,12 @@
             <directory>src/Model</directory>
             <directory>src/Test</directory>
             <directory>src/Twig</directory>
+
+            <!-- other files -->
             <file>src/CommerceWeaversSyliusTpayPlugin.php</file>
+            <file>src/Payum/Factory/TpayGatewayFactory.php</file>
+            <file>src/Tpay/ApplePayApi.php</file>
+            <file>src/Tpay/TpayApi.php</file>
         </exclude>
     </coverage>
 

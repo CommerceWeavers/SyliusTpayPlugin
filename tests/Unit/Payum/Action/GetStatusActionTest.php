@@ -18,19 +18,17 @@ final class GetStatusActionTest extends TestCase
 {
     use ProphecyTrait;
 
-    private Notify|ObjectProphecy $request;
-
     private PaymentInterface|ObjectProphecy $model;
 
     private GatewayInterface|ObjectProphecy $gateway;
 
     protected function setUp(): void
     {
-        $this->request = $this->prophesize(Notify::class);
+        $request = $this->prophesize(Notify::class);
         $this->model = $this->prophesize(PaymentInterface::class);
         $this->gateway = $this->prophesize(GatewayInterface::class);
 
-        $this->request->getFirstModel()->willReturn($this->model->reveal());
+        $request->getFirstModel()->willReturn($this->model->reveal());
     }
 
     public function test_it_supports_only_get_status_requests(): void
@@ -66,6 +64,9 @@ final class GetStatusActionTest extends TestCase
     public static function data_provider_it_converts_tpay_notification_status(): iterable
     {
         yield ['correct', PaymentInterface::STATE_COMPLETED];
+        yield ['pending', PaymentInterface::STATE_PROCESSING];
+        yield ['refund', PaymentInterface::STATE_REFUNDED];
+        yield ['failed', PaymentInterface::STATE_FAILED];
     }
 
     private function createTestSubject(): GetStatusAction
