@@ -62,6 +62,10 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_sylius_tpay.api.command.pay_by_blik_handler', PayByBlikHandler::class)
         ->parent('commerce_weavers_sylius_tpay.api.command.abstract_pay_by_handler')
+        ->args([
+            service('commerce_weavers_sylius_tpay.resolver.blik_alias'),
+            service('commerce_weavers_sylius_tpay.manager.blik_alias'),
+        ])
         ->tag('messenger.message_handler')
     ;
 

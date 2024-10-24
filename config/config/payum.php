@@ -12,4 +12,6 @@ return function(PayumConfig $payum): void {
         ->encryption()
         ->defuseSecretKey('%env(PAYUM_CYPHER_KEY)%')
     ;
+
+    $payum->storages('%commerce_weavers_sylius_tpay.model.blik_alias.class%', ['doctrine' => 'orm']);
 };

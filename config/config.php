@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Routing;
 
 return static function(ContainerConfigurator $container): void {
     $container->import('config/**/*.php');
+    $container->import('config/**/*.yaml');
 
     $parameters = $container->parameters();
     $parameters

@@ -7,14 +7,11 @@ namespace CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api;
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
+use CommerceWeavers\SyliusTpayPlugin\Repository\BlikAliasRepositoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateBlikLevelZeroPaymentPayloadFactoryInterface;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Sylius\Component\Core\Model\PaymentInterface;
-use Tpay\OpenApi\Api\TpayApi;
 
-/**
- * @property TpayApi $api
- */
 final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransactionAction
 {
     use GenericTokenFactoryAwareTrait;
@@ -22,6 +19,7 @@ final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransacti
     public function __construct(
         private readonly CreateBlikLevelZeroPaymentPayloadFactoryInterface $createBlikLevelZeroPaymentPayloadFactory,
         private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
+        private readonly BlikAliasRepositoryInterface $blikAliasRepository,
     ) {
         parent::__construct();
     }
@@ -39,9 +37,12 @@ final class CreateBlikLevelZeroTransactionAction extends AbstractCreateTransacti
         $notifyToken = $this->notifyTokenFactory->create($model, $gatewayName, $localeCode);
 
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
+        $blikAlias = null !== $paymentDetails->getBlikAliasValue()
+            ? $this->blikAliasRepository->findOneByValue($paymentDetails->getBlikAliasValue())
+            : null;
 
         $response = $this->api->transactions()->createTransaction(
-            $this->createBlikLevelZeroPaymentPayloadFactory->createFrom($model, $notifyToken->getTargetUrl(), $localeCode),
+            $this->createBlikLevelZeroPaymentPayloadFactory->createFrom($model, $blikAlias, $notifyToken->getTargetUrl(), $localeCode),
         );
 
         $paymentDetails->setTransactionId($response['transactionId']);
