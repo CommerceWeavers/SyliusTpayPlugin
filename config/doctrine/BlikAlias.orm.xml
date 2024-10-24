@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <mapped-superclass name="CommerceWeavers\SyliusTpayPlugin\Entity\BlikAlias" table="cw_sylius_tpay_blik_alias">
+        <id name="id" column="id" type="integer">
+            <generator />
+        </id>
+
+        <field name="value" column="value" />
+        <field name="expirationDate" column="expiration_date" type="datetime" nullable="true" />
+        <field name="registered" column="registered" type="boolean">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
+
+        <one-to-one field="customer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
+            <join-column name="customer_id" nullable="false" on-delete="CASCADE" />
+        </one-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

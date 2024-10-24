@@ -1,3 +1,8 @@
+include:
+    - common/cart.yml
+    - common/channel.yml
+    - common/shipping_method.yml
+
 Sylius\Component\Core\Model\PaymentMethod:
     tpay:
         code: 'tpay'

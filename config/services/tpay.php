@@ -50,6 +50,7 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_blik_level_zero_payment_payload', CreateBlikLevelZeroPaymentPayloadFactory::class)
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('sylius.context.channel'),
         ])
         ->alias(CreateBlikLevelZeroPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_blik_level_zero_payment_payload')
     ;

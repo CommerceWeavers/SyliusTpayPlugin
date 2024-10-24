@@ -92,6 +92,7 @@ final class NotifyActionTest extends TestCase
                 'status' => $expectedStatus,
                 'apple_pay_token' => null,
                 'blik_token' => null,
+                'blik_alias_value' => null,
                 'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => null,

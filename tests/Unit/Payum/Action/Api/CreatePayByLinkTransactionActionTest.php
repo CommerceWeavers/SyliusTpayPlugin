@@ -128,6 +128,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
                 'status' => 'pending',
                 'apple_pay_token' => null,
                 'blik_token' => null,
+                'blik_alias_value' => null,
                 'google_pay_token' => null,
                 'card' => null,
                 'payment_url' => 'https://tpay.org/pay',

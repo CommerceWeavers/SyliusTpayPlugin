@@ -17,6 +17,8 @@ class PaymentDetails
         #[\SensitiveParameter]
         private ?string $blikToken = null,
         #[\SensitiveParameter]
+        private ?string $blikAliasValue = null,
+        #[\SensitiveParameter]
         private ?string $googlePayToken = null,
         #[\SensitiveParameter]
         private ?string $encodedCardData = null,
@@ -74,9 +76,19 @@ class PaymentDetails
         return $this->blikToken;
     }
 
-    public function setBlikToken(string $blikToken): void
+    public function setBlikToken(?string $blikToken): void
     {
         $this->blikToken = $blikToken;
+    }
+
+    public function getBlikAliasValue(): ?string
+    {
+        return $this->blikAliasValue;
+    }
+
+    public function setBlikAliasValue(?string $value): void
+    {
+        $this->blikAliasValue = $value;
     }
 
     public function getGooglePayToken(): ?string
@@ -170,6 +182,11 @@ class PaymentDetails
         $this->encodedCardData = null;
     }
 
+    public function isBlik(): bool
+    {
+        return null !== $this->blikToken || null !== $this->blikAliasValue;
+    }
+
     public static function fromArray(array $details): self
     {
         return new self(
@@ -178,6 +195,7 @@ class PaymentDetails
             $details['tpay']['status'] ?? null,
             $details['tpay']['apple_pay_token'] ?? null,
             $details['tpay']['blik_token'] ?? null,
+            $details['tpay']['blik_alias_value'] ?? null,
             $details['tpay']['google_pay_token'] ?? null,
             $details['tpay']['card'] ?? null,
             $details['tpay']['payment_url'] ?? null,
@@ -197,6 +215,7 @@ class PaymentDetails
                 'status' => $this->status,
                 'apple_pay_token' => $this->applePayToken,
                 'blik_token' => $this->blikToken,
+                'blik_alias_value' => $this->blikAliasValue,
                 'google_pay_token' => $this->googlePayToken,
                 'card' => $this->encodedCardData,
                 'payment_url' => $this->paymentUrl,

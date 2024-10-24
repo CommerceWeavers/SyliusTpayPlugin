@@ -11,13 +11,6 @@
             </constraint>
         </property>
         <property name="blikToken">
-            <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals">
-                <option name="paymentMethodType">blik</option>
-                <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.required</option>
-                <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
-                </option>
-            </constraint>
             <constraint name="Length">
                 <option name="value">6</option>
                 <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.length</option>

@@ -28,6 +28,7 @@
         "symfony/http-foundation": "5.4.* || ^6.0",
         "symfony/http-kernel": "5.4.* || ^6.0",
         "symfony/routing": "5.4.* || ^6.0",
+        "symfony/uid": "5.4.*",
         "tpay-com/tpay-openapi-php": "^1.8"
     },
     "conflict": {
