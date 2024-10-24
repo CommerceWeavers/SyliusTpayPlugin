@@ -12,7 +12,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_sylius_tpay.resolver.blik_alias', BlikAliasResolver::class)
         ->args([
-            service('commerce_weavers_sylius_tpay.repository.blik_alias')->nullOnInvalid(),
+            service('commerce_weavers_sylius_tpay.repository.blik_alias'),
             service('commerce_weavers_sylius_tpay.factory.blik_alias'),
         ])
         ->alias(BlikAliasResolverInterface::class, 'commerce_weavers_sylius_tpay.resolver.blik_alias')

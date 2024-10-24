@@ -45,6 +45,8 @@ final class PayByVisaMobileHandlerTest extends TestCase
                 'result' => null,
                 'status' => null,
                 'blik_token' => null,
+                'blik_save_alias' => null,
+                'blik_use_alias' => null,
                 'apple_pay_token' => null,
                 'google_pay_token' => null,
                 'card' => null,

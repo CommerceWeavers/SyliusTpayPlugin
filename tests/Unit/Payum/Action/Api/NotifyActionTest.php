@@ -90,6 +90,7 @@ final class NotifyActionTest extends TestCase
                 'transaction_id' => null,
                 'result' => null,
                 'status' => $expectedStatus,
+                'apple_pay_token' => null,
                 'blik_token' => null,
                 'blik_save_alias' => null,
                 'blik_use_alias' => null,
@@ -98,6 +99,8 @@ final class NotifyActionTest extends TestCase
                 'payment_url' => null,
                 'success_url' => null,
                 'failure_url' => null,
+                'tpay_channel_id' => null,
+                'visa_mobile_phone_number' => null,
             ],
         ])->shouldBeCalled();
 
