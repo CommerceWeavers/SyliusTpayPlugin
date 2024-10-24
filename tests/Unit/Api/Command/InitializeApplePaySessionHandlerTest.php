@@ -34,6 +34,14 @@ final class InitializeApplePaySessionHandlerTest extends TestCase
         $this->initializeApplePayPaymentFactory = $this->prophesize(InitializeApplePayPaymentFactoryInterface::class);
     }
 
+    public function test_command_returns_orderToken_as_order_token_property_name(): void
+    {
+        $this->assertSame(
+            'orderToken',
+            $this->createCommand()->getOrderTokenPropertyName()
+        );
+    }
+
     public function test_it_throws_an_exception_if_an_order_with_the_given_token_does_not_exist(): void
     {
         $this->expectException(OrderCannotBeFoundException::class);

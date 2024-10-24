@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Validator\Constraint;
 
-use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdEligibility;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdEligibilityValidator;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\TpayApiChannelListProviderInterface;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\TpayTransactionChannelResolver;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\TpayTransactionChannelResolverInterface;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -52,12 +49,21 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     ];
 
     private TpayTransactionChannelResolverInterface|ObjectProphecy $tpayTransactionChannelResolver;
-
     protected function setUp(): void
     {
         $this->tpayTransactionChannelResolver = $this->prophesize(TpayTransactionChannelResolverInterface::class);
 
         parent::setUp();
+    }
+
+    public function test_constraint_targets_is_property_constraint(): void
+    {
+        $constraint = new TpayChannelIdEligibility();
+
+        $this->assertSame(
+            Constraint::PROPERTY_CONSTRAINT,
+            $constraint->getTargets()
+        );
     }
 
     public function test_it_throws_an_exception_if_a_value_is_not_a_string(): void

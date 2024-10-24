@@ -6,12 +6,14 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Payment\Canceller;
 
 use CommerceWeavers\SyliusTpayPlugin\Payment\Canceller\PaymentCanceller;
 use CommerceWeavers\SyliusTpayPlugin\Payment\Canceller\PaymentCancellerInterface;
+use CommerceWeavers\SyliusTpayPlugin\Payment\Exception\PaymentCannotBeCancelledException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use SM\Factory\FactoryInterface;
 use SM\StateMachine\StateMachineInterface as WinzouStateMachineInterface;
+use Sylius\Abstraction\StateMachine\Exception\StateMachineExecutionException;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
@@ -41,6 +43,21 @@ final class PaymentCancellerTest extends TestCase
         $this->stateMachineFactory->get(Argument::cetera())->shouldNotBeCalled();
 
         $this->createTestSubject($stateMachine->reveal())->cancel($payment->reveal());
+    }
+
+    public function test_it_throws_exception_if_state_machine_fails_apply(): void
+    {
+        $this->expectException(PaymentCannotBeCancelledException::class);
+
+        $payment = $this->prophesize(PaymentInterface::class);
+        $winzouStateMachine = $this->prophesize(WinzouStateMachineInterface::class);
+
+        $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH)->willReturn($winzouStateMachine);
+        $winzouStateMachine->apply(PaymentTransitions::TRANSITION_CANCEL)->willThrow(StateMachineExecutionException::class);
+
+        $canceller = new PaymentCanceller(null, $this->stateMachineFactory->reveal());
+
+        $canceller->cancel($payment->reveal());
     }
 
     public function test_it_fallbacks_to_the_winzou_state_machine_while_cancelling_a_payment(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Payum\Action\Api;
 
+use CommerceWeavers\SyliusTpayPlugin\Api\Command\PayByBlik;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\InitializeApplePayPaymentAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\InitializeApplePayPayment;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\ApplePayApi;
@@ -26,6 +27,14 @@ final class InitializeApplePayPaymentActionTest extends TestCase
     {
         $this->createInitializeApplePayPaymentPayloadFactory = $this->prophesize(CreateInitializeApplePayPaymentPayloadFactoryInterface::class);
         $this->api = $this->prophesize(TpayApi::class);
+    }
+
+    public function test_it_supports_only_initialize_apple_pay_payments(): void
+    {
+        $action = $this->createTestSubject();
+
+        $this->assertFalse($action->supports(new PayByBlik(1, 'test')));
+        $this->assertTrue($action->supports(new InitializeApplePayPayment(new ArrayObject(), new ArrayObject())));
     }
 
     public function test_it_initializes_apple_pay_payment(): void
