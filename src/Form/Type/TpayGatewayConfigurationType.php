@@ -14,6 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 final class TpayGatewayConfigurationType extends AbstractType
 {
@@ -35,6 +39,11 @@ final class TpayGatewayConfigurationType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.client_id',
+                    'constraints' => [
+                        new NotBlank(groups: [
+                            'commerce_weavers_sylius_tpay:shop:payment_method:default_type',
+                        ]),
+                    ],
                 ],
             )
             ->add(
@@ -42,6 +51,11 @@ final class TpayGatewayConfigurationType extends AbstractType
                 PasswordType::class,
                 [
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.client_secret',
+//                    'constraints' => [
+//                        new NotBlank(groups: [
+//                            'commerce_weavers_sylius_tpay:shop:payment_method:default_type',
+//                        ]),
+//                    ],
                 ],
             )
             ->add(
@@ -51,6 +65,9 @@ final class TpayGatewayConfigurationType extends AbstractType
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.cards_api',
                     'required' => false,
                     'empty_data' => '',
+                    'constraints' => [
+                        new NotBlank(groups: ['commerce_weavers_sylius_tpay:shop:payment_method:card_type']),
+                    ],
                 ],
             )
             ->add(
@@ -74,6 +91,11 @@ final class TpayGatewayConfigurationType extends AbstractType
                 [
                     'empty_data' => '',
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.merchant_id',
+                    'constraints' => [
+                        new NotBlank(groups: [
+                            'commerce_weavers_sylius_tpay:shop:payment_method:default_type',
+                        ]),
+                    ],
                 ],
             )
             ->add(
@@ -81,7 +103,11 @@ final class TpayGatewayConfigurationType extends AbstractType
                 TextType::class,
                 [
                     'empty_data' => '',
+                    'required' => false,
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.google_merchant_id',
+                    'constraints' => [
+                        new NotBlank(groups: ['commerce_weavers_sylius_tpay:shop:payment_method:google_pay_type']),
+                    ],
                 ],
             )
             ->add(
@@ -89,7 +115,13 @@ final class TpayGatewayConfigurationType extends AbstractType
                 TextType::class,
                 [
                     'empty_data' => '',
+                    'required' => false,
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.apple_pay_merchant_id',
+                    'constraints' => [
+                        new NotBlank(groups: [
+                            'commerce_weavers_sylius_tpay:shop:payment_method:apple_pay_type',
+                        ]),
+                    ],
                 ],
             )
             ->add(
@@ -98,6 +130,11 @@ final class TpayGatewayConfigurationType extends AbstractType
                 [
                     'empty_data' => '',
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.notification_security_code',
+                    'constraints' => [
+                        new NotNull(groups: [
+                            'commerce_weavers_sylius_tpay:shop:payment_method:default_type',
+                        ]),
+                    ],
                 ],
             )
             ->add(
@@ -116,5 +153,26 @@ final class TpayGatewayConfigurationType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, $this->decryptGatewayConfigListener);
         $builder->addEventListener(FormEvents::POST_SUBMIT, $this->encryptGatewayConfigListener);
         $builder->addEventListener(FormEvents::PRE_SUBMIT, $this->preventSavingEmptyClientSecretListener);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(array(
+            'validation_groups' => function (FormInterface $form) {
+                /** @var array $data */
+                $data = $form->getData();
+
+                $defaultType = 'commerce_weavers_sylius_tpay:shop:payment_method:default_type';
+
+                $result = match($data['type']) {
+                    PaymentType::CARD => 'commerce_weavers_sylius_tpay:shop:payment_method:card_type',
+                    PaymentType::GOOGLE_PAY => 'commerce_weavers_sylius_tpay:shop:payment_method:google_pay_type',
+                    PaymentType::APPLE_PAY => 'commerce_weavers_sylius_tpay:shop:payment_method:apple_pay_type',
+                    default => $defaultType,
+                };
+
+                return $result === $defaultType ? [$result] : [$result, $defaultType];
+            },
+        ));
     }
 }
