@@ -16,6 +16,16 @@ final class EncodedGooglePayTokenValidatorTest extends ConstraintValidatorTestCa
 {
     use ProphecyTrait;
 
+    public function test_constraint_targets_is_property_constraint(): void
+    {
+        $constraint = new EncodedGooglePayToken();
+
+        $this->assertSame(
+            Constraint::PROPERTY_CONSTRAINT,
+            $constraint->getTargets()
+        );
+    }
+
     public function test_it_throws_an_exception_if_a_constraint_has_an_invalid_type(): void
     {
         $this->expectException(UnexpectedTypeException::class);

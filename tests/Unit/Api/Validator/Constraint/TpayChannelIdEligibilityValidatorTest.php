@@ -49,12 +49,21 @@ final class TpayChannelIdEligibilityValidatorTest extends ConstraintValidatorTes
     ];
 
     private TpayTransactionChannelResolverInterface|ObjectProphecy $tpayTransactionChannelResolver;
-
     protected function setUp(): void
     {
         $this->tpayTransactionChannelResolver = $this->prophesize(TpayTransactionChannelResolverInterface::class);
 
         parent::setUp();
+    }
+
+    public function test_constraint_targets_is_property_constraint(): void
+    {
+        $constraint = new TpayChannelIdEligibility();
+
+        $this->assertSame(
+            Constraint::PROPERTY_CONSTRAINT,
+            $constraint->getTargets()
+        );
     }
 
     public function test_it_throws_an_exception_if_a_value_is_not_a_string(): void

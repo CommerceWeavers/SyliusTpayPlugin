@@ -34,6 +34,17 @@ final class CancelLastPaymentHandlerTest extends TestCase
         $this->paymentCanceller = $this->prophesize(PaymentCancellerInterface::class);
     }
 
+    public function test_command_returns_orderToken_as_order_token_property_name(): void
+    {
+        $command = new CancelLastPayment('token');
+
+        $this->assertSame(
+            'orderToken',
+            $command::getOrderTokenPropertyName()
+        );
+
+    }
+
     public function test_it_cancels_last_payment(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
