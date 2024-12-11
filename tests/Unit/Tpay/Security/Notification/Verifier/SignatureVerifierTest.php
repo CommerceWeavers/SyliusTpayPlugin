@@ -132,34 +132,6 @@ final class SignatureVerifierTest extends TestCase
         $this->assertFalse($isJwsValid);
     }
 
-    public function test_it_supports_legacy_behaviour_if_production_mode_checker_is_not_passed(): void
-    {
-        $header = base64_encode(json_encode(['x5u' => 'https://cw.x5u']));
-        $encodedRequestContent = str_replace('=', '', strtr(base64_encode('request content'), '+/', '-_'));
-        $signature = base64_encode('sigmature');
-
-        $jws = sprintf('%s.non_used_value.%s', $header, $signature);
-
-        $this->certificateResolver->resolve('https://cw.x5u')->willReturn('cert');
-        $this->trustedCertificateResolver->resolve(false)->willReturn('trusted_cert');
-
-        $this->x509->loadX509('cert')->shouldBeCalled();
-        $this->x509->loadCA('trusted_cert')->shouldBeCalled();
-        $this->x509->validateSignature()->willReturn(true);
-        $this->x509->withSettings($this->publicKey, 'sha256', RSA::SIGNATURE_PKCS1)->willReturn($this->publicKey);
-
-        $this->publicKey->verify(sprintf('%s.%s', $header, $encodedRequestContent), 'sigmature')->willReturn(true);
-
-        $signatureVerifier = new SignatureVerifier(
-            $this->certificateResolver->reveal(),
-            $this->trustedCertificateResolver->reveal(),
-            $this->x509Factory->reveal(),
-        );
-        $isJwsValid = $signatureVerifier->verify($jws, 'request content');
-
-        $this->assertTrue($isJwsValid);
-    }
-
     private function createTestSubject(): SignatureVerifierInterface
     {
         return new SignatureVerifier(

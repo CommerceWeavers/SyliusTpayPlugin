@@ -6,8 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver;
 
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Factory\GatewayFactory;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Factory\GetTpayTransactionsChannelsFactoryInterface;
-use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Request\GetTpayTransactionsChannels;
-use Payum\Core\Model\ArrayObject;
 use Payum\Core\Payum;
 use Psr\Log\LoggerInterface;
 use Tpay\OpenApi\Utilities\TpayException;
@@ -16,25 +14,16 @@ final class TpayTransactionChannelResolver implements TpayTransactionChannelReso
 {
     public function __construct(
         private readonly Payum $payum,
-        private readonly ?GetTpayTransactionsChannelsFactoryInterface $getTpayTransactionsChannelsFactory = null,
+        private readonly GetTpayTransactionsChannelsFactoryInterface $getTpayTransactionsChannelsFactory,
         private readonly ?LoggerInterface $logger = null,
     ) {
-        if (null === $this->getTpayTransactionsChannelsFactory) {
-            trigger_deprecation(
-                'commerce-weavers/sylius-tpay-plugin',
-                '1.0',
-                'Not passing a $getTpayTransactionsChannelsFactory to %s constructor is deprecated and will be removed in SyliusTpayPlugin 2.0.',
-                self::class,
-            );
-        }
     }
 
     public function resolve(): array
     {
         $gateway = $this->payum->getGateway(GatewayFactory::NAME);
 
-        $value = $this->getTpayTransactionsChannelsFactory?->createNewEmpty()
-            ?? new GetTpayTransactionsChannels(new ArrayObject());
+        $value = $this->getTpayTransactionsChannelsFactory->createNewEmpty();
 
         try {
             $gateway->execute($value, true);
