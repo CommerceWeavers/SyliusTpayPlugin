@@ -21,15 +21,19 @@ final class OrderAwareValidTpayChannelListProvider implements OrderAwareValidTpa
 
         foreach ($channelList as $key => $channel) {
             foreach ($channel['constraints'] ?? [] as $constraint) {
-                if ('amount' !== $constraint['field']) {
+                $constraintField = $constraint['field'] ?? null;
+                $constraintValue = $constraint['value'] ?? null;
+                $constraintType = $constraint['type'] ?? null;
+
+                if ('amount' !== $constraintField || null == $constraintValue || null === $constraintType) {
                     continue;
                 }
 
-                $constraintValue = (int) $constraint['value'] * self::FLOAT_AMOUNT_VALUE_TO_INT_MULTIPLIER;
+                $constraintIntValue = (int) ($constraintValue * self::FLOAT_AMOUNT_VALUE_TO_INT_MULTIPLIER);
 
                 if (
-                    ('min' === $constraint['type'] && $orderTotal < $constraintValue) ||
-                    ('max' === $constraint['type'] && $orderTotal > $constraintValue)
+                    ('min' === $constraintType && $orderTotal < $constraintIntValue) ||
+                    ('max' === $constraintType && $orderTotal > $constraintIntValue)
                 ) {
                     unset($channelList[$key]);
 

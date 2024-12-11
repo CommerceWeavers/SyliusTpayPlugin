@@ -101,6 +101,63 @@ final class OrderAwareValidTpayChannelListProviderTest extends TestCase
         $this->assertSame($expectedChannels, array_keys($result));
     }
 
+    public function test_it_does_not_validate_tpay_channels_if_constraints_exist_but_with_missing_fields(): void
+    {
+        $validTpayChannelListProvider = $this->prophesize(ValidTpayChannelListProviderInterface::class);
+        $order = $this->prophesize(OrderInterface::class);
+        $validTpayChannelListProvider->provide()->willReturn([
+            '1' => [
+                'id' => '1',
+                'name' => 'I am invalid because of missing field in constraint',
+                'available' => true,
+                'groups' => [
+                    ['id' => '173'],
+                ],
+                'constraints' => [
+                    [
+                        'type' => 'min',
+                        'value' => '30.00',
+                    ]
+                ],
+            ],
+            '2' => [
+                'id' => '2',
+                'name' => 'I am invalid because of missing type in constraint',
+                'available' => true,
+                'groups' => [
+                    ['id' => '173'],
+                ],
+                'constraints' => [
+                    [
+                        'field' => 'amount',
+                        'value' => '30.00',
+                    ]
+                ],
+            ],
+            '3' => [
+                'id' => '3',
+                'name' => 'I am invalid because of missing value in constraint',
+                'available' => true,
+                'groups' => [
+                    ['id' => '173'],
+                ],
+                'constraints' => [
+                    [
+                        'field' => 'amount',
+                        'type' => 'min',
+                    ]
+                ],
+            ],
+        ]);
+        $order->getTotal()->willReturn(2000);
+
+        $result = (new OrderAwareValidTpayChannelListProvider(
+            $validTpayChannelListProvider->reveal(),
+        ))->provide($order->reveal());
+
+        $this->assertSame([1, 2, 3], array_keys($result));
+    }
+
     private function orderTotalDataProvider(): array
     {
         return [
