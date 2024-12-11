@@ -6,9 +6,11 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkPayment\ContextPr
 
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\ContextProvider\BankListContextProvider;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Factory\GatewayFactory as PayByLinkGatewayFactory;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\ValidTpayChannelListProviderInterface;
 use Payum\Core\Security\CypherInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfig;
@@ -23,11 +25,14 @@ class BankListContextProviderTest extends TestCase
 
     private ValidTpayChannelListProviderInterface|ObjectProphecy $validTpayChannelListProvider;
 
+    private OrderAwareValidTpayChannelListProviderInterface|ObjectProphecy $orderAwareValidTpayChannelListProvider;
+
     private CypherInterface|ObjectProphecy $cypher;
 
     protected function setUp(): void
     {
         $this->validTpayChannelListProvider = $this->prophesize(ValidTpayChannelListProviderInterface::class);
+        $this->orderAwareValidTpayChannelListProvider = $this->prophesize(OrderAwareValidTpayChannelListProviderInterface::class);
         $this->cypher = $this->prophesize(CypherInterface::class);
     }
 
@@ -65,6 +70,7 @@ class BankListContextProviderTest extends TestCase
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
         $gatewayConfig->getFactoryName()->willReturn(PayByLinkGatewayFactory::NAME);
         $gatewayConfig->getConfig()->willReturn([]);
+        $this->orderAwareValidTpayChannelListProvider->provide(Argument::any())->shouldNotBeCalled();
         $this->validTpayChannelListProvider->provide()->willReturn(['3' => 'somebank']);
 
         $result = $this
@@ -97,7 +103,8 @@ class BankListContextProviderTest extends TestCase
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
         $gatewayConfig->getFactoryName()->willReturn(PayByLinkGatewayFactory::NAME);
         $gatewayConfig->getConfig()->willReturn([]);
-        $this->validTpayChannelListProvider->provide()->willReturn(['3' => 'somebank']);
+        $this->validTpayChannelListProvider->provide()->shouldNotBeCalled();
+        $this->orderAwareValidTpayChannelListProvider->provide($order)->willReturn(['3' => 'somebank']);
 
         $result = $this
             ->createTestObject()
@@ -203,6 +210,7 @@ class BankListContextProviderTest extends TestCase
 
         $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->validTpayChannelListProvider->provide()->shouldNotBeCalled();
+        $this->orderAwareValidTpayChannelListProvider->provide(Argument::any())->shouldNotBeCalled();
         $this->assertSame(
             [
                 'method' => $paymentMethod->reveal(),
@@ -217,6 +225,7 @@ class BankListContextProviderTest extends TestCase
     {
         return new BankListContextProvider(
             $this->validTpayChannelListProvider->reveal(),
+            $this->orderAwareValidTpayChannelListProvider->reveal(),
             $this->cypher->reveal(),
         );
     }

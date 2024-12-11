@@ -41,6 +41,20 @@ Sylius\Component\Core\Model\PaymentMethod:
         translations:
             - '@tpay_pbl_one_channel_payment_method_translation'
         channels: [ '@channel_web' ]
+    tpay_pbl_one_channel_with_amount_min_20_constraint:
+        code: 'tpay_pbl_one_channel_with_amount_min_20_constraint'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_pbl_one_channel_with_amount_min_20_constraint'
+        translations:
+            - '@tpay_pbl_one_channel_with_amount_min_20_constraint_payment_method_translation'
+        channels: [ '@channel_web' ]
+    tpay_pbl_one_channel_with_amount_min_30_constraint:
+        code: 'tpay_pbl_one_channel_with_amount_min_30_constraint'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_pbl_one_channel_with_amount_min_30_constraint'
+        translations:
+            - '@tpay_pbl_one_channel_with_amount_min_30_constraint_payment_method_translation'
+        channels: [ '@channel_web' ]
     tpay_visa_mobile:
         code: 'tpay_visa_mobile'
         enabled: true
@@ -101,6 +115,26 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             type: 'pay_by_link'
             production_mode: false
             encrypted: true
+    gateway_tpay_pbl_one_channel_with_amount_min_20_constraint:
+        gatewayName: 'tpay_pbl'
+        factoryName: 'tpay_pbl'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            tpay_channel_id: '4'
+            type: 'pay_by_link'
+            production_mode: false
+            encrypted: true
+    gateway_tpay_pbl_one_channel_with_amount_min_30_constraint:
+        gatewayName: 'tpay_pbl'
+        factoryName: 'tpay_pbl'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            tpay_channel_id: '5'
+            type: 'pay_by_link'
+            production_mode: false
+            encrypted: true
     gateway_tpay_visa_mobile:
         gatewayName: 'tpay_visa_mobile'
         factoryName: 'tpay_visa_mobile'
@@ -141,6 +175,16 @@ Sylius\Component\Payment\Model\PaymentMethodTranslation:
         locale: 'en_US'
         description: '<paragraph(2)>'
         translatable: '@tpay_pbl_one_channel'
+    tpay_pbl_one_channel_with_amount_min_20_constraint_payment_method_translation:
+        name: 'One Bank With Amount Min 20 Constraint (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_pbl_one_channel_with_amount_min_20_constraint'
+    tpay_pbl_one_channel_with_amount_min_30_constraint_payment_method_translation:
+        name: 'One Bank With Amount Min 30 Constraint (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_pbl_one_channel_with_amount_min_20_constraint'
     tpay_visa_mobile_payment_method_translation:
         name: 'Visa mobile (Tpay)'
         locale: 'en_US'

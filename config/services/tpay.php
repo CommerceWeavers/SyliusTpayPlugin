@@ -19,6 +19,8 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayload
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\AvailableTpayChannelListProvider;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\AvailableTpayChannelListProviderInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProvider;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\ValidTpayChannelListProvider;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\ValidTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\CachedTpayTransactionChannelResolver;
@@ -156,6 +158,13 @@ return static function(ContainerConfigurator $container): void {
             service('commerce_weavers_sylius_tpay.tpay.resolver.tpay_transaction_channel_resolver'),
         ])
         ->alias(AvailableTpayChannelListProviderInterface::class, 'commerce_weavers_sylius_tpay.tpay.provider.available_tpay_api_bank_list')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.provider.order_aware_validated_tpay_api_bank_list', OrderAwareValidTpayChannelListProvider::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.provider.validated_tpay_api_bank_list'),
+        ])
+        ->alias(OrderAwareValidTpayChannelListProviderInterface::class, 'commerce_weavers_sylius_tpay.tpay.provider.order_aware_validated_tpay_api_bank_list')
     ;
 
     $services->set('commerce_weavers_sylius_tpay.tpay.provider.validated_tpay_api_bank_list', ValidTpayChannelListProvider::class)

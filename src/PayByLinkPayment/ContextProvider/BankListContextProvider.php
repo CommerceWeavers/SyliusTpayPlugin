@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\ContextProvider;
 
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Factory\GatewayFactory as PayByLinkGatewayFactory;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\ValidTpayChannelListProviderInterface;
 use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Security\CryptedInterface;
@@ -23,6 +24,7 @@ final class BankListContextProvider implements ContextProviderInterface
 
     public function __construct(
         private readonly ValidTpayChannelListProviderInterface $validTpayChannelListProvider,
+        private readonly OrderAwareValidTpayChannelListProviderInterface $orderAwareValidTpayChannelListProvider,
         private readonly CypherInterface $cypher,
     ) {
     }
@@ -53,7 +55,16 @@ final class BankListContextProvider implements ContextProviderInterface
         $tpayChannelId = $decryptedGatewayConfig['tpay_channel_id'] ?? null;
 
         $templateContext['defaultTpayChannelId'] = $tpayChannelId;
-        $templateContext['banks'] = null === $tpayChannelId ? $this->validTpayChannelListProvider->provide() : [];
+
+        if (null === $tpayChannelId) {
+            /** @var OrderInterface|null $order */
+            $order = $templateContext['order'] ?? null;
+
+            $templateContext['banks'] = null === $order
+                ? $this->validTpayChannelListProvider->provide()
+                : $this->orderAwareValidTpayChannelListProvider->provide($order)
+            ;
+        }
 
         return $templateContext;
     }
