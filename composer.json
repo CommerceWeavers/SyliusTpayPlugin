@@ -21,6 +21,7 @@
         "firebase/php-jwt": "^6.10",
         "payum/core": "^1.7",
         "sylius/core-bundle": "^1.12",
+        "sylius/api-bundle": "^1.12",
         "sylius/resource-bundle": "^1.10",
         "symfony/config": "5.4.* || ^6.0",
         "symfony/dependency-injection": "5.4.* || ^6.0",
