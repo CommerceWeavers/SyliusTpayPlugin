@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Payum\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\CommerceWeaversSyliusTpayPlugin;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayFactory;
+use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
 
 class TpayGatewayFactory extends GatewayFactory
 {
@@ -28,7 +30,19 @@ class TpayGatewayFactory extends GatewayFactory
             /** @var string $testApiUrl */
             $testApiUrl = getenv('TPAY_API_URL') !== false ? getenv('TPAY_API_URL') : null;
 
-            return new TpayApi($clientId, $clientSecret, $productionMode, apiUrlOverride: $testApiUrl, notificationSecretCode: $notificationSecretCode);
+            return new TpayApi(
+                $clientId,
+                $clientSecret,
+                $productionMode,
+                apiUrlOverride: $testApiUrl,
+                clientName: sprintf(
+                    'sylius:%s|cw-tpay-sylius:%s|tpay-openapi-php:^1.8.0|PHP:%s',
+                    SyliusCoreBundle::VERSION,
+                    CommerceWeaversSyliusTpayPlugin::VERSION,
+                    \PHP_VERSION,
+                ),
+                notificationSecretCode: $notificationSecretCode,
+            );
         };
     }
 
