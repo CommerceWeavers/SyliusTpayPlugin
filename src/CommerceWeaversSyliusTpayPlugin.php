@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class CommerceWeaversSyliusTpayPlugin extends Bundle
 {
-    public const VERSION = '2.0.1';
+    public const VERSION = '2.0.2';
 
     use SyliusPluginTrait;
 
