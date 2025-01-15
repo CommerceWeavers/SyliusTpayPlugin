@@ -3,3 +3,6 @@ commerce_weavers_sylius_tpay:
         retry_payment:
             cannot_be_retried: 'Wybrana płatność nie może być ponowiona'
             previous_payment_cancelled: 'Poprzednia płatność została anulowana'
+    admin:
+        successful_connection_test: 'Test połączenia powiódł się. Kanały załadowane.'
+        failed_connection_test: 'Test połączenia nie powiódł się. Sprawdź swoje dane uwierzytelniające i spróbuj ponownie.'

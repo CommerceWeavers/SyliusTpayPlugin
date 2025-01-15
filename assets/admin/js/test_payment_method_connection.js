@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const testConnectionButton = document.getElementById('test-connection-button');
   const testConnectionMessage = document.getElementById('test-connection-message');
+  let localeCode = '';
 
   if (testConnectionButton === null || testConnectionMessage === null) {
     return;
@@ -23,28 +24,38 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     })
       .then(response => {
-        const jsonResponse = response.json();
+        return response.json().then(jsonResponse => {
+          if (!response.ok) {
+            throw new Error(jsonResponse.message);
+          }
 
-        if (!response.ok) {
-          throw new Error();
-        }
+          localeCode = response.headers.get('Accept-Language');
 
-        return jsonResponse;
+          return jsonResponse;
+        });
       })
       .then(data => {
         convertTpayChannelIdInputIntoSelect(data);
 
-        testConnectionMessage.innerText = 'Connection test successful. Channels loaded.';
+        testConnectionMessage.innerText = getNotificationMessage(localeCode);
         testConnectionMessage.classList.remove('negative');
         testConnectionMessage.classList.add('positive');
       })
-      .catch(() => {
-        testConnectionMessage.innerText = 'Connection test failed. Please check your credentials and try again.';
+      .catch(error => {
+        testConnectionMessage.innerText = error.message;
         testConnectionMessage.classList.remove('positive');
         testConnectionMessage.classList.add('negative');
       })
   });
 });
+
+function getNotificationMessage(localeCode) {
+  if (localeCode.startsWith('pl')) {
+    return 'Test połączenia powiódł się. Kanały załadowane.';
+  }
+
+  return 'Connection test successful. Channels loaded.';
+}
 
 function convertTpayChannelIdInputIntoSelect(channels) {
   let tpayChannelIdFormType = document.getElementsByName('sylius_payment_method[gatewayConfig][config][tpay_channel_id]')[0];
