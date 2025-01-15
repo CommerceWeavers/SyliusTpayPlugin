@@ -16,9 +16,8 @@ final class TpayGetChannelsAction
 {
     public function __construct(
         private readonly LocaleContextInterface $localeContext,
-        private readonly TranslatorInterface $translator
-    )
-    {
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     public function __invoke(Request $request): Response
@@ -46,7 +45,7 @@ final class TpayGetChannelsAction
         }
 
         return new JsonResponse($channels, headers: [
-            'Accept-Language' => $localeCode
+            'Accept-Language' => $localeCode,
         ]);
     }
 }
