@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => {
         return response.json().then(jsonResponse => {
           if (!response.ok) {
-            throw new Error(jsonResponse.message);
+            throw new Error();
           }
 
           localeCode = response.headers.get('Accept-Language');
@@ -37,24 +37,38 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         convertTpayChannelIdInputIntoSelect(data);
 
-        testConnectionMessage.innerText = getNotificationMessage(localeCode);
+        testConnectionMessage.innerText = getNotificationMessage(localeCode, 'success');
         testConnectionMessage.classList.remove('negative');
         testConnectionMessage.classList.add('positive');
       })
-      .catch(error => {
-        testConnectionMessage.innerText = error.message;
+      .catch(() => {
+        testConnectionMessage.innerText = getNotificationMessage(localeCode, 'error');
         testConnectionMessage.classList.remove('positive');
         testConnectionMessage.classList.add('negative');
       })
   });
 });
 
-function getNotificationMessage(localeCode) {
-  if (localeCode.startsWith('pl')) {
-    return 'Test połączenia powiódł się. Kanały załadowane.';
+const NOTIFICATION_MESSAGES = {
+  en: {
+    connectionTest: {
+      success: 'Connection test successful. Channels loaded.',
+      error: 'Connection test failed. Please check your credentials and try again.'
+    }
+  },
+  pl: {
+    connectionTest: {
+      success: 'Test połączenia powiódł się. Kanały załadowane.',
+      error: 'Test połączenia nie powiódł się. Sprawdź swoje dane uwierzytelniające i spróbuj ponownie.'
+    }
   }
+};
 
-  return 'Connection test successful. Channels loaded.';
+function getNotificationMessage(localeCode, type = 'success', messageKey = 'connectionTest') {
+  const locale = localeCode.startsWith('pl') ? 'pl' : 'en';
+  const messages = NOTIFICATION_MESSAGES[locale]?.[messageKey];
+
+  return messages?.[type] || messages?.success || NOTIFICATION_MESSAGES.en[messageKey].success;
 }
 
 function convertTpayChannelIdInputIntoSelect(channels) {

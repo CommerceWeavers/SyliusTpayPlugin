@@ -74,7 +74,6 @@ return function(ContainerConfigurator $container): void {
     $services->set(TpayGetChannelsAction::class)
         ->args([
             service('sylius.context.locale'),
-            service('translator'),
         ])
         ->tag('controller.service_arguments')
     ;
