@@ -9,6 +9,7 @@ use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayThankYouPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayWaitingForPaymentPage;
 use CommerceWeavers\SyliusTpayPlugin\Controller\PaymentNotificationAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\RetryPaymentAction;
+use CommerceWeavers\SyliusTpayPlugin\Controller\TpayGetChannelsAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\TpayNotificationAction;
 
 return function(ContainerConfigurator $container): void {
@@ -66,6 +67,13 @@ return function(ContainerConfigurator $container): void {
             service('commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature'),
             service('commerce_weavers_sylius_tpay.repository.blik_alias'),
             service('commerce_weavers_sylius_tpay.manager.blik_alias'),
+        ])
+        ->tag('controller.service_arguments')
+    ;
+
+    $services->set(TpayGetChannelsAction::class)
+        ->args([
+            service('sylius.context.locale'),
         ])
         ->tag('controller.service_arguments')
     ;

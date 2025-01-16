@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Controller;
 
+use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,11 @@ use Tpay\OpenApi\Utilities\TpayException;
 
 final class TpayGetChannelsAction
 {
+    public function __construct(
+        private readonly LocaleContextInterface $localeContext,
+    ) {
+    }
+
     public function __invoke(Request $request): Response
     {
         $tpayApi = new TpayApi(
@@ -20,10 +26,12 @@ final class TpayGetChannelsAction
             $request->query->getBoolean('productionMode', true),
         );
 
+        $localeCode = $this->localeContext->getLocaleCode();
+
         try {
             $tpayResponse = $tpayApi->transactions()->getChannels();
         } catch (TpayException $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_UNAUTHORIZED, ['Content-Language' => $localeCode]);
         }
 
         $channels = [];
@@ -31,6 +39,8 @@ final class TpayGetChannelsAction
             $channels[$channel['id']] = $channel['name'];
         }
 
-        return new JsonResponse($channels);
+        return new JsonResponse($channels, headers: [
+            'Content-Language' => $localeCode,
+        ]);
     }
 }
