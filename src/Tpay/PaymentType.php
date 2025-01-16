@@ -12,6 +12,8 @@ class PaymentType
 
     public const PAY_BY_LINK = 'pay_by_link';
 
+    public const PAY_BY_LINK_CHANNEL = 'pay_by_link_channel';
+
     public const REDIRECT = 'redirect';
 
     public const GOOGLE_PAY = 'google_pay';
