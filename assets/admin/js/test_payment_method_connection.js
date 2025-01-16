@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
       .then(response => {
         return response.json().then(jsonResponse => {
+          localeCode = response.headers.get('Content-Language');
+
           if (!response.ok) {
             throw new Error();
           }
-
-          localeCode = response.headers.get('Accept-Language');
 
           return jsonResponse;
         });

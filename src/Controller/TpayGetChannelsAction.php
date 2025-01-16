@@ -31,7 +31,7 @@ final class TpayGetChannelsAction
         try {
             $tpayResponse = $tpayApi->transactions()->getChannels();
         } catch (TpayException $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_UNAUTHORIZED, ['Accept-Language' => $localeCode]);
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_UNAUTHORIZED, ['Content-Language' => $localeCode]);
         }
 
         $channels = [];
@@ -40,7 +40,7 @@ final class TpayGetChannelsAction
         }
 
         return new JsonResponse($channels, headers: [
-            'Accept-Language' => $localeCode,
+            'Content-Language' => $localeCode,
         ]);
     }
 }
