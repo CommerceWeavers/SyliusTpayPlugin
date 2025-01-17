@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Action\CreatePayByLinkTransactionAction;
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Action\CreatePayByLinkTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Factory\GatewayFactory;
 
 return static function(ContainerConfigurator $container): void {

@@ -7,7 +7,7 @@ commerce_weavers_sylius_tpay:
             tpay_card: 'Card (Tpay)'
             tpay_google_pay: 'Google Pay (Tpay)'
             tpay_pbl: 'Pay-by-Link (Tpay)'
-            tpay_channel_pbl: 'Pay-by-link One Channel (Tpay)'
+            tpay_channel_pbl: 'Pay-by-link Single Channel (Tpay)'
             tpay_redirect: 'Redirect to Tpay'
             tpay_visa_mobile: 'Visa Mobile (Tpay)'
         gateway_configuration:

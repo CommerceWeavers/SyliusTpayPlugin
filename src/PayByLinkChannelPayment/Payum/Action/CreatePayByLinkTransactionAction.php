@@ -65,6 +65,6 @@ final class CreatePayByLinkTransactionAction extends BasePaymentAwareAction impl
 
         $paymentDetails = PaymentDetails::fromArray($model->getDetails());
 
-        return $paymentDetails->getType() === PaymentType::PAY_BY_LINK_CHANNEL;
+        return $paymentDetails->getType() === PaymentType::PAY_BY_LINK;
     }
 }
