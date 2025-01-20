@@ -9,14 +9,13 @@ use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigList
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\AbstractTpayGatewayConfigurationType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationType
 {
     public function __construct(
         DecryptGatewayConfigListenerInterface $decryptGatewayConfigListener,
-        EncryptGatewayConfigListenerInterface $encryptGatewayConfigListener,
-        private readonly TranslatorInterface $translator,
+        EncryptGatewayConfigListenerInterface $encryptGatewayConfigListener
     ) {
         parent::__construct($decryptGatewayConfigListener, $encryptGatewayConfigListener);
     }
@@ -32,12 +31,12 @@ final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationTyp
                 [
                     'empty_data' => '',
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_channel_id',
+                    'validation_groups' => ['sylius'],
+                    'constraints' => [
+                        new NotBlank(allowNull: false, groups: ['sylius']),
+                    ],
                     'help' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_channel_id_help',
                     'required' => false,
-                    'attr' => [
-                        'placeholder' => $this->translator->trans('commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_display_all_channels', domain: 'messages'),
-                        'data-display-all-label' => $this->translator->trans('commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_display_all_channels', domain: 'messages'),
-                    ],
                 ],
             )
         ;
