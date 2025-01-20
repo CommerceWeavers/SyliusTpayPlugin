@@ -1,0 +1,36 @@
+name: Sync 2.0 to main
+
+on:
+    push:
+        branches:
+            - 2.0
+
+jobs:
+    branch-sync:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Git
+              run: |
+                  git config --global user.name "GitHub Actions Bot"
+                  git config --global user.email "actions@github.com"
+
+            - name: Attempt Merge
+              id: merge
+              run: |
+                  git fetch origin 
+                  git checkout main
+                  git merge --ff-only 2.0
+
+            - name: Push Changes to main
+              if: steps.merge.outcome == 'success'
+              run: |
+                  git push origin main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
