@@ -15,7 +15,7 @@ final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationTyp
 {
     public function __construct(
         DecryptGatewayConfigListenerInterface $decryptGatewayConfigListener,
-        EncryptGatewayConfigListenerInterface $encryptGatewayConfigListener
+        EncryptGatewayConfigListenerInterface $encryptGatewayConfigListener,
     ) {
         parent::__construct($decryptGatewayConfigListener, $encryptGatewayConfigListener);
     }
