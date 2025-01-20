@@ -8,10 +8,8 @@
         {% endfor %}
     </div>
 
-    {# many PBL payment methods support #}
-    <div data-channel-id-name="{{ form.tpay.tpay_channel_id.vars.full_name }}" data-channel-id-value="{{ defaultTpayChannelId }}"></div>
     {% if not form.tpay.tpay_channel_id.rendered %}
-        {{ form_row(form.tpay.tpay_channel_id, {'value': defaultTpayChannelId}) }}
+        {{ form_row(form.tpay.tpay_channel_id) }}
     {% endif %}
 
     {% include '@CommerceWeaversSyliusTpayPlugin/shop/partial/_policies.html.twig' %}
