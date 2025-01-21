@@ -14,6 +14,12 @@ hooks:
     build: |
         set -x -e
         
+        # Restore node_modules from cache if available
+        if [ -d "$PLATFORM_CACHE_DIR/node_modules" ]; then
+            echo "Restoring node_modules from cache"
+            cp -R "$PLATFORM_CACHE_DIR/node_modules" tests/Application/
+        fi
+        
         wkhtmltopdf -V
         
         curl -fs https://get.symfony.com/cloud/configurator | bash
@@ -24,6 +30,11 @@ hooks:
 
         yarn install --frozen-lockfile
         yarn build:prod
+        
+        # Cache node_modules for next build
+        echo "Caching node_modules directory"
+        rm -rf "$PLATFORM_CACHE_DIR/node_modules"
+        cp -R node_modules "$PLATFORM_CACHE_DIR/"
     deploy: |
         set -x -e
         
