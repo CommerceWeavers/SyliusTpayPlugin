@@ -22,7 +22,7 @@ hooks:
         
         cd tests/Application
 
-        yarn install
+        yarn install --frozen-lockfile
         yarn build:prod
     deploy: |
         set -x -e
@@ -67,6 +67,7 @@ mounts:
     "/tests/Application/public/assets": "shared:files/assets"
     "/tests/Application/public/bundles": "shared:files/bundles"
     "/tests/Application/private/credit_memos/": "shared:files/credit_memos"
+    "/tests/Application/node_modules/.cache": "shared:files/node_modules/.cache"
 
 # The configuration of app when it is exposed to the web.
 web:
