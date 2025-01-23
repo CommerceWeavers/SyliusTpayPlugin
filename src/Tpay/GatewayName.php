@@ -16,6 +16,8 @@ class GatewayName
 
     public const PAY_BY_LINK = 'tpay_pbl';
 
+    public const PAY_BY_LINK_CHANNEL = 'tpay_pbl_channel';
+
     public const REDIRECT = 'tpay_redirect';
 
     public const VISA_MOBILE = 'tpay_visa_mobile';
@@ -31,6 +33,7 @@ class GatewayName
             self::CARD,
             self::GOOGLE_PAY,
             self::PAY_BY_LINK,
+            self::PAY_BY_LINK_CHANNEL,
             self::REDIRECT,
             self::VISA_MOBILE,
         ];

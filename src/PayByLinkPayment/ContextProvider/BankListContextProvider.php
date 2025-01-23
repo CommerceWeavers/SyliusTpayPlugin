@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\ContextProvider;
 
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Factory\GatewayFactory as PayByLinkChannelGatewayFactory;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Factory\GatewayFactory as PayByLinkGatewayFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\ValidTpayChannelListProviderInterface;
@@ -40,7 +41,8 @@ final class BankListContextProvider implements ContextProviderInterface
         if (
             null === $paymentMethod ||
             null === $gatewayConfig ||
-            PayByLinkGatewayFactory::NAME !== $gatewayConfig->getFactoryName()
+            PayByLinkGatewayFactory::NAME !== $gatewayConfig->getFactoryName() &&
+            PayByLinkChannelGatewayFactory::NAME !== $gatewayConfig->getFactoryName()
         ) {
             return $templateContext;
         }
@@ -62,8 +64,7 @@ final class BankListContextProvider implements ContextProviderInterface
 
             $templateContext['banks'] = null === $order
                 ? $this->validTpayChannelListProvider->provide()
-                : $this->orderAwareValidTpayChannelListProvider->provide($order)
-            ;
+                : $this->orderAwareValidTpayChannelListProvider->provide($order);
         }
 
         return $templateContext;
@@ -72,9 +73,8 @@ final class BankListContextProvider implements ContextProviderInterface
     public function supports(TemplateBlock $templateBlock): bool
     {
         return
-            'pay_by_link' === $templateBlock->getName() &&
-            in_array($templateBlock->getEventName(), self::SUPPORTED_TEMPLATE_BLOCK_EVENT_NAMES, true)
-        ;
+            ('pay_by_link' === $templateBlock->getName() || 'pay_by_link_channel' === $templateBlock->getName()) &&
+            in_array($templateBlock->getEventName(), self::SUPPORTED_TEMPLATE_BLOCK_EVENT_NAMES, true);
     }
 
     private function resolvePaymentMethod(array $templateContext): ?PaymentMethodInterface

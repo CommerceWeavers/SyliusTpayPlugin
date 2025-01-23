@@ -41,6 +41,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/_payByLink.html.twig',
                         'priority' => 10,
                     ],
+                    'pay_by_link_channel' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/_payByLinkChannel.html.twig',
+                        'priority' => 10,
+                    ],
                     'google_pay' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/_google_pay_regulations.html.twig',
                         'priority' => 5,
@@ -67,6 +71,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     ],
                     'pay_by_link' => [
                         'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_payByLink.html.twig',
+                        'priority' => 5,
+                    ],
+                    'pay_by_link_channel' => [
+                        'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/_payByLinkChannel.html.twig',
                         'priority' => 5,
                     ],
                     'visa_mobile' => [

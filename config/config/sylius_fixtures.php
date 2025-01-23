@@ -119,9 +119,9 @@ return static function(SyliusFixturesConfig $fixtures): void {
                 ],
                 'pbl_channel' => [
                     'code' => 'tpay_pbl_channel',
-                    'name' => 'Pay-by-link one channel (Tpay)',
-                    'gatewayFactory' => 'tpay_pbl',
-                    'gatewayName' => 'tpay_pbl',
+                    'name' => 'Pay-by-link single channel (Tpay)',
+                    'gatewayFactory' => 'tpay_pbl_channel',
+                    'gatewayName' => 'tpay_pbl_channel',
                     'gatewayConfig' => $tpayConfig + [
                         'tpay_channel_id' => '%env(string:TPAY_PBL_CHANNEL_ID)%',
                     ],
