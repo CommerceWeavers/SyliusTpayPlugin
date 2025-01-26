@@ -91,13 +91,6 @@ function convertTpayChannelIdInputIntoSelect(channels) {
 
   tpayChannelIdFormType.innerHTML = '';
 
-  const displayAllOption = document.createElement('option');
-  displayAllOption.value = '';
-  console.log(tpayChannelIdFormType.dataset);
-  displayAllOption.text = tpayChannelIdFormType.dataset.displayAllLabel;
-
-  tpayChannelIdFormType.appendChild(displayAllOption);
-
   for (const [id, name] of Object.entries(channels)) {
     const option = document.createElement('option');
     option.value = id;
