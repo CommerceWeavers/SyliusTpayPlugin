@@ -8,6 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigList
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\RemoveUnnecessaryPaymentDetailsFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CompleteTypeExtension;
+use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentMethodTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\AbstractTpayGatewayConfigurationType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayGatewayConfigurationType;
@@ -34,6 +35,10 @@ return static function(ContainerConfigurator $container): void {
     ;
 
     $services->set(PaymentTypeExtension::class)
+        ->tag('form.type_extension')
+    ;
+
+    $services->set(PaymentMethodTypeExtension::class)
         ->tag('form.type_extension')
     ;
 

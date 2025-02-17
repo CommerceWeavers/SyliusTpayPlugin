@@ -84,3 +84,7 @@ commerce_weavers_sylius_tpay:
             policy: 'The administrator of the personal data is Krajowy Integrator Płatności spółka akcyjna, based in Poznań. <a href="%url%" target="blank">Read the full content</a>.'
     tpay:
         transaction_description: 'Order #%orderNumber%'
+sylius:
+    form:
+        payment_method:
+            image: 'Payment Logo'

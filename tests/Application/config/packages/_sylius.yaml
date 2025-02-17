@@ -29,3 +29,10 @@ sylius_payment:
         payment_method:
             classes:
                 repository: App\Repository\PaymentMethodRepository
+                model: App\Entity\PaymentMethod
+
+sylius_resource:
+    resources:
+        sylius.payment_method_image:
+            classes:
+                model: App\Entity\PaymentMethodImage
