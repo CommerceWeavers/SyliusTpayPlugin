@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\ImageInterface;
 
 trait ImageAwareTrait

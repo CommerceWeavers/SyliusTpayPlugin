@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\PaymentMethodImageType;
 use Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class PaymentMethodTypeExtension extends AbstractTypeExtension

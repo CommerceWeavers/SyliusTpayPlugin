@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 
 use Sylius\Bundle\CoreBundle\Form\Type\ImageType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class PaymentMethodImageType extends ImageType
