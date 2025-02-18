@@ -13,7 +13,7 @@ services:
     sylius.listener.payment_method.image_upload:
         class: Sylius\Bundle\CoreBundle\EventListener\ImageUploadListener
         arguments:
-            $uploader: '@sylius.uploader.image'
+            $uploader: '@sylius.image_uploader'
         tags:
             - { name: kernel.event_listener, event: sylius.payment_method.pre_create, method: uploadImage }
             - { name: kernel.event_listener, event: sylius.payment_method.pre_update, method: uploadImage }
