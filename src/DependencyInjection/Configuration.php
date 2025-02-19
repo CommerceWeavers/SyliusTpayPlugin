@@ -15,8 +15,6 @@ use CommerceWeavers\SyliusTpayPlugin\CardPayment\Repository\CreditCardRepository
 use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentMethodImageInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -81,9 +79,6 @@ final class Configuration implements ConfigurationInterface
                                     ->children()
                                         ->scalarNode('model')->defaultValue(PaymentMethodImage::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(PaymentMethodImageInterface::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('factory')->defaultValue(FactoryInterface::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(RepositoryInterface::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()

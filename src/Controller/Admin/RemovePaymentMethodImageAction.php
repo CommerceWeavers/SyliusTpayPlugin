@@ -9,7 +9,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -26,6 +25,7 @@ final class RemovePaymentMethodImageAction
 
     public function __invoke(Request $request): Response
     {
+        /** @var string $paymentMethodId */
         $paymentMethodId = $request->attributes->get('id', '');
         if (!$this->csrfTokenManager->isTokenValid(
             new CsrfToken($paymentMethodId, (string) $request->query->get('_csrf_token', '')),
