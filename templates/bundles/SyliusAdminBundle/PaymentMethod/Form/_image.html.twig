@@ -1,10 +1,10 @@
 {% if image is not empty and image.path is not empty %}
-    {% set path =image.path|imagine_filter('sylius_admin_payment_method_image') %}
+    {% set path =image.path|imagine_filter('cw_sylius_tpay_admin_payment_method_image') %}
     <img style="margin-right: 10px; margin-bottom: 10px;" class="ui image" src="{{ path }}" alt="method-logo">
 {% endif %}
 {% if image is not empty and image.owner is not null %}
     <button
-        formaction="{{ path('sylius_admin_remove_payment_method_image', {'id': image.owner.id, '_csrf_token': csrf_token(image.owner.id)}) }}"
+        formaction="{{ path('commerce_weavers_sylius_tpay_admin_remove_payment_method_image', {'id': image.owner.id, '_csrf_token': csrf_token(image.owner.id)}) }}"
         type="submit"
         class="ui icon red labeled button"
     >

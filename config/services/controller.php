@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use CommerceWeavers\SyliusTpayPlugin\Controller\Admin\RemovePaymentMethodImageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayPaymentFailedPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayThankYouPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayWaitingForPaymentPage;
@@ -74,6 +75,15 @@ return function(ContainerConfigurator $container): void {
     $services->set(TpayGetChannelsAction::class)
         ->args([
             service('sylius.context.locale'),
+        ])
+        ->tag('controller.service_arguments')
+    ;
+
+    $services->set(RemovePaymentMethodImageAction::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.repository.payment_method_image'),
+            service('router'),
+            service('security.csrf.token_manager'),
         ])
         ->tag('controller.service_arguments')
     ;

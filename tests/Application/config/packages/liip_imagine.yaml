@@ -4,10 +4,3 @@ liip_imagine:
             web_path:
                 web_root: "%kernel.project_dir%/public"
                 cache_prefix: "media/cache"
-    filter_sets:
-        sylius_admin_payment_method_image:
-            filters:
-                thumbnail: { size: [ 150, 100 ], mode: outbound }
-        sylius_shop_payment_method_image:
-            filters:
-                thumbnail: { size: [ 100, 50 ], mode: outbound }

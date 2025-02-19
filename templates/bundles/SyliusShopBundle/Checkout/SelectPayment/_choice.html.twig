@@ -11,7 +11,7 @@
             {% if method.image is not empty and method.image.path is not empty %}
                 <img
                     id="{{ method.code }}_logo"
-                    src="{{ method.image.path|imagine_filter('sylius_shop_payment_method_image') }}"
+                    src="{{ method.image.path|imagine_filter('cw_sylius_tpay_admin_payment_method_image') }}"
                     alt="{{ method.code }}-logo"
                     style="margin-left: 10px;"
                 />

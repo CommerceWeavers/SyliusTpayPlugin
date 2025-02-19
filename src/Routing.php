@@ -22,6 +22,10 @@ final class Routing
 
     public const ADMIN_TPAY_CHANNELS_PATH = '/tpay/channels';
 
+    public const ADMIN_TPAY_REMOVE_PAYMENT_METHOD_IMAGE = 'commerce_weavers_sylius_tpay_admin_remove_payment_method_image';
+
+    public const ADMIN_TPAY_REMOVE_PAYMENT_METHOD_IMAGE_PATH = '/tpay/payment-method/{id}/remove-image';
+
     public const SHOP_PAYMENT_FAILED = 'commerce_weavers_sylius_tpay_payment_failed';
 
     public const SHOP_PAYMENT_FAILED_PATH = '/tpay/order/{orderToken}/payment-failed';

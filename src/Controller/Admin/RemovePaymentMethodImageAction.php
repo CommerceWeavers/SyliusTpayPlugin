@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Action\Admin;
+namespace CommerceWeavers\SyliusTpayPlugin\Controller\Admin;
 
-use App\Entity\PaymentMethodImage;
+use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-#[AsController]
 final class RemovePaymentMethodImageAction
 {
     public function __construct(

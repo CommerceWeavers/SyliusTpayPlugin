@@ -25,7 +25,7 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
 
     public function test_it_allows_to_upload_image_for_payment_method(): void
     {
-        $uploadField = $this->client->findElement(WebDriverBy::id('sylius_payment_method_image_file'));
+        $uploadField = $this->client->findElement(WebDriverBy::id('cw_sylius_tpay_payment_method_image_file'));
 
         self::assertNotNull($uploadField);
         self::assertSame('file', $uploadField->getAttribute('type'));

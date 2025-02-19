@@ -2,26 +2,3 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en_US
-
-services:
-    CommerceWeavers\SyliusTpayPlugin\Form\Type\PaymentMethodImageType:
-        arguments:
-            $dataClass: '%sylius.model.payment_method_image.class%'
-        tags:
-            - { name: form.type }
-    
-    sylius.listener.payment_method.image_upload:
-        class: Sylius\Bundle\CoreBundle\EventListener\ImageUploadListener
-        arguments:
-            $uploader: '@sylius.image_uploader'
-        tags:
-            - { name: kernel.event_listener, event: sylius.payment_method.pre_create, method: uploadImage }
-            - { name: kernel.event_listener, event: sylius.payment_method.pre_update, method: uploadImage }
-
-    sylius.payment_method_image.remove.action:
-        class: App\Action\Admin\RemovePaymentMethodImageAction
-        arguments:
-            $paymentMethodImageRepository: '@sylius.repository.payment_method_image'
-            $router: '@router'
-            $csrfTokenManager: '@security.csrf.token_manager'
-        public: true

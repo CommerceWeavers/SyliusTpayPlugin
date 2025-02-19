@@ -18,6 +18,6 @@ final class PaymentMethodImageType extends ImageType
 
     public function getBlockPrefix(): string
     {
-        return 'sylius_payment_method_image';
+        return 'cw_sylius_tpay_payment_method_image';
     }
 }

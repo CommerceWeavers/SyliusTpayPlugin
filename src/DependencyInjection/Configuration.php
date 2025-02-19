@@ -12,7 +12,11 @@ use CommerceWeavers\SyliusTpayPlugin\CardPayment\Entity\CreditCard;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Entity\CreditCardInterface;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Factory\CreditCardFactory;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Repository\CreditCardRepository;
+use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
+use CommerceWeavers\SyliusTpayPlugin\Model\PaymentMethodImageInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -64,6 +68,22 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(CreditCardFactory::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(CreditCardRepository::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('payment_method_image')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(PaymentMethodImage::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(PaymentMethodImageInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(FactoryInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(RepositoryInterface::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()

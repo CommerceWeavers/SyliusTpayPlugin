@@ -15,7 +15,4 @@ use Doctrine\ORM\Mapping as ORM;
 class PaymentMethod extends PaymentMethodBase implements ImageAwareInterface
 {
     use ImageAwareTrait;
-
-    #[ORM\OneToOne(mappedBy: 'owner', targetEntity: PaymentMethodImage::class, cascade: ['persist'])]
-    protected ?ImageInterface $image = null;
 }
