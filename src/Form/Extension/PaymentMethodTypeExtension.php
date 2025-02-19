@@ -14,7 +14,7 @@ final class PaymentMethodTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('image', PaymentMethodImageType::class, [
-            'label' => 'sylius.form.payment_method.image',
+            'label' => 'commerce_weavers_sylius_tpay.admin.form.payment_method.image',
             'required' => false,
         ]);
     }

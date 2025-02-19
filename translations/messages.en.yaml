@@ -32,6 +32,9 @@ commerce_weavers_sylius_tpay:
                 redirect: 'Redirect to Tpay'
                 pay_by_link: 'Redirect to bank'
                 visa_mobile: 'Visa Mobile'
+        form:
+            payment_method:
+                image: 'Payment Logo'
     shop:
         credit_cards: 'Credit cards'
         credit_card:
@@ -84,7 +87,3 @@ commerce_weavers_sylius_tpay:
             policy: 'The administrator of the personal data is Krajowy Integrator Płatności spółka akcyjna, based in Poznań. <a href="%url%" target="blank">Read the full content</a>.'
     tpay:
         transaction_description: 'Order #%orderNumber%'
-sylius:
-    form:
-        payment_method:
-            image: 'Payment Logo'
