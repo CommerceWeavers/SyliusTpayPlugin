@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\PaymentMethod:
+App\Entity\PaymentMethod:
     tpay:
         code: 'tpay'
         enabled: true

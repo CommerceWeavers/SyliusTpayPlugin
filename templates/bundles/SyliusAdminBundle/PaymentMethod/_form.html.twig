@@ -15,6 +15,13 @@
 </div>
 
 <div class="ui segment">
+    <div class="one field">
+        {{ form_row(form.image) }}
+        {% include '@SyliusAdmin/PaymentMethod/Form/_image.html.twig' with {'image': resource.image} %}
+    </div>
+</div>
+
+<div class="ui segment">
     <h4 class="ui dividing header">{{ 'sylius.ui.gateway_configuration'|trans }}</h4>
 
     {% if resource.gatewayConfig.factoryName == 'stripe_checkout' %}
