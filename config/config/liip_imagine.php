@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 return function(ContainerConfigurator $container): void {
     $container->extension('liip_imagine', [
         'filter_sets' => [
@@ -16,7 +14,7 @@ return function(ContainerConfigurator $container): void {
             ],
             'cw_sylius_tpay_shop_payment_method_image' => [
                 'filters' => [
-                    'thumbnail' => ['size' => [100, 50], 'mode' => 'outbound']
+                    'thumbnail' => ['size' => [32, 32], 'mode' => 'outbound']
                 ],
             ],
         ],
