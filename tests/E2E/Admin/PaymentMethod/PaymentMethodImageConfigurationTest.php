@@ -23,6 +23,14 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
         $this->goToEditPaymentMethodPage();
     }
 
+    public function test_it_has_readonly_default_image_url_field(): void
+    {
+        $defaultImageUrlField = $this->client->findElement(WebDriverBy::id('sylius_payment_method_defaultImageUrl'));
+
+        self::assertNotNull($defaultImageUrlField);
+        self::assertSame('true', $defaultImageUrlField->getAttribute('readonly'));
+    }
+
     public function test_it_allows_to_upload_image_for_payment_method(): void
     {
         $uploadField = $this->client->findElement(WebDriverBy::id('sylius_payment_method_image_file'));

@@ -24,6 +24,8 @@ final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationTyp
     {
         parent::buildForm($builder, $options);
 
+        $builder->remove('tpay_channel_id');
+
         $builder
             ->add(
                 'tpay_channel_id',

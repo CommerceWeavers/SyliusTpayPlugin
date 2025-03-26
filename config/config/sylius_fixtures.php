@@ -89,7 +89,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Card (Tpay)',
                     'gatewayFactory' => 'tpay_card',
                     'gatewayName' => 'tpay_card',
-                    'gatewayConfig' => $tpayConfig + ['cards_api' => '%env(string:TPAY_CARDS_API)%',],
+                    'gatewayConfig' => $tpayConfig + ['cards_api' => '%env(string:TPAY_CARDS_API)%', 'tpay_channel_id' => '53'],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -100,7 +100,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Blik (Tpay)',
                     'gatewayFactory' => 'tpay_blik',
                     'gatewayName' => 'tpay_blik',
-                    'gatewayConfig' => $tpayConfig,
+                    'gatewayConfig' => $tpayConfig + ['tpay_channel_id' => '64'],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -135,7 +135,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Google Pay (Tpay)',
                     'gatewayFactory' => 'tpay_google_pay',
                     'gatewayName' => 'tpay_google_pay',
-                    'gatewayConfig' => $tpayConfig,
+                    'gatewayConfig' => $tpayConfig + ['tpay_channel_id' => '68'],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -146,7 +146,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Apple Pay (Tpay)',
                     'gatewayFactory' => 'tpay_apple_pay',
                     'gatewayName' => 'tpay_apple_pay',
-                    'gatewayConfig' => $tpayConfig,
+                    'gatewayConfig' => $tpayConfig + ['tpay_channel_id' => '75'],
                     'channels' => [
                         'FASHION_WEB',
                     ],
@@ -157,7 +157,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                     'name' => 'Visa mobile (Tpay)',
                     'gatewayFactory' => 'tpay_visa_mobile',
                     'gatewayName' => 'tpay_visa_mobile',
-                    'gatewayConfig' => $tpayConfig,
+                    'gatewayConfig' => $tpayConfig + ['tpay_channel_id' => '79'],
                     'channels' => [
                         'FASHION_WEB',
                     ],

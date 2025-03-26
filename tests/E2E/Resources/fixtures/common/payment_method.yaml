@@ -17,6 +17,7 @@ App\Entity\PaymentMethod:
         code: 'tpay_blik'
         enabled: true
         gatewayConfig: '@gateway_tpay_blik'
+        defaultImageUrl: 'https://secure.sandbox.tpay.com/tpay/web/channels/4/normal-white-bg-e.png'
         translations:
             - '@tpay_blik_payment_method_translation'
         channels: ['@channel_web']

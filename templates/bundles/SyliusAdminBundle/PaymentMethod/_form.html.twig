@@ -16,6 +16,9 @@
 
 <div class="ui segment">
     <div class="one field">
+        {{ form_row(form.defaultImageUrl) }}
+    </div>
+    <div class="one field">
         {{ form_row(form.image) }}
         {% include '@SyliusAdmin/PaymentMethod/Form/_image.html.twig' with {'image': resource.image} %}
     </div>
