@@ -14,12 +14,21 @@ final class SetTpayDefaultPaymentImageUrlListener
 
     public function __invoke(PreSubmitEvent $event): void
     {
-        $paymentMethod = $event->getData();
-        if (!\is_array($paymentMethod) || !isset($paymentMethod['gatewayConfig']['config'])) {
+        /** @var array{
+         *     gatewayConfig: array{config: array{
+         *        client_id? : string,
+         *        client_secret?: string,
+         *        tpay_channel_id?: string,
+         *     }},
+         *     defaultImageUrl?: string|null,
+         * } $paymentMethodData
+         */
+        $paymentMethodData = $event->getData();
+        if (!\is_array($paymentMethodData) || !isset($paymentMethodData['gatewayConfig']['config'])) {
             return;
         }
 
-        $gatewayConfig = $paymentMethod['gatewayConfig']['config'];
+        $gatewayConfig = $paymentMethodData['gatewayConfig']['config'];
         if (!isset($gatewayConfig['client_id'], $gatewayConfig['client_secret']) && null === $this->tpayApi) {
             return;
         }
@@ -30,21 +39,34 @@ final class SetTpayDefaultPaymentImageUrlListener
 
         $paymentTpayChannel = \array_filter(
             $this->getTpayChannelsFromApi($gatewayConfig),
-            fn (array $channel) => isset($channel['id']) && $channel['id'] === $gatewayConfig['tpay_channel_id']
+            fn (array $channel) => isset($channel['id']) && $channel['id'] === $gatewayConfig['tpay_channel_id'],
         );
 
         $paymentTpayChannel = \reset($paymentTpayChannel);
         if (false === $paymentTpayChannel) {
-            $paymentMethod['defaultImageUrl'] = null;
-            $event->setData($paymentMethod);
+            $paymentMethodData['defaultImageUrl'] = null;
+            $event->setData($paymentMethodData);
 
             return;
         }
 
-        $paymentMethod['defaultImageUrl'] = $paymentTpayChannel['image']['url'];
-        $event->setData($paymentMethod);
+        $paymentMethodData['defaultImageUrl'] = $paymentTpayChannel['image']['url'] ?? null;
+        $event->setData($paymentMethodData);
     }
 
+    /**
+     * @return array<int, array{
+     *     id?: ?string,
+     *     name?: string,
+     *     fullName?: string,
+     *     image?: array{url?: string|null},
+     *     available?: bool,
+     *     onlinePayment?: bool,
+     *     instantRedirection?: bool,
+     *     groups?: array,
+     *     constraints?: array,
+     * }>
+     */
     private function getTpayChannelsFromApi(array $gatewayConfig): array
     {
         if (null === $this->tpayApi) {

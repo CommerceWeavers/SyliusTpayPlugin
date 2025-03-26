@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
