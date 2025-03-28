@@ -29,4 +29,17 @@ trait PaymentMethodHelperTrait
 
         self::getContainer()->get('doctrine.orm.default_entity_manager')->flush();
     }
+
+    private function configurePaymentMethodWithoutUploadedFile(string $paymentMethodCode, ?string $imageUrl = null): void
+    {
+        /** @var PaymentMethodRepository $repository */
+        $repository = self::getContainer()->get('sylius.repository.payment_method');
+
+        /** @var PaymentMethod $paymentMethod */
+        $paymentMethod = $repository->findOneBy(['code' => $paymentMethodCode]);
+
+        $paymentMethod->setDefaultImageUrl($imageUrl);
+
+        self::getContainer()->get('doctrine.orm.default_entity_manager')->flush();
+    }
 }

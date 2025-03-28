@@ -35,6 +35,7 @@ commerce_weavers_sylius_tpay:
         form:
             payment_method:
                 image: 'Payment Logo'
+                default_image_url: 'Default logo Url'
     shop:
         credit_cards: 'Credit cards'
         credit_card:

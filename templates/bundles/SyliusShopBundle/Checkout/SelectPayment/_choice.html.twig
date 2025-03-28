@@ -8,10 +8,13 @@
         <a class="header" style="display: flex; align-items: center;">
             {{ form_label(form, null, {'label_attr': {'data-test-payment-method-label': ''}}) }}
 
-            {% if method.image is not empty and method.image.path is not empty %}
+            {% set imageSrc = method.image is not empty and method.image.path is not empty
+                ? method.image.path|imagine_filter('cw_sylius_tpay_admin_payment_method_image')
+                : method.defaultImageUrl %}
+            {% if imageSrc is not empty %}
                 <img
                     id="{{ method.code }}_logo"
-                    src="{{ method.image.path|imagine_filter('cw_sylius_tpay_admin_payment_method_image') }}"
+                    src="{{ imageSrc }}"
                     alt="{{ method.code }}-logo"
                     style="margin-left: 10px; max-height: 32px; max-width: 64px;"
                 />
