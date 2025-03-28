@@ -11,7 +11,8 @@ use Sylius\Bundle\CoreBundle\Fixture\Factory\PaymentMethodExampleFactory as Base
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Factory\PaymentMethodFactoryInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface as DoctrineRepositoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
 
@@ -22,7 +23,7 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
     public function __construct(
         private readonly CypherInterface $cypher,
         PaymentMethodFactoryInterface $paymentMethodFactory,
-        RepositoryInterface $localeRepository,
+        RepositoryInterface|DoctrineRepositoryInterface $localeRepository,
         ChannelRepositoryInterface $channelRepository,
     ) {
         parent::__construct($paymentMethodFactory, $localeRepository, $channelRepository);
