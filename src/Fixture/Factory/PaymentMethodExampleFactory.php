@@ -11,6 +11,7 @@ use Sylius\Bundle\CoreBundle\Fixture\Factory\PaymentMethodExampleFactory as Base
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Factory\PaymentMethodFactoryInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
 
@@ -18,10 +19,11 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 {
     public const TPAY_BASED_PAYMENT_METHOD_PREFIX = 'tpay';
 
+    /** @phpstan-ignore-next-line */
     public function __construct(
         private readonly CypherInterface $cypher,
         PaymentMethodFactoryInterface $paymentMethodFactory,
-        $localeRepository,
+        RepositoryInterface $localeRepository,
         ChannelRepositoryInterface $channelRepository,
     ) {
         parent::__construct($paymentMethodFactory, $localeRepository, $channelRepository);
