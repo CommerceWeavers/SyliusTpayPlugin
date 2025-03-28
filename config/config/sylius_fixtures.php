@@ -94,6 +94,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                         'FASHION_WEB',
                     ],
                     'enabled' => true,
+                    'defaultImageUrl' => 'https://secure.sandbox.tpay.com/tpay/web/channels/53/normal-white-bg.png',
                 ],
                 'blik' => [
                     'code' => 'tpay_blik',
@@ -105,6 +106,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                         'FASHION_WEB',
                     ],
                     'enabled' => true,
+                    'defaultImageUrl' => 'https://secure.sandbox.tpay.com/tpay/web/channels/64/normal-white-bg.png',
                 ],
                 'pbl' => [
                     'code' => 'tpay_pbl',
@@ -140,6 +142,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                         'FASHION_WEB',
                     ],
                     'enabled' => true,
+                    'defaultImageUrl' => 'https://secure.sandbox.tpay.com/tpay/web/channels/68/normal-white-bg.png',
                 ],
                 'apple_pay' => [
                     'code' => 'tpay_apple_pay',
@@ -151,6 +154,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                         'FASHION_WEB',
                     ],
                     'enabled' => true,
+                    'defaultImageUrl' => 'https://secure.sandbox.tpay.com/tpay/web/channels/75/normal-white-bg.png',
                 ],
                 'visa_mobile' => [
                     'code' => 'tpay_visa_mobile',
@@ -162,6 +166,7 @@ return static function(SyliusFixturesConfig $fixtures): void {
                         'FASHION_WEB',
                     ],
                     'enabled' => true,
+                    'defaultImageUrl' => 'https://secure.sandbox.tpay.com/tpay/web/channels/79/normal-white-bg.png',
                 ],
             ],
         ],

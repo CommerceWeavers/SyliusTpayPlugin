@@ -17,7 +17,8 @@ final class SetTpayDefaultPaymentImageUrlListenerTest extends TestCase
 {
     use ProphecyTrait;
 
-    private TpayApi|ObjectProphecy $tpayApi;
+    /** @var ObjectProphecy<TpayApi> $tpayApi */
+    private ObjectProphecy $tpayApi;
 
     protected function setUp(): void
     {
