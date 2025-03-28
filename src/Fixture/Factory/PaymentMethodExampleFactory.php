@@ -19,13 +19,13 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 {
     public const TPAY_BASED_PAYMENT_METHOD_PREFIX = 'tpay';
 
-    /** @phpstan-ignore-next-line */
     public function __construct(
         private readonly CypherInterface $cypher,
         PaymentMethodFactoryInterface $paymentMethodFactory,
         RepositoryInterface $localeRepository,
         ChannelRepositoryInterface $channelRepository,
     ) {
+        /** @phpstan-ignore-next-line */
         parent::__construct($paymentMethodFactory, $localeRepository, $channelRepository);
     }
 
