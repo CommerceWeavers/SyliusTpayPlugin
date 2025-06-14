@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Serializer\Normalizer;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Problem\Serializer\ErrorNormalizerTrait;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use CommerceWeavers\SyliusTpayPlugin\Api\Exception\BlikAliasAmbiguousValueException;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -14,8 +13,6 @@ use Webmozart\Assert\Assert;
 
 final class BlikAliasAmbiguousValueErrorNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    use ErrorNormalizerTrait;
-
     public const FORMAT = 'jsonld';
 
     public const TITLE = 'title';

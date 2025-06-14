@@ -36,7 +36,7 @@ return function(ContainerConfigurator $container): void {
         ->args([
             service('payum'),
             service('router'),
-            service('sylius.factory.payum_resolve_next_route'),
+            service('sylius_payum.factory.resolve_next_route'),
             service('twig'),
             param('commerce_weavers_sylius_tpay.waiting_for_payment.refresh_interval'),
         ])

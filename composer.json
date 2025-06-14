@@ -11,29 +11,26 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\CommerceWeavers\\SyliusTpayPlugin\\": "tests/",
-            "App\\": "tests/Application/src/"
+            "TestApp\\": "tests/TestApplication/src/"
         }
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-curl": "*",
         "defuse/php-encryption": "^2.4",
         "firebase/php-jwt": "^6.10",
         "payum/core": "^1.7",
-        "sylius/core-bundle": "^1.12",
-        "sylius/api-bundle": "^1.12",
-        "sylius/resource-bundle": "^1.10",
-        "symfony/config": "5.4.* || 6.4.*",
-        "symfony/dependency-injection": "5.4.* || 6.4.*",
-        "symfony/form": "5.4.* || 6.4.*",
-        "symfony/http-foundation": "5.4.* || 6.4.*",
-        "symfony/http-kernel": "5.4.* || 6.4.*",
-        "symfony/routing": "5.4.* || 6.4.*",
-        "symfony/uid": "5.4.* || 6.4.*",
+        "sylius/core-bundle": "^2.0",
+        "sylius/api-bundle": "^2.0",
+        "sylius/resource-bundle": "^1.12",
+        "symfony/config": "6.4.*",
+        "symfony/dependency-injection": "6.4.*",
+        "symfony/form": "6.4.*",
+        "symfony/http-foundation": "6.4.*",
+        "symfony/http-kernel": "6.4.*",
+        "symfony/routing": "6.4.*",
+        "symfony/uid": "6.4.*",
         "tpay-com/tpay-openapi-php": "^1.8"
-    },
-    "conflict": {
-        "sylius/sylius": "<1.12"
     },
     "require-dev": {
         "ext-openssl": "*",
@@ -51,23 +48,25 @@
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "shipmonk/composer-dependency-analyser": "^1.7",
         "sylius-labs/coding-standard": "^4.2",
-        "sylius/refund-plugin": "^1.5",
-        "sylius/sylius": "^1.12",
-        "symfony/browser-kit": "^5.4 || 6.4.*",
-        "symfony/debug-bundle": "^5.4 || 6.4.*",
-        "symfony/dotenv": "^5.4 || 6.4.*",
+        "sylius/refund-plugin": "^2.0",
+        "sylius/sylius": "^2.0",
+        "sylius/test-application": "2.0.x-dev",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/dotenv": "6.4.*",
         "symfony/flex": "^2.4",
-        "symfony/intl": "^5.4 || 6.4.*",
+        "symfony/intl": "6.4.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/panther": "^2.1",
-        "symfony/runtime": "5.4.* || 6.4.*",
-        "symfony/web-profiler-bundle": "^5.4 || 6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*",
         "theofidry/alice-data-fixtures": "^1.6"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "symfony/flex": true,
             "symfony/runtime": true
@@ -75,7 +74,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.1-dev"
+            "dev-main": "3.0-dev"
         },
         "symfony": {
             "require": "6.4.*"
