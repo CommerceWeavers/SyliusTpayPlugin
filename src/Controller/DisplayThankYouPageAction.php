@@ -23,7 +23,7 @@ final class DisplayThankYouPageAction
     {
         $order = $this->findOrderOr404($orderToken);
 
-        return new Response($this->twig->render('@SyliusShop/Order/thankYou.html.twig', [
+        return new Response($this->twig->render('@SyliusShop/order/thank_you.html.twig', [
             'order' => $order,
         ]));
     }
