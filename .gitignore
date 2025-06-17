@@ -6,6 +6,7 @@
 !/etc/build/.gitkeep
 
 /tests/Application/yarn.lock
+/tests/TestApplication/*.local
 
 /.phpunit.result.cache
 /behat.yml
