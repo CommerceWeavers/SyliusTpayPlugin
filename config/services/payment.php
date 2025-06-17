@@ -31,7 +31,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_sylius_tpay.payment.resolver.order_based_payment_methods', OrderBasedPaymentMethodsResolver::class)
         ->args([
-            service('sylius.payment_methods_resolver.channel_based'),
+            service('sylius.resolver.payment_methods.channel_based'),
             service('commerce_weavers_sylius_tpay.pay_by_link_payment.checker.payment_method_supported_for_order'),
         ])
         ->tag('sylius.payment_method_resolver', ['type' => 'tpay_order_based', 'label' => 'commerce_weavers_sylius_tpay.payment_methods_resolver.order_based', 'priority' => 2])
