@@ -1,5 +1,5 @@
 serve:
-	@symfony serve --dir=tests/Application --daemon
+	@symfony serve --dir=vendor/sylius/test-application/public --daemon
 server.start: serve
 server.stop:
 	@symfony server:stop --dir=tests/Application
@@ -15,6 +15,9 @@ setup:
 	vendor/bin/console doctrine:database:create --if-not-exists
 	vendor/bin/console doctrine:migration:migrate -n
 	vendor/bin/console sylius:fixtures:load -n
+	APP_ENV=test vendor/bin/console doctrine:database:create --if-not-exists
+	APP_ENV=test vendor/bin/console doctrine:migration:migrate -n
+	APP_ENV=test vendor/bin/console sylius:fixtures:load -n
 ecs:
 	@vendor/bin/ecs
 ecs.fix:
