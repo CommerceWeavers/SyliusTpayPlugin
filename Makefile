@@ -4,20 +4,17 @@ server.start: serve
 server.stop:
 	@symfony server:stop --dir=tests/Application
 frontend.install:
-	@cd tests/Application && npm install
+	@cd vendor/sylius/test-application && npm install
+	vendor/bin/console assets:install
 frontend.build:
-	@cd tests/Application && npm run build
+	@cd vendor/sylius/test-application && npm run build
 frontend.setup: frontend.install frontend.build
 setup:
-	@composer update
+	@composer.phar update
 	@make frontend.setup
-	@cd tests/Application && bin/console assets:install
-	@cd tests/Application && bin/console doctrine:database:create --if-not-exists
-	@cd tests/Application && bin/console doctrine:migrations:migrate -n
-	@cd tests/Application && bin/console sylius:fixtures:load -n
-	@cd tests/Application && APP_ENV=test bin/console doctrine:database:create --if-not-exists
-	@cd tests/Application && APP_ENV=test bin/console doctrine:migrations:migrate -n
-	@cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load -n
+	vendor/bin/console doctrine:database:create --if-not-exists
+	vendor/bin/console doctrine:migration:migrate -n
+	vendor/bin/console sylius:fixtures:load -n
 ecs:
 	@vendor/bin/ecs
 ecs.fix:

@@ -130,12 +130,6 @@
     "egulias/email-validator": {
         "version": "3.2.6"
     },
-    "enshrined/svg-sanitize": {
-        "version": "0.16.0"
-    },
-    "ezyang/htmlpurifier": {
-        "version": "v4.17.0"
-    },
     "fakerphp/faker": {
         "version": "v1.23.1"
     },
@@ -604,9 +598,6 @@
             "ref": "42a2dc11276d447efefa639b95f9c7a4edd7031a"
         }
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.4.41"
-    },
     "symfony/asset": {
         "version": "v5.4.40"
     },
@@ -812,13 +803,7 @@
     "symfony/polyfill-php72": {
         "version": "v1.31.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.31.0"
-    },
     "symfony/polyfill-php80": {
-        "version": "v1.31.0"
-    },
-    "symfony/polyfill-php81": {
         "version": "v1.31.0"
     },
     "symfony/process": {
@@ -832,9 +817,6 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.4.40"
-    },
-    "symfony/redis-messenger": {
-        "version": "v5.4.43"
     },
     "symfony/routing": {
         "version": "5.4",
@@ -868,9 +850,6 @@
         "version": "v5.4.44"
     },
     "symfony/security-csrf": {
-        "version": "v5.4.40"
-    },
-    "symfony/security-guard": {
         "version": "v5.4.40"
     },
     "symfony/security-http": {

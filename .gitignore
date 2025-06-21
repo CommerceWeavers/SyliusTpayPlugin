@@ -5,6 +5,9 @@
 /etc/build/*
 !/etc/build/.gitkeep
 
+/tests/TestApplication/.env.local
+/tests/TestApplication/.env.*.local
+
 /tests/Application/yarn.lock
 /tests/TestApplication/*.local
 
