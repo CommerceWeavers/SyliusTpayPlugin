@@ -104,9 +104,7 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        $chooseShippingMethodCommand = new ChooseShippingMethod($shippingMethodCode);
-        $chooseShippingMethodCommand->setOrderTokenValue($tokenValue);
-        $chooseShippingMethodCommand->setSubresourceId($subresourceId);
+        $chooseShippingMethodCommand = new ChooseShippingMethod($tokenValue, $subresourceId, $shippingMethodCode);
 
         $envelope = $this->commandBus->dispatch($chooseShippingMethodCommand);
 
@@ -119,9 +117,7 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        $choosePaymentMethodCommand = new ChoosePaymentMethod($paymentMethodCode);
-        $choosePaymentMethodCommand->setOrderTokenValue($tokenValue);
-        $choosePaymentMethodCommand->setSubresourceId($subresourceId);
+        $choosePaymentMethodCommand = new ChoosePaymentMethod($tokenValue, $subresourceId, $paymentMethodCode);
 
         $envelope = $this->commandBus->dispatch($choosePaymentMethodCommand);
 
@@ -132,8 +128,7 @@ trait OrderPlacerTrait
         string $tokenValue,
     ): OrderInterface
     {
-        $completeOrderCommand = new CompleteOrder();
-        $completeOrderCommand->setOrderTokenValue($tokenValue);
+        $completeOrderCommand = new CompleteOrder($tokenValue);
         $envelope = $this->commandBus->dispatch($completeOrderCommand);
 
         return $envelope->last(HandledStamp::class)->getResult();
@@ -187,8 +182,7 @@ trait OrderPlacerTrait
 
     protected function pickUpCart(string $tokenValue = 'nAWw2jewpA', string $channelCode = 'WEB'): string
     {
-        $pickupCartCommand = new PickupCart($tokenValue);
-        $pickupCartCommand->setChannelCode($channelCode);
+        $pickupCartCommand = new PickupCart($channelCode, 'en_US', null, $tokenValue);
 
         $this->commandBus->dispatch($pickupCartCommand);
 
@@ -197,8 +191,7 @@ trait OrderPlacerTrait
 
     protected function addItemToCart(string $productVariantCode, int $quantity, string $tokenValue): string
     {
-        $addItemToCartCommand = new AddItemToCart($productVariantCode, $quantity);
-        $addItemToCartCommand->setOrderTokenValue($tokenValue);
+        $addItemToCartCommand = new AddItemToCart($tokenValue, $productVariantCode, $quantity);
 
         $this->commandBus->dispatch($addItemToCartCommand);
 
@@ -226,8 +219,7 @@ trait OrderPlacerTrait
         $address->setCountryCode('US');
         $address->setPostcode('90000');
 
-        $updateCartCommand = new UpdateCart(email: $email, billingAddress: $address, couponCode: $couponCode);
-        $updateCartCommand->setOrderTokenValue($tokenValue);
+        $updateCartCommand = new UpdateCart($tokenValue, $email, $address, null, $couponCode);
 
         $envelope = $this->commandBus->dispatch($updateCartCommand);
 

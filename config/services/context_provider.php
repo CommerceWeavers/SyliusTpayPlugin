@@ -9,10 +9,10 @@ use CommerceWeavers\SyliusTpayPlugin\ContextProvider\RegulationsUrlContextProvid
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set(RegulationsUrlContextProvider::class)
-        ->args([
-            service('sylius.context.locale'),
-        ])
-        ->tag('sylius.ui.template_event.context_provider')
-    ;
+//    $services->set(RegulationsUrlContextProvider::class)
+//        ->args([
+//            service('sylius.context.locale'),
+//        ])
+//        ->tag('sylius.ui.template_event.context_provider')
+//    ;
 };

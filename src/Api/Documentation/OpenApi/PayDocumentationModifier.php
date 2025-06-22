@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Documentation\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Model\MediaType;
+use ApiPlatform\OpenApi\Model\MediaType;
 use ApiPlatform\OpenApi\OpenApi;
 use CommerceWeavers\SyliusTpayPlugin\Api\Documentation\PayRequestBodyExampleFactory;
 use Sylius\Bundle\ApiBundle\OpenApi\Documentation\DocumentationModifierInterface;

@@ -9,7 +9,7 @@
             </option>
             <option name="allFieldsAreBlankErrorMessage">commerce_weavers_sylius_tpay.shop.pay.blik.required_fields</option>
             <option name="groups">
-                <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
             </option>
         </constraint>
         <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\OneOfPropertiesRequiredIfGatewayNameEquals">
@@ -20,7 +20,7 @@
             </option>
             <option name="allFieldsAreBlankErrorMessage">commerce_weavers_sylius_tpay.shop.pay.card.required_fields</option>
             <option name="groups">
-                <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
             </option>
         </constraint>
         <property name="applePayToken">
@@ -28,7 +28,7 @@
                 <option name="gatewayName">tpay_apple_pay</option>
                 <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.apple_pay_token.required</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
@@ -37,21 +37,21 @@
                 <option name="value">6</option>
                 <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.length</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfBlikAliasActionIsRegister">
                 <option name="blikAliasActionPropertyName">blikAliasAction</option>
                 <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.required_with_alias_register</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
         <property name="blikAliasAction">
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\ForAuthorizedUserOnly">
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
@@ -60,26 +60,26 @@
                 <option name="gatewayName">tpay_google_pay</option>
                 <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.google_pay_token.required</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="CommerceWeavers\SyliusTpayPlugin\GooglePayPayment\Validator\Constraint\EncodedGooglePayToken">
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
         <property name="savedCardId">
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\ForAuthorizedUserOnly">
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
         <property name="saveCard">
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\ForAuthorizedUserOnly">
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
@@ -88,19 +88,19 @@
                 <option name="paymentMethodType">pay_by_link</option>
                 <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.encoded_card_data.required</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\TpayChannelIdEligibility">
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="Length">
                 <option name="min">1</option>
                 <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.pay_by_link_channel.length</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>
@@ -109,7 +109,7 @@
                 <option name="gatewayName">tpay_visa_mobile</option>
                 <option name="fieldRequiredErrorMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.required</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="Length">
@@ -118,14 +118,14 @@
                 <option name="minMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.min_length</option>
                 <option name="maxMessage">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.max_length</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
             <constraint name="Regex">
                 <option name="pattern">/^\d+$/</option>
                 <option name="message">commerce_weavers_sylius_tpay.shop.pay.visa_mobile.regex</option>
                 <option name="groups">
-                    <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                    <value>sylius:commerce_weavers_sylius_tpay:shop:order:pay</value>
                 </option>
             </constraint>
         </property>

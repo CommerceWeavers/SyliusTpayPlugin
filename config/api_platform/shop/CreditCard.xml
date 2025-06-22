@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+
+ This file is part of the CommerceWeavers Sylius Tpay Plugin.
+
+ (c) CommerceWeavers
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+-->
+
+<resources
+    xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
+>
+    <resource class="CommerceWeavers\SyliusTpayPlugin\CardPayment\Entity\CreditCard">
+        <operations>
+            <operation
+                name="commerce_weavers_sylius_tpay_shop_credit_card_get_collection"
+                class="ApiPlatform\Metadata\GetCollection"
+                uriTemplate="/shop/credit-cards"
+            >
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>sylius:commerce_weavers_sylius_tpay:shop:credit_card:index</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+
+            <operation
+                name="commerce_weavers_sylius_tpay_shop_credit_card_get"
+                class="ApiPlatform\Metadata\Get"
+                uriTemplate="/shop/credit-cards/{id}"
+            >
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>sylius:commerce_weavers_sylius_tpay:shop:credit_card:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+
+            <operation
+                name="commerce_weavers_sylius_tpay_shop_credit_card_delete"
+                class="ApiPlatform\Metadata\Delete"
+                uriTemplate="/shop/credit-cards/{id}"
+            />
+        </operations>
+    </resource>
+</resources>

@@ -6,40 +6,40 @@
 >
     <class name="CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay">
         <attribute name="successUrl">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="failureUrl">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="applePayToken">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="blikToken">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="blikAliasAction">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="blikAliasApplicationCode">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="googlePayToken">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="encodedCardData">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="saveCard">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="savedCardId">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="tpayChannelId">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
         <attribute name="visaMobilePhoneNumber">
-            <group>commerce_weavers_sylius_tpay:shop:order:pay</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:pay</group>
         </attribute>
     </class>
 </serializer>

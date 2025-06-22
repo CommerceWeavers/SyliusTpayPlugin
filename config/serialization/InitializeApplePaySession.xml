@@ -6,13 +6,13 @@
 >
     <class name="CommerceWeavers\SyliusTpayPlugin\Api\Command\InitializeApplePaySession">
         <attribute name="domainName">
-            <group>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
         </attribute>
         <attribute name="displayName">
-            <group>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
         </attribute>
         <attribute name="validationUrl">
-            <group>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</group>
         </attribute>
     </class>
 </serializer>

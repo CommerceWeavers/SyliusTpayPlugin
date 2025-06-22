@@ -25,7 +25,7 @@ return function(ContainerConfigurator $configurator): void {
         ],
         'mapping' => [
             'paths' => [
-                dirname(__DIR__) . '/api_resources',
+                dirname(__DIR__) . '/api_platform',
             ],
         ],
     ]);

@@ -6,20 +6,20 @@
 >
     <class name="CommerceWeavers\SyliusTpayPlugin\CardPayment\Entity\CreditCard">
         <attribute name="id">
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:index</group>
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:show</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:index</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:show</group>
         </attribute>
         <attribute name="brand">
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:index</group>
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:show</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:index</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:show</group>
         </attribute>
         <attribute name="tail">
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:index</group>
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:show</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:index</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:show</group>
         </attribute>
         <attribute name="expirationDate">
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:index</group>
-            <group>commerce_weavers_sylius_tpay:shop:credit_card:show</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:index</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:credit_card:show</group>
         </attribute>
     </class>
 </serializer>

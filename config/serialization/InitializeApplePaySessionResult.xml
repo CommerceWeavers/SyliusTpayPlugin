@@ -6,7 +6,7 @@
 >
     <class name="CommerceWeavers\SyliusTpayPlugin\Api\Command\InitializeApplePaySessionResult">
         <attribute name="session">
-            <group>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session_result</group>
+            <group>sylius:commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session_result</group>
         </attribute>
     </class>
 </serializer>

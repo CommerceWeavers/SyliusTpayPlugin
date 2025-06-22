@@ -1,4 +1,31 @@
-App\Entity\PaymentMethod:
+Sylius\Component\Payment\Model\PaymentMethodTranslation:
+    tpay_payment_method_translation:
+        name: 'Tpay'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay'
+    tpay_card_payment_method_translation:
+        name: 'Card (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_card'
+    tpay_blik_payment_method_translation:
+        name: 'BLIK (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_blik'
+    tpay_pbl_payment_method_translation:
+        name: 'Bank (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_pbl'
+    tpay_visa_mobile_payment_method_translation:
+        name: 'Visa mobile (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_visa_mobile'
+
+TestApp\Entity\PaymentMethod:
     tpay:
         code: 'tpay'
         enabled: true
@@ -93,30 +120,3 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             production_mode: false
             encrypted: true
-
-Sylius\Component\Payment\Model\PaymentMethodTranslation:
-    tpay_payment_method_translation:
-        name: 'Tpay'
-        locale: 'en_US'
-        description: '<paragraph(2)>'
-        translatable: '@tpay'
-    tpay_card_payment_method_translation:
-        name: 'Card (Tpay)'
-        locale: 'en_US'
-        description: '<paragraph(2)>'
-        translatable: '@tpay_card'
-    tpay_blik_payment_method_translation:
-        name: 'BLIK (Tpay)'
-        locale: 'en_US'
-        description: '<paragraph(2)>'
-        translatable: '@tpay_blik'
-    tpay_pbl_payment_method_translation:
-        name: 'Bank (Tpay)'
-        locale: 'en_US'
-        description: '<paragraph(2)>'
-        translatable: '@tpay_pbl'
-    tpay_visa_mobile_payment_method_translation:
-        name: 'Visa mobile (Tpay)'
-        locale: 'en_US'
-        description: '<paragraph(2)>'
-        translatable: '@tpay_visa_mobile'
