@@ -5,6 +5,34 @@ Sylius\Component\Core\Model\Customer:
         email: 'sylius@example.com'
         emailCanonical: 'sylius@example.com'
 
+Sylius\Component\Core\Model\ProductTranslation:
+    product_translation_mug:
+        slug: 'mug'
+        locale: 'en_US'
+        name: 'Mug'
+        description: '<paragraph(2)>'
+        translatable: '@product_mug'
+
+Sylius\Component\Product\Model\ProductVariantTranslation:
+    product_variant_translation_mug_blue:
+        locale: 'en_US'
+        name: 'Blue Mug'
+        translatable: '@product_variant_mug_blue'
+    product_variant_translation_mug_nft:
+        locale: 'en_US'
+        name: 'NFT Mug'
+        translatable: '@product_variant_mug_nft'
+    product_variant_translation_free_mug_nft:
+        locale: 'en_US'
+        name: 'NFT Mug'
+        translatable: '@product_variant_free_mug_nft'
+
+Sylius\Component\Product\Model\ProductOptionValueTranslation:
+    product_option_value_translation_blue:
+        locale: 'en_US'
+        value: 'Blue'
+        translatable: '@product_option_value_color_blue'
+
 Sylius\Component\Core\Model\Product:
     product_mug:
         code: 'MUG'
@@ -13,14 +41,6 @@ Sylius\Component\Core\Model\Product:
         translations:
             en_US: '@product_translation_mug'
         options: ['@product_option_color']
-
-Sylius\Component\Core\Model\ProductTranslation:
-    product_translation_mug:
-        slug: 'mug'
-        locale: 'en_US'
-        name: 'Mug'
-        description: '<paragraph(2)>'
-        translatable: '@product_mug'
 
 Sylius\Component\Core\Model\ProductVariant:
     product_variant_mug_blue:
@@ -53,20 +73,6 @@ Sylius\Component\Core\Model\ProductVariant:
         translations:
             en_US: '@product_variant_translation_free_mug_nft'
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
-    product_variant_translation_mug_blue:
-        locale: 'en_US'
-        name: 'Blue Mug'
-        translatable: '@product_variant_mug_blue'
-    product_variant_translation_mug_nft:
-        locale: 'en_US'
-        name: 'NFT Mug'
-        translatable: '@product_variant_mug_nft'
-    product_variant_translation_free_mug_nft:
-        locale: 'en_US'
-        name: 'NFT Mug'
-        translatable: '@product_variant_free_mug_nft'
-
 Sylius\Component\Core\Model\ChannelPricing:
     channel_pricing_product_variant_mug_blue_web:
         channelCode: 'WEB'
@@ -90,9 +96,3 @@ Sylius\Component\Product\Model\ProductOptionValue:
         option: '@product_option_color'
         translations:
             - '@product_option_value_translation_blue'
-
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
-    product_option_value_translation_blue:
-        locale: 'en_US'
-        value: 'Blue'
-        translatable: '@product_option_value_color_blue'
