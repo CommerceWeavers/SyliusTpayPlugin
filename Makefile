@@ -4,10 +4,10 @@ server.start: serve
 server.stop:
 	@symfony server:stop --dir=tests/Application
 frontend.install:
-	@cd vendor/sylius/test-application && npm install
+	@cd vendor/sylius/test-application && yarn install
 	vendor/bin/console assets:install
 frontend.build:
-	@cd vendor/sylius/test-application && npm run build
+	@cd vendor/sylius/test-application && yarn build
 frontend.setup: frontend.install frontend.build
 setup:
 	@composer.phar update
