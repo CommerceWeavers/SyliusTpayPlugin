@@ -1,0 +1,14 @@
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        firephp:
+            type: firephp
+            level: info
+        sylius_tpay:
+            type: stream
+            path: "%kernel.logs_dir%/sylius_tpay_%kernel.environment%.log"
+            level: debug
+            channels: [sylius_tpay]
