@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace TestApp\Entity;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\ImageAwareTrait;
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentMethodImageAwareInterface;
-use Sylius\Component\Core\Model\PaymentMethod as PaymentMethodBase;
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Core\Model\PaymentMethod as PaymentMethodBase;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_payment_method')]

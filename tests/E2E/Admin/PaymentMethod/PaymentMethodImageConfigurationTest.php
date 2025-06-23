@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Admin\PaymentMethod;
 
-use App\Entity\PaymentMethod;
 use Facebook\WebDriver\WebDriverBy;
+use TestApp\Entity\PaymentMethod;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginAdminUserTrait;
 

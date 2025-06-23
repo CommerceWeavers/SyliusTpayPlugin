@@ -1,31 +1,34 @@
-{% extends '@SyliusShop/layout.html.twig' %}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
 
 {% block title %}{{ 'commerce_weavers_sylius_tpay.shop.payment_failed.title'|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <div class="ui hidden divider"></div>
-    <div class="ui grid">
-        <div class="center aligned sixteen wide column">
-            <h1 class="ui icon header">
-                <i class="circular close icon"></i>
-                <div class="content">
-                    {{ 'commerce_weavers_sylius_tpay.shop.payment_failed.title'|trans }}
-                    <div class="sub header">
-                        {{ 'commerce_weavers_sylius_tpay.shop.payment_failed.subtitle'|trans }}
-                    </div>
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-danger mx-auto">
+                    {{ errorMessage ?? 'commerce_weavers_sylius_tpay.shop.payment_failed.error'|trans }}
                 </div>
-            </h1>
 
-            <div class="ui negative message">
-                {{ errorMessage ?? 'commerce_weavers_sylius_tpay.shop.payment_failed.error'|trans }}
+                <div class="mb-4">
+                    <i class="fas fa-times-circle text-danger display-1 mb-3"></i>
+                    <h1 class="display-4 mb-2">
+                        {{ 'commerce_weavers_sylius_tpay.shop.payment_failed.title'|trans }}
+                    </h1>
+                    <p class="lead text-muted">
+                        {{ 'commerce_weavers_sylius_tpay.shop.payment_failed.subtitle'|trans }}
+                    </p>
+                </div>
+
+                <div class="mt-4">
+                    <form action="{{ path(constant('CommerceWeavers\\SyliusTpayPlugin\\Routing::SHOP_RETRY_PAYMENT'), {'orderToken': order.tokenValue}) }}" method="post" novalidate>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token(order.tokenValue) }}" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-undo me-2"></i>{{ 'commerce_weavers_sylius_tpay.shop.payment_failed.retry_payment'|trans }}
+                        </button>
+                    </form>
+                </div>
             </div>
-
-            <div class="ui hidden divider"></div>
-
-            <form action="{{ path(constant('CommerceWeavers\\SyliusTpayPlugin\\Routing::SHOP_RETRY_PAYMENT'), {'orderToken': order.tokenValue}) }}" method="post" novalidate>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token(order.tokenValue) }}" />
-                <button type="submit" class="ui large blue button"><i class="undo icon"></i> {{ 'commerce_weavers_sylius_tpay.shop.payment_failed.retry_payment'|trans }}</button>
-            </form>
         </div>
     </div>
 {% endblock %}

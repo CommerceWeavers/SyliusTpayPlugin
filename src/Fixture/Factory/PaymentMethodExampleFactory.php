@@ -20,7 +20,7 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
     public const TPAY_BASED_PAYMENT_METHOD_PREFIX = 'tpay';
 
     public function __construct(
-        private readonly CypherInterface $cypher,
+        private readonly ?CypherInterface $cypher,
         PaymentMethodFactoryInterface $paymentMethodFactory,
         RepositoryInterface $localeRepository,
         ChannelRepositoryInterface $channelRepository,
@@ -47,7 +47,7 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
             return $paymentMethod;
         }
 
-        if ($gatewayConfig instanceof CryptedInterface) {
+        if ($this->cypher !== null && $gatewayConfig instanceof CryptedInterface) {
             $gatewayConfig->encrypt($this->cypher);
         }
 

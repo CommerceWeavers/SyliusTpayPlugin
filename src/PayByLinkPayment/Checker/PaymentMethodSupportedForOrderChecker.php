@@ -12,11 +12,11 @@ use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
-final class PaymentMethodSupportedForOrderChecker implements PaymentMethodSupportedForOrderCheckerInterface
+final readonly class PaymentMethodSupportedForOrderChecker implements PaymentMethodSupportedForOrderCheckerInterface
 {
     public function __construct(
-        private readonly CypherInterface $cypher,
-        private readonly OrderAwareValidTpayChannelListProviderInterface $orderAwareValidTpayChannelListProvider,
+        private ?CypherInterface $cypher,
+        private OrderAwareValidTpayChannelListProviderInterface $orderAwareValidTpayChannelListProvider,
     ) {
     }
 
@@ -29,7 +29,7 @@ final class PaymentMethodSupportedForOrderChecker implements PaymentMethodSuppor
             return true;
         }
 
-        if ($gatewayConfig instanceof CryptedInterface) {
+        if ($this->cypher !== null && $gatewayConfig instanceof CryptedInterface) {
             $gatewayConfig->decrypt($this->cypher);
         }
 

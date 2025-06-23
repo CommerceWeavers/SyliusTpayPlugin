@@ -13,7 +13,7 @@ return function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.fixture.factory.payment_method_example', PaymentMethodExampleFactory::class)
         ->decorate('sylius.fixture.example_factory.payment_method')
         ->args([
-            service('payum.dynamic_gateways.cypher'),
+            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
             service('sylius.factory.payment_method'),
             service('sylius.repository.locale'),
             service('sylius.repository.channel'),

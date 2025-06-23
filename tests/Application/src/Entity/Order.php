@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace TestApp\Entity;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareTrait;

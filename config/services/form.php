@@ -79,14 +79,14 @@ return static function(ContainerConfigurator $container): void {
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)
         ->args([
-            service('payum.dynamic_gateways.cypher'),
+            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
         ])
     ;
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config', EncryptGatewayConfigListener::class)
         ->args([
-            service('payum.dynamic_gateways.cypher'),
+            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
         ])
     ;
 
@@ -94,9 +94,5 @@ return static function(ContainerConfigurator $container): void {
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.set_payment_default_image_url', SetTpayDefaultPaymentImageUrlListener::class)
-        ->args([
-            service('sylius.repository.gateway_config'),
-            service('payum.dynamic_gateways.cypher'),
-        ])
     ;
 };

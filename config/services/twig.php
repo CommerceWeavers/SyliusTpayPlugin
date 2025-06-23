@@ -14,7 +14,7 @@ return function(ContainerConfigurator $container): void {
 
     $services->set(TpayRuntime::class)
         ->args([
-            service('payum.dynamic_gateways.cypher'),
+            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
         ])
         ->tag('twig.runtime')
     ;
