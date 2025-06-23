@@ -8,10 +8,10 @@ use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 
-final class EncryptGatewayConfigListener implements EncryptGatewayConfigListenerInterface
+final readonly class EncryptGatewayConfigListener implements EncryptGatewayConfigListenerInterface
 {
     public function __construct(
-        private CypherInterface $cypher,
+        private ?CypherInterface $cypher,
     ) {
     }
 
@@ -19,7 +19,7 @@ final class EncryptGatewayConfigListener implements EncryptGatewayConfigListener
     {
         $gatewayConfig = $event->getData();
 
-        if (!$gatewayConfig instanceof CryptedInterface) {
+        if (!$gatewayConfig instanceof CryptedInterface || $this->cypher === null) {
             return;
         }
 

@@ -1,0 +1,32 @@
+imports:
+    - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusPayumBundle/Resources/config/app/config.yaml" }
+    - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
+    - { resource: "@SyliusRefundPlugin/config/config.yaml" }
+
+    - { resource: '@CommerceWeaversSyliusTpayPlugin/config/config.php' }
+
+parameters:
+    sylius_core.public_dir: '%kernel.project_dir%/public'
+
+sylius_shop:
+    product_grid:
+        include_all_descendants: true
+
+sylius_api:
+    enabled: true
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: TestApp\Entity\Order
+
+sylius_payment:
+    resources:
+        payment_method:
+            classes:
+                repository: TestApp\Repository\PaymentMethodRepository
+                model: TestApp\Entity\PaymentMethod

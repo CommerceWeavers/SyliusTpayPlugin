@@ -9,10 +9,10 @@ use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class TpayRuntime implements RuntimeExtensionInterface
+final readonly class TpayRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private CypherInterface $cypher,
+        private ?CypherInterface $cypher,
     ) {
     }
 
@@ -23,7 +23,7 @@ final class TpayRuntime implements RuntimeExtensionInterface
 
     public function getConfigValue(GatewayConfigInterface $gatewayConfig, string $key): mixed
     {
-        if ($gatewayConfig instanceof CryptedInterface) {
+        if ($this->cypher !== null && $gatewayConfig instanceof CryptedInterface) {
             $gatewayConfig->decrypt($this->cypher);
         }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order;
 
-use App\Entity\PaymentMethod;
-use App\Repository\PaymentMethodRepository;
 use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
+use TestApp\Entity\PaymentMethod;
+use TestApp\Repository\PaymentMethodRepository;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 
 /** @mixin E2ETestCase */
