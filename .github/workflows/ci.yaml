@@ -71,7 +71,7 @@ jobs:
                     sylius_version: ${{ matrix.sylius }}
                     e2e: "yes"
                     e2e_js: "yes"
-                    node_version: '18.x'
+                    node_version: '20.x'
 
             -   name: Check dependencies
                 continue-on-error: true

@@ -1,3 +1,3 @@
 {% if app.request().attributes.get('_route') in ['sylius_admin_payment_method_create', 'sylius_admin_payment_method_update'] %}
-    {{ encore_entry_script_tags('commerce-weavers-sylius-tpay-admin-payment-method-entry', null, 'commerce_weavers_sylius_tpay_admin') }}
+    <script src="{{ asset('bundles/commerceweaverssyliustpayplugin/admin/scripts/payment-method.js') }}"></script>
 {% endif %}
