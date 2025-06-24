@@ -13,10 +13,12 @@ doctrine:
 
         url: '%env(resolve:DATABASE_URL)%'
     orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
         entity_managers:
             default:
+                auto_mapping: true
                 mappings:
-                    App:
+                    TestApp:
                         is_bundle: false
                         type: attribute
                         dir: '%kernel.project_dir%/src/Entity'
