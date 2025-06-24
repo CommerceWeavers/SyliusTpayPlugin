@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace CommerceWeavers\SyliusTpayPlugin\RedirectPayment\Twig\Component;
+namespace CommerceWeavers\SyliusTpayPlugin\Twig\Component;
 
-use CommerceWeavers\SyliusTpayPlugin\RedirectPayment\Form\Type\GatewayConfigurationType;
 use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -20,12 +19,13 @@ final class GatewayConfigurationComponent
     use HookableComponentTrait;
 
     public function __construct(
-        private FormFactoryInterface $formFactory,
+        private readonly string $formClass,
+        private readonly FormFactoryInterface $formFactory,
     ) {
     }
 
     protected function instantiateForm(): FormInterface
     {
-        return $this->formFactory->create(GatewayConfigurationType::class);
+        return $this->formFactory->create($this->formClass);
     }
 }

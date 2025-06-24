@@ -15,6 +15,14 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
+            'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.tpay_pbl' => [
+                'gateway_configuration' => [
+                    'component' => 'cw_tpay_admin:pay_by_link:gateway_configuration',
+                    'props' => [
+                        'form' => '@=_context.form',
+                    ],
+                ],
+            ],
             'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.tpay_redirect.config' => [
                 'client_id' => [
                     'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/client_id.html.twig',
