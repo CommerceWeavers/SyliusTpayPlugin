@@ -1,16 +1,17 @@
-<div class="col-8">
-    <div class="bank-container">
-        {% for bank in banks %}
-            <div class="bank-tile" data-bank-id="{{ bank.id }}">
-                <img src="{{ bank.image.url }}" alt="{{ bank.name }}">
-                <p>{{ bank.name }}</p>
+<div {{ attributes }}>
+    <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 pay-by-link-container">
+        {% for channel in payment_channels %}
+            <div class="col">
+                <div
+                    class="grid-item {{ selected_channel_id == channel.id ? 'selected' : '' }}"
+                    data-action="click->live#action"
+                    data-live-action-param="pickChannel"
+                    data-live-channel-id-param="{{ channel.id }}"
+                >
+                    <img src="{{ channel.image.url }}" alt="{{ channel.name }}">
+                    <p>{{ channel.name }}</p>
+                </div>
             </div>
         {% endfor %}
     </div>
-
-    {% if not form.tpay.tpay_channel_id.rendered %}
-        {{ form_row(form.tpay.tpay_channel_id) }}
-    {% endif %}
-
-    {% include '@CommerceWeaversSyliusTpayPlugin/shop/partial/_policies.html.twig' %}
 </div>

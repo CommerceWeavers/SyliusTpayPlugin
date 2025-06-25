@@ -1,6 +1,6 @@
 import './img/hourglass.gif';
+import './scss/pay_by_link.scss';
 import './scss/style.scss';
-import './js/_pay_by_link';
 import './js/_visa_mobile';
 import './js/apple_pay';
 import './js/blik_code';

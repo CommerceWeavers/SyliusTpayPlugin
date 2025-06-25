@@ -1,0 +1,13 @@
+{% set form = get_hookable_context().parent_form %}
+
+<div data-payment-details="tpay_pbl">
+    {{ component('cw_tpay_admin:pay_by_link:channel_picker', { 'order': get_hookable_context().resource }) }}
+
+    {{ form_row(form.tpay.tpay_channel_id, { attr: { 'data-tpay-channel-id': '' } }) }}
+</div>
+
+<script>
+    document.addEventListener('cw_tpay:pay_by_link:channel_selected', (event) => {
+        document.querySelector('[data-tpay-channel-id]').value = event.detail.channelId;
+    });
+</script>

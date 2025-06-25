@@ -7,29 +7,3 @@ apple-pay-button {
     display: block;
     margin: 2rem auto 2rem auto;
 }
-
-.bank-tile {
-    display: inline-block;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    width: 100px;
-    text-align: center;
-}
-
-.bank-tile img {
-    max-width: 100%;
-    height: auto;
-}
-
-.bank-tile.selected {
-    border-color: blue;
-    background-color: #f0f8ff;
-}
-
-.bank-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
