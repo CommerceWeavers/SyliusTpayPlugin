@@ -8,6 +8,7 @@ variables:
         # Tell Symfony to always install in production-mode.
         APP_ENV: 'prod'
         APP_DEBUG: 0
+        NODE_VERSION: v20.19.3
 
 # The hooks that will be performed when the package is deployed.
 hooks:
