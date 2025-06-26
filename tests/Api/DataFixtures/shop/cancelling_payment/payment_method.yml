@@ -1,4 +1,4 @@
-App\Entity\PaymentMethod:
+TestApp\Entity\PaymentMethod:
     tpay:
         code: 'tpay'
         enabled: true
