@@ -1,0 +1,17 @@
+<div {{ attributes }}>
+    <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 pay-by-link-container">
+        {% for channel in payment_channels %}
+            <div class="col">
+                <div
+                    class="grid-item {{ selected_channel_id == channel.id ? 'selected' : '' }}"
+                    data-action="click->live#action"
+                    data-live-action-param="pickChannel"
+                    data-live-channel-id-param="{{ channel.id }}"
+                >
+                    <img src="{{ channel.image.url }}" alt="{{ channel.name }}">
+                    <p>{{ channel.name }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

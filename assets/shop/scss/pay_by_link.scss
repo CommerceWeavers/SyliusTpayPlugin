@@ -1,0 +1,39 @@
+.pay-by-link-container {
+    .grid-item {
+        background-color: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &.selected {
+            border-color: #0d6efd;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.25);
+        }
+    }
+
+    .grid-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        cursor: pointer;
+    }
+
+    img {
+        max-height: 60px;
+        width: auto;
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        margin-bottom: 0;
+        font-weight: 500;
+        color: #495057;
+        text-align: center;
+    }
+}
