@@ -73,6 +73,9 @@ jobs:
                     e2e_js: "yes"
                     node_version: '20.x'
 
+            -   name: Install browser drivers
+                run: vendor/bin/bdi detect drivers
+
             -   name: Check dependencies
                 continue-on-error: true
                 run: vendor/bin/composer-dependency-analyser

@@ -22,7 +22,9 @@ abstract class E2ETestCase extends PantherTestCase
 
     protected function setUp(): void
     {
-        $this->client = static::createPantherClient();
+        $this->client = static::createPantherClient([
+            'browser' => self::FIREFOX,
+        ]);
 
         parent::setUp();
     }

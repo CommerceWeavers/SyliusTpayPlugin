@@ -63,6 +63,9 @@
         "symfony/web-profiler-bundle": "6.4.*",
         "theofidry/alice-data-fixtures": "^1.6"
     },
+    "conflict": {
+        "api-platform/state": "< 4.1.17"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
