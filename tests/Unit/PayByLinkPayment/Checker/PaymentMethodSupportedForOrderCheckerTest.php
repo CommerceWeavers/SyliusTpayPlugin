@@ -7,6 +7,7 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkPayment\Checker;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Checker\PaymentMethodSupportedForOrderChecker;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\GatewayName;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
+use Payum\Core\Security\CryptedInterface;
 use Payum\Core\Security\CypherInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -64,6 +65,7 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
     public function test_it_returns_true_if_gateway_config_does_not_have_tpay_channel_id(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
         $gatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
         $gatewayConfig->getConfig()->willReturn([]);
@@ -73,12 +75,14 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
             ->isSupportedForOrder($this->paymentMethod->reveal(), $this->order->reveal())
         ;
 
+        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->assertTrue($result);
     }
 
     public function test_it_returns_true_if_tpay_channel_id_is_valid(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
         $gatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
         $gatewayConfig->getConfig()->willReturn(['tpay_channel_id' => 21]);
@@ -92,12 +96,14 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
             ->isSupportedForOrder($this->paymentMethod->reveal(), $this->order->reveal())
         ;
 
+        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->assertTrue($result);
     }
 
     public function test_it_returns_false_if_tpay_channel_id_is_not_valid(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
         $gatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
         $gatewayConfig->getConfig()->willReturn(['tpay_channel_id' => 21]);
@@ -111,6 +117,7 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
             ->isSupportedForOrder($this->paymentMethod->reveal(), $this->order->reveal())
         ;
 
+        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->assertFalse($result);
     }
 

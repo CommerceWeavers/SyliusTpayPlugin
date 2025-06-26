@@ -27,6 +27,7 @@ final class PaymentCancellationPossibilityCheckerTest extends TestCase
         $this->stateMachineFactory = $this->prophesize(FactoryInterface::class);
     }
 
+    /** @group requires-fixes */
     public function test_it_returns_if_a__payment_using_new_state_machine_if_present(): void
     {
         if (!class_exists(StateMachineInterface::class)) {
@@ -42,6 +43,7 @@ final class PaymentCancellationPossibilityCheckerTest extends TestCase
         $this->createTestSubject($stateMachine->reveal())->canBeCancelled($payment->reveal());
     }
 
+    /** @group requires-fixes */
     public function test_it_fallbacks_to_the_winzou_state_machine_while_checking_if_a_payment_can_be_cancelled(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);

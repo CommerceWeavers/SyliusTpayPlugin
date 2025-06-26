@@ -47,9 +47,9 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Thank you!');
     }
 
+    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_pay_by_link_channel_preselected(): void
     {
-        $this->markTestSkipped('This test is not working yet.');
         $this->processWithPaymentMethod('tpay_pbl_one_channel');
         $this->placeOrder();
 

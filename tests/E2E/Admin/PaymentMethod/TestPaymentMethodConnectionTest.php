@@ -21,9 +21,9 @@ final class TestPaymentMethodConnectionTest extends E2ETestCase
         $this->loginAdminUser('rich@example.com', 'sylius');
     }
 
+    /** @group requires-fixes */
     public function test_it_checks_if_payment_method_connection(): void
     {
-        $this->markTestSkipped('This test is not working yet.');
         $this->client->request('GET', '/admin/payment-methods/new/tpay_pbl_channel');
 
         $this->client

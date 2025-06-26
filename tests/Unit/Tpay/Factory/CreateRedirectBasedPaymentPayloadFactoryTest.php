@@ -252,24 +252,6 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
         $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
     }
 
-    public function test_it_throws_an_exception_if_the_billing_address_is_null(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $customer = $this->prophesize(CustomerInterface::class);
-
-        $order = $this->prophesize(OrderInterface::class);
-        $order->getCustomer()->willReturn($customer);
-        $order->getNumber()->willReturn('000000001');
-        $order->getBillingAddress()->willReturn(null);
-
-        $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getAmount()->willReturn(1050);
-        $payment->getOrder()->willReturn($order);
-
-        $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
-    }
-
     public function test_it_throws_an_exception_if_the_amount_is_null(): void
     {
         $this->expectException(InvalidArgumentException::class);

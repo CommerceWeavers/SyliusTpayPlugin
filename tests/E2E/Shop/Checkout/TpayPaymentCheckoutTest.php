@@ -29,18 +29,18 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
+    /** @group requires-fixes */
     public function test_it_completes_the_checkout(): void
     {
-        $this->markTestSkipped('This test is not working yet.');
         $this->processWithPaymentMethod('tpay');
         $this->placeOrder();
 
         $this->assertPageTitleContains('Thank you!');
     }
 
+    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_blik(): void
     {
-        $this->markTestSkipped('This test is not working yet.');
         $this->processWithPaymentMethod('tpay_blik');
         $this->fillBlikToken(self::FORM_ID, '777123');
         $this->placeOrder();
@@ -48,9 +48,9 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment');
     }
 
+    /** @group requires-fixes */
     public function test_it_fails_completing_the_checkout_using_invalid_blik_token(): void
     {
-        $this->markTestSkipped('This test is not working yet.');
         $this->processWithPaymentMethod('tpay_blik');
         $this->fillBlikToken(self::FORM_ID, '999123');
         $this->placeOrder();
