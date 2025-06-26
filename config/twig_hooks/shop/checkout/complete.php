@@ -12,7 +12,7 @@ return static function(ContainerConfigurator $configurator): void {
                     'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/pay_by_link.html.twig',
                 ],
                 'channels_picker' => [
-                    'component' => 'cw_tpay_admin:pay_by_link:channel_picker',
+                    'component' => 'cw_tpay_shop:pay_by_link:channel_picker',
                     'props' => [
                         'order' => '@=_context.resource',
                     ],

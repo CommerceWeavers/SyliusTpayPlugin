@@ -36,9 +36,9 @@ return function(ContainerConfigurator $container): void {
             new Reference('ux.live_component.live_responder'),
         ])
         ->tag(
-            'sylius.live_component.admin',
+            'sylius.live_component.shop',
             [
-                'key' => 'cw_tpay_admin:pay_by_link:channel_picker',
+                'key' => 'cw_tpay_shop:pay_by_link:channel_picker',
                 'template' => '@CommerceWeaversSyliusTpayPlugin/shop/payment/pay_by_link.html.twig',
             ],
         )
