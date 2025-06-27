@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 
+                              https://api-platform.com/schema/metadata/resources-3.0.xsd">
+
+    <resource class="CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayChannel">
+        <operations>
+            <operation name="get_collection" 
+                       class="ApiPlatform\Metadata\GetCollection" 
+                       uriTemplate="/shop/tpay-channels"
+                       provider="CommerceWeavers\SyliusTpayPlugin\Api\DataProvider\TpayChannelCollectionDataProvider"/>
+            
+            <operation name="get_item" 
+                       class="ApiPlatform\Metadata\Get" 
+                       uriTemplate="/shop/tpay-channels/{id}"
+                       provider="CommerceWeavers\SyliusTpayPlugin\Api\DataProvider\TpayChannelItemDataProvider"/>
+        </operations>
+    </resource>
+</resources>

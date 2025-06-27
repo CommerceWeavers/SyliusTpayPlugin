@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\DataProvider;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Api\Resource\TpayChannel;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Resolver\TpayTransactionChannelResolverInterface;
 
-final class TpayChannelCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class TpayChannelCollectionDataProvider implements ProviderInterface
 {
     public function __construct(
         private readonly TpayTransactionChannelResolverInterface $tpayTransactionChannelResolver,
     ) {
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $transactionChannels = $this->tpayTransactionChannelResolver->resolve();
 
+        $channels = [];
         foreach ($transactionChannels as $transactionChannel) {
-            yield TpayChannel::fromArray($transactionChannel);
+            $channels[] = TpayChannel::fromArray($transactionChannel);
         }
-    }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return TpayChannel::class === $resourceClass;
+        return $channels;
     }
 }
