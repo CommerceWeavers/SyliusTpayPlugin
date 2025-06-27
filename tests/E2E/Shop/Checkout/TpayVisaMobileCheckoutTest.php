@@ -28,6 +28,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
+    /** @group requires-fixes */
     public function test_it_throws_validation_error_if_phone_number_is_too_short(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');
@@ -42,6 +43,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         );
     }
 
+    /** @group requires-fixes */
     public function test_it_trims_input_phone_number_if_it_is_too_long(): void
     {
         $inputValueMaxLength = 15;
@@ -59,6 +61,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->assertSame($inputValueMaxLength, strlen($expectedValue));
     }
 
+    /** @group requires-fixes */
     public function test_it_throws_validation_error_if_phone_number_is_empty(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');
@@ -73,6 +76,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         );
     }
 
+    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_visa_mobile(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');

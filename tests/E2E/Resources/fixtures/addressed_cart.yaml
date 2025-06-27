@@ -114,15 +114,14 @@ Sylius\Component\Product\Model\ProductOptionValueTranslation:
         value: 'Red'
         translatable: '@product_option_value_color_red'
 
-App\Entity\Order:
+TestApp\Entity\Order:
     addressed_cart:
         channel: '@channel_web'
         currencyCode: 'USD'
         localeCode: 'en_US'
-        customer: '@customer_tony'
+        customerWithAuthorization: '@customer_tony'
         state: 'cart'
         checkoutState: 'addressed'
-        createdByGuest: false
         shippingAddress: '@address_tony'
         billingAddress: '@address_tony'
         __calls:

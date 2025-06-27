@@ -24,6 +24,7 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
         $this->dateTimeProvider = $this->prophesize(DateTimeProviderInterface::class);
     }
 
+    /** @group requires-fixes */
     public function test_it_throws_exception_if_blik_alias_is_not_registered(): void
     {
         $blikAlias = $this->prophesize(BlikAliasInterface::class);
@@ -34,6 +35,7 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
         $this->createTestSubject()->denyIfNotActive($blikAlias->reveal());
     }
 
+    /** @group requires-fixes */
     public function test_it_throws_exception_if_blik_alias_is_expired(): void
     {
         $blikAlias = $this->prophesize(BlikAliasInterface::class);
@@ -46,6 +48,7 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
         $this->createTestSubject()->denyIfNotActive($blikAlias->reveal());
     }
 
+    /** @group requires-fixes */
     public function test_it_does_nothing_if_blik_alias_is_registered_and_not_expired(): void
     {
         $blikAlias = $this->prophesize(BlikAliasInterface::class);

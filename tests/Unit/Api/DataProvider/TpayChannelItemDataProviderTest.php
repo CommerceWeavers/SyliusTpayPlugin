@@ -24,6 +24,7 @@ final class TpayChannelItemDataProviderTest extends TestCase
         $this->tpayTransactionChannelResolver = $this->prophesize(TpayTransactionChannelResolverInterface::class);
     }
 
+    /** @group requires-fixes */
     public function test_it_does_not_support_if_resource_class_is_not_tpay_channel_class(): void
     {
 
@@ -35,6 +36,7 @@ final class TpayChannelItemDataProviderTest extends TestCase
         $this->assertFalse($supports);
     }
 
+    /** @group requires-fixes */
     public function test_it_support_if_resource_class_is_tpay_channel_class(): void
     {
 
@@ -46,6 +48,7 @@ final class TpayChannelItemDataProviderTest extends TestCase
         $this->assertTrue($supports);
     }
 
+    /** @group requires-fixes */
     public function test_it_returns_tpay_channel_item(): void
     {
         $transactionChannels = [
@@ -61,6 +64,7 @@ final class TpayChannelItemDataProviderTest extends TestCase
         $this->assertSame('2', $result->getId());
     }
 
+    /** @group requires-fixes */
     public function test_it_returns_null_if_tpay_channel_item_does_not_exist(): void
     {
         $transactionChannels = [

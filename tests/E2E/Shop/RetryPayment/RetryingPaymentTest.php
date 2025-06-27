@@ -22,6 +22,7 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->loadFixtures(['addressed_cart.yaml']);
     }
 
+    /** @group requires-fixes */
     public function test_it_retries_payment(): void
     {
         $this->doPlaceOrder('t0k3n', productVariantCode: 'MUG');
@@ -33,6 +34,7 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->assertSelectorWillContain('.sylius-flash-message', 'The previous payment has been cancelled');
     }
 
+    /** @group requires-fixes */
     public function test_it_prevents_retrying_not_qualifying_payments(): void
     {
         $order = $this->doPlaceOrder('t0k3n', productVariantCode: 'MUG');

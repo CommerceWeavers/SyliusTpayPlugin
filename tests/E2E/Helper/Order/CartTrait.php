@@ -25,7 +25,7 @@ trait CartTrait
     {
         $this->client->executeScript(
             sprintf(
-                'document.querySelector(\'[name="sylius_checkout_select_payment[payments][0][method]"][value="%s"]\').checked = true',
+                'document.querySelector(\'[name="sylius_shop_checkout_select_payment[payments][0][method]"][value="%s"]\').checked = true',
                 $paymentMethodCode,
             ),
         );

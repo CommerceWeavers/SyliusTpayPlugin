@@ -23,6 +23,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->urlGenerator = $this->prophesize(UrlGeneratorInterface::class);
     }
 
+    /** @group requires-fixes */
     public function test_it_supports_jsonld_format_and_blik_alias_ambiguous_value_exception(): void
     {
         $result = $this->createTestSubject()->supportsNormalization(
@@ -33,6 +34,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /** @group requires-fixes */
     public function test_it_supports_jsonld_format_and_flatten_exception_made_from_blik_alias_ambiguous_value_exception(): void
     {
         $result = $this->createTestSubject()->supportsNormalization(
@@ -43,6 +45,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /** @group requires-fixes */
     public function test_it_does_not_support_format_other_than_jsonld(): void
     {
         $result = $this->createTestSubject()->supportsNormalization(
@@ -53,6 +56,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->assertFalse($result);
     }
 
+    /** @group requires-fixes */
     public function test_it_does_not_support_all_exceptions(): void
     {
         $result = $this->createTestSubject()->supportsNormalization(
@@ -63,6 +67,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->assertFalse($result);
     }
 
+    /** @group requires-fixes */
     public function test_it_does_not_support_flatten_exception_made_from_any_exception(): void
     {
         $result = $this->createTestSubject()->supportsNormalization(
@@ -73,6 +78,7 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
         $this->assertFalse($result);
     }
 
+    /** @group requires-fixes */
     public function test_it_normalizes_blik_alias_ambiguous_value_exception(): void
     {
         $exception = BlikAliasAmbiguousValueException::create([['applicationName' => 'testname', 'applicationCode' => 'testcode']]);

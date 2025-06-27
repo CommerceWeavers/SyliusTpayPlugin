@@ -9,7 +9,6 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInter
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateApplePayPaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
-use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Security\TokenInterface;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +18,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Payment\Model\GatewayConfigInterface;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Helper\PaymentDetailsHelperTrait;
 use Tpay\OpenApi\Api\Transactions\TransactionsApi;
 use Tpay\OpenApi\Utilities\TpayException;

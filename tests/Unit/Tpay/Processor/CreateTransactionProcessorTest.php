@@ -10,7 +10,6 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Processor\CreateTransactionProcessor;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Processor\CreateTransactionProcessorInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
 use Payum\Core\GatewayInterface;
-use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Payum;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -19,6 +18,7 @@ use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Bundle\PayumBundle\Request\GetStatus;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Payment\Model\GatewayConfigInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\InvalidArgumentException;
 

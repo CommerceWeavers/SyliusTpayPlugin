@@ -3,7 +3,7 @@ include:
     - common/channel.yml
     - common/shipping_method.yml
 
-App\Entity\PaymentMethod:
+TestApp\Entity\PaymentMethod:
     tpay_card:
         code: 'tpay_card'
         enabled: true
