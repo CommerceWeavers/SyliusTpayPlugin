@@ -14,12 +14,12 @@ use Payum\Core\Security\HttpRequestVerifierInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class PaymentNotificationAction
+final readonly class PaymentNotificationAction
 {
     public function __construct(
-        private readonly Payum $payum,
-        private readonly NotifyFactoryInterface $notifyFactory,
-        private readonly NotifyDataFactoryInterface $notifyDataFactory,
+        private Payum $payum,
+        private NotifyFactoryInterface $notifyFactory,
+        private NotifyDataFactoryInterface $notifyDataFactory,
     ) {
     }
 

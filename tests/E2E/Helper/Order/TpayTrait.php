@@ -27,6 +27,7 @@ trait TpayTrait
 
     public function fillBlikToken(string $formId, string $blikToken): void
     {
+        $this->client->waitForElementToContain('h1', 'Summary of your order');
         $this->client->findElement(WebDriverBy::id(sprintf('%s_tpay_blik_token', $formId)))->sendKeys($blikToken);
     }
 

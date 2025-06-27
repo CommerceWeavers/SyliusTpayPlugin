@@ -1,0 +1,11 @@
+{% set form = get_hookable_context().form.tpay %}
+{% set order = get_hookable_context().resource %}
+{% set payment = order.lastCartPayment() %}
+
+{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_blik' %}
+    <div class="container mt-5 card border-0 bg-body-tertiary mb-3">
+        <div class="card-body">
+            {{ form_row(form.blik_token, { 'attr': { 'data-blik-code-input': '' } }) }}
+        </div>
+    </div>
+{% endif %}

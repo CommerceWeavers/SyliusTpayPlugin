@@ -7,6 +7,11 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 return static function(ContainerConfigurator $configurator): void {
     $configurator->extension('sylius_twig_hooks', [
         'hooks' => [
+            'sylius_shop.checkout#javascripts' => [
+                'tpay_scripts' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/scripts.html.twig',
+                ],
+            ],
             'sylius_shop.checkout#stylesheets' => [
                 'tpay_complete_checkout' => [
                     'template' => '@CommerceWeaversSyliusTpayPlugin/shop/styles.html.twig',

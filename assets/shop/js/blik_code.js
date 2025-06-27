@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('haj')
   const BLIK_CODE_LENGTH = 6;
 
   let blikCode = document.querySelector('[data-blik-code-input]');

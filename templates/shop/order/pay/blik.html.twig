@@ -1,0 +1,9 @@
+{% set form = get_hookable_context().parent_form %}
+
+<div data-payment-details="tpay_blik">
+    <div class="card mt-3">
+        <div class="card-body">
+            {{ form_row(form.tpay.blik_token, { 'attr': { 'data-blik-code-input': '' } }) }}
+        </div>
+    </div>
+</div>

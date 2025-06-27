@@ -29,7 +29,6 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
-    /** @group requires-fixes */
     public function test_it_completes_the_checkout(): void
     {
         $this->processWithPaymentMethod('tpay');
@@ -38,7 +37,6 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Thank you!');
     }
 
-    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_blik(): void
     {
         $this->processWithPaymentMethod('tpay_blik');
@@ -48,7 +46,6 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment');
     }
 
-    /** @group requires-fixes */
     public function test_it_fails_completing_the_checkout_using_invalid_blik_token(): void
     {
         $this->processWithPaymentMethod('tpay_blik');
@@ -58,7 +55,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Something went wrong with your payment | Web Channel');
         $this->assertSame(
             'Podany kod jest nieprawidłowy, bądź utracił ważność.',
-            $this->findElementByXpath("//div[contains(@class, 'message') and contains(@class, 'negative')]")->getText(),
+            $this->findElementByXpath("//div[contains(@class, 'alert') and contains(@class, 'alert-danger')]")->getText(),
         );
     }
 }

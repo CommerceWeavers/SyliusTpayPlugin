@@ -13,6 +13,12 @@ return static function(ContainerConfigurator $configurator): void {
                     'priority' => -300,
                 ],
             ],
+            'sylius_shop.order.show.content.form.select_payment.payment.choice.tpay_blik.details' => [
+                'blik' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/blik.html.twig',
+                    'priority' => -300,
+                ],
+            ],
         ],
     ]);
 };
