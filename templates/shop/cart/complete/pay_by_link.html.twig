@@ -1,9 +1,15 @@
 {% set form = get_hookable_context().form.tpay %}
+{% set order = get_hookable_context().resource %}
+{% set payment = order.lastCartPayment() %}
 
-{{ form_row(form.tpay_channel_id, { attr: { 'data-tpay-channel-id': '' } }) }}
+{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_pbl' %}
+    {{ component('cw_tpay_shop:pay_by_link:channel_picker', { order: get_hookable_context().resource }) }}
 
-<script>
-    document.addEventListener('cw_tpay:pay_by_link:channel_selected', (event) => {
-        document.querySelector('[data-tpay-channel-id]').value = event.detail.channelId;
-    });
-</script>
+    {{ form_row(form.tpay_channel_id, { attr: { 'data-tpay-channel-id': '' } }) }}
+
+    <script>
+        document.addEventListener('cw_tpay:pay_by_link:channel_selected', (event) => {
+            document.querySelector('[data-tpay-channel-id]').value = event.detail.channelId;
+        });
+    </script>
+{% endif %}
