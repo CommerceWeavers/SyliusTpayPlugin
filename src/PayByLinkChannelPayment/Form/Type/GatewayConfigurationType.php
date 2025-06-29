@@ -7,7 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Form\Type;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListenerInterface;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListenerInterface;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\AbstractTpayGatewayConfigurationType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -27,14 +27,15 @@ final class GatewayConfigurationType extends AbstractTpayGatewayConfigurationTyp
         $builder
             ->add(
                 'tpay_channel_id',
-                TextType::class,
+                ChoiceType::class,
                 [
-                    'empty_data' => '',
+                    'empty_data' => null,
                     'label' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_channel_id',
                     'validation_groups' => ['sylius'],
                     'constraints' => [
                         new NotBlank(allowNull: false, groups: ['sylius']),
                     ],
+                    'placeholder' => 'sylius.ui.select',
                     'help' => 'commerce_weavers_sylius_tpay.admin.gateway_configuration.tpay_channel_id_help',
                     'required' => false,
                 ],
