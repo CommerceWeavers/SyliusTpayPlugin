@@ -152,10 +152,8 @@ trait OrderPlacerTrait
         $order = $this->orderRepository->findOneByTokenValue($tokenValue);
         Assert::notNull($order);
 
-        $stateMachineFactory = self::getContainer()->get('sm.factory');
-
-        $stateMachine = $stateMachineFactory->get($order, OrderTransitions::GRAPH);
-        $stateMachine->apply(OrderTransitions::TRANSITION_CANCEL);
+        $stateMachine = self::getContainer()->get('sylius_abstraction.state_machine');
+        $stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CANCEL);
 
         $objectManager->flush();
     }
@@ -164,13 +162,9 @@ trait OrderPlacerTrait
     {
         $objectManager = self::getContainer()->get('doctrine.orm.entity_manager');
 
-        $stateMachineFactory = self::getContainer()->get('sm.factory');
-
-        $orderStateMachine = $stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH);
-        $orderStateMachine->apply(OrderPaymentTransitions::TRANSITION_PAY);
-
-        $paymentStateMachine = $stateMachineFactory->get($order->getLastPayment(), PaymentTransitions::GRAPH);
-        $paymentStateMachine->apply(PaymentTransitions::TRANSITION_COMPLETE);
+        $stateMachine = self::getContainer()->get('sylius_abstraction.state_machine');
+        $stateMachine->apply($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PAY);
+        $stateMachine->apply($order->getLastPayment(), PaymentTransitions::GRAPH, PaymentTransitions::TRANSITION_COMPLETE);
 
         $objectManager->flush();
 
@@ -263,10 +257,12 @@ trait OrderPlacerTrait
             $shippingMethodCode,
             (string)$cart->getShipments()->first()->getId(),
         );
+        $lastPayment = $cart->getLastPayment();
+        $paymentId = $lastPayment ? (string)$lastPayment->getId() : null;
         $this->dispatchPaymentMethodChooseCommand(
             $tokenValue,
             $paymentMethodCode,
-            (string)$cart->getLastPayment()->getId(),
+            $paymentId,
         );
 
         $order = $this->dispatchCompleteOrderCommand($tokenValue);

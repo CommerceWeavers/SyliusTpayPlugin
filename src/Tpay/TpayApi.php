@@ -30,9 +30,9 @@ class TpayApi extends BaseTpayApi
     ) {
         parent::__construct($clientId, $clientSecret, $productionMode, $scope, $apiUrlOverride, $clientName);
 
-        $this->apiUrl = true === $this->productionMode
+        $this->apiUrl = $apiUrlOverride ?? (true === $this->productionMode
             ? ApiAction::TPAY_API_URL_PRODUCTION
-            : ApiAction::TPAY_API_URL_SANDBOX;
+            : ApiAction::TPAY_API_URL_SANDBOX);
     }
 
     /**

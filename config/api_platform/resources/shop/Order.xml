@@ -82,24 +82,7 @@
                         </value>
                     </values>
                 </validationContext>
-                <openapi summary="Initializes Apple Pay payment session.">
-                    <parameters>
-                        <parameter name="tokenValue" in="path" required="true">
-                            <schema>
-                                <values>
-                                    <value name="type">string</value>
-                                </values>
-                            </schema>
-                        </parameter>
-                        <parameter name="paymentId" in="path" required="true">
-                            <schema>
-                                <values>
-                                    <value name="type">integer</value>
-                                </values>
-                            </schema>
-                        </parameter>
-                    </parameters>
-                </openapi>
+                <openapi summary="Initializes Apple Pay payment session."/>
             </operation>
 
             <operation name="shop_cancel_last_payment" 

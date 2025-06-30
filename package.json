@@ -3,7 +3,9 @@
     "description": "Tpay integration for Sylius",
     "version": "1.0.0",
     "scripts": {
-        "build": "webpack --node-env=production"
+        "build": "webpack --node-env=production",
+        "mockoon:start": "mockoon-cli start --data tests/mockoon_tpay.json",
+        "mockoon:stop": "mockoon-cli stop all"
     },
     "dependencies": {
         "intl-tel-input": "^24.6.0"
@@ -19,6 +21,7 @@
         "@babel/core": "^7.0.0",
         "@babel/preset-env": "^7.0.0",
         "@hotwired/stimulus": "^3.0.0",
+        "@mockoon/cli": "^9.3.0",
         "@symfony/stimulus-bridge": "^3.2.0 || ^4.0.0",
         "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
         "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
