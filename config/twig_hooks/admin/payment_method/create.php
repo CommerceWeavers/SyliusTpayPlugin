@@ -7,11 +7,17 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 return static function(ContainerConfigurator $configurator): void {
     $configurator->extension('sylius_twig_hooks', [
         'hooks' => [
+            'sylius_admin.payment_method.create#javascripts' => [
+                'payment_method' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/scripts/payment_method.html.twig',
+                ],
+            ],
             'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.tpay_redirect' => [
                 'gateway_configuration' => [
                     'component' => 'cw_tpay_admin:redirect_payment:gateway_configuration',
                     'props' => [
                         'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
                     ],
                 ],
             ],
@@ -20,6 +26,7 @@ return static function(ContainerConfigurator $configurator): void {
                     'component' => 'cw_tpay_admin:pay_by_link:gateway_configuration',
                     'props' => [
                         'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
                     ],
                 ],
             ],
@@ -28,6 +35,7 @@ return static function(ContainerConfigurator $configurator): void {
                     'component' => 'cw_tpay_admin:pay_by_link_channel:gateway_configuration',
                     'props' => [
                         'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
                     ],
                 ],
             ],
@@ -36,6 +44,7 @@ return static function(ContainerConfigurator $configurator): void {
                     'component' => 'cw_tpay_admin:redirect_payment:gateway_configuration',
                     'props' => [
                         'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
                     ],
                 ],
             ],
@@ -75,7 +84,7 @@ return static function(ContainerConfigurator $configurator): void {
                     'priority' => 256,
                 ],
                 'tpay_channel_id' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/tpay_channel_id.html.twig',
+                    'component' => 'cw_tpay_admin:pay_by_link_channel:channel_id_picker',
                     'priority' => 192,
                 ],
                 'notification_security_code' => [
@@ -85,6 +94,10 @@ return static function(ContainerConfigurator $configurator): void {
                 'production_mode' => [
                     'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/production_mode.html.twig',
                     'priority' => 64,
+                ],
+                'test_connection' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/test_connection.html.twig',
+                    'priority' => 32,
                 ],
             ],
         ],

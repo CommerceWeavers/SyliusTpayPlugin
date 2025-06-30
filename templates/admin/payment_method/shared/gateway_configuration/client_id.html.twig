@@ -1,3 +1,5 @@
+{% set form = get_hookable_context().form %}
+
 <div class="col-md-6">
-    {{ form_row(hookable_metadata.context.form.client_id) }}
+    {{ form_row(form.gatewayConfig.config.client_id, { attr: { 'data-gateway-config-client-id': null } }) }}
 </div>

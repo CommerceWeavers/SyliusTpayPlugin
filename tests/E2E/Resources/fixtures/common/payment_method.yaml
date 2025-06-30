@@ -72,7 +72,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             production_mode: false
-            encrypted: true
     gateway_tpay_card:
         gatewayName: 'tpay_card'
         factoryName: 'tpay_card'
@@ -81,7 +80,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             cards_api: 'encrypted_<getenv("TPAY_CARDS_API")>'
             production_mode: false
-            encrypted: true
     gateway_tpay_blik:
         gatewayName: 'tpay_blik'
         factoryName: 'tpay_blik'
@@ -89,14 +87,12 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             production_mode: false
-            encrypted: true
     gateway_tpay_google_pay:
         gatewayName: 'tpay_google_pay'
         factoryName: 'tpay_google_pay'
         config:
             merchant_id: 'encrypted_<getenv("TPAY_MERCHANT_ID")>'
             production_mode: false
-            encrypted: true
     gateway_tpay_pbl:
         gatewayName: 'tpay_pbl'
         factoryName: 'tpay_pbl'
@@ -105,7 +101,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             type: 'pay_by_link'
             production_mode: false
-            encrypted: true
     gateway_tpay_pbl_one_channel:
         gatewayName: 'tpay_pbl_channel'
         factoryName: 'tpay_pbl_channel'
@@ -115,7 +110,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             tpay_channel_id: '1'
             type: 'pay_by_link_channel'
             production_mode: false
-            encrypted: true
     gateway_tpay_pbl_one_channel_with_amount_min_20_constraint:
         gatewayName: 'tpay_pbl'
         factoryName: 'tpay_pbl'
@@ -125,7 +119,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             tpay_channel_id: '4'
             type: 'pay_by_link'
             production_mode: false
-            encrypted: true
     gateway_tpay_pbl_one_channel_with_amount_min_30_constraint:
         gatewayName: 'tpay_pbl'
         factoryName: 'tpay_pbl'
@@ -135,7 +128,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             tpay_channel_id: '5'
             type: 'pay_by_link'
             production_mode: false
-            encrypted: true
     gateway_tpay_visa_mobile:
         gatewayName: 'tpay_visa_mobile'
         factoryName: 'tpay_visa_mobile'
@@ -143,7 +135,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             production_mode: false
-            encrypted: true
 
 Sylius\Component\Payment\Model\PaymentMethodTranslation:
     tpay_payment_method_translation:

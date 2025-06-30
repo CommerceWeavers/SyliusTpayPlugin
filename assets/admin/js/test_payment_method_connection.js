@@ -1,105 +1,61 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const testConnectionButton = document.getElementById('test-connection-button');
-  const testConnectionMessage = document.getElementById('test-connection-message');
-  let localeCode = '';
+document.addEventListener('cw_tpay:gateway_configuration:connection_tested', (event) => {
+  let result = event.detail.result;
 
-  if (testConnectionButton === null || testConnectionMessage === null) {
+  if (result === 'failure') {
     return;
   }
 
-  testConnectionButton.addEventListener('click', function() {
-    const productionModeElement = document.getElementsByName('sylius_payment_method[gatewayConfig][config][production_mode]')[0];
-    const clientIdElement = document.getElementsByName('sylius_payment_method[gatewayConfig][config][client_id]')[0];
-    const clientSecretElement = document.getElementsByName('sylius_payment_method[gatewayConfig][config][client_secret]')[0];
-    const productionMode = productionModeElement !== undefined ? productionModeElement.value : 'false';
-    const clientId = clientIdElement !== undefined ? clientIdElement.value : '';
-    const clientSecret = clientSecretElement !== undefined ? clientSecretElement.value : '';
+  const productionModeElement = document.querySelector('[data-gateway-config-production-mode]');
+  const clientIdElement = document.querySelector('[data-gateway-config-client-id]');
+  const clientSecretElement = document.querySelector('[data-gateway-config-client-secret]');
+  const productionMode = productionModeElement !== undefined ? productionModeElement.value : 'false';
+  const clientId = clientIdElement !== undefined ? clientIdElement.value : '';
+  const clientSecret = clientSecretElement !== undefined ? clientSecretElement.value : '';
 
-    fetch('/admin/tpay/channels?productionMode=' + productionMode, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Client-Id': clientId,
-        'X-Client-Secret': clientSecret,
-      },
+  fetch('/admin/tpay/channels?productionMode=' + productionMode, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Client-Id': clientId,
+      'X-Client-Secret': clientSecret,
+    },
+  })
+    .then(response => {
+      return response.json().then(jsonResponse => {
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        return jsonResponse;
+      });
     })
-      .then(response => {
-        return response.json().then(jsonResponse => {
-          localeCode = response.headers.get('Content-Language');
-
-          if (!response.ok) {
-            throw new Error();
-          }
-
-          return jsonResponse;
-        });
-      })
-      .then(data => {
-        convertTpayChannelIdInputIntoSelect(data);
-
-        testConnectionMessage.innerText = getNotificationMessage(localeCode, 'success');
-        testConnectionMessage.classList.remove('negative');
-        testConnectionMessage.classList.add('positive');
-      })
-      .catch(() => {
-        testConnectionMessage.innerText = getNotificationMessage(localeCode, 'error');
-        testConnectionMessage.classList.remove('positive');
-        testConnectionMessage.classList.add('negative');
-      })
-  });
+    .then(data => {
+      convertTpayChannelIdInputIntoSelect(data);
+    })
 });
 
-const NOTIFICATION_MESSAGES = {
-  en: {
-    connectionTest: {
-      success: 'Connection test successful. Channels loaded.',
-      error: 'Connection test failed. Please check your credentials and try again.'
-    }
-  },
-  pl: {
-    connectionTest: {
-      success: 'Test połączenia powiódł się. Kanały załadowane.',
-      error: 'Test połączenia nie powiódł się. Sprawdź swoje dane uwierzytelniające i spróbuj ponownie.'
-    }
-  }
-};
-
-function getNotificationMessage(localeCode, type = 'success', messageKey = 'connectionTest') {
-  const locale = localeCode.startsWith('pl') ? 'pl' : 'en';
-  const messages = NOTIFICATION_MESSAGES[locale]?.[messageKey];
-
-  return messages?.[type] || messages?.success || NOTIFICATION_MESSAGES.en[messageKey].success;
-}
-
 function convertTpayChannelIdInputIntoSelect(channels) {
-  let tpayChannelIdFormType = document.getElementsByName('sylius_payment_method[gatewayConfig][config][tpay_channel_id]')[0];
-  if (tpayChannelIdFormType === undefined) {
+  let channelIdElement = document.querySelector('[data-gateway-config-channel-id]');
+
+  if (channelIdElement === undefined) {
     return;
   }
 
-  const value = tpayChannelIdFormType.value;
+  const newChannelIdElement = document.createElement('select');
+  newChannelIdElement.id = channelIdElement.id;
+  newChannelIdElement.name = channelIdElement.name;
+  newChannelIdElement.classList.add('form-select');
+  newChannelIdElement.dataset = channelIdElement.dataset;
 
-  if (tpayChannelIdFormType.tagName.toLowerCase() === 'input' && tpayChannelIdFormType.type === 'text') {
-    const select = document.createElement('select');
-    select.name = tpayChannelIdFormType.name;
-    select.id = tpayChannelIdFormType.id;
-    select.className = tpayChannelIdFormType.className;
-    select.dataset.displayAllLabel = tpayChannelIdFormType.dataset.displayAllLabel;
-    tpayChannelIdFormType.replaceWith(select);
-    tpayChannelIdFormType = select;
-  }
+  newChannelIdElement.querySelectorAll('option:not([value=""])').forEach(option => option.remove());
 
-  tpayChannelIdFormType.innerHTML = '';
-
-  for (const [id, name] of Object.entries(channels)) {
+  for (const [key,value] of Object.entries(channels)) {
     const option = document.createElement('option');
-    option.value = id;
-    option.text = name;
+    option.value = key;
+    option.innerText = value;
 
-    if (id === value) {
-      option.selected = true;
-    }
-
-    tpayChannelIdFormType.appendChild(option);
+    newChannelIdElement.appendChild(option);
   }
+
+  channelIdElement.replaceWith(newChannelIdElement);
 }

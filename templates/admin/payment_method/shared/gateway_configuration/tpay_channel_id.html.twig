@@ -1,3 +1,5 @@
-<div class="col-md-6">
-    {{ form_row(hookable_metadata.context.form.tpay_channel_id) }}
+{% set form = get_hookable_context().form %}
+
+<div class="col-md-6" {{ attributes }}>
+    {{ form_row(form.gatewayConfig.config.tpay_channel_id, { attr: { 'data-gateway-config-channel-id': null } }) }}
 </div>

@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Action;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentDetails;
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Factory\GatewayFactory;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Action\Api\BasePaymentAwareAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactoryInterface;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Request\Generic;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class CreatePayByLinkTransactionAction extends BasePaymentAwareAction implements GatewayAwareInterface
+final class CreatePayByLinkChannelTransactionAction extends BasePaymentAwareAction implements GatewayAwareInterface
 {
     use GatewayAwareTrait;
 
     public function __construct(
-        private readonly CreatePayByLinkPayloadFactoryInterface $createPayByLinkPayloadFactory,
+        private readonly CreatePayByLinkChannelPayloadFactoryInterface $createPayByLinkPayloadFactory,
         private readonly NotifyTokenFactoryInterface $notifyTokenFactory,
     ) {
         parent::__construct();
@@ -63,8 +63,16 @@ final class CreatePayByLinkTransactionAction extends BasePaymentAwareAction impl
             return false;
         }
 
-        $paymentDetails = PaymentDetails::fromArray($model->getDetails());
+        return $this->getGatewayFactoryName($model) === GatewayFactory::NAME;
+    }
 
-        return $paymentDetails->getType() === PaymentType::PAY_BY_LINK;
+    private function getGatewayFactoryName(PaymentInterface $payment): ?string
+    {
+        return $payment->getMethod()?->getGatewayConfig()?->getFactoryName();
+    }
+
+    private function getGatewayConfig(PaymentInterface $payment): array
+    {
+        return $payment->getMethod()?->getGatewayConfig()?->getConfig() ?? [];
     }
 }

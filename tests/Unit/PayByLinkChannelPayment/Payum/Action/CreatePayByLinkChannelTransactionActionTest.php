@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkChannelPayment\Payum\Action;
 
-use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Action\CreatePayByLinkTransactionAction;
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkChannelPayment\Payum\Action\CreatePayByLinkChannelTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
-use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
 use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Request\Capture;
@@ -18,11 +18,13 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Payment\Model\GatewayConfigInterface;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Helper\PaymentDetailsHelperTrait;
 use Tpay\OpenApi\Api\Transactions\TransactionsApi;
 use Tpay\OpenApi\Utilities\TpayException;
 
-final class CreatePayByLinkTransactionActionTest extends TestCase
+final class CreatePayByLinkChannelTransactionActionTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -30,7 +32,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
 
     private TpayApi|ObjectProphecy $api;
 
-    private CreatePayByLinkPayloadFactoryInterface|ObjectProphecy $createPayByLinkPayloadFactory;
+    private CreatePayByLinkChannelPayloadFactoryInterface|ObjectProphecy $createPayByLinkChannelPayloadFactory;
 
     private GenericTokenFactoryInterface|ObjectProphecy $tokenFactory;
 
@@ -39,15 +41,21 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
     protected function setUp(): void
     {
         $this->api = $this->prophesize(TpayApi::class);
-        $this->createPayByLinkPayloadFactory = $this->prophesize(CreatePayByLinkPayloadFactoryInterface::class);
+        $this->createPayByLinkChannelPayloadFactory = $this->prophesize(CreatePayByLinkChannelPayloadFactoryInterface::class);
         $this->tokenFactory = $this->prophesize(GenericTokenFactoryInterface::class);
         $this->notifyTokenFactory = $this->prophesize(NotifyTokenFactoryInterface::class);
     }
 
     public function test_it_supports_create_transaction_requests_with_a_valid_payment_model(): void
     {
+        $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->getFactoryName()->willReturn('tpay_pbl_channel');
+
+        $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['tpay_channel_id' => '1']]);
+        $payment->getMethod()->willReturn($paymentMethod);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);
@@ -60,7 +68,6 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
     public function test_it_does_not_support_non_create_transaction_requests(): void
     {
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn([]);
 
         $request = $this->prophesize(Capture::class);
         $request->getModel()->willReturn($payment);
@@ -82,10 +89,16 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
         $this->assertFalse($isSupported);
     }
 
-    public function test_it_does_not_support_requests_with_payment_model_not_containing_tpay_pbl_channel_id(): void
+    public function test_it_does_not_support_requests_with_payment_model_not_containing_tpay_pbl_channel_factory_name(): void
     {
+        $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->getFactoryName()->willReturn('tpay_blik');
+
+        $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+
         $payment = $this->prophesize(PaymentInterface::class);
-        $payment->getDetails()->willReturn(['tpay' => ['blik' => '123456']]);
+        $payment->getMethod()->willReturn($paymentMethod);
 
         $request = $this->prophesize(CreateTransaction::class);
         $request->getModel()->willReturn($payment);
@@ -102,9 +115,16 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
         $order = $this->prophesize(OrderInterface::class);
         $order->getLocaleCode()->willReturn('pl_PL');
 
+        $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->getFactoryName()->willReturn('tpay_pbl_channel');
+
+        $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+
         $payment = $this->prophesize(PaymentInterface::class);
         $payment->getOrder()->willReturn($order);
         $payment->getDetails()->willReturn([]);
+        $payment->getMethod()->willReturn($paymentMethod);
 
         $token = $this->prophesize(TokenInterface::class);
         $token->getGatewayName()->willReturn('tpay');
@@ -132,7 +152,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
 
         $this->notifyTokenFactory->create($payment, 'tpay', 'pl_PL')->willReturn($notifyToken);
 
-        $this->createPayByLinkPayloadFactory
+        $this->createPayByLinkChannelPayloadFactory
             ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
             ->willReturn(['factored' => 'payload'])
         ;
@@ -145,9 +165,16 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
         $order = $this->prophesize(OrderInterface::class);
         $order->getLocaleCode()->willReturn('pl_PL');
 
+        $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
+        $gatewayConfig->getFactoryName()->willReturn('tpay_pbl_channel');
+
+        $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+
         $payment = $this->prophesize(PaymentInterface::class);
         $payment->getOrder()->willReturn($order);
         $payment->getDetails()->willReturn([]);
+        $payment->getMethod()->willReturn($paymentMethod);
 
         $token = $this->prophesize(TokenInterface::class);
         $token->getGatewayName()->willReturn('tpay');
@@ -170,7 +197,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
 
         $this->notifyTokenFactory->create($payment, 'tpay', 'pl_PL')->willReturn($notifyToken);
 
-        $this->createPayByLinkPayloadFactory
+        $this->createPayByLinkChannelPayloadFactory
             ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
             ->willReturn(['factored' => 'payload'])
         ;
@@ -178,10 +205,10 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
         $this->createTestSubject()->execute($request->reveal());
     }
 
-    private function createTestSubject(): CreatePayByLinkTransactionAction
+    private function createTestSubject(): CreatePayByLinkChannelTransactionAction
     {
-        $action = new CreatePayByLinkTransactionAction(
-            $this->createPayByLinkPayloadFactory->reveal(),
+        $action = new CreatePayByLinkChannelTransactionAction(
+            $this->createPayByLinkChannelPayloadFactory->reveal(),
             $this->notifyTokenFactory->reveal(),
         );
 

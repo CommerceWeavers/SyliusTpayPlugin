@@ -7,6 +7,7 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkPayment\Payum\Act
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Payum\Action\CreatePayByLinkTransactionAction;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\CreateTransaction;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
 use Payum\Core\Reply\HttpRedirect;
@@ -30,7 +31,7 @@ final class CreatePayByLinkTransactionActionTest extends TestCase
 
     private TpayApi|ObjectProphecy $api;
 
-    private CreatePayByLinkPayloadFactoryInterface|ObjectProphecy $createPayByLinkPayloadFactory;
+    private CreatePayByLinkChannelPayloadFactoryInterface|ObjectProphecy $createPayByLinkPayloadFactory;
 
     private GenericTokenFactoryInterface|ObjectProphecy $tokenFactory;
 
