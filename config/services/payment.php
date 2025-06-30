@@ -16,7 +16,7 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.payment.canceller.payment', PaymentCanceller::class)
         ->args([
             service('sylius_abstraction.state_machine')->nullOnInvalid(),
-            service('sm.factory'),
+            service('sm.factory')->nullOnInvalid(),
         ])
         ->alias(PaymentCancellerInterface::class, 'commerce_weavers_sylius_tpay.payment.canceller.payment')
     ;
@@ -24,7 +24,7 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.payment.checker.payment_cancellation_possibility', PaymentCancellationPossibilityChecker::class)
         ->args([
             service('sylius_abstraction.state_machine')->nullOnInvalid(),
-            service('sm.factory'),
+            service('sm.factory')->nullOnInvalid(),
         ])
         ->alias(PaymentCancellationPossibilityCheckerInterface::class, 'commerce_weavers_sylius_tpay.payment.checker.payment_cancellation_possibility')
     ;

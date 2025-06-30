@@ -15,7 +15,7 @@ final class PaymentCanceller implements PaymentCancellerInterface
 {
     public function __construct(
         private readonly ?StateMachineInterface $stateMachine,
-        private readonly FactoryInterface $stateMachineFactory,
+        private readonly ?FactoryInterface $stateMachineFactory,
     ) {
     }
 
@@ -39,6 +39,8 @@ final class PaymentCanceller implements PaymentCancellerInterface
             return;
         }
 
-        $this->stateMachineFactory->get($payment, $graph)->apply($transition);
+        if (null !== $this->stateMachineFactory) {
+            $this->stateMachineFactory->get($payment, $graph)->apply($transition);
+        }
     }
 }

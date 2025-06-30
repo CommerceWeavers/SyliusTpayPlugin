@@ -13,7 +13,7 @@ final class PaymentCancellationPossibilityChecker implements PaymentCancellation
 {
     public function __construct(
         private readonly StateMachineInterface|null $stateMachine,
-        private readonly FactoryInterface $stateMachineFactory,
+        private readonly ?FactoryInterface $stateMachineFactory,
     ) {
     }
 
@@ -31,6 +31,10 @@ final class PaymentCancellationPossibilityChecker implements PaymentCancellation
             return $this->stateMachine->can($payment, $graph, $transition);
         }
 
-        return $this->stateMachineFactory->get($payment, $graph)->can($transition);
+        if (null !== $this->stateMachineFactory) {
+            return $this->stateMachineFactory->get($payment, $graph)->can($transition);
+        }
+
+        return false;
     }
 }
