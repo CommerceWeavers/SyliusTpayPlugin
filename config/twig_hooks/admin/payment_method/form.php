@@ -57,6 +57,15 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
+            'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.tpay_apple_pay' => [
+                'gateway_configuration' => [
+                    'component' => 'cw_tpay_admin:apple_pay:gateway_configuration',
+                    'props' => [
+                        'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
+                    ],
+                ],
+            ],
             'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config' => [
                 'client_id' => [
                     'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/client_id.html.twig',
@@ -92,6 +101,12 @@ return static function(ContainerConfigurator $configurator): void {
             'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config.tpay_google_pay' => [
                 'google_merchant_id' => [
                     'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/google_pay/gateway_configuration/merchant_id.html.twig',
+                    'priority' => 192,
+                ],
+            ],
+            'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config.tpay_apple_pay' => [
+                'apple_merchant_id' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/apple_pay/gateway_configuration/merchant_id.html.twig',
                     'priority' => 192,
                 ],
             ],
