@@ -1,3 +1,7 @@
+{% set form = get_hookable_context().form %}
+{% set order = get_hookable_context().resource %}
+{% set payment = order.lastCartPayment() %}
+
 {% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_apple_pay' %}
     <input type="hidden" data-apple-pay-amount value="{{ order.total|cw_tpay_convert_minor_to_major_currency }}">
     <input type="hidden" data-apple-pay-merchant-identifier value="{{ cw_tpay_get_gateway_config_value(payment.method.gatewayConfig, 'apple_pay_merchant_id') }}">

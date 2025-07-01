@@ -33,11 +33,13 @@ final class InitApplePayPaymentAction
         $payment = $cart->getPayments()->last();
         $gateway = $this->getGateway();
 
-        $domainName = $request->request->get('domainName');
+        $payload = $request->getPayload();
+
+        $domainName = $payload->get('domainName');
         Assert::string($domainName);
-        $displayName = $request->request->get('displayName');
+        $displayName = $payload->get('displayName');
         Assert::string($displayName);
-        $validationUrl = $request->request->get('validationUrl');
+        $validationUrl = $payload->get('validationUrl');
         Assert::string($validationUrl);
 
         $gateway->execute(new InitializeApplePayPayment(

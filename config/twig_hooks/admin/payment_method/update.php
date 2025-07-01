@@ -66,50 +66,6 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
-            'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config' => [
-                'client_id' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/client_id.html.twig',
-                    'priority' => 1024,
-                ],
-                'client_secret' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/client_secret.html.twig',
-                    'priority' => 512,
-                ],
-                'merchant_id' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/merchant_id.html.twig',
-                    'priority' => 256,
-                ],
-                'notification_security_code' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/notification_security_code.html.twig',
-                    'priority' => 128,
-                ],
-                'production_mode' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/production_mode.html.twig',
-                    'priority' => 64,
-                ],
-                'test_connection' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/shared/gateway_configuration/test_connection.html.twig',
-                    'priority' => 32,
-                ],
-            ],
-            'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config.tpay_pbl_channel' => [
-                'tpay_channel_id' => [
-                    'component' => 'cw_tpay_admin:pay_by_link_channel:channel_id_picker',
-                    'priority' => 192,
-                ],
-            ],
-            'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config.tpay_google_pay' => [
-                'google_merchant_id' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/google_pay/gateway_configuration/merchant_id.html.twig',
-                    'priority' => 192,
-                ],
-            ],
-            'commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration.config.tpay_apple_pay' => [
-                'apple_merchant_id' => [
-                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/apple_pay/gateway_configuration/merchant_id.html.twig',
-                    'priority' => 192,
-                ],
-            ],
         ],
     ]);
 };
