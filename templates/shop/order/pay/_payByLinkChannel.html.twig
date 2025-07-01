@@ -1,5 +1,0 @@
-{% if method.gatewayConfig.gatewayName == 'tpay_pbl_channel' and form.vars.value.state != 'cart' %}
-    <div class="ui stackable grid" style="display: none;" data-payment-details="pay_by_link">
-        {% include '@CommerceWeaversSyliusTpayPlugin/shop/payment/_payByLinkChannel.html.twig' %}
-    </div>
-{% endif %}

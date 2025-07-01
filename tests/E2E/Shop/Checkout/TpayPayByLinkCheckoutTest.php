@@ -31,7 +31,6 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
 
     public function test_it_completes_the_checkout_using_pay_by_link_channel_selection(): void
     {
-        $this->client->waitForElementToContain('h5', 'Payment');
         $this->processWithPaymentMethod('tpay_pbl');
 
         $this->client->waitForElementToContain('h1', 'Summary of your order');
@@ -47,7 +46,6 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Thank you!');
     }
 
-    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_pay_by_link_channel_preselected(): void
     {
         $this->processWithPaymentMethod('tpay_pbl_one_channel');
@@ -58,7 +56,6 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
 
     public function test_it_cannot_complete_the_checkout_using_not_supported_pay_by_link(): void
     {
-        $this->client->waitForElementToContain('h5', 'Payment');
         $picker = $this->client->findElement(WebDriverBy::xpath('//*[@data-live-name-value="sylius_shop:checkout:payment:form"]'));
 
         $this->assertStringContainsString('One Bank (Tpay)', $picker->getText());
