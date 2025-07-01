@@ -16,6 +16,10 @@ return static function(ContainerConfigurator $configurator): void {
                     'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/pay_by_link.html.twig',
                     'priority' => 150,
                 ],
+                'google_pay' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/google_pay.html.twig',
+                    'priority' => 50,
+                ],
             ],
         ],
     ]);

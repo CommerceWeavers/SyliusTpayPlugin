@@ -1,5 +1,10 @@
 {% form_theme form '@SyliusAdmin/shared/form_theme.html.twig' %}
 
+{% set gatewayConfig = get_hookable_context().resource.gatewayConfig %}
+
 <div class="row" {{ attributes }}>
-    {% hook 'config' with { form } %}
+    {% hook ['config.' ~ gatewayConfig.factoryName, 'config'] with {
+        _prefixes: ['commerce_weavers_sylius_tpay_admin.payment_method.form.sections.gateway_configuration'],
+        form
+    } %}
 </div>

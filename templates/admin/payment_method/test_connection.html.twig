@@ -1,6 +1,0 @@
-{% if resource.gatewayConfig.factoryName|slice(0, 5) == 'tpay_' or resource.gatewayConfig.factoryName == 'tpay' %}
-    <div class="ui compact segment" style="display: flex; align-items: center;">
-        <div class="ui button" id="test-connection-button" style="margin-right: 10px;">{{ 'commerce_weavers_sylius_tpay.admin.gateway_configuration.test_connection'|trans }}</div>
-        <div class="ui message" id="test-connection-message" style="flex-grow: 1; margin: 0;"></div>
-    </div>
-{% endif %}
