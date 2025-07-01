@@ -90,6 +90,8 @@
                        uriTemplate="/shop/orders/{tokenValue}/cancel-last-payment"
                        messenger="input"
                        input="CommerceWeavers\SyliusTpayPlugin\Command\CancelLastPayment"
+                       output="false"
+                       read="false"
                        status="200">
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>

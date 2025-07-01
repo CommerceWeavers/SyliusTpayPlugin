@@ -35,11 +35,11 @@ final class BlikAliasAmbiguousValueErrorNormalizer implements NormalizerInterfac
         $applications = $exceptionMessage['applications'] ?? [];
 
         return [
-            '@context' => $this->urlGenerator->generate('api_jsonld_context', ['shortName' => 'Error']),
-            '@type' => 'hydra:Error',
-            'hydra:title' => $context[self::TITLE] ?? $this->defaultContext[self::TITLE],
-            'hydra:description' => $description,
-            'applications' => $applications,
+//            '@context' => $this->urlGenerator->generate('api_jsonld_context', ['shortName' => 'Error']),
+//            '@type' => 'hydra:Error',
+//            'hydra:title' => $context[self::TITLE] ?? $this->defaultContext[self::TITLE],
+//            'hydra:description' => $description,
+//            'applications' => $applications,
         ];
     }
 
