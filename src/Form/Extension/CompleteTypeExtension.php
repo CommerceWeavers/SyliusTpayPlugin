@@ -9,6 +9,7 @@ use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Valid;
 
 final class CompleteTypeExtension extends AbstractTypeExtension
 {
@@ -26,7 +27,11 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                 'tpay',
                 TpayPaymentDetailsType::class,
                 [
+                    'constraints' => [
+                        new Valid(groups: ['sylius_checkout_complete']),
+                    ],
                     'property_path' => 'last_cart_payment.details[tpay]',
+                    'validation_groups' => ['sylius_checkout_complete'],
                 ],
             )
         ;

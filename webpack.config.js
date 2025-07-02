@@ -56,9 +56,9 @@ module.exports = [
       'order-show': './assets/shop/order_show_entrypoint.js',
     },
     output: {
-      path: path.resolve(__dirname, 'public/shop/scripts'),
-      filename: '[name].js',
-      publicPath: '/shop/scripts/',
+      path: path.resolve(__dirname, 'public/shop'),
+      filename: 'scripts/[name].js',
+      publicPath: '/bundles/commerceweaverssyliustpayplugin/shop/',
     },
     module: {
       rules: [
@@ -81,12 +81,14 @@ module.exports = [
         {
           test: /\.(png|jpg|jpeg|gif|svg|webp)$/,
           type: 'asset/resource',
-          generator: { filename: '../images/[name][ext]' },
+          generator: {
+            filename: 'images/[name][ext]',
+          },
         },
       ],
     },
     plugins: [
-      new MiniCssExtractPlugin({ filename: '../styles/[name].css' }),
+      new MiniCssExtractPlugin({ filename: 'styles/[name].css' }),
     ],
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   },

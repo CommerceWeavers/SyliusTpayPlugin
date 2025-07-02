@@ -1,6 +1,6 @@
 {% form_theme form '@SyliusAdmin/shared/form_theme.html.twig' %}
 
-{% set gatewayConfig = get_hookable_context().resource.gatewayConfig %}
+{% set gatewayConfig = paymentMethod.gatewayConfig %}
 
 <div class="row" {{ attributes }}>
     {% hook ['config.' ~ gatewayConfig.factoryName, 'config'] with {

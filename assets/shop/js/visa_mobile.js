@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const MOBILE_PHONE_MIN_LENGTH = 7;
   const MOBILE_PHONE_MAX_LENGTH = 15;
 
-  let form = document.querySelector('[name="sylius_checkout_complete"]');
-  let phoneNumber = form.querySelector('#sylius_checkout_complete_tpay_visa_mobile_phone_number') ??
-    document.querySelector("[id^='sylius_checkout_select_payment_payments_'][id$='_tpay_visa_mobile_phone_number']");
+  let phoneNumber = document.querySelector('[data-visa-mobile-phone-number]');
 
   if (null === phoneNumber) {
     return;
   }
+
+  let form = phoneNumber.closest('form');
 
   phoneNumber.addEventListener('keypress', function(e) {
     if (!/[0-9]/.test(e.key)) {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (event) => {
     validateVisaMobilePhoneNumber(phoneNumber);
 
-    const isValid = form.querySelectorAll('.sylius-validation-error').length === 0;
+    const isValid = form.querySelectorAll('.invalid-feedback').length === 0;
 
     if (!isValid) {
       event.preventDefault();
@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function clearErrors(field) {
-    const tpayField = field.closest('[data-tpay-field]');
+    const tpayField = field.closest('[data-tpay-field-wrapper]');
     const errorContainer = tpayField.querySelector('[data-tpay-error-container]');
 
     errorContainer.innerHTML = '';
   }
 
   function addError(field, validationErrorName = 'validationErrorRequired') {
-    const tpayField = field.closest('[data-tpay-field]');
+    const tpayField = field.closest('[data-tpay-field-wrapper]');
     const errorContainer = tpayField.querySelector('[data-tpay-error-container]');
 
     errorContainer.innerHTML = createErrorElement(field, validationErrorName);
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessage = field.dataset[validationErrorName];
 
     return `
-    <div class="ui red pointing label sylius-validation-error">
+    <div class="invalid-feedback d-block">
       ${errorMessage}
     </div>
     `;

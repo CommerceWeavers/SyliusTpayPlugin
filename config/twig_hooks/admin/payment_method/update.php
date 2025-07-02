@@ -66,6 +66,15 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
+            'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.tpay_visa_mobile' => [
+                'gateway_configuration' => [
+                    'component' => 'cw_tpay_admin:visa_mobile:gateway_configuration',
+                    'props' => [
+                        'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
+                    ],
+                ],
+            ],
         ],
     ]);
 };
