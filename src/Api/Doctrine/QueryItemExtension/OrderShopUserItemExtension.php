@@ -34,8 +34,8 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
             return;
         }
 
-        if (!in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
-            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operationName, $context);
+        if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
+            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
 
             return;
         }
@@ -50,6 +50,7 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
 
         if ($customer === null) {
             $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+
             return;
         }
 

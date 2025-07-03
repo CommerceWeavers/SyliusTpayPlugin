@@ -6,8 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Checker;
 
 use CommerceWeavers\SyliusTpayPlugin\Tpay\GatewayName;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -15,7 +13,6 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 final readonly class PaymentMethodSupportedForOrderChecker implements PaymentMethodSupportedForOrderCheckerInterface
 {
     public function __construct(
-        private ?CypherInterface $cypher,
         private OrderAwareValidTpayChannelListProviderInterface $orderAwareValidTpayChannelListProvider,
     ) {
     }
@@ -27,10 +24,6 @@ final readonly class PaymentMethodSupportedForOrderChecker implements PaymentMet
 
         if (null === $gatewayConfig || GatewayName::PAY_BY_LINK !== $gatewayConfig->getFactoryName()) {
             return true;
-        }
-
-        if ($this->cypher !== null && $gatewayConfig instanceof CryptedInterface) {
-            $gatewayConfig->decrypt($this->cypher);
         }
 
         $tpayChannelId = $gatewayConfig->getConfig()['tpay_channel_id'] ?? null;

@@ -34,12 +34,18 @@ final class BlikAliasAmbiguousValueErrorNormalizer implements NormalizerInterfac
         $description = $exceptionMessage['description'] ?? null;
         $applications = $exceptionMessage['applications'] ?? [];
 
+        $statusCode = $object instanceof FlattenException ? $object->getStatusCode() : 400;
+
         return [
-//            '@context' => $this->urlGenerator->generate('api_jsonld_context', ['shortName' => 'Error']),
-//            '@type' => 'hydra:Error',
-//            'hydra:title' => $context[self::TITLE] ?? $this->defaultContext[self::TITLE],
-//            'hydra:description' => $description,
-//            'applications' => $applications,
+            '@context' => $this->urlGenerator->generate('api_jsonld_context', ['shortName' => 'Error']),
+            '@id' => sprintf('/api/v2/errors/%d', $statusCode),
+            '@type' => 'hydra:Error',
+            'title' => $context[self::TITLE] ?? $this->defaultContext[self::TITLE],
+            'description' => $description,
+            'applications' => $applications,
+            'status' => $statusCode,
+            'type' => sprintf('/errors/%d', $statusCode),
+            'trace' => '@array@',
         ];
     }
 

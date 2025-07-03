@@ -83,10 +83,14 @@ final class BlikAliasAmbiguousValueErrorNormalizerTest extends TestCase
 
         $this->assertEquals([
             '@context' => '/api/v2/context/Error',
+            '@id' => '/api/v2/errors/500',
             '@type' => 'hydra:Error',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'Too many aliases found for a Blik alias. Specify one of the applications.',
+            'title' => 'An error occurred',
+            'description' => 'Too many aliases found for a Blik alias. Specify one of the applications.',
             'applications' => [['applicationName' => 'testname', 'applicationCode' => 'testcode']],
+            'status' => 500,
+            'type' => '/errors/500',
+            'trace' => '@array@',
         ], $result);
     }
 

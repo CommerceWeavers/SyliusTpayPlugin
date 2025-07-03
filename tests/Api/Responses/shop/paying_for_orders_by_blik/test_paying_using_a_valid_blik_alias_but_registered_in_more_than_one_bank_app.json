@@ -3,11 +3,18 @@
   "@id": "/api/v2/errors/400",
   "@type": "hydra:Error",
   "title": "An error occurred",
-  "detail": "{\"description\":\"Too many aliases found for a Blik alias. Specify one of the applications.\",\"applications\":[{\"applicationName\":\"My qwerty bank\",\"applicationCode\":\"1ec8f352-463c-6334-be44-9fede70e64b8\"},{\"applicationName\":\"My azerty bank\",\"applicationCode\":\"1ec8fe63-ea6e-6b48-ac6f-f7f170888d37\"}]}",
+  "description": "Too many aliases found for a Blik alias. Specify one of the applications.",
+  "applications": [
+    {
+      "applicationName": "My qwerty bank",
+      "applicationCode": "1ec8f352-463c-6334-be44-9fede70e64b8"
+    },
+    {
+      "applicationName": "My azerty bank",
+      "applicationCode": "1ec8fe63-ea6e-6b48-ac6f-f7f170888d37"
+    }
+  ],
   "status": 400,
   "type": "/errors/400",
-  "trace": "@array@",
-  "description": "{\"description\":\"Too many aliases found for a Blik alias. Specify one of the applications.\",\"applications\":[{\"applicationName\":\"My qwerty bank\",\"applicationCode\":\"1ec8f352-463c-6334-be44-9fede70e64b8\"},{\"applicationName\":\"My azerty bank\",\"applicationCode\":\"1ec8fe63-ea6e-6b48-ac6f-f7f170888d37\"}]}",
-  "hydra:description": "{\"description\":\"Too many aliases found for a Blik alias. Specify one of the applications.\",\"applications\":[{\"applicationName\":\"My qwerty bank\",\"applicationCode\":\"1ec8f352-463c-6334-be44-9fede70e64b8\"},{\"applicationName\":\"My azerty bank\",\"applicationCode\":\"1ec8fe63-ea6e-6b48-ac6f-f7f170888d37\"}]}",
-  "hydra:title": "An error occurred"
+  "trace": "@array@"
 }

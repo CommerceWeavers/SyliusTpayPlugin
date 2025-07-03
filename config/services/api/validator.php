@@ -21,7 +21,6 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.api.validator.constraint.not_blank_if_gateway_config_type_equals', NotBlankIfGatewayConfigTypeEqualsValidator::class)
         ->args([
             service('sylius.repository.order'),
-            service('payum.dynamic_gateways.cypher'),
         ])
         ->tag('validator.constraint_validator')
     ;
@@ -36,7 +35,6 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.api.validator.constraint.one_of_properties_required_if_gateway_config_type_equals', OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator::class)
         ->args([
             service('sylius.repository.order'),
-            service('payum.dynamic_gateways.cypher'),
         ])
         ->tag('validator.constraint_validator')
     ;

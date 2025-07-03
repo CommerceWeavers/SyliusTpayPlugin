@@ -7,8 +7,6 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Validator\Constraint;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEqualsValidator;
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
@@ -27,12 +25,9 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
 
     private OrderRepositoryInterface|ObjectProphecy $orderRepository;
 
-    private CypherInterface|ObjectProphecy $cypher;
-
     protected function setUp(): void
     {
         $this->orderRepository = $this->prophesize(OrderRepositoryInterface::class);
-        $this->cypher = $this->prophesize(CypherInterface::class);
 
         parent::setUp();
 
@@ -142,7 +137,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $this->assertNoViolation();
     }
 
-    public function test_it_decrypts_gateway_config_if_it_is_encrypted(): void
+    public function test_it_works_with_any_gateway_config(): void
     {
         $order = $this->prophesize(OrderInterface::class);
         $payment = $this->prophesize(PaymentInterface::class);
@@ -152,7 +147,6 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment);
         $payment->getMethod()->willReturn($paymentMethod);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $gatewayConfig->getConfig()->willReturn([]);
 
         $this->validator->validate(
@@ -160,7 +154,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
             new NotBlankIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
+        $this->assertNoViolation();
     }
 
     public function test_it_does_not_validate_if_gateway_config_type_is_different(): void
@@ -189,7 +183,6 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
         $payment = $this->prophesize(PaymentInterface::class);
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->orderRepository->findOneByTokenValue('orderToken123')->willReturn($order->reveal());
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment->reveal());
         $payment->getMethod()->willReturn($paymentMethod->reveal());
@@ -201,7 +194,6 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
             new NotBlankIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.field.not_blank')
             ->setCode('275416a8-bd6f-4990-96ed-a2da514ce2f9')
             ->assertRaised()
@@ -210,7 +202,7 @@ final class NotBlankIfGatewayConfigTypeEqualsValidatorTest extends ConstraintVal
 
     protected function createValidator(): NotBlankIfGatewayConfigTypeEqualsValidator
     {
-        return new NotBlankIfGatewayConfigTypeEqualsValidator($this->orderRepository->reveal(), $this->cypher->reveal());
+        return new NotBlankIfGatewayConfigTypeEqualsValidator($this->orderRepository->reveal());
     }
 
     private function emptyDataProvider(): array

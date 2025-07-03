@@ -3,11 +3,8 @@
     "@id": "/api/v2/errors/400",
     "@type": "hydra:Error",
     "title": "An error occurred",
-    "detail": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
+    "description": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
     "status": 400,
     "type": "/errors/400",
-    "trace": "@array@",
-    "description": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
-    "hydra:description": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
-    "hydra:title": "An error occurred"
+    "trace": "@array@"
 }
