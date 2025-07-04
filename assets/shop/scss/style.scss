@@ -7,3 +7,10 @@ apple-pay-button {
     display: block;
     margin: 2rem auto 2rem auto;
 }
+
+.iti {
+    --iti-path-flags-1x: url('../img/flags.webp');
+    --iti-path-flags-2x: url('../img/flags@2x.webp');
+    --iti-path-globe-1x: url('../img/globe.webp');
+    --iti-path-globe-2x: url('../img/globe@2x.webp');
+}

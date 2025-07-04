@@ -19,6 +19,12 @@ return static function(ContainerConfigurator $configurator): void {
                     'priority' => -300,
                 ],
             ],
+            'sylius_shop.order.show.content.form.select_payment.payment.choice.tpay_visa_mobile.details' => [
+                'visa_mobile' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/visa_mobile.html.twig',
+                    'priority' => -300,
+                ],
+            ],
         ],
     ]);
 };

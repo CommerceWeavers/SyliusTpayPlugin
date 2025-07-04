@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Shop\Checkout;
 
+use Facebook\WebDriver\WebDriverBy;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\CartTrait;
@@ -28,14 +29,13 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
-    /** @group requires-fixes */
     public function test_it_throws_validation_error_if_phone_number_is_too_short(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');
         $this->fillVisaMobile(self::FORM_ID, '123123');
         $this->placeOrder();
 
-        $validationElement = $this->findElementByXpath("//div[contains(@class, 'sylius-validation-error')]");
+        $validationElement = $this->client->findElement(WebDriverBy::cssSelector('.invalid-feedback'));
         $this->assertNotNull($validationElement);
         $this->assertSame(
             "The mobile phone must be composed minimum of 7 digits.",
@@ -43,7 +43,6 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         );
     }
 
-    /** @group requires-fixes */
     public function test_it_trims_input_phone_number_if_it_is_too_long(): void
     {
         $inputValueMaxLength = 15;
@@ -61,14 +60,13 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->assertSame($inputValueMaxLength, strlen($expectedValue));
     }
 
-    /** @group requires-fixes */
     public function test_it_throws_validation_error_if_phone_number_is_empty(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');
         $this->fillVisaMobile(self::FORM_ID, '');
         $this->placeOrder();
 
-        $validationElement = $this->findElementByXpath("//div[contains(@class, 'sylius-validation-error')]");
+        $validationElement = $this->client->findElement(WebDriverBy::cssSelector('.invalid-feedback'));
         $this->assertNotNull($validationElement);
         $this->assertSame(
             "The mobile phone number is required.",
@@ -76,7 +74,6 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         );
     }
 
-    /** @group requires-fixes */
     public function test_it_completes_the_checkout_using_visa_mobile(): void
     {
         $this->processWithPaymentMethod('tpay_visa_mobile');

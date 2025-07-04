@@ -33,6 +33,7 @@ trait TpayTrait
 
     public function fillVisaMobile(string $formId, string $mobilePhone): void
     {
+        $this->client->waitForVisibility(sprintf('#%s_tpay_visa_mobile_phone_number', $formId));
         $this->client->findElement(WebDriverBy::id(sprintf('%s_tpay_visa_mobile_phone_number', $formId)))->sendKeys($mobilePhone);
     }
 

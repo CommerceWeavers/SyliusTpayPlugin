@@ -1,9 +1,9 @@
 import './img/hourglass.gif';
 import './scss/pay_by_link.scss';
 import './scss/style.scss';
-import './js/_visa_mobile';
 import './js/apple_pay';
 import './js/blik_code';
+import './js/visa_mobile';
 import {CardForm} from "./js/card_form";
 
 document.addEventListener('DOMContentLoaded', () => {
