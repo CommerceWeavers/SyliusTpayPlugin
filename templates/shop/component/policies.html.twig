@@ -1,0 +1,8 @@
+{% if should_be_displayed %}
+    <div class="mt-3 mb-3 fs-6" data-payment-details="{{ paymentMethod.code }}">
+        {{ 'commerce_weavers_sylius_tpay.shop.pay.legal_info'|trans({
+            '%regulations_url%': tpay_regulations_url,
+            '%policy_url%': tpay_policy_url
+        })|raw }}
+    </div>
+{% endif %}
