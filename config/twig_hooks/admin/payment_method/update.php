@@ -75,6 +75,15 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
+            'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.tpay_card' => [
+                'gateway_configuration' => [
+                    'component' => 'cw_tpay_admin:card:gateway_configuration',
+                    'props' => [
+                        'form' => '@=_context.form',
+                        'paymentMethod' => '@=_context.resource',
+                    ],
+                ],
+            ],
         ],
     ]);
 };
