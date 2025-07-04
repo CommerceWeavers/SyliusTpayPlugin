@@ -16,7 +16,7 @@ final class AddCreditCardToAccountMenuEventListener
         $menu
             ->addChild('credit_cards', ['route' => Routing::SHOP_ACCOUNT_CREDIT_CARD_INDEX])
             ->setLabel('commerce_weavers_sylius_tpay.shop.credit_cards')
-            ->setLabelAttribute('icon', 'credit card')
+            ->setLabelAttribute('icon', 'tabler:credit-card')
         ;
     }
 }

@@ -38,6 +38,7 @@ commerce_weavers_sylius_tpay:
                 default_image_url: 'Default logo Url'
     shop:
         credit_cards: 'Credit cards'
+        credit_cards.description: 'Browse and manage your saved cards'
         credit_card:
             brand: 'Brand'
             expiration_date: 'Expiration date'
