@@ -28,6 +28,10 @@ return static function(ContainerConfigurator $configurator): void {
                     'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/visa_mobile.html.twig',
                     'priority' => 150,
                 ],
+                'card' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/cart/complete/card.html.twig',
+                    'priority' => 150,
+                ],
             ],
         ],
     ]);
