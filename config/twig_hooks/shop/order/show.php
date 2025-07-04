@@ -31,6 +31,15 @@ return static function(ContainerConfigurator $configurator): void {
                     'priority' => -300,
                 ],
             ],
+            'sylius_shop.order.show.content.form.select_payment.payment.choice.details' => [
+                'tpay_policies' => [
+                    'component' => 'cw_tpay_shop:policies',
+                    'props' => [
+                        'paymentMethod' => '@=_context.method'
+                    ],
+                    'priority' => -400,
+                ],
+            ],
         ],
     ]);
 };
