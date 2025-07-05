@@ -15,7 +15,6 @@ return static function(ContainerConfigurator $container): void {
         ->args([
             service('translator'),
         ])
-        ->parent('commerce_weavers_sylius_tpay.form.type.abstract_tpay_gateway_configuration')
         ->tag('sylius.gateway_configuration_type', ['label' => 'commerce_weavers_sylius_tpay.admin.gateway_name.tpay_channel_pbl', 'type' => GatewayFactory::NAME])
         ->tag('form.type')
     ;

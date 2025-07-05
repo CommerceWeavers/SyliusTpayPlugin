@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\Exception\BankNotSelectedException;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class CreatePayByLinkChannelPayloadFactory implements CreatePayByLinkChannelPayloadFactoryInterface
@@ -22,7 +23,7 @@ final class CreatePayByLinkChannelPayloadFactory implements CreatePayByLinkChann
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
         $gatewayConfig = $payment->getMethod()?->getGatewayConfig()?->getConfig();
-        $channelId = $gatewayConfig['tpay_channel_id'] ?? throw new \InvalidArgumentException('The given payment does not have a bank selected.');
+        $channelId = $gatewayConfig['tpay_channel_id'] ?? throw BankNotSelectedException::create();
 
         $payload['pay']['channelId'] = (int) $channelId;
 

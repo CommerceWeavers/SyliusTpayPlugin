@@ -19,15 +19,14 @@ return function(ContainerConfigurator $container): void {
         ->alias(AllowedOrderOperationsProviderInterface::class, 'commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.provider.allowed_order_operations')
     ;
 
-    // Note: Commented out for Sylius 2.0 compatibility - ShopUserBasedExtension service may not be auto-registered
-    // $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_shop_user', OrderShopUserItemExtension::class)
-    //     ->decorate(\Sylius\Bundle\ApiBundle\Doctrine\ORM\QueryExtension\Shop\Order\ShopUserBasedExtension::class)
-    //     ->args([
-    //         service('.inner'),
-    //         service(UserContextInterface::class),
-    //         service('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.provider.allowed_order_operations'),
-    //     ])
-    // ;
+     $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_shop_user', OrderShopUserItemExtension::class)
+         ->decorate('sylius_api.doctrine.orm.query_extension.shop.order.shop_user_based')
+         ->args([
+             service('.inner'),
+             service(UserContextInterface::class),
+             service('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.provider.allowed_order_operations'),
+         ])
+     ;
 
     $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.credit_card_shop_user', CreditCardShopUserItemExtension::class)
         ->args([
@@ -45,13 +44,12 @@ return function(ContainerConfigurator $container): void {
         ->tag('api_platform.doctrine.orm.query_extension.collection')
     ;
 
-    // Note: Commented out for Sylius 2.0 compatibility - VisitorBasedExtension service may not be auto-registered
-    // $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_visitor', OrderVisitorItemExtension::class)
-    //     ->decorate(\Sylius\Bundle\ApiBundle\Doctrine\ORM\QueryExtension\Shop\Order\VisitorBasedExtension::class)
-    //     ->args([
-    //         service('.inner'),
-    //         service(UserContextInterface::class),
-    //         service('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.provider.allowed_order_operations'),
-    //     ])
-    // ;
+     $services->set('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.order_visitor', OrderVisitorItemExtension::class)
+         ->decorate('sylius_api.doctrine.orm.query_extension.shop.order.visitor_based')
+         ->args([
+             service('.inner'),
+             service(UserContextInterface::class),
+             service('commerce_weavers_sylius_tpay.api.doctrine.query_item_extension.provider.allowed_order_operations'),
+         ])
+     ;
 };

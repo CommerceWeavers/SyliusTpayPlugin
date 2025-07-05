@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Payment\Checker;
 
-use SM\Factory\FactoryInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
@@ -12,8 +11,7 @@ use Sylius\Component\Payment\PaymentTransitions;
 final class PaymentCancellationPossibilityChecker implements PaymentCancellationPossibilityCheckerInterface
 {
     public function __construct(
-        private readonly StateMachineInterface|null $stateMachine,
-        private readonly ?FactoryInterface $stateMachineFactory,
+        private readonly StateMachineInterface $stateMachine,
     ) {
     }
 
@@ -27,14 +25,6 @@ final class PaymentCancellationPossibilityChecker implements PaymentCancellation
         string $graph,
         string $transition,
     ): bool {
-        if (null !== $this->stateMachine) {
-            return $this->stateMachine->can($payment, $graph, $transition);
-        }
-
-        if (null !== $this->stateMachineFactory) {
-            return $this->stateMachineFactory->get($payment, $graph)->can($transition);
-        }
-
-        return false;
+        return $this->stateMachine->can($payment, $graph, $transition);
     }
 }

@@ -13,12 +13,12 @@ use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 
-final class OrderShopUserItemExtension implements QueryItemExtensionInterface
+final readonly class OrderShopUserItemExtension implements QueryItemExtensionInterface
 {
     public function __construct(
-        private readonly QueryItemExtensionInterface $decorated,
-        private readonly UserContextInterface $userContext,
-        private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
+        private QueryItemExtensionInterface $decorated,
+        private UserContextInterface $userContext,
+        private AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
     }
 

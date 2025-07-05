@@ -104,10 +104,9 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        // In Sylius 2.0, ChooseShippingMethod constructor requires: orderTokenValue, shipmentId, shippingMethodCode
         $chooseShippingMethodCommand = new ChooseShippingMethod(
             $tokenValue,
-            $subresourceId, // shipmentId (can be null)
+            $subresourceId,
             $shippingMethodCode
         );
 
@@ -122,10 +121,9 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        // In Sylius 2.0, ChoosePaymentMethod constructor requires: orderTokenValue, paymentId, paymentMethodCode
         $choosePaymentMethodCommand = new ChoosePaymentMethod(
             $tokenValue,
-            $subresourceId, // paymentId (can be null)
+            $subresourceId,
             $paymentMethodCode
         );
 
@@ -138,7 +136,6 @@ trait OrderPlacerTrait
         string $tokenValue,
     ): OrderInterface
     {
-        // In Sylius 2.0, CompleteOrder constructor requires: orderTokenValue, notes
         $completeOrderCommand = new CompleteOrder($tokenValue);
         $envelope = $this->commandBus->dispatch($completeOrderCommand);
 
