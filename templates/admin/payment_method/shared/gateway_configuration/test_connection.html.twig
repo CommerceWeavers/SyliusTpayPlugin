@@ -9,4 +9,20 @@
             {{ 'commerce_weavers_sylius_tpay.admin.gateway_configuration.test_connection'|trans }}
         </button>
     </div>
+
+    {% set connectionTestResult = get_hookable_context().connectionTestResult %}
+
+    {% if connectionTestResult != '' %}
+        <div class="mb-3">
+            {% if connectionTestResult == 'success' %}
+                <div class="alert alert-success" role="alert">
+                    {{ 'commerce_weavers_sylius_tpay.admin.gateway_configuration.test_connection_success'|trans }}
+                </div>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    {{ 'commerce_weavers_sylius_tpay.admin.gateway_configuration.test_connection_failure'|trans }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
