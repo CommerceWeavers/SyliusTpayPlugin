@@ -14,7 +14,7 @@ return static function(ContainerConfigurator $container): void {
     if (SyliusCoreBundle::VERSION_ID >= 11300) {
         $services->set('commerce_weavers_sylius_tpay.api.documentation.open_api.pay_documentation_modifier', PayDocumentationModifier::class)
             ->args([
-                param('sylius.security.new_api_shop_route')
+                param('sylius.security.api_shop_route')
             ])
             ->tag('sylius.open_api.modifier')
         ;
@@ -23,7 +23,7 @@ return static function(ContainerConfigurator $container): void {
             ->decorate('api_platform.swagger.normalizer.documentation')
             ->args([
                 service('.inner'),
-                param('sylius.security.new_api_shop_route'),
+                param('sylius.security.api_shop_route'),
             ])
         ;
     }

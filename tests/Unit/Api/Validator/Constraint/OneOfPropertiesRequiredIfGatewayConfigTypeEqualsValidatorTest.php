@@ -9,8 +9,6 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Enum\BlikAliasAction;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\NotBlankIfGatewayConfigTypeEquals;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\OneOfPropertiesRequiredIfGatewayConfigTypeEquals;
 use CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint\OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator;
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
@@ -28,12 +26,9 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
 
     private OrderRepositoryInterface|ObjectProphecy $orderRepository;
 
-    private CypherInterface|ObjectProphecy $cypher;
-
     protected function setUp(): void
     {
         $this->orderRepository = $this->prophesize(OrderRepositoryInterface::class);
-        $this->cypher = $this->prophesize(CypherInterface::class);
 
         parent::setUp();
     }
@@ -117,7 +112,7 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
         $this->assertNoViolation();
     }
 
-    public function test_it_decrypts_gateway_config_if_it_is_encrypted(): void
+    public function test_it_works_with_any_gateway_config(): void
     {
         $order = $this->prophesize(OrderInterface::class);
         $payment = $this->prophesize(PaymentInterface::class);
@@ -127,7 +122,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment);
         $payment->getMethod()->willReturn($paymentMethod);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $gatewayConfig->getConfig()->willReturn([]);
 
         $this->validator->validate(
@@ -135,7 +129,7 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
             new OneOfPropertiesRequiredIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
+        $this->assertNoViolation();
     }
 
     public function test_it_does_not_validate_if_gateway_config_type_is_different(): void
@@ -144,7 +138,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
         $payment = $this->prophesize(PaymentInterface::class);
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->orderRepository->findOneByTokenValue('orderToken123')->willReturn($order->reveal());
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment->reveal());
         $payment->getMethod()->willReturn($paymentMethod->reveal());
@@ -156,7 +149,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
             new OneOfPropertiesRequiredIfGatewayConfigTypeEquals(paymentMethodType: 'blik'),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->assertNoViolation();
     }
 
@@ -166,7 +158,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
         $payment = $this->prophesize(PaymentInterface::class);
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->orderRepository->findOneByTokenValue('orderToken123')->willReturn($order->reveal());
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment->reveal());
         $payment->getMethod()->willReturn($paymentMethod->reveal());
@@ -181,7 +172,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
             ),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this->assertNoViolation();
     }
 
@@ -192,7 +182,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
         $payment = $this->prophesize(PaymentInterface::class);
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->willImplement(CryptedInterface::class);
         $this->orderRepository->findOneByTokenValue('orderToken123')->willReturn($order->reveal());
         $order->getLastPayment(PaymentInterface::STATE_NEW)->willReturn($payment->reveal());
         $payment->getMethod()->willReturn($paymentMethod->reveal());
@@ -207,7 +196,6 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
             ),
         );
 
-        $gatewayConfig->decrypt($this->cypher)->shouldBeCalled();
         $this
             ->buildViolation('commerce_weavers_sylius_tpay.shop.pay.fields_required')
             ->setCode(OneOfPropertiesRequiredIfGatewayConfigTypeEquals::ALL_FIELDS_ARE_BLANK_ERROR)
@@ -217,7 +205,7 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidatorTest extend
 
     protected function createValidator(): OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator
     {
-        return new OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator($this->orderRepository->reveal(), $this->cypher->reveal());
+        return new OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator($this->orderRepository->reveal());
     }
 
     private function getPayCommand(?string $blikToken = null, ?BlikAliasAction $blikAliasAction = null): Pay

@@ -6,6 +6,7 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Tpay\Factory;
 
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\Exception\BankNotSelectedException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -26,7 +27,7 @@ final class CreatePayByLinkChannelPayloadFactoryTest extends TestCase
 
     public function test_it_throws_exception_if_tpay_channel_id_is_missing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(BankNotSelectedException::class);
         $this->expectExceptionMessage('The given payment does not have a bank selected.');
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);

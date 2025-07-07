@@ -21,18 +21,6 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\TpayGatewayFactory;
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    /** new */
-
-    $services->set('commerce_weavers_sylius_tpay.form.type.abstract_tpay_gateway_configuration', AbstractTpayGatewayConfigurationType::class)
-        ->abstract()
-        ->args([
-            service('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config'),
-            service('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config'),
-        ])
-    ;
-
-    /** end new */
-
     $services->set(CompleteTypeExtension::class)
         ->tag('form.type_extension')
     ;
@@ -49,10 +37,6 @@ return static function(ContainerConfigurator $container): void {
     ;
 
     $services->set(TpayGatewayConfigurationType::class)
-        ->args([
-            service('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config'),
-            service('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config'),
-        ])
         ->tag(
             'sylius.gateway_configuration_type',
             ['label' => 'commerce_weavers_sylius_tpay.admin.name', 'type' => TpayGatewayFactory::NAME],
@@ -74,20 +58,6 @@ return static function(ContainerConfigurator $container): void {
             PaymentMethodImage::class,
         ])
         ->tag('form.type')
-    ;
-
-    $services
-        ->set('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)
-        ->args([
-            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
-        ])
-    ;
-
-    $services
-        ->set('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config', EncryptGatewayConfigListener::class)
-        ->args([
-            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
-        ])
     ;
 
     $services->set('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields', RemoveUnnecessaryPaymentDetailsFieldsListener::class);

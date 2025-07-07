@@ -15,16 +15,14 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_sylius_tpay.payment.canceller.payment', PaymentCanceller::class)
         ->args([
-            service('sylius_abstraction.state_machine')->nullOnInvalid(),
-            service('sm.factory'),
+            service('sylius_abstraction.state_machine'),
         ])
         ->alias(PaymentCancellerInterface::class, 'commerce_weavers_sylius_tpay.payment.canceller.payment')
     ;
 
     $services->set('commerce_weavers_sylius_tpay.payment.checker.payment_cancellation_possibility', PaymentCancellationPossibilityChecker::class)
         ->args([
-            service('sylius_abstraction.state_machine')->nullOnInvalid(),
-            service('sm.factory'),
+            service('sylius_abstraction.state_machine'),
         ])
         ->alias(PaymentCancellationPossibilityCheckerInterface::class, 'commerce_weavers_sylius_tpay.payment.checker.payment_cancellation_possibility')
     ;

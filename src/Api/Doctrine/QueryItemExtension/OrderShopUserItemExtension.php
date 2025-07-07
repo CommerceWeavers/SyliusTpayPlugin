@@ -4,37 +4,38 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface as LegacyQueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension\Provider\AllowedOrderOperationsProviderInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 
-final class OrderShopUserItemExtension implements QueryItemExtensionInterface
+final readonly class OrderShopUserItemExtension implements QueryItemExtensionInterface
 {
     public function __construct(
-        private readonly QueryItemExtensionInterface $decorated,
-        private readonly UserContextInterface $userContext,
-        private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
+        private QueryItemExtensionInterface $decorated,
+        private UserContextInterface $userContext,
+        private AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
     }
 
     public function applyToItem(
         QueryBuilder $queryBuilder,
-        LegacyQueryNameGeneratorInterface $queryNameGenerator,
+        QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         array $identifiers,
-        string $operationName = null,
+        Operation $operation = null,
         array $context = [],
     ): void {
         if (!is_a($resourceClass, OrderInterface::class, true)) {
             return;
         }
 
-        if (!in_array($operationName, $this->allowedOrderOperationsProvider->provide(), true)) {
-            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operationName, $context);
+        if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
+            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
 
             return;
         }
@@ -48,6 +49,8 @@ final class OrderShopUserItemExtension implements QueryItemExtensionInterface
         $customer = $user->getCustomer();
 
         if ($customer === null) {
+            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+
             return;
         }
 

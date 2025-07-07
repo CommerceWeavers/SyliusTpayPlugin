@@ -6,7 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint;
 
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
-use Payum\Core\Security\CypherInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -20,9 +19,7 @@ final class OneOfPropertiesRequiredIfGatewayConfigTypeEqualsValidator extends Ab
 
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
-        CypherInterface $cypher,
     ) {
-        parent::__construct($cypher);
     }
 
     public function validate(mixed $value, Constraint $constraint): void

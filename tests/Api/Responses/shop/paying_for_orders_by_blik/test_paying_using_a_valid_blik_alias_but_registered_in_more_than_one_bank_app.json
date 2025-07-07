@@ -1,16 +1,19 @@
 {
-  "@context": "/api/v2/contexts/Error",
-  "@type": "hydra:Error",
-  "hydra:title": "An error occurred",
-  "hydra:description": "Too many aliases found for a Blik alias. Specify one of the applications.",
-  "applications": [
-    {
-      "applicationName": "My qwerty bank",
-      "applicationCode": "1ec8f352-463c-6334-be44-9fede70e64b8"
-    },
-    {
-      "applicationName": "My azerty bank",
-      "applicationCode": "1ec8fe63-ea6e-6b48-ac6f-f7f170888d37"
-    }
-  ]
+    "@context": "/api/v2/contexts/BlikAliasAmbiguousValueException",
+    "@id": "/api/v2/blik-alias-ambiguous-value-exceptions",
+    "@type": "BlikAliasAmbiguousValueException",
+    "applications": [
+        {
+            "applicationName": "My qwerty bank",
+            "applicationCode": "1ec8f352-463c-6334-be44-9fede70e64b8"
+        },
+        {
+            "applicationName": "My azerty bank",
+            "applicationCode": "1ec8fe63-ea6e-6b48-ac6f-f7f170888d37"
+        }
+    ],
+    "type": "/errors/400",
+    "title": "An error occurred",
+    "status": 400,
+    "detail": "Too many aliases found for a Blik alias. Specify one of the applications."
 }

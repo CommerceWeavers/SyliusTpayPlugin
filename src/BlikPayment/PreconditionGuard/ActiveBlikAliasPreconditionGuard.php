@@ -7,11 +7,11 @@ namespace CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard;
 use CommerceWeavers\SyliusTpayPlugin\BlikPayment\Entity\BlikAliasInterface;
 use CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard\Exception\BlikAliasExpiredException;
 use CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard\Exception\BlikAliasNotRegisteredException;
-use Sylius\Calendar\Provider\DateTimeProviderInterface;
+use Symfony\Component\Clock\ClockInterface;
 
 final class ActiveBlikAliasPreconditionGuard implements ActiveBlikAliasPreconditionGuardInterface
 {
-    public function __construct(private readonly DateTimeProviderInterface $dateTimeProvider)
+    public function __construct(private readonly ClockInterface $clock)
     {
     }
 
@@ -21,7 +21,7 @@ final class ActiveBlikAliasPreconditionGuard implements ActiveBlikAliasPrecondit
             throw new BlikAliasNotRegisteredException();
         }
 
-        if ($blikAlias->getExpirationDate() < $this->dateTimeProvider->now()) {
+        if ($blikAlias->getExpirationDate() < $this->clock->now()) {
             throw new BlikAliasExpiredException();
         }
     }

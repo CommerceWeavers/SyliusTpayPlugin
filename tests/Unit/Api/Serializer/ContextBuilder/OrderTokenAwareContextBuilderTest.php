@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Api\Serializer\ContextBuilder;
 
-use ApiPlatform\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\State\SerializerContextBuilderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Contract\OrderTokenAwareInterface;
 use CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay;
 use CommerceWeavers\SyliusTpayPlugin\Api\Serializer\ContextBuilder\AwareContextBuilderInterface;
@@ -26,25 +26,21 @@ final class OrderTokenAwareContextBuilderTest extends TestCase
         $this->decoratedContextBuilder = $this->prophesize(SerializerContextBuilderInterface::class);
     }
 
-    /** @group requires-fixes */
     public function test_it_returns_its_attribute_key(): void
     {
         $this->assertSame('tokenValue', $this->createTestSubject()->getAttributeKey());
     }
 
-    /** @group requires-fixes */
     public function test_it_returns_supported_interface(): void
     {
         $this->assertSame(OrderTokenAwareInterface::class, $this->createTestSubject()->getSupportedInterface());
     }
 
-    /** @group requires-fixes */
     public function test_it_returns_property_name_accessor_method_name(): void
     {
         $this->assertSame('getOrderTokenPropertyName', $this->createTestSubject()->getPropertyNameAccessorMethodName());
     }
 
-    /** @group requires-fixes */
     public function test_it_does_not_support_a_request_without_an_input_class(): void
     {
         $isSupported = $this->createTestSubject()->supports($this->prophesize(Request::class)->reveal(), [], null);
@@ -52,7 +48,6 @@ final class OrderTokenAwareContextBuilderTest extends TestCase
         $this->assertFalse($isSupported);
     }
 
-    /** @group requires-fixes */
     public function test_it_does_not_support_a_request_with_an_input_class_that_does_not_implement_order_token_aware_interface(): void
     {
         $context = ['input' => ['class' => \stdClass::class]];
@@ -62,7 +57,6 @@ final class OrderTokenAwareContextBuilderTest extends TestCase
         $this->assertFalse($isSupported);
     }
 
-    /** @group requires-fixes */
     public function test_it_returns_a_context_from_a_decorated_service_if_it_does_not_support_the_request(): void
     {
         $request = $this->prophesize(Request::class)->reveal();
@@ -74,7 +68,6 @@ final class OrderTokenAwareContextBuilderTest extends TestCase
         $this->assertSame(['baz' => 'qux'], $result);
     }
 
-    /** @group requires-fixes */
     public function test_it_adds_an_order_token_value_to_default_constructor_arguments_for_supported_requests(): void
     {
         $attributes = $this->prophesize(ParameterBag::class);

@@ -7,5 +7,6 @@
   },
   "@type": "PayResult",
   "@id": "/api/v2/.well-known/genid/@string@",
-  "status": "pending"
+  "status": "pending",
+  "transactionPaymentUrl": null
 }

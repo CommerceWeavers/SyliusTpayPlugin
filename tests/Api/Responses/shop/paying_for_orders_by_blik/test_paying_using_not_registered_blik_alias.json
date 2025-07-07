@@ -1,7 +1,13 @@
 {
     "@context": "/api/v2/contexts/Error",
+    "@id": "/api/v2/errors/400",
     "@type": "hydra:Error",
-    "hydra:title": "An error occurred",
+    "title": "An error occurred",
+    "detail": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
+    "status": 400,
+    "type": "/errors/400",
+    "trace": "@array@",
+    "description": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
     "hydra:description": "The Blik Alias is not registered yet. Please try again later or use a Blik token.",
-    "trace": "@array@"
+    "hydra:title": "An error occurred"
 }

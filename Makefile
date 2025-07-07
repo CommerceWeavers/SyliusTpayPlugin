@@ -3,6 +3,10 @@ serve:
 server.start: serve
 server.stop:
 	@symfony server:stop --dir=tests/Application
+mockoon.start:
+	@npm run mockoon:start
+mockoon.stop:
+	@npm run mockoon:stop
 frontend.install:
 	@cd tests/Application && npm install
 frontend.build:
