@@ -1,5 +1,0 @@
-{% if method.gatewayConfig.gatewayName == 'tpay_blik' and form.vars.value.state != 'cart' %}
-    <div class="ui stackable grid" style="display: none;" data-payment-details="blik">
-        {% include '@CommerceWeaversSyliusTpayPlugin/shop/payment/_blik.html.twig' %}
-    </div>
-{% endif %}

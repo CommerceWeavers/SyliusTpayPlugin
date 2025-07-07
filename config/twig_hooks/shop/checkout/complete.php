@@ -35,7 +35,7 @@ return static function(ContainerConfigurator $configurator): void {
                 'tpay_policies' => [
                     'component' => 'cw_tpay_shop:policies',
                     'props' => [
-                        'paymentMethod' => '@=_context.resource.getLastCartPayment().getMethod()',
+                        'paymentMethod' => '@=_context.resource.getLastCartPayment()?.getMethod()',
                     ],
                     'priority' => 75,
                 ],

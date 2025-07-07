@@ -29,7 +29,6 @@ final class FreePaymentCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
-    /** @group requires-fixes */
     public function test_it_completes_the_checkout_if_order_total_is_0(): void
     {
         // total is 0.00 so we do not choose payment method and go straight to complete

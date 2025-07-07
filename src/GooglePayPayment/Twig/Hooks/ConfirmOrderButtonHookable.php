@@ -30,7 +30,7 @@ final readonly class ConfirmOrderButtonHookable implements HookableRendererInter
 
         $payment = $order->getLastCartPayment();
 
-        $gatewayFactoryName = $payment->getMethod()?->getGatewayConfig()?->getFactoryName();
+        $gatewayFactoryName = $payment?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
         return $gatewayFactoryName === GatewayFactory::NAME ? '' : $this->hookableRenderer->render($hookable, $metadata);
     }

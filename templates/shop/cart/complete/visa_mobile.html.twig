@@ -1,8 +1,9 @@
-{% set form = get_hookable_context().form.tpay %}
 {% set order = get_hookable_context().resource %}
-{% set payment = order.lastCartPayment() %}
+{% set payment = order.lastCartPayment()|default(null) %}
 
 {% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_visa_mobile' %}
+    {% set form = get_hookable_context().form.tpay %}
+
     <div class="container mt-5 card border-0 bg-body-tertiary mb-3">
         <div class="card-body" data-tpay-field-wrapper>
             {{ form_label(form.visa_mobile_phone_number) }}
