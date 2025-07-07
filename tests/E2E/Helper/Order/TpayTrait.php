@@ -29,7 +29,7 @@ trait TpayTrait
         $this->client->findElement(WebDriverBy::cssSelector('[data-tpay-expiration-year]'))->sendKeys($year);
 
         if ($saveCardForLater) {
-            $this->client->findElement(WebDriverBy::cssSelector('[data-tpay-save-card] > input'))->sendKeys(true);
+            $this->client->findElement(WebDriverBy::cssSelector('[data-tpay-save-card] input'))->click();
         }
     }
 

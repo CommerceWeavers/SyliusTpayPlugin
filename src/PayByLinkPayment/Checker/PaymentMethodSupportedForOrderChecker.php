@@ -22,7 +22,7 @@ final readonly class PaymentMethodSupportedForOrderChecker implements PaymentMet
         /** @var GatewayConfigInterface|null $gatewayConfig */
         $gatewayConfig = $paymentMethod->getGatewayConfig();
 
-        if (null === $gatewayConfig || GatewayName::PAY_BY_LINK !== $gatewayConfig->getFactoryName()) {
+        if (null === $gatewayConfig || (GatewayName::PAY_BY_LINK !== $gatewayConfig->getFactoryName() && GatewayName::PAY_BY_LINK_CHANNEL !== $gatewayConfig->getFactoryName())) {
             return true;
         }
 
