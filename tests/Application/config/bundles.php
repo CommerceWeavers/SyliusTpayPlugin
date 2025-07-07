@@ -1,6 +1,8 @@
 <?php
 
-return [
+use winzou\Bundle\StateMachineBundle\winzouStateMachineBundle;
+
+$bundles = [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -63,3 +65,9 @@ return [
     Sylius\RefundPlugin\SyliusRefundPlugin::class => ['all' => true],
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
 ];
+
+if (class_exists(winzouStateMachineBundle::class)) {
+    $bundles[winzouStateMachineBundle::class] = ['all' => true];
+}
+
+return $bundles;

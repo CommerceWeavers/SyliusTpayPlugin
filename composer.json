@@ -61,7 +61,8 @@
         "symfony/panther": "^2.1",
         "symfony/runtime": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*",
-        "theofidry/alice-data-fixtures": "^1.6"
+        "theofidry/alice-data-fixtures": "^1.6",
+        "winzou/state-machine-bundle": "^0.6.2"
     },
     "conflict": {
         "api-platform/state": "< 4.1.17"
