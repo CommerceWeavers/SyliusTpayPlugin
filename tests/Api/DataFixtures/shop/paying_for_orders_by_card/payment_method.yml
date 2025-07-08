@@ -19,6 +19,11 @@ Sylius\Component\Payment\Model\PaymentMethodTranslation:
         locale: 'en_US'
         description: '<paragraph(2)>'
         translatable: '@tpay_pbl'
+    tpay_pbl_payment_method_translation_error:
+        name: 'Bank Error (Tpay)'
+        locale: 'en_US'
+        description: '<paragraph(2)>'
+        translatable: '@tpay_pbl_channel_error'
     tpay_visa_mobile_payment_method_translation:
         name: 'Visa mobile (Tpay)'
         locale: 'en_US'
@@ -60,6 +65,13 @@ TestApp\Entity\PaymentMethod:
         gatewayConfig: '@gateway_tpay_pbl_channel'
         translations:
             - '@tpay_pbl_payment_method_translation'
+        channels: [ '@channel_web' ]
+    tpay_pbl_channel_error:
+        code: 'tpay_pbl_channel_error'
+        enabled: true
+        gatewayConfig: '@gateway_tpay_pbl_channel_error'
+        translations:
+            - '@tpay_pbl_payment_method_translation_error'
         channels: [ '@channel_web' ]
     tpay_visa_mobile:
         code: 'tpay_visa_mobile'
@@ -109,9 +121,16 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
         config:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
-            tpay_channel_id: 'encrypted_<getenv("TPAY_PBL_CHANNEL_ID")>'
+            tpay_channel_id: '1'
             production_mode: false
-            encrypted: true
+    gateway_tpay_pbl_channel_error:
+        gatewayName: 'tpay_pbl_channel'
+        factoryName: 'tpay_pbl_channel'
+        config:
+            client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
+            client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
+            tpay_channel_id: '991'
+            production_mode: false
     gateway_tpay_visa_mobile:
         gatewayName: 'tpay_visa_mobile'
         factoryName: 'tpay_visa_mobile'
