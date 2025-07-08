@@ -8,7 +8,7 @@ use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\ForAuthorizedUserOnly;
 use CommerceWeavers\SyliusTpayPlugin\Validator\Constraint\ForAuthorizedUserOnlyValidator;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
