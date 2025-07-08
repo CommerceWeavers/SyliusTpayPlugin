@@ -12,6 +12,7 @@ return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('commerce_weavers_sylius_tpay.pay_by_link_channel_payment.form.type.gateway_configuration', GatewayConfigurationType::class)
+        ->parent('commerce_weavers_sylius_tpay.form.type.abstract_tpay_gateway_configuration')
         ->args([
             service('translator'),
         ])
