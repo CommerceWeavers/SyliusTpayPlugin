@@ -1,6 +1,6 @@
 {% if app.request().attributes.get('_route') == 'sylius_shop_checkout_complete' %}
-    {{ encore_entry_script_tags('commerce-weavers-sylius-tpay-shop-checkout-complete-entry', null, 'commerce_weavers_sylius_tpay_shop') }}
+    <script src="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/scripts/checkout-complete.js') }}"></script>
 {% endif %}
 {% if app.request().attributes.get('_route') == 'sylius_shop_order_show' %}
-    {{ encore_entry_script_tags('commerce-weavers-sylius-tpay-shop-order-show-entry', null, 'commerce_weavers_sylius_tpay_shop') }}
+    <script src="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/scripts/order-show.js') }}"></script>
 {% endif %}

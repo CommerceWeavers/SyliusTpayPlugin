@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Validator\Constraint;
 
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
@@ -15,11 +13,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 abstract class AbstractPayValidator extends ConstraintValidator
 {
     public const TYPE = 'type';
-
-    public function __construct(
-        private readonly CypherInterface $cypher,
-    ) {
-    }
 
     /**
      * @return array<string, mixed>|null
@@ -44,10 +37,6 @@ abstract class AbstractPayValidator extends ConstraintValidator
 
         if (null === $gatewayConfig) {
             return null;
-        }
-
-        if ($gatewayConfig instanceof CryptedInterface) {
-            $gatewayConfig->decrypt($this->cypher);
         }
 
         return $gatewayConfig->getConfig();

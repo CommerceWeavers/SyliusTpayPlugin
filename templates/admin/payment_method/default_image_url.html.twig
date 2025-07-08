@@ -1,0 +1,5 @@
+{% set form = get_hookable_context().form %}
+
+{% if form.defaultImageUrl is defined %}
+    {{ form_row(form.defaultImageUrl) }}
+{% endif %}

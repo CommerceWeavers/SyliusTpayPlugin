@@ -1,5 +1,0 @@
-{% set payment = order.lastCartPayment() %}
-
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_pbl'%}
-    {% include '@CommerceWeaversSyliusTpayPlugin/shop/payment/_payByLink.html.twig' %}
-{% endif %}

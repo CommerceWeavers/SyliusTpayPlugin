@@ -23,6 +23,8 @@ commerce_weavers_sylius_tpay:
             merchant_id: 'Merchant ID'
             notification_security_code: 'Security code (Notification)'
             test_connection: 'Test connection'
+            test_connection_success: 'Connection test successful'
+            test_connection_failure: 'Connection test failed'
             type:
                 apple_pay: 'Apple Pay'
                 blik: 'BLIK'
@@ -38,6 +40,7 @@ commerce_weavers_sylius_tpay:
                 default_image_url: 'Default logo Url'
     shop:
         credit_cards: 'Credit cards'
+        credit_cards.description: 'Browse and manage your saved cards'
         credit_card:
             brand: 'Brand'
             expiration_date: 'Expiration date'
@@ -84,7 +87,6 @@ commerce_weavers_sylius_tpay:
             title: 'Waiting for payment'
             we_are_waiting_for_payment: 'We are waiting for payment confirmation'
         pay:
-            regulations: 'Paying, <a href="%url%" target="blank">you accept the terms and conditions</a>.'
-            policy: 'The administrator of the personal data is Krajowy Integrator Płatności spółka akcyjna, based in Poznań. <a href="%url%" target="blank">Read the full content</a>.'
+            legal_info: 'Paying, <a href="%regulations_url%" target="blank">you accept the terms and conditions</a>. The administrator of the personal data is Krajowy Integrator Płatności spółka akcyjna, based in Poznań. <a href="%policy_url%" target="blank">Read the full content</a>.'
     tpay:
         transaction_description: 'Order #%orderNumber%'

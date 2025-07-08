@@ -11,17 +11,17 @@ use CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard\Exception\Bli
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Sylius\Calendar\Provider\DateTimeProviderInterface;
+use Symfony\Component\Clock\ClockInterface;
 
 final class ActiveBlikAliasPreconditionGuardTest extends TestCase
 {
     use ProphecyTrait;
 
-    private DateTimeProviderInterface|ObjectProphecy $dateTimeProvider;
+    private ClockInterface|ObjectProphecy $clock;
 
     protected function setUp(): void
     {
-        $this->dateTimeProvider = $this->prophesize(DateTimeProviderInterface::class);
+        $this->clock = $this->prophesize(ClockInterface::class);
     }
 
     public function test_it_throws_exception_if_blik_alias_is_not_registered(): void
@@ -39,7 +39,7 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
         $blikAlias = $this->prophesize(BlikAliasInterface::class);
         $blikAlias->isRegistered()->willReturn(true);
         $blikAlias->getExpirationDate()->willReturn(new \DateTimeImmutable('yesterday'));
-        $this->dateTimeProvider->now()->willReturn(new \DateTimeImmutable('today'));
+        $this->clock->now()->willReturn(new \DateTimeImmutable('today'));
 
         $this->expectException(BlikAliasExpiredException::class);
 
@@ -51,7 +51,7 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
         $blikAlias = $this->prophesize(BlikAliasInterface::class);
         $blikAlias->isRegistered()->willReturn(true);
         $blikAlias->getExpirationDate()->willReturn(new \DateTimeImmutable('tomorrow'));
-        $this->dateTimeProvider->now()->willReturn(new \DateTimeImmutable('today'));
+        $this->clock->now()->willReturn(new \DateTimeImmutable('today'));
 
         $this->expectNotToPerformAssertions();
 
@@ -60,6 +60,6 @@ final class ActiveBlikAliasPreconditionGuardTest extends TestCase
 
     private function createTestSubject(): ActiveBlikAliasPreconditionGuard
     {
-        return new ActiveBlikAliasPreconditionGuard($this->dateTimeProvider->reveal());
+        return new ActiveBlikAliasPreconditionGuard($this->clock->reveal());
     }
 }

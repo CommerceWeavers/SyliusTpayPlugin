@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Admin\PaymentMethod;
 
-use App\Entity\PaymentMethod;
 use Facebook\WebDriver\WebDriverBy;
+use TestApp\Entity\PaymentMethod;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginAdminUserTrait;
 
@@ -25,7 +25,7 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
 
     public function test_it_has_readonly_default_image_url_field(): void
     {
-        $defaultImageUrlField = $this->client->findElement(WebDriverBy::id('sylius_payment_method_defaultImageUrl'));
+        $defaultImageUrlField = $this->client->findElement(WebDriverBy::id('sylius_admin_payment_method_defaultImageUrl'));
 
         self::assertNotNull($defaultImageUrlField);
         self::assertSame('true', $defaultImageUrlField->getAttribute('readonly'));
@@ -33,7 +33,7 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
 
     public function test_it_allows_to_upload_image_for_payment_method(): void
     {
-        $uploadField = $this->client->findElement(WebDriverBy::id('sylius_payment_method_image_file'));
+        $uploadField = $this->client->findElement(WebDriverBy::id('sylius_admin_payment_method_image_file'));
 
         self::assertNotNull($uploadField);
         self::assertSame('file', $uploadField->getAttribute('type'));

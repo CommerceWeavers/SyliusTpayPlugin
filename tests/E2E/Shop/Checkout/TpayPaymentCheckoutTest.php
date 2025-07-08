@@ -55,7 +55,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Something went wrong with your payment | Web Channel');
         $this->assertSame(
             'Podany kod jest nieprawidłowy, bądź utracił ważność.',
-            $this->findElementByXpath("//div[contains(@class, 'message') and contains(@class, 'negative')]")->getText(),
+            $this->findElementByXpath("//div[contains(@class, 'alert') and contains(@class, 'alert-danger')]")->getText(),
         );
     }
 }

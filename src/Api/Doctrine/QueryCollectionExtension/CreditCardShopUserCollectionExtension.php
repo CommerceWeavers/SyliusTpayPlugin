@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryCollectionExtension;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\ContextAwareQueryCollectionExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface as LegacyQueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Entity\CreditCardInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
@@ -13,7 +14,7 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 
-final class CreditCardShopUserCollectionExtension implements ContextAwareQueryCollectionExtensionInterface
+final class CreditCardShopUserCollectionExtension implements QueryCollectionExtensionInterface
 {
     public function __construct(
         private readonly UserContextInterface $userContext,
@@ -23,9 +24,9 @@ final class CreditCardShopUserCollectionExtension implements ContextAwareQueryCo
 
     public function applyToCollection(
         QueryBuilder $queryBuilder,
-        LegacyQueryNameGeneratorInterface $queryNameGenerator,
+        QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        ?string $operationName = null,
+        ?Operation $operation = null,
         array $context = [],
     ): void {
         if (!is_a($resourceClass, CreditCardInterface::class, true)) {

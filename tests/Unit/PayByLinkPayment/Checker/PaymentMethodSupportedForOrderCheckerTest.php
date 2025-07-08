@@ -7,7 +7,6 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkPayment\Checker;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Checker\PaymentMethodSupportedForOrderChecker;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\GatewayName;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProviderInterface;
-use Payum\Core\Security\CypherInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -19,8 +18,6 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
 {
     use ProphecyTrait;
 
-    private CypherInterface|ObjectProphecy $cypher;
-
     private OrderAwareValidTpayChannelListProviderInterface|ObjectProphecy $orderAwareValidTpayChannelListProvider;
 
     private PaymentMethodInterface|ObjectProphecy $paymentMethod;
@@ -29,7 +26,6 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cypher = $this->prophesize(CypherInterface::class);
         $this->orderAwareValidTpayChannelListProvider = $this->prophesize(OrderAwareValidTpayChannelListProviderInterface::class);
         $this->paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $this->order = $this->prophesize(OrderInterface::class);
@@ -47,7 +43,7 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function test_it_returns_true_if_gateway_config_factory_name_is_not_pay_by_link(): void
+    public function test_it_returns_true_if_gateway_config_factory_name_is_not_pay_by_link_nor_pay_by_link_channel(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
         $this->paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
@@ -117,7 +113,6 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
     private function createTestSubject(): PaymentMethodSupportedForOrderChecker
     {
         return new PaymentMethodSupportedForOrderChecker(
-            $this->cypher->reveal(),
             $this->orderAwareValidTpayChannelListProvider->reveal(),
         );
     }

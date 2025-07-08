@@ -24,14 +24,8 @@ final class TpayGatewayConfigurationTypeTest extends TypeTestCase
 {
     use ProphecyTrait;
 
-    private DecryptGatewayConfigListenerInterface|ObjectProphecy $decryptGatewayConfigListener;
-
-    private EncryptGatewayConfigListenerInterface|ObjectProphecy $encryptGatewayConfigListener;
-
     protected function setUp(): void
     {
-        $this->decryptGatewayConfigListener = $this->prophesize(DecryptGatewayConfigListenerInterface::class);
-        $this->encryptGatewayConfigListener = $this->prophesize(EncryptGatewayConfigListenerInterface::class);
 
         parent::setUp();
     }
@@ -39,8 +33,6 @@ final class TpayGatewayConfigurationTypeTest extends TypeTestCase
     protected function getExtensions(): array
     {
         $formType = new TpayGatewayConfigurationType(
-            $this->decryptGatewayConfigListener->reveal(),
-            $this->encryptGatewayConfigListener->reveal(),
         );
 
         $validator = Validation::createValidator();
@@ -93,27 +85,10 @@ final class TpayGatewayConfigurationTypeTest extends TypeTestCase
         ], $productionModeField->getConfig()->getOption('choices'));
     }
 
-    public function test_event_listeners(): void
-    {
-        $form = $this->factory->create(TpayGatewayConfigurationType::class);
-
-        $listeners = $form->getConfig()->getEventDispatcher()->getListeners(FormEvents::PRE_SET_DATA);
-        $this->assertCount(1, $listeners);
-        $this->assertEquals($this->decryptGatewayConfigListener->reveal(), $listeners[0]);
-
-        $listeners = $form->getConfig()->getEventDispatcher()->getListeners(FormEvents::POST_SUBMIT);
-        // first listener is validation listener, not needed to test
-        $this->assertCount(2, $listeners);
-        $this->assertEquals($this->encryptGatewayConfigListener->reveal(), $listeners[1]);
-    }
-
     public function test_configure_options(): void
     {
         $resolver = new OptionsResolver();
-        $formType = new TpayGatewayConfigurationType(
-            $this->decryptGatewayConfigListener->reveal(),
-            $this->encryptGatewayConfigListener->reveal(),
-        );
+        $formType = new TpayGatewayConfigurationType();
         $formType->configureOptions($resolver);
 
         $options = $resolver->resolve();

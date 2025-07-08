@@ -1,0 +1,24 @@
+{% set order = get_hookable_context().resource %}
+{% set payment = order.lastCartPayment()|default(null) %}
+
+{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_visa_mobile' %}
+    {% set form = get_hookable_context().form.tpay %}
+
+    <div class="container mt-5 card border-0 bg-body-tertiary mb-3">
+        <div class="card-body" data-tpay-field-wrapper>
+            {{ form_label(form.visa_mobile_phone_number) }}
+            <div class="mt-2">
+                {{ form_widget(form.visa_mobile_phone_number, {
+                    'attr': {
+                        'data-validation-error-min-length': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.min_length'|trans({}, 'validators'),
+                        'data-validation-error-max-length': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.max_length'|trans({}, 'validators'),
+                        'data-validation-error-required': 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.required'|trans({}, 'validators'),
+                        'data-visa-mobile-phone-number': null,
+                    }
+                }) }}
+            </div>
+            {{ form_errors(form.visa_mobile_phone_number) }}
+            <div data-tpay-error-container></div>
+        </div>
+    </div>
+{% endif %}

@@ -7,7 +7,9 @@ export class CardForm {
   #savedCardsSelect;
   #cardDataContainer;
   #cardNumber;
-  #cardOperatorIcon;
+  #cardOperatorVisaIcon;
+  #cardOperatorMastercardIcon;
+  #cardOperatorDefaultIcon;
   #cardsApi;
   #cvc;
   #encryptedCard;
@@ -20,7 +22,9 @@ export class CardForm {
     this.#savedCardsSelect = this.#form.querySelector('[data-tpay-saved-card]');
     this.#cardDataContainer = this.#form.querySelector('[data-tpay-card-data]');
     this.#cardNumber = this.#form.querySelector('[data-tpay-card-number]');
-    this.#cardOperatorIcon = this.#form.querySelector('[data-tpay-card-operator-icon]');
+    this.#cardOperatorVisaIcon = this.#form.querySelector('[data-tpay-card-operator-icon] > [data-card-visa]');
+    this.#cardOperatorMastercardIcon = this.#form.querySelector('[data-tpay-card-operator-icon] > [data-card-mastercard]');
+    this.#cardOperatorDefaultIcon = this.#form.querySelector('[data-tpay-card-operator-icon] > [data-card-default]');
     this.#cardsApi = this.#form.querySelector('[data-tpay-cards-api]');
     this.#cvc = this.#form.querySelector('[data-tpay-cvc]');
     this.#encryptedCard = this.#form.querySelector('[data-tpay-encrypted-card]');
@@ -220,22 +224,26 @@ export class CardForm {
 
   #updateCardOperatorIcon() {
     if (this.#isVisaCard()) {
-      this.#cardOperatorIcon.classList.add('cc');
-      this.#cardOperatorIcon.classList.add('visa');
+      this.#cardOperatorVisaIcon.classList.remove('d-none');
+      this.#cardOperatorMastercardIcon.classList.add('d-none');
+      this.#cardOperatorDefaultIcon.classList.add('d-none');
 
       return;
     }
 
     if (this.#isMasterCard()) {
-      this.#cardOperatorIcon.classList.add('cc');
-      this.#cardOperatorIcon.classList.add('mastercard');
+      this.#cardOperatorMastercardIcon.classList.remove('d-none');
+
+      this.#cardOperatorVisaIcon.classList.add('d-none');
+      this.#cardOperatorDefaultIcon.classList.add('d-none');
 
       return;
     }
 
-    this.#cardOperatorIcon.classList.remove('cc');
-    this.#cardOperatorIcon.classList.remove('visa');
-    this.#cardOperatorIcon.classList.remove('mastercard');
+    this.#cardOperatorDefaultIcon.classList.remove('d-none');
+
+    this.#cardOperatorVisaIcon.classList.add('d-none');
+    this.#cardOperatorMastercardIcon.classList.add('d-none');
   }
 
   #updateCardDataVisibility() {

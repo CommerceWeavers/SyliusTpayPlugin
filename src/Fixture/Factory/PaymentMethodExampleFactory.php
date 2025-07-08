@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Fixture\Factory;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\PaymentMethodImageAwareInterface;
-use Payum\Core\Security\CryptedInterface;
-use Payum\Core\Security\CypherInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\PaymentMethodExampleFactory as BasePaymentMethodExampleFactory;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Factory\PaymentMethodFactoryInterface;
@@ -17,10 +15,7 @@ use Webmozart\Assert\Assert;
 
 final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 {
-    public const TPAY_BASED_PAYMENT_METHOD_PREFIX = 'tpay';
-
     public function __construct(
-        private readonly CypherInterface $cypher,
         PaymentMethodFactoryInterface $paymentMethodFactory,
         RepositoryInterface $localeRepository,
         ChannelRepositoryInterface $channelRepository,
@@ -31,10 +26,7 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 
     public function create(array $options = []): PaymentMethodInterface
     {
-        /** @var PaymentMethodInterface|mixed $paymentMethod */
         $paymentMethod = parent::create($options);
-
-        Assert::isInstanceOf($paymentMethod, PaymentMethodInterface::class);
 
         if (isset($options['defaultImageUrl']) && $paymentMethod instanceof PaymentMethodImageAwareInterface) {
             $paymentMethod->setDefaultImageUrl($options['defaultImageUrl']);
@@ -42,14 +34,6 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 
         $gatewayConfig = $paymentMethod->getGatewayConfig();
         Assert::notNull($gatewayConfig);
-
-        if (!str_starts_with($gatewayConfig->getGatewayName(), self::TPAY_BASED_PAYMENT_METHOD_PREFIX)) {
-            return $paymentMethod;
-        }
-
-        if ($gatewayConfig instanceof CryptedInterface) {
-            $gatewayConfig->encrypt($this->cypher);
-        }
 
         return $paymentMethod;
     }

@@ -1,14 +1,14 @@
 imports:
     - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
-
+    - { resource: "@SyliusPayumBundle/Resources/config/app/config.yaml" }
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
+    - { resource: "@SyliusRefundPlugin/config/config.yaml" }
+
+    - { resource: '@CommerceWeaversSyliusTpayPlugin/config/config.php' }
 
 parameters:
-    env(STATE_MACHINE_DEFAULT_ADAPTER): 'winzou_state_machine'
     sylius_core.public_dir: '%kernel.project_dir%/public'
 
 sylius_shop:
@@ -22,11 +22,11 @@ sylius_order:
     resources:
         order:
             classes:
-                model: App\Entity\Order
+                model: TestApp\Entity\Order
 
 sylius_payment:
     resources:
         payment_method:
             classes:
-                repository: App\Repository\PaymentMethodRepository
-                model: App\Entity\PaymentMethod
+                repository: TestApp\Repository\PaymentMethodRepository
+                model: TestApp\Entity\PaymentMethod

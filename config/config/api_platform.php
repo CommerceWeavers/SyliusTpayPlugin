@@ -11,6 +11,7 @@ use CommerceWeavers\SyliusTpayPlugin\Api\Factory\Exception\UnresolvableNextComma
 use CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard\Exception\BlikAliasExpiredException;
 use CommerceWeavers\SyliusTpayPlugin\BlikPayment\PreconditionGuard\Exception\BlikAliasNotRegisteredException;
 use CommerceWeavers\SyliusTpayPlugin\Payment\Exception\PaymentCannotBeCancelledException;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\Exception\BankNotSelectedException;
 
 return function(ContainerConfigurator $configurator): void {
     $configurator->extension('api_platform', [
@@ -22,10 +23,13 @@ return function(ContainerConfigurator $configurator): void {
             BlikAliasAmbiguousValueException::class => 400,
             BlikAliasExpiredException::class => 400,
             BlikAliasNotRegisteredException::class => 400,
+            BankNotSelectedException::class => 424,
         ],
         'mapping' => [
             'paths' => [
-                dirname(__DIR__) . '/api_resources',
+                dirname(__DIR__) . '/api_platform',
+                dirname(__DIR__) . '/../src/Api/Exception/',
+                dirname(__DIR__) . '/../src/Tpay/Factory/Exception/',
             ],
         ],
     ]);

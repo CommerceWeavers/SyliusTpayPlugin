@@ -1,5 +1,0 @@
-{% if method.gatewayConfig.gatewayName == 'tpay_visa_mobile' and form.vars.value.state != 'cart' %}
-    <div class="ui stackable grid" style="display: none;" data-payment-details="visa_mobile">
-        {% include '@CommerceWeaversSyliusTpayPlugin/shop/payment/_visaMobile.html.twig' %}
-    </div>
-{% endif %}

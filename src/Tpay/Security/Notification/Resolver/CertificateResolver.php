@@ -9,6 +9,15 @@ final class CertificateResolver implements CertificateResolverInterface
     public function resolve(string $x5u): string
     {
         $ch = curl_init();
+
+        if (false === $ch) {
+            throw new \RuntimeException('Failed to initialize cURL');
+        }
+
+        if ('' === $x5u) {
+            throw new \RuntimeException('URL cannot be empty');
+        }
+
         curl_setopt($ch, \CURLOPT_URL, $x5u);
         curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);

@@ -6,7 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -23,13 +22,6 @@ final class CommerceWeaversSyliusTpayExtension extends AbstractResourceExtension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.php');
-
-        /** @var string $environment */
-        $environment = $container->getParameter('kernel.environment');
-
-        if (str_starts_with($environment, 'test')) {
-            $loader->load('services_test.php');
-        }
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -112,8 +104,8 @@ final class CommerceWeaversSyliusTpayExtension extends AbstractResourceExtension
 
     private function getCurrentConfiguration(ContainerBuilder $container): array
     {
-        /** @var ConfigurationInterface $configuration */
         $configuration = $this->getConfiguration([], $container);
+        assert($configuration !== null);
 
         $configs = $container->getExtensionConfig($this->getAlias());
 

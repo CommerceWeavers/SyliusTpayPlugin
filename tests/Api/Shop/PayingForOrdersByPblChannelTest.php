@@ -104,7 +104,7 @@ final class PayingForOrdersByPblChannelTest extends JsonApiTestCase
     {
         $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
 
-        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_pbl_channel');
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_pbl_channel_error');
 
         $this->client->request(
             Request::METHOD_POST,

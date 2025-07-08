@@ -11,63 +11,67 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\CommerceWeavers\\SyliusTpayPlugin\\": "tests/",
-            "App\\": "tests/Application/src/"
+            "TestApp\\": "tests/Application/src/"
         }
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-curl": "*",
         "defuse/php-encryption": "^2.4",
         "firebase/php-jwt": "^6.10",
+        "nyholm/psr7": "^1.8",
         "payum/core": "^1.7",
-        "sylius/core-bundle": "^1.12",
-        "sylius/api-bundle": "^1.12",
-        "sylius/resource-bundle": "^1.10",
-        "symfony/config": "5.4.* || 6.4.*",
-        "symfony/dependency-injection": "5.4.* || 6.4.*",
-        "symfony/form": "5.4.* || 6.4.*",
-        "symfony/http-foundation": "5.4.* || 6.4.*",
-        "symfony/http-kernel": "5.4.* || 6.4.*",
-        "symfony/routing": "5.4.* || 6.4.*",
-        "symfony/uid": "5.4.* || 6.4.*",
+        "sylius/api-bundle": "^2.0",
+        "sylius/core-bundle": "^2.0",
+        "sylius/resource-bundle": "^1.12",
+        "symfony/config": "6.4.* || ^7.0",
+        "symfony/dependency-injection": "6.4.* || ^7.0",
+        "symfony/form": "6.4.* || ^7.0",
+        "symfony/http-foundation": "6.4.* || ^7.0",
+        "symfony/http-kernel": "6.4.* || ^7.0",
+        "symfony/routing": "6.4.* || ^7.0",
+        "symfony/uid": "6.4.* || ^7.0",
         "tpay-com/tpay-openapi-php": "^1.8"
-    },
-    "conflict": {
-        "sylius/sylius": "<1.12"
     },
     "require-dev": {
         "ext-openssl": "*",
         "coduo/php-matcher": "^6.0",
         "dbrekelmans/bdi": "^1.3",
+        "knplabs/knp-snappy-bundle": "^1.10",
         "lchrusciel/api-test-case": "^5.3",
         "phpspec/prophecy-phpunit": "^2.2",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^1.8.1",
-        "phpstan/phpstan-doctrine": "1.3.37",
-        "phpstan/phpstan-strict-rules": "^1.3.0",
-        "phpstan/phpstan-symfony": "^1.4",
-        "phpstan/phpstan-webmozart-assert": "^1.2.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpstan/phpstan-webmozart-assert": "^2.0",
         "phpunit/phpunit": "^9.5",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "shipmonk/composer-dependency-analyser": "^1.7",
         "sylius-labs/coding-standard": "^4.2",
-        "sylius/refund-plugin": "^1.5",
-        "sylius/sylius": "^1.12",
-        "symfony/browser-kit": "^5.4 || 6.4.*",
-        "symfony/debug-bundle": "^5.4 || 6.4.*",
-        "symfony/dotenv": "^5.4 || 6.4.*",
+        "sylius/refund-plugin": "^2.0",
+        "sylius/sylius": "^2.0",
+        "symfony/browser-kit": "6.4.* || ^7.0",
+        "symfony/debug-bundle": "6.4.* || ^7.0",
+        "symfony/dotenv": "6.4.* || ^7.0",
         "symfony/flex": "^2.4",
-        "symfony/intl": "^5.4 || 6.4.*",
+        "symfony/intl": "6.4.* || ^7.0",
         "symfony/monolog-bundle": "^3.10",
         "symfony/panther": "^2.1",
-        "symfony/runtime": "5.4.* || 6.4.*",
-        "symfony/web-profiler-bundle": "^5.4 || 6.4.*",
-        "theofidry/alice-data-fixtures": "^1.6"
+        "symfony/runtime": "6.4.* || ^7.0",
+        "symfony/web-profiler-bundle": "6.4.* || ^7.0",
+        "theofidry/alice-data-fixtures": "^1.6",
+        "winzou/state-machine-bundle": "^0.6.2"
+    },
+    "conflict": {
+        "api-platform/state": "< 4.1.17"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "symfony/flex": true,
             "symfony/runtime": true
@@ -75,22 +79,13 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.1-dev"
+            "dev-main": "3.0-dev"
         },
         "symfony": {
             "require": "6.4.*"
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "php bin/create_node_symlink.php"
-        ],
-        "post-update-cmd": [
-            "php bin/create_node_symlink.php"
-        ],
-        "post-create-project-cmd": [
-            "php bin/create_node_symlink.php"
-        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",

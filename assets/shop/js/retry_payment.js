@@ -1,4 +1,4 @@
-function disableAllPaymentDetails() {
+function hideAllPaymentDetails() {
   document.querySelectorAll('[data-payment-details]').forEach((element) => element.style.display = 'none');
   document.querySelectorAll('[data-payment-details] input, [data-payment-details] select, [data-payment-details] textarea, [data-payment-details] button')
     .forEach(function(element) {
@@ -6,46 +6,37 @@ function disableAllPaymentDetails() {
     });
 }
 
-function enablePaymentDetails(element) {
-  element.style.display = '';
-  element.querySelectorAll('input, select, textarea, button')
+function showPaymentDetails(paymentCode) {
+  document.querySelectorAll(`[data-payment-details="${paymentCode}"]`).forEach((element) => element.style.display = 'block');
+  document.querySelectorAll(`[data-payment-details="${paymentCode}"] input, [data-payment-details="${paymentCode}"] select, [data-payment-details="${paymentCode}"] textarea, [data-payment-details="${paymentCode}"] button`)
     .forEach(function(element) {
       element.disabled = false;
     });
-
-  // many PBL payment methods support
-  const channelIdDataElement = element.querySelector('[data-channel-id-name]');
-  if (channelIdDataElement !== null) {
-    const channelIdInputName = channelIdDataElement.getAttribute('data-channel-id-name');
-    const channelIdInput = document.querySelector(`[name="${channelIdInputName}"]`);
-    channelIdInput.disabled = false;
-    channelIdInput.value = channelIdDataElement.getAttribute('data-channel-id-value');
-  }
 }
 
-function resolvePaymentDetailsFromPaymentMethodRadioButton(radioButton) {
-  return radioButton.parentElement.parentElement.parentElement.querySelector('[data-payment-details]');
+function resetPaymentDetails() {
+  hideAllPaymentDetails();
+
+  const form = document.querySelector('[name="sylius_checkout_select_payment"]');
+  const checkedPaymentCode = form.querySelector('input[type="radio"]:checked').value;
+
+  showPaymentDetails(checkedPaymentCode);
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  disableAllPaymentDetails();
+  resetPaymentDetails();
 
-  const checkedCheckboxElement = $('input[type=radio]:checked')[0];
-  if (checkedCheckboxElement !== undefined) {
-    const paymentDetailsForm = resolvePaymentDetailsFromPaymentMethodRadioButton(checkedCheckboxElement);
+  const form = document.querySelector('[name="sylius_checkout_select_payment"]');
 
-    if (paymentDetailsForm) {
-      enablePaymentDetails(paymentDetailsForm);
-    }
-  }
+  form.querySelectorAll('input[type="radio"]').forEach((element) => {
+    element.addEventListener('change', (event) => {
+      hideAllPaymentDetails();
 
-  $('input[type=radio]').change(function(event) {
-    disableAllPaymentDetails();
+      const form = document.querySelector('[name="sylius_checkout_select_payment"]');
+      const checkedPaymentCode = form.querySelector('input[type="radio"]:checked').value;
 
-    const paymentDetailsForm = resolvePaymentDetailsFromPaymentMethodRadioButton(event.target);
-
-    if (paymentDetailsForm) {
-      enablePaymentDetails(paymentDetailsForm);
-    }
-  });
+      showPaymentDetails(checkedPaymentCode);
+    })
+  })
 });

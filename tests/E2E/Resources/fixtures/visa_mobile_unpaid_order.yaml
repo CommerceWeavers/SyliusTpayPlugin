@@ -114,19 +114,19 @@ Sylius\Component\Product\Model\ProductOptionValueTranslation:
         value: 'Red'
         translatable: '@product_option_value_color_red'
 
-App\Entity\Order:
+TestApp\Entity\Order:
     unpaid_order:
         number: '000000001'
         tokenValue: 'tokenValue1'
         channel: '@channel_web'
         currencyCode: 'USD'
         localeCode: 'en_US'
-        customer: '@customer_tony'
+        customerWithAuthorization: '@customer_tony'
         state: 'new'
         checkoutState: 'completed'
         paymentState: 'awaiting_payment'
         shippingState: 'ready'
-        createdByGuest: false
+        
         shippingAddress: '@address_tony'
         billingAddress: '@address_tony'
         __calls:

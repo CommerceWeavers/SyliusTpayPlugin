@@ -25,7 +25,7 @@ final class OrderAwareValidTpayChannelListProvider implements OrderAwareValidTpa
                 $constraintValue = $constraint['value'] ?? null;
                 $constraintType = $constraint['type'] ?? null;
 
-                if ('amount' !== $constraintField || null == $constraintValue || null === $constraintType) {
+                if ('amount' !== $constraintField || null === $constraintValue || null === $constraintType) {
                     continue;
                 }
 

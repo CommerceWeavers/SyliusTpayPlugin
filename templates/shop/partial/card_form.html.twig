@@ -1,0 +1,98 @@
+<div class="mt-5 card border-1 bg-body-tertiary mb-3">
+    <div class="card-body">
+        {% if form.tpay.use_saved_credit_card is defined %}
+            <div class="mb-3" data-tpay-field>
+                {{ form_label(form.tpay.use_saved_credit_card, null, {'label_attr': {'class': 'form-label'}}) }}
+                <div class="input-group">
+                    {{ form_widget(form.tpay.use_saved_credit_card, {
+                        attr: {
+                            'data-tpay-saved-card': '',
+                            'class': 'form-control'
+                        }
+                    }) }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div data-tpay-card-data>
+            <div class="mb-3" data-tpay-field>
+                {{ form_label(form.tpay.card.number, null, {'label_attr': {'class': 'form-label required'}}) }}
+                <div class="input-group">
+                    {{ form_widget(form.tpay.card.number, {
+                        attr: {
+                            'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.card.number'|trans({}, 'validators'),
+                            'data-tpay-card-number': '',
+                            'class': 'form-control'
+                        },
+                    }) }}
+                    <span class="input-group-text" data-tpay-card-operator-icon>
+                        <span class="d-none" data-card-visa>
+                            {{ ux_icon('tabler:brand-visa') }}
+                        </span>
+                        <span class="d-none" data-card-mastercard>
+                            {{ ux_icon('tabler:brand-mastercard') }}
+                        </span>
+                        <span data-card-default>
+                            {{ ux_icon('tabler:credit-card') }}
+                        </span>
+                    </span>
+                </div>
+                <div data-tpay-error-container class="invalid-feedback"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4" data-tpay-field>
+                    {{ form_row(form.tpay.card.cvv, {
+                        attr: {
+                            'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.card.cvc'|trans({}, 'validators'),
+                            'data-tpay-cvc': '',
+                            'class': 'form-control'
+                        },
+                        label_attr: {'class': 'form-label'}
+                    }) }}
+                    <div data-tpay-error-container class="invalid-feedback"></div>
+                </div>
+                <div class="col-md-4" data-tpay-field>
+                    {{ form_row(form.tpay.card.expiration_date_month, {
+                        attr: {
+                            'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.card.expiration_month'|trans({}, 'validators'),
+                            'data-tpay-expiration-month': '',
+                            'class': 'form-control'
+                        },
+                        label_attr: {'class': 'form-label'}
+                    }) }}
+                    <div data-tpay-error-container class="invalid-feedback"></div>
+                </div>
+                <div class="col-md-4" data-tpay-field>
+                    {{ form_row(form.tpay.card.expiration_date_year, {
+                        attr: {
+                            'data-validation-error': 'commerce_weavers_sylius_tpay.shop.pay.card.expiration_year'|trans({}, 'validators'),
+                            'data-tpay-expiration-year': '',
+                            'class': 'form-control'
+                        },
+                        label_attr: {'class': 'form-label'}
+                    }) }}
+                    <div data-tpay-error-container class="invalid-feedback"></div>
+                </div>
+                {% if form.tpay.save_credit_card_for_later is defined %}
+                    <div class="col-12" data-tpay-save-card data-tpay-field>
+                        {{ form_row(form.tpay.save_credit_card_for_later, {
+                            label_attr: {'class': 'form-check-label'},
+                            attr: {'class': 'form-check-input'}
+                        }) }}
+                        <div data-tpay-error-container class="invalid-feedback"></div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {{ form_row(form.tpay.card.card, { attr: {'data-tpay-encrypted-card': '' } }) }}
+
+            <input
+                type="hidden"
+                value="{{ cw_tpay_get_gateway_config_value(method.gatewayConfig, 'cards_api') }}"
+                disabled
+                data-tpay-cards-api
+            />
+        </div>
+    </div>
+</div>

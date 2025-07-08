@@ -1,7 +1,0 @@
-{% set payment = order.lastCartPayment() %}
-
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_card' %}
-    <div class="ui stackable grid">
-        {% include '@CommerceWeaversSyliusTpayPlugin/shop/payment/_card.html.twig' with {'method': payment.method} %}
-    </div>
-{% endif %}

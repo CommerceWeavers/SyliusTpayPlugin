@@ -9,6 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 return function(ContainerConfigurator $container, ContainerBuilder $containerBuilder): void {
     $kernelBundles = $containerBuilder->getParameter('kernel.bundles');
 
+    if (!isset($kernelBundles['winzouStateMachineBundle'])) {
+        return;
+    }
+
     $container->extension('winzou_state_machine', [
         'sylius_payment' => [
             'callbacks' => [
@@ -23,7 +27,7 @@ return function(ContainerConfigurator $container, ContainerBuilder $containerBui
         ],
     ]);
 
-    if (isset($kernelBundles['SyliusRefundPlugin']) && $kernelBundles['winzouStateMachineBundle']) {
+    if (isset($kernelBundles['SyliusRefundPlugin'])) {
         $container->extension('winzou_state_machine', [
             'sylius_refund_refund_payment' => [
                 'callbacks' => [

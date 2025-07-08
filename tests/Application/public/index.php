@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Kernel;
+use TestApp\Kernel;
 use Tpay\OpenApi\Utilities\Logger;
 
 $_SERVER['APP_RUNTIME_OPTIONS'] = [

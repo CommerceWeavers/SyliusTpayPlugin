@@ -11,6 +11,8 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateBlikLevelZeroPaymentPayl
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateGooglePayPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateInitializeApplePayPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateInitializeApplePayPaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactory;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkChannelPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreatePayByLinkPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactory;
@@ -85,6 +87,13 @@ return static function(ContainerConfigurator $container): void {
             service('translator'),
         ])
         ->alias(CreateRedirectBasedPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_channel_payment_payload', CreatePayByLinkChannelPayloadFactory::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+        ])
+        ->alias(CreatePayByLinkChannelPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_channel_payment_payload')
     ;
 
     $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_payment_payload', CreatePayByLinkPayloadFactory::class)

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 
+                              https://api-platform.com/schema/metadata/resources-3.0.xsd">
+
+    <resource class="%sylius.model.order.class%">
+        <operations>
+            <operation name="shop_pay" 
+                       class="ApiPlatform\Metadata\Post" 
+                       uriTemplate="/shop/orders/{tokenValue}/pay"
+                       messenger="input"
+                       input="CommerceWeavers\SyliusTpayPlugin\Api\Command\Pay"
+                       status="200">
+                <uriVariables>
+                    <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
+                </uriVariables>
+                <denormalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                            </values>
+                        </value>
+                    </values>
+                </denormalizationContext>
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:pay_result</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+                <validationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
+                            </values>
+                        </value>
+                    </values>
+                </validationContext>
+                <openapi summary="Pays for the order."/>
+            </operation>
+
+            <operation name="shop_initialize_apple_pay_session" 
+                       class="ApiPlatform\Metadata\Post" 
+                       uriTemplate="/shop/orders/{tokenValue}/payments/{paymentId}/apple-pay-session"
+                       messenger="input"
+                       input="CommerceWeavers\SyliusTpayPlugin\Api\Command\InitializeApplePaySession"
+                       status="201">
+                <uriVariables>
+                    <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
+                    <uriVariable parameterName="paymentId" fromClass="%sylius.model.payment.class%" fromProperty="order"/>
+                </uriVariables>
+                <denormalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</value>
+                            </values>
+                        </value>
+                    </values>
+                </denormalizationContext>
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session_result</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+                <validationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:payment:initialize_apple_pay_session</value>
+                            </values>
+                        </value>
+                    </values>
+                </validationContext>
+                <openapi summary="Initializes Apple Pay payment session."/>
+            </operation>
+
+            <operation name="shop_cancel_last_payment" 
+                       class="ApiPlatform\Metadata\Patch" 
+                       uriTemplate="/shop/orders/{tokenValue}/cancel-last-payment"
+                       messenger="input"
+                       input="CommerceWeavers\SyliusTpayPlugin\Command\CancelLastPayment"
+                       output="false"
+                       read="false"
+                       status="200">
+                <uriVariables>
+                    <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
+                </uriVariables>
+                <denormalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:cancel_last_payment</value>
+                            </values>
+                        </value>
+                    </values>
+                </denormalizationContext>
+                <validationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>commerce_weavers_sylius_tpay:shop:order:cancel_last_payment</value>
+                            </values>
+                        </value>
+                    </values>
+                </validationContext>
+                <openapi summary="Cancels the last in-progress payment for the order."/>
+            </operation>
+        </operations>
+    </resource>
+</resources>

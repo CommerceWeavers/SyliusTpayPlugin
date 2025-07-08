@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use TestApp\Kernel;
 
 if (!is_dir(dirname(__DIR__, 3).'/vendor')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');

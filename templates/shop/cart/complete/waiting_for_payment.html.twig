@@ -1,14 +1,14 @@
-{% extends '@SyliusShop/layout.html.twig' %}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
 
 {% block title %}{{ 'commerce_weavers_sylius_tpay.shop.waiting_for_payment.title'|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <h1 class="ui center aligned huge header">
+    <h1 class="text-center display-6 mt-5">
         {{ 'commerce_weavers_sylius_tpay.shop.waiting_for_payment.we_are_waiting_for_payment'|trans }}
     </h1>
 
-    <div class="ui basic segment">
-        <img class="ui centered image" src="{{ asset('build/commerce-weavers/tpay/shop/images/hourglass.gif', 'commerce_weavers_sylius_tpay_shop') }}" />
+    <div class="py-5">
+        <img class="img-fluid d-block mx-auto" src="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/images/hourglass.gif') }}" alt="Waiting for payment" />
     </div>
 
     <meta http-equiv="refresh" content="{{ refreshInterval }}">

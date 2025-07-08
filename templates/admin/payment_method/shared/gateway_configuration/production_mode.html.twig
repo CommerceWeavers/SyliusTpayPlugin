@@ -1,0 +1,5 @@
+{% set form = get_hookable_context().form %}
+
+<div class="col-md-6">
+    {{ form_row(form.gatewayConfig.config.production_mode, { attr: { 'data-gateway-config-production-mode': null } }) }}
+</div>

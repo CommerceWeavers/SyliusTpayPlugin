@@ -23,6 +23,8 @@ commerce_weavers_sylius_tpay:
             merchant_id: 'Merchant ID'
             notification_security_code: 'Kod bezpieczeństwa (Powiadomienia)'
             test_connection: 'Testuj połączenie'
+            test_connection_success: 'Test połączenia zakończony powodzeniem'
+            test_connection_failure: 'Test połączenia zakończony niepowodzeniem'
             type:
                 apple_pay: 'Apple Pay'
                 blik: 'BLIK'
@@ -38,6 +40,7 @@ commerce_weavers_sylius_tpay:
                 default_image_url: 'Url do Domyślnego logo płatności'
     shop:
         credit_cards: 'Karty kredytowe'
+        credit_cards.description: 'Przeglądaj i zarządzaj zapisanymi kartami kredytowymi'
         credit_card:
             brand: 'Marka'
             expiration_date: 'Data ważności'
@@ -84,7 +87,6 @@ commerce_weavers_sylius_tpay:
             title: 'Oczekiwanie na płatność'
             we_are_waiting_for_payment: 'Oczekujemy na potwierdzenie płatności'
         pay:
-            regulations: 'Płacąc, <a href="%url%" target="blank">akceptujesz regulamin</a>.'
-            policy: 'Administratorem danych osobowych jest Krajowy Integrator Płatności spółka akcyjna z siedzibą w Poznaniu. <a href="%url%" target="blank">Czytaj więcej</a>.'
+            legal_info: 'Płacąc, <a href="%regulations_url%" target="blank">akceptujesz regulamin</a>. Administratorem danych osobowych jest Krajowy Integrator Płatności spółka akcyjna z siedzibą w Poznaniu. <a href="%policy_url%" target="blank">Czytaj więcej</a>.'
     tpay:
         transaction_description: 'Order #%orderNumber%'

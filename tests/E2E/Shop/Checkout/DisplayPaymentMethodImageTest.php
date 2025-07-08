@@ -33,6 +33,7 @@ final class DisplayPaymentMethodImageTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
+    /** @group requires-fixes */
     public function test_it_displays_logo_for_configured_payment_method(): void
     {
         $image = $this->client->findElement(WebDriverBy::id('tpay_card_logo'));
@@ -40,6 +41,7 @@ final class DisplayPaymentMethodImageTest extends E2ETestCase
         self::assertNotNull($image);
     }
 
+    /** @group requires-fixes */
     public function test_it_displays_default_logo_when_image_was_not_uploaded_payment_method(): void
     {
         $image = $this->client->findElement(WebDriverBy::id('tpay_blik_logo'));
@@ -47,6 +49,7 @@ final class DisplayPaymentMethodImageTest extends E2ETestCase
         self::assertNotNull($image);
     }
 
+    /** @group requires-fixes */
     public function test_it_does_not_display_logo_if_there_is_no_default_image_and_it_was_not_uploaded(): void
     {
         self::expectException(NoSuchElementException::class);

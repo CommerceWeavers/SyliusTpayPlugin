@@ -25,7 +25,7 @@
     <php>
         <ini name="error_reporting" value="-1" />
 
-        <server name="KERNEL_CLASS" value="\App\Kernel" />
+        <server name="KERNEL_CLASS" value="\TestApp\Kernel" />
         <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
         <server name="PANTHER_ERROR_SCREENSHOT_DIR" value="tests/Application/var/panther" />
         <server name="PANTHER_WEB_SERVER_DIR" value="./tests/Application/public" />

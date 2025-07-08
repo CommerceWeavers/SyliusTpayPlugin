@@ -104,9 +104,11 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        $chooseShippingMethodCommand = new ChooseShippingMethod($shippingMethodCode);
-        $chooseShippingMethodCommand->setOrderTokenValue($tokenValue);
-        $chooseShippingMethodCommand->setSubresourceId($subresourceId);
+        $chooseShippingMethodCommand = new ChooseShippingMethod(
+            $tokenValue,
+            $subresourceId,
+            $shippingMethodCode
+        );
 
         $envelope = $this->commandBus->dispatch($chooseShippingMethodCommand);
 
@@ -119,9 +121,11 @@ trait OrderPlacerTrait
         ?string $subresourceId = null,
     ): OrderInterface
     {
-        $choosePaymentMethodCommand = new ChoosePaymentMethod($paymentMethodCode);
-        $choosePaymentMethodCommand->setOrderTokenValue($tokenValue);
-        $choosePaymentMethodCommand->setSubresourceId($subresourceId);
+        $choosePaymentMethodCommand = new ChoosePaymentMethod(
+            $tokenValue,
+            $subresourceId,
+            $paymentMethodCode
+        );
 
         $envelope = $this->commandBus->dispatch($choosePaymentMethodCommand);
 
@@ -132,8 +136,7 @@ trait OrderPlacerTrait
         string $tokenValue,
     ): OrderInterface
     {
-        $completeOrderCommand = new CompleteOrder();
-        $completeOrderCommand->setOrderTokenValue($tokenValue);
+        $completeOrderCommand = new CompleteOrder($tokenValue);
         $envelope = $this->commandBus->dispatch($completeOrderCommand);
 
         return $envelope->last(HandledStamp::class)->getResult();
@@ -146,10 +149,8 @@ trait OrderPlacerTrait
         $order = $this->orderRepository->findOneByTokenValue($tokenValue);
         Assert::notNull($order);
 
-        $stateMachineFactory = self::getContainer()->get('sm.factory');
-
-        $stateMachine = $stateMachineFactory->get($order, OrderTransitions::GRAPH);
-        $stateMachine->apply(OrderTransitions::TRANSITION_CANCEL);
+        $stateMachine = self::getContainer()->get('sylius_abstraction.state_machine');
+        $stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CANCEL);
 
         $objectManager->flush();
     }
@@ -158,13 +159,9 @@ trait OrderPlacerTrait
     {
         $objectManager = self::getContainer()->get('doctrine.orm.entity_manager');
 
-        $stateMachineFactory = self::getContainer()->get('sm.factory');
-
-        $orderStateMachine = $stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH);
-        $orderStateMachine->apply(OrderPaymentTransitions::TRANSITION_PAY);
-
-        $paymentStateMachine = $stateMachineFactory->get($order->getLastPayment(), PaymentTransitions::GRAPH);
-        $paymentStateMachine->apply(PaymentTransitions::TRANSITION_COMPLETE);
+        $stateMachine = self::getContainer()->get('sylius_abstraction.state_machine');
+        $stateMachine->apply($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PAY);
+        $stateMachine->apply($order->getLastPayment(), PaymentTransitions::GRAPH, PaymentTransitions::TRANSITION_COMPLETE);
 
         $objectManager->flush();
 
@@ -187,8 +184,7 @@ trait OrderPlacerTrait
 
     protected function pickUpCart(string $tokenValue = 'nAWw2jewpA', string $channelCode = 'WEB'): string
     {
-        $pickupCartCommand = new PickupCart($tokenValue);
-        $pickupCartCommand->setChannelCode($channelCode);
+        $pickupCartCommand = new PickupCart($channelCode, 'en_US', null, $tokenValue);
 
         $this->commandBus->dispatch($pickupCartCommand);
 
@@ -197,8 +193,7 @@ trait OrderPlacerTrait
 
     protected function addItemToCart(string $productVariantCode, int $quantity, string $tokenValue): string
     {
-        $addItemToCartCommand = new AddItemToCart($productVariantCode, $quantity);
-        $addItemToCartCommand->setOrderTokenValue($tokenValue);
+        $addItemToCartCommand = new AddItemToCart($tokenValue, $productVariantCode, $quantity);
 
         $this->commandBus->dispatch($addItemToCartCommand);
 
@@ -226,8 +221,7 @@ trait OrderPlacerTrait
         $address->setCountryCode('US');
         $address->setPostcode('90000');
 
-        $updateCartCommand = new UpdateCart(email: $email, billingAddress: $address, couponCode: $couponCode);
-        $updateCartCommand->setOrderTokenValue($tokenValue);
+        $updateCartCommand = new UpdateCart($tokenValue, $email, $address, null, $couponCode);
 
         $envelope = $this->commandBus->dispatch($updateCartCommand);
 
@@ -260,10 +254,12 @@ trait OrderPlacerTrait
             $shippingMethodCode,
             (string)$cart->getShipments()->first()->getId(),
         );
+        $lastPayment = $cart->getLastPayment();
+        $paymentId = $lastPayment ? (string)$lastPayment->getId() : null;
         $this->dispatchPaymentMethodChooseCommand(
             $tokenValue,
             $paymentMethodCode,
-            (string)$cart->getLastPayment()->getId(),
+            $paymentId,
         );
 
         $order = $this->dispatchCompleteOrderCommand($tokenValue);

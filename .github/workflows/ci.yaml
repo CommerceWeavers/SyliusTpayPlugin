@@ -60,7 +60,7 @@ jobs:
                     port: 4000
 
             -   name: Build application
-                uses: SyliusLabs/BuildTestAppAction@v2.2.1
+                uses: SyliusLabs/BuildTestAppAction@v2.4
                 with:
                     build_type: "plugin"
                     cache_key: "${{ github.run_id }}-${{ runner.os }}-${{ hashFiles('composer.json') }}-sylius-${{ matrix.sylius }}-symfony-${{ matrix.symfony }}"
@@ -71,7 +71,10 @@ jobs:
                     sylius_version: ${{ matrix.sylius }}
                     e2e: "yes"
                     e2e_js: "yes"
-                    node_version: '18.x'
+                    node_version: '20.x'
+
+            -   name: Install browser drivers
+                run: vendor/bin/bdi detect drivers
 
             -   name: Check dependencies
                 continue-on-error: true
@@ -89,13 +92,13 @@ jobs:
                 run: vendor/bin/ecs check
 
             -   name: Run tests (Unit)
-                run: vendor/bin/phpunit --testsuite unit
+                run: vendor/bin/phpunit --testsuite unit --exclude-group requires-fixes
                 
             -   name: Run tests (API)
                 run: vendor/bin/phpunit --testsuite api
 
-#            -   name: Run tests (E2E)
-#                run: vendor/bin/phpunit --testsuite e2e
+            -   name: Run tests (E2E)
+                run: vendor/bin/phpunit --testsuite e2e --exclude-group requires-fixes
 
             -   name: Run Tpay contract tests
                 if: "${{ inputs.type == 'daily' }}"

@@ -1,1 +1,1 @@
-import './js/test_payment_method_connection';
+import './js/tpay_channel_picker';

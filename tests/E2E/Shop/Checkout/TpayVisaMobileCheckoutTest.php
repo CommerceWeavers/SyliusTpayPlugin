@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Shop\Checkout;
 
+use Facebook\WebDriver\WebDriverBy;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\CartTrait;
@@ -34,7 +35,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->fillVisaMobile(self::FORM_ID, '123123');
         $this->placeOrder();
 
-        $validationElement = $this->findElementByXpath("//div[contains(@class, 'sylius-validation-error')]");
+        $validationElement = $this->client->findElement(WebDriverBy::cssSelector('.invalid-feedback'));
         $this->assertNotNull($validationElement);
         $this->assertSame(
             "The mobile phone must be composed minimum of 7 digits.",
@@ -65,7 +66,7 @@ final class TpayVisaMobileCheckoutTest extends E2ETestCase
         $this->fillVisaMobile(self::FORM_ID, '');
         $this->placeOrder();
 
-        $validationElement = $this->findElementByXpath("//div[contains(@class, 'sylius-validation-error')]");
+        $validationElement = $this->client->findElement(WebDriverBy::cssSelector('.invalid-feedback'));
         $this->assertNotNull($validationElement);
         $this->assertSame(
             "The mobile phone number is required.",

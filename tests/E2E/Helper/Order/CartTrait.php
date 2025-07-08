@@ -23,9 +23,10 @@ trait CartTrait
 
     public function processWithPaymentMethod(string $paymentMethodCode): void
     {
+        $this->client->waitForElementToContain('h5', 'Payment');
         $this->client->executeScript(
             sprintf(
-                'document.querySelector(\'[name="sylius_checkout_select_payment[payments][0][method]"][value="%s"]\').checked = true',
+                'document.querySelector(\'[name="sylius_shop_checkout_select_payment[payments][0][method]"][value="%s"]\').checked = true',
                 $paymentMethodCode,
             ),
         );
@@ -34,6 +35,7 @@ trait CartTrait
 
     public function placeOrder(): void
     {
+        $this->client->waitForElementToContain('h1', 'Summary of your order');
         $this->client->submitForm('Place order');
     }
 }

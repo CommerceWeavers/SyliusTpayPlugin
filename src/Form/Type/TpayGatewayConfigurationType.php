@@ -4,25 +4,16 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListenerInterface;
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListenerInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\PaymentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class TpayGatewayConfigurationType extends AbstractType
 {
-    public function __construct(
-        private readonly DecryptGatewayConfigListenerInterface $decryptGatewayConfigListener,
-        private readonly EncryptGatewayConfigListenerInterface $encryptGatewayConfigListener,
-    ) {
-    }
-
     /**
      * @param array<string, mixed> $options
      */
@@ -132,9 +123,6 @@ final class TpayGatewayConfigurationType extends AbstractType
                 ],
             )
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, $this->decryptGatewayConfigListener);
-        $builder->addEventListener(FormEvents::POST_SUBMIT, $this->encryptGatewayConfigListener);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
