@@ -7,7 +7,6 @@
     "watch": "encore dev --watch"
   },
   "dependencies": {
-    "@commerce-weavers/sylius-tpay": "file:../../",
     "@sylius-ui/admin": "file:../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle",
     "@sylius-ui/shop": "file:../../vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle",
     "@symfony/ux-autocomplete": "file:../../vendor/symfony/ux-autocomplete/assets",

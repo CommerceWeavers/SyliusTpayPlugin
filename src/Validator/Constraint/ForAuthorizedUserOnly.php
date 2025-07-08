@@ -12,7 +12,7 @@ final class ForAuthorizedUserOnly extends Constraint
 
     public string $userNotAuthorizedErrorMessage = 'commerce_weavers_sylius_tpay.shop.pay.field.user_not_authorized';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::USER_NOT_AUTHORIZED_ERROR => 'USER_NOT_AUTHORIZED_ERROR',
     ];
 
