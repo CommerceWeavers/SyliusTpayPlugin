@@ -35,7 +35,6 @@ return function(ContainerConfigurator $container): void {
 
     $services->set('commerce_weavers_sylius_tpay.pay_by_link.twig.component.channel_picker', ChannelPickerComponent::class)
         ->args([
-            service('form.factory'),
             service('sylius.repository.order'),
             service('commerce_weavers_sylius_tpay.tpay.provider.order_aware_validated_tpay_api_bank_list'),
         ])

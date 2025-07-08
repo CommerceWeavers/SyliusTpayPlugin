@@ -71,8 +71,11 @@ final class ResolveNextRouteAction implements ActionInterface, GenericTokenFacto
 
         Assert::notNull($gatewayConfig, 'Payment method must have a gateway config.');
 
+        $gatewayName = $gatewayConfig->getGatewayName();
+        Assert::notNull($gatewayName, 'Gateway config must have a gateway name.');
+
         return $this->tokenFactory->createToken(
-            $gatewayConfig->getGatewayName(),
+            $gatewayName,
             $payment,
             $route,
         )->getHash();

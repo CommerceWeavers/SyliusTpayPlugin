@@ -16,7 +16,10 @@ final class TpayChannelCollectionDataProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    /**
+     * @return array<TpayChannel>
+     */
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
         $transactionChannels = $this->tpayTransactionChannelResolver->resolve();
 

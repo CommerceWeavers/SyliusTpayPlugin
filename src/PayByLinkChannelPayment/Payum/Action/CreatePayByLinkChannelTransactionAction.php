@@ -70,9 +70,4 @@ final class CreatePayByLinkChannelTransactionAction extends BasePaymentAwareActi
     {
         return $payment->getMethod()?->getGatewayConfig()?->getFactoryName();
     }
-
-    private function getGatewayConfig(PaymentInterface $payment): array
-    {
-        return $payment->getMethod()?->getGatewayConfig()?->getConfig() ?? [];
-    }
 }

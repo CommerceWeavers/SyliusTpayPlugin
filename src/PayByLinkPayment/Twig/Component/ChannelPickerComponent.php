@@ -9,7 +9,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Resource\Model\ResourceInterface;
 use Sylius\TwigHooks\Twig\Component\HookableComponentTrait;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -33,7 +32,6 @@ final class ChannelPickerComponent
     public ?int $selectedChannelId = null;
 
     public function __construct(
-        private readonly FormFactoryInterface $formFactory,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderAwareValidTpayChannelListProviderInterface $channelListProvider,
     ) {

@@ -6,7 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -105,8 +104,8 @@ final class CommerceWeaversSyliusTpayExtension extends AbstractResourceExtension
 
     private function getCurrentConfiguration(ContainerBuilder $container): array
     {
-        /** @var ConfigurationInterface $configuration */
         $configuration = $this->getConfiguration([], $container);
+        assert($configuration !== null);
 
         $configs = $container->getExtensionConfig($this->getAlias());
 
