@@ -12,7 +12,7 @@ final class OneOfPropertiesRequiredIfGatewayNameEquals extends Constraint
 
     public string $allFieldsAreBlankErrorMessage = 'commerce_weavers_sylius_tpay.shop.pay.fields_required';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::ALL_FIELDS_ARE_BLANK_ERROR => 'ALL_FIELDS_ARE_BLANK_ERROR',
     ];
 
