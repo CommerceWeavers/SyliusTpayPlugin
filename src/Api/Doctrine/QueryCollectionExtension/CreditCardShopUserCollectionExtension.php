@@ -26,7 +26,7 @@ final class CreditCardShopUserCollectionExtension implements QueryCollectionExte
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        Operation $operation = null,
+        ?Operation $operation = null,
         array $context = [],
     ): void {
         if (!is_a($resourceClass, CreditCardInterface::class, true)) {

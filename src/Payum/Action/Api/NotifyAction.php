@@ -50,7 +50,6 @@ final class NotifyAction extends BasePaymentAwareAction implements GatewayAwareI
             throw new HttpResponse('FALSE - Invalid checksum', 400);
         }
 
-        /** @var string $status */
         $status = $basicPayment->tr_status;
 
         $cardToken = $requestData->requestParameters['card_token'] ?? null;
@@ -65,9 +64,10 @@ final class NotifyAction extends BasePaymentAwareAction implements GatewayAwareI
             $this->gateway->execute(new SaveCreditCard($model, $cardToken, $cardBrand, $cardTail, $tokenExpirationDate));
         }
 
+        $statusValue = (string) $status->getValue();
         $newPaymentStatus = match (true) {
-            str_contains($status, 'TRUE') => PaymentInterface::STATE_COMPLETED,
-            str_contains($status, 'CHARGEBACK') => PaymentInterface::STATE_REFUNDED,
+            str_contains($statusValue, 'TRUE') => PaymentInterface::STATE_COMPLETED,
+            str_contains($statusValue, 'CHARGEBACK') => PaymentInterface::STATE_REFUNDED,
             default => PaymentInterface::STATE_FAILED,
         };
 

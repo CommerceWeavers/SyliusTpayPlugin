@@ -16,7 +16,7 @@ final class TpayChannelItemDataProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): TpayChannel|null
     {
         $transactionChannels = $this->tpayTransactionChannelResolver->resolve();
 

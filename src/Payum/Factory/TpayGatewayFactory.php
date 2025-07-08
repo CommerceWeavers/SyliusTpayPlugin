@@ -22,7 +22,7 @@ class TpayGatewayFactory extends GatewayFactory
         ]);
 
         $config['payum.api'] = function (ArrayObject $config): TpayApi {
-            /** @var array{client_id?: string, client_secret?: string, production_mode?: bool, notification_security_code?: string} $config */
+            /** @var array{client_id?: string, client_secret?: string, production_mode?: bool, notification_security_code?: string}|ArrayObject $config */
             $clientId = $config['client_id'] ?? '';
             $clientSecret = $config['client_secret'] ?? '';
             $productionMode = $config['production_mode'] ?? false;

@@ -12,6 +12,7 @@ use Sylius\Resource\Model\ResourceInterface;
 use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -33,6 +34,9 @@ final class GatewayConfigurationComponent
     #[LiveProp]
     public string $connectionTestResult = '';
 
+    /**
+     * @param class-string<FormTypeInterface> $formClass
+     */
     public function __construct(
         private readonly string $formClass,
         private readonly string $gatewayName,
@@ -63,9 +67,9 @@ final class GatewayConfigurationComponent
 
         $clientId = $this->formValues['gatewayConfig']['config']['client_id'] ?? '';
         $clientSecret = $this->formValues['gatewayConfig']['config']['client_secret'] ?? '';
-        $productionMode = (bool) $this->formValues['gatewayConfig']['config']['production_mode'] ?? false;
+        $productionMode = (bool) ($this->formValues['gatewayConfig']['config']['production_mode'] ?? false);
 
-        if (empty($clientId) || empty($clientSecret)) {
+        if ($clientId === '' || $clientSecret === '') {
             $this->connectionTestResult = 'failure';
             $this->dispatchBrowserEvent('cw_tpay:gateway_configuration:connection_tested', ['result' => 'failure']);
 

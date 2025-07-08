@@ -15,8 +15,6 @@ use Webmozart\Assert\Assert;
 
 final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 {
-    public const TPAY_BASED_PAYMENT_METHOD_PREFIX = 'tpay';
-
     public function __construct(
         PaymentMethodFactoryInterface $paymentMethodFactory,
         RepositoryInterface $localeRepository,
@@ -28,10 +26,7 @@ final class PaymentMethodExampleFactory extends BasePaymentMethodExampleFactory
 
     public function create(array $options = []): PaymentMethodInterface
     {
-        /** @var PaymentMethodInterface|mixed $paymentMethod */
         $paymentMethod = parent::create($options);
-
-        Assert::isInstanceOf($paymentMethod, PaymentMethodInterface::class);
 
         if (isset($options['defaultImageUrl']) && $paymentMethod instanceof PaymentMethodImageAwareInterface) {
             $paymentMethod->setDefaultImageUrl($options['defaultImageUrl']);
