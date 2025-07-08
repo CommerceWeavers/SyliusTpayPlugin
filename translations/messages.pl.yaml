@@ -23,6 +23,8 @@ commerce_weavers_sylius_tpay:
             merchant_id: 'Merchant ID'
             notification_security_code: 'Kod bezpieczeństwa (Powiadomienia)'
             test_connection: 'Testuj połączenie'
+            test_connection_success: 'Test połączenia zakończony powodzeniem'
+            test_connection_failure: 'Test połączenia zakończony niepowodzeniem'
             type:
                 apple_pay: 'Apple Pay'
                 blik: 'BLIK'
