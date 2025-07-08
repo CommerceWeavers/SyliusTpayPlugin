@@ -12,7 +12,7 @@
         {
           "php": "8.4",
           "sylius": "~2.1.0",
-          "symfony": "~6.4.0",
+          "symfony": "~7.2.0",
           "mysql": "8.0",
           "state_machine": "symfony_workflow"
         }
@@ -23,7 +23,7 @@
     "ci": {
       "php": ["8.2", "8.4"],
       "sylius": ["~2.0.0", "~2.1.0"],
-      "symfony": ["~6.4.0"],
+      "symfony": ["~6.4.0", "~7.2.0"],
       "mysql": ["8.0"],
       "state_machine": ["winzou_state_machine", "symfony_workflow"]
     }
