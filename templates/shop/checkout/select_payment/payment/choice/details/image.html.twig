@@ -1,0 +1,11 @@
+{% set method = get_hookable_context().method %}
+
+{% set imageSrc = method.image is not empty and method.image.path is not empty
+    ? method.image.path|imagine_filter('cw_sylius_tpay_admin_payment_method_image')
+    : method.defaultImageUrl %}
+
+{% if imageSrc is not empty %}
+    <div class="tpay-payment-method-logo">
+        <img src="{{ imageSrc }}" alt="{{ method.name }}" />
+    </div>
+{% endif %}

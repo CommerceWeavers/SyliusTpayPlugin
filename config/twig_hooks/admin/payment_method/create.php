@@ -84,6 +84,16 @@ return static function(ContainerConfigurator $configurator): void {
                     ],
                 ],
             ],
+            'sylius_admin.payment_method.create.content.form.sections.general' => [
+                'default_image_url' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/default_image_url.html.twig',
+                    'priority' => -100,
+                ],
+                'image' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/admin/payment_method/image.html.twig',
+                    'priority' => -200,
+                ],
+            ],
         ],
     ]);
 };

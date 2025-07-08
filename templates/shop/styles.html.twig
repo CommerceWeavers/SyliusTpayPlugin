@@ -1,6 +1,2 @@
-{% if app.request().attributes.get('_route') == 'sylius_shop_checkout_complete' %}
-    <link rel="stylesheet" href="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/styles/checkout-complete.css') }}">
-{% endif %}
-{% if app.request().attributes.get('_route') == 'sylius_shop_order_show' %}
-    <link rel="stylesheet" href="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/styles/order-show.css') }}">
-{% endif %}
+<link rel="stylesheet" href="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/styles/checkout-complete.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/styles/order-show.css') }}">
