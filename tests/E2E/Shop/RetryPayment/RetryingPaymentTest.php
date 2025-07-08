@@ -22,7 +22,6 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->loadFixtures(['addressed_cart.yaml']);
     }
 
-    /** @group requires-fixes */
     public function test_it_retries_payment(): void
     {
         $this->doPlaceOrder('t0k3n', productVariantCode: 'MUG');
@@ -31,10 +30,9 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->retryPayment();
 
         $this->assertPageTitleContains('Summary of your order');
-        $this->assertSelectorWillContain('.sylius-flash-message', 'The previous payment has been cancelled');
+        $this->assertSelectorWillContain('.alert', 'The previous payment has been cancelled');
     }
 
-    /** @group requires-fixes */
     public function test_it_prevents_retrying_not_qualifying_payments(): void
     {
         $order = $this->doPlaceOrder('t0k3n', productVariantCode: 'MUG');
@@ -43,6 +41,6 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->showPaymentFailedPage('t0k3n');
         $this->retryPayment();
 
-        $this->assertSelectorWillContain('.sylius-flash-message', 'This payment cannot be retried');
+        $this->assertSelectorWillContain('.alert', 'This payment cannot be retried');
     }
 }

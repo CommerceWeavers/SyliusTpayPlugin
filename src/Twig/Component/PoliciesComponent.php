@@ -17,7 +17,7 @@ final class PoliciesComponent
 
     private const TPAY_PAYMENT_METHOD_PREFIX = 'tpay_';
 
-    public PaymentMethodInterface $paymentMethod;
+    public ?PaymentMethodInterface $paymentMethod = null;
 
     public function __construct(
         private readonly LocaleContextInterface $localeContext,
@@ -27,6 +27,10 @@ final class PoliciesComponent
     #[ExposeInTemplate(name: 'should_be_displayed')]
     public function shouldBeDisplayed(): bool
     {
+        if ($this->paymentMethod === null) {
+            return false;
+        }
+
         return str_starts_with(
             $this->paymentMethod->getGatewayConfig()?->getFactoryName() ?? '',
             self::TPAY_PAYMENT_METHOD_PREFIX,

@@ -43,7 +43,7 @@ final class PaymentMethodSupportedForOrderCheckerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function test_it_returns_true_if_gateway_config_factory_name_is_not_pay_by_link(): void
+    public function test_it_returns_true_if_gateway_config_factory_name_is_not_pay_by_link_nor_pay_by_link_channel(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
         $this->paymentMethod->getGatewayConfig()->willReturn($gatewayConfig->reveal());
