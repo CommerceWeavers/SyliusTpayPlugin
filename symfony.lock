@@ -1091,5 +1091,8 @@
     },
     "willdurand/negotiation": {
         "version": "3.1.0"
+    },
+    "winzou/state-machine-bundle": {
+        "version": "v0.6.2"
     }
 }
