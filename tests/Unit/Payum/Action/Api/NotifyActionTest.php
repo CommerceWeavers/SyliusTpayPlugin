@@ -22,7 +22,6 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Tests\CommerceWeavers\SyliusTpayPlugin\Helper\PaymentDetailsHelperTrait;
-use Tpay\OpenApi\Model\Fields\Notification\TransactionStatus;
 use tpaySDK\Model\Objects\NotificationBody\BasicPayment;
 
 final class NotifyActionTest extends TestCase
@@ -89,9 +88,6 @@ final class NotifyActionTest extends TestCase
      */
     public function test_it_converts_tpay_notification_status(string $status, string $expectedStatus, bool $isSavingCard): void
     {
-        $transactionStatus = new TransactionStatus();
-        $transactionStatus->setValue($status);
-
         $requestParameters = [
             'tr_status' => $status,
         ];
@@ -116,7 +112,7 @@ final class NotifyActionTest extends TestCase
         $this->api->getNotificationSecretCode()->willReturn('merchant_code');
 
         $this->basicPaymentFactory->createFromArray($requestParameters)->willReturn($basicPayment = new BasicPayment());
-        $basicPayment->tr_status = $transactionStatus;
+        $basicPayment->tr_status = $status;
 
         $this->checksumVerifier->verify($basicPayment, 'merchant_code')->willReturn(true);
         $this->signatureVerifier->verify('jws', 'content')->willReturn(true);
@@ -189,6 +185,7 @@ final class NotifyActionTest extends TestCase
     {
         yield 'status containing the `TRUE` word' => ['TRUE', PaymentInterface::STATE_COMPLETED, false];
         yield 'status containing the `TRUE` word and saving card' => ['TRUE', PaymentInterface::STATE_COMPLETED, true];
+        yield 'status containing the other than `TRUE` word' => ['FALSE', PaymentInterface::STATE_FAILED, false];
         yield 'status containing the `CHARGEBACK` word' => ['CHARGEBACK', PaymentInterface::STATE_REFUNDED, false];
     }
 
