@@ -6,14 +6,11 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\AddTpayImageFieldsListener;
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListener;
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\RemoveUnnecessaryPaymentDetailsFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\SetTpayDefaultPaymentImageUrlListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CompleteTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentMethodTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentTypeExtension;
-use CommerceWeavers\SyliusTpayPlugin\Form\Type\AbstractTpayGatewayConfigurationType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\PaymentMethodImageType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayGatewayConfigurationType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
