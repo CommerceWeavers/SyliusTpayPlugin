@@ -6,14 +6,11 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\AddTpayImageFieldsListener;
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\DecryptGatewayConfigListener;
-use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\EncryptGatewayConfigListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\RemoveUnnecessaryPaymentDetailsFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\SetTpayDefaultPaymentImageUrlListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CompleteTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentMethodTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentTypeExtension;
-use CommerceWeavers\SyliusTpayPlugin\Form\Type\AbstractTpayGatewayConfigurationType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\PaymentMethodImageType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayGatewayConfigurationType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
@@ -21,14 +18,6 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\TpayGatewayFactory;
 
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
-
-    $services->set('commerce_weavers_sylius_tpay.form.type.abstract_tpay_gateway_configuration', AbstractTpayGatewayConfigurationType::class)
-        ->abstract()
-        ->args([
-            service('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config'),
-            service('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config'),
-        ])
-    ;
 
     $services->set(CompleteTypeExtension::class)
         ->tag('form.type_extension')
@@ -78,19 +67,5 @@ return static function(ContainerConfigurator $container): void {
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.add_tpay_image_fields', AddTpayImageFieldsListener::class)
-    ;
-
-    $services
-        ->set('commerce_weavers_sylius_tpay.form.event_listener.decrypt_gateway_config', DecryptGatewayConfigListener::class)
-        ->args([
-            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
-        ])
-    ;
-
-    $services
-        ->set('commerce_weavers_sylius_tpay.form.event_listener.encrypt_gateway_config', EncryptGatewayConfigListener::class)
-        ->args([
-            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
-        ])
     ;
 };
