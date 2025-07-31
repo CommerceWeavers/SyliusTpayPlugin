@@ -8,9 +8,9 @@ mockoon.start:
 mockoon.stop:
 	@npm run mockoon:stop
 frontend.install:
-	@cd tests/Application && npm install
+	@npm install
 frontend.build:
-	@cd tests/Application && npm run build
+	@npm run build
 frontend.setup: frontend.install frontend.build
 setup:
 	@composer update
