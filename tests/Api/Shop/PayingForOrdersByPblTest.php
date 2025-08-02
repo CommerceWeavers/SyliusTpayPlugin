@@ -126,6 +126,52 @@ final class PayingForOrdersByPblTest extends JsonApiTestCase
         );
     }
 
+    public function test_paying_with_pbl_without_bank_selection_redirects_to_paywall(): void
+    {
+        $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
+
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_pbl');
+
+        $this->client->request(
+            Request::METHOD_POST,
+            sprintf('/api/v2/shop/orders/%s/pay', $order->getTokenValue()),
+            server: self::CONTENT_TYPE_HEADER,
+            content: json_encode([
+                'successUrl' => 'https://example.com/success',
+                'failureUrl' => 'https://example.com/failure',
+                // No tpayChannelId provided - should use Paywall
+            ]),
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseCode($response, Response::HTTP_OK);
+        $this->assertResponse($response, 'shop/paying_for_orders_by_pbl/test_paying_with_pay_by_link_paywall_redirect');
+    }
+
+    public function test_paying_with_pbl_with_empty_channel_id_redirects_to_paywall(): void
+    {
+        $this->loadFixturesFromDirectory('shop/paying_for_orders_by_card');
+
+        $order = $this->doPlaceOrder('t0k3n', paymentMethodCode: 'tpay_pbl');
+
+        $this->client->request(
+            Request::METHOD_POST,
+            sprintf('/api/v2/shop/orders/%s/pay', $order->getTokenValue()),
+            server: self::CONTENT_TYPE_HEADER,
+            content: json_encode([
+                'successUrl' => 'https://example.com/success',
+                'failureUrl' => 'https://example.com/failure',
+                'tpayChannelId' => '', // Empty channel ID - should use Paywall
+            ]),
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseCode($response, Response::HTTP_OK);
+        $this->assertResponse($response, 'shop/paying_for_orders_by_pbl/test_paying_with_pay_by_link_paywall_redirect');
+    }
+
     private function doPlaceOrder(
         string $tokenValue,
         string $email = 'sylius@example.com',
