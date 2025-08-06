@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Refunding\Workflow\Listener;
 
 use CommerceWeavers\SyliusTpayPlugin\Refunding\Dispatcher\RefundDispatcherInterface;
-use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 
 final class DispatchRefundListener
@@ -19,9 +19,9 @@ final class DispatchRefundListener
     {
         $payment = $event->getSubject();
 
-        if (!$payment instanceof PaymentInterface) {
+        if (!$payment instanceof RefundPaymentInterface) {
             throw new \UnexpectedValueException(
-                sprintf('Expected instance of "%s", got "%s"', PaymentInterface::class, get_class($payment)),
+                sprintf('Expected instance of "%s", got "%s"', RefundPaymentInterface::class, get_class($payment)),
             );
         }
 

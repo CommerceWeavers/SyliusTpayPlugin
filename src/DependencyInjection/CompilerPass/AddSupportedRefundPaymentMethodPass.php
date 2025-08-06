@@ -19,7 +19,7 @@ final class AddSupportedRefundPaymentMethodPass implements CompilerPassInterface
 
         /** @var array<string, mixed> $supportedGateways */
         $supportedGateways = $container->getParameter(self::SUPPORTED_GATEWAYS_PARAM_NAME);
-        $supportedGateways[] = 'tpay';
+        $supportedGateways[] = 'tpay_redirect';
 
         $container->setParameter(self::SUPPORTED_GATEWAYS_PARAM_NAME, $supportedGateways);
     }
