@@ -17,6 +17,9 @@
         "./public/"
     ],
     "private": true,
+    "workspaces": [
+      "tests/Application"
+    ],
     "devDependencies": {
         "@babel/core": "^7.0.0",
         "@babel/preset-env": "^7.0.0",
