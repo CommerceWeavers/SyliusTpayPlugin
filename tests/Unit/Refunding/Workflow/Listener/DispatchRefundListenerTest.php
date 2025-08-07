@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
+use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Symfony\Component\Workflow\Marking;
@@ -18,7 +19,10 @@ final class DispatchRefundListenerTest extends TestCase
 {
     use ProphecyTrait;
 
-    private RefundDispatcherInterface|ObjectProphecy $dispatcher;
+    /**
+     * @var ObjectProphecy<RefundDispatcherInterface>
+     */
+    private ObjectProphecy $dispatcher;
 
     protected function setUp(): void
     {
@@ -32,7 +36,7 @@ final class DispatchRefundListenerTest extends TestCase
         }
 
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage('Expected instance of "Sylius\RefundPlugin\Entity\RefundPaymentInterface", got "stdClass"');
+        $this->expectExceptionMessage('Expected instance of "Sylius\Component\Core\Model\PaymentInterface" or "Sylius\RefundPlugin\Entity\RefundPaymentInterface", got "stdClass"');
 
         $this->getTestSubject()->__invoke(new TransitionEvent(new \stdClass(), new Marking()));
     }
@@ -45,7 +49,20 @@ final class DispatchRefundListenerTest extends TestCase
 
         $payment = $this->prophesize(RefundPaymentInterface::class);
 
-        $this->dispatcher->dispatch($payment)->shouldBeCalled();
+        $this->dispatcher->dispatch($payment->reveal())->shouldBeCalled();
+
+        $this->getTestSubject()->__invoke(new TransitionEvent($payment->reveal(), new Marking()));
+    }
+
+    public function test_it_dispatches_a_payment_request(): void
+    {
+        if (SyliusCoreBundle::VERSION_ID < 11300) {
+            $this->markTestSkipped();
+        }
+
+        $payment = $this->prophesize(PaymentInterface::class);
+
+        $this->dispatcher->dispatch($payment->reveal())->shouldBeCalled();
 
         $this->getTestSubject()->__invoke(new TransitionEvent($payment->reveal(), new Marking()));
     }
