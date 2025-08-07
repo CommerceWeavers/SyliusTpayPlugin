@@ -58,9 +58,6 @@
             "config/routes/annotations.yaml"
         ]
     },
-    "doctrine/cache": {
-        "version": "2.2.0"
-    },
     "doctrine/collections": {
         "version": "1.8.0"
     },

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Payum\Request\Api\Notify;
 
-class NotifyData
+readonly class NotifyData
 {
     public function __construct(
-        public readonly string $jws,
-        public readonly string $requestContent,
-        public readonly array $requestParameters,
+        public string $jws,
+        public string $requestContent,
+        public array $requestParameters,
     ) {
     }
 }

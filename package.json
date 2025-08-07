@@ -3,7 +3,7 @@
     "description": "Tpay integration for Sylius",
     "version": "1.0.0",
     "scripts": {
-        "build": "webpack --node-env=production",
+        "build:prod": "webpack --node-env=production",
         "mockoon:start": "mockoon-cli start --data tests/mockoon_tpay.json",
         "mockoon:stop": "mockoon-cli stop all"
     },
@@ -17,9 +17,6 @@
         "./public/"
     ],
     "private": true,
-    "workspaces": [
-      "tests/Application"
-    ],
     "devDependencies": {
         "@babel/core": "^7.0.0",
         "@babel/preset-env": "^7.0.0",
