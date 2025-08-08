@@ -8,14 +8,14 @@ mockoon.start:
 mockoon.stop:
 	@npm run mockoon:stop
 frontend.install:
-	@cd tests/Application && npm install
+	@npm install
 frontend.build:
-	@cd tests/Application && npm run build
+	@npm run build
 frontend.setup: frontend.install frontend.build
 setup:
 	@composer update
 	@make frontend.setup
-	@cd tests/Application && bin/console assets:install
+	@cd tests/Application && bin/console assets:install --symlink
 	@cd tests/Application && bin/console doctrine:database:create --if-not-exists
 	@cd tests/Application && bin/console doctrine:migrations:migrate -n
 	@cd tests/Application && bin/console sylius:fixtures:load -n

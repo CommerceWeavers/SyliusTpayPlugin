@@ -172,7 +172,7 @@ export class CardForm {
       this.#validateCvc();
       this.#validateExpirationDate();
 
-      const isValid = this.#form.querySelectorAll('.sylius-validation-error').length === 0;
+      const isValid = this.#form.querySelectorAll('[data-tpay-validation-error]').length === 0;
 
       if (!isValid) {
         event.preventDefault();
@@ -269,7 +269,7 @@ export class CardForm {
     const errorMessage = field.dataset.validationError;
 
     return `
-    <div class="ui red pointing label sylius-validation-error">
+    <div class="invalid-feedback d-block" data-tpay-validation-error="">
       ${errorMessage}
     </div>
     `;
