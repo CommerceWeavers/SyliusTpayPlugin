@@ -62,4 +62,23 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
         $this->assertStringContainsString('One Bank With Amount Min 20 Constraint (Tpay)', $picker->getText());
         $this->assertStringNotContainsString('One Bank With Amount Min 30 Constraint (Tpay)', $picker->getText());
     }
+
+    public function test_it_cannot_complete_the_checkout_if_no_channel_is_selected(): void
+    {
+        $this->processWithPaymentMethod('tpay_pbl');
+
+        $this->client->waitForElementToContain('h1', 'Summary of your order');
+
+        $this->placeOrder();
+
+        $this->assertPageTitleContains('Complete |');
+
+        foreach ($this->client->findElements(WebDriverBy::cssSelector('[data-test-validation-error]')) as $validationError) {
+            if ($validationError->getText() === 'Please select a bank') {
+                return;
+            }
+        }
+
+        $this->fail('No validation error for bank selection');
+    }
 }

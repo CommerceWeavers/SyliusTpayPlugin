@@ -4,6 +4,10 @@
 {% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_pbl' %}
     {% set form = get_hookable_context().form.tpay %}
 
+    <div class="mb-1">
+        {{ form_errors(form.tpay_channel_id) }}
+    </div>
+
     {{ component('cw_tpay_shop:pay_by_link:channel_picker', { order: get_hookable_context().resource }) }}
 
     {{ form_row(form.tpay_channel_id, { attr: { 'data-tpay-channel-id': '' } }) }}
