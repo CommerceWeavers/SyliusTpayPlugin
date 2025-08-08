@@ -93,7 +93,11 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $form = $this->client->getCrawler()->selectButton('Pay')->form();
         $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Choose bank (Tpay)')]"))->click();
         $form->getElement()->findElement(WebDriverBy::xpath("//div[@data-live-channel-id-param='1']"))->click();
-        usleep(250000);
+        $this->client->waitForAttributeToContain(
+            '[data-live-channel-id-param="1"]',
+            'class',
+            'selected',
+        );
         $this->client->submitForm('Pay');
 
         self::assertPageTitleContains('Thank you');

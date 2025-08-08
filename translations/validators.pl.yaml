@@ -18,6 +18,7 @@ commerce_weavers_sylius_tpay:
             encoded_card_data:
                 required: 'Dane karty są wymagane.'
             tpay_channel:
+                required: 'Wybierz bank'
                 not_valid: 'Wybrany kanał płatności nie jest już dostępny.'
             tpay_channel_id:
                 length: 'Id kanału banku nie może być puste.'

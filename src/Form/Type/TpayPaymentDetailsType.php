@@ -79,11 +79,12 @@ final class TpayPaymentDetailsType extends AbstractType
                 'tpay_channel_id',
                 HiddenType::class,
                 [
-                    'property_path' => '[tpay_channel_id]',
-                    'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
                         new ValidTpayChannel(groups: ['sylius_checkout_complete']),
                     ],
+                    'error_bubbling' => false,
+                    'property_path' => '[tpay_channel_id]',
+                    'validation_groups' => ['sylius_checkout_complete'],
                 ],
             )
             ->add(

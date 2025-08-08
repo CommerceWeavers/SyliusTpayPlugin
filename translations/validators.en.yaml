@@ -18,6 +18,7 @@ commerce_weavers_sylius_tpay:
             encoded_card_data:
                 required: 'The card data is required.'
             tpay_channel:
+                required: 'Please select a bank'
                 not_valid: 'Selected payment channel is not valid anymore.'
             tpay_channel_id:
                 length: 'Bank channel id cannot be empty.'
