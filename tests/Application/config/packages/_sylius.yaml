@@ -30,3 +30,12 @@ sylius_payment:
             classes:
                 repository: TestApp\Repository\PaymentMethodRepository
                 model: TestApp\Entity\PaymentMethod
+
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.base#stylesheets':
+            app_styles:
+                template: 'admin/styles.html.twig'
+        'sylius_admin.base#javascripts':
+            app_javascripts:
+                template: 'admin/scripts.html.twig'
