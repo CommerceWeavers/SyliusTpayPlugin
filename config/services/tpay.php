@@ -85,6 +85,8 @@ return static function(ContainerConfigurator $container): void {
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.routing.generator.callback_url'),
             service('translator'),
+            service('commerce_weavers_sylius_tpay.customer.resolver.ip_address'),
+            service('commerce_weavers_sylius_tpay.customer.resolver.user_agent'),
         ])
         ->alias(CreateRedirectBasedPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload')
     ;
