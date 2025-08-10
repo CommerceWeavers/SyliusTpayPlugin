@@ -8,11 +8,14 @@ use Tpay\OpenApi\Api\ApiAction;
 use Tpay\OpenApi\Api\Authorization\AuthorizationApi;
 use Tpay\OpenApi\Api\TpayApi as BaseTpayApi;
 use Tpay\OpenApi\Model\Objects\Authorization\Token;
+use Tpay\OpenApi\Utilities\Cache;
 use Tpay\OpenApi\Utilities\TpayException;
 use Webmozart\Assert\Assert;
 
 class TpayApi extends BaseTpayApi
 {
+    private const SCOPE = 'read';
+
     private ApplePayApi|null $applePayApi = null;
 
     private Token|null $token = null;
@@ -20,15 +23,15 @@ class TpayApi extends BaseTpayApi
     private string $apiUrl;
 
     public function __construct(
+        Cache $cache,
         private readonly string $clientId,
         private readonly string $clientSecret,
         private readonly bool $productionMode = false,
-        private readonly string $scope = 'read',
         private readonly ?string $apiUrlOverride = null,
         private readonly ?string $clientName = null,
         private readonly ?string $notificationSecretCode = null,
     ) {
-        parent::__construct($clientId, $clientSecret, $productionMode, $scope, $apiUrlOverride, $clientName);
+        parent::__construct($cache, $clientId, $clientSecret, $productionMode, $apiUrlOverride, $clientName);
 
         $this->apiUrl = $apiUrlOverride ?? (true === $this->productionMode
             ? ApiAction::TPAY_API_URL_PRODUCTION
@@ -79,7 +82,7 @@ class TpayApi extends BaseTpayApi
         $fields = [
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'scope' => $this->scope,
+            'scope' => self::SCOPE,
         ];
         $authApi->getNewToken($fields);
 

@@ -19,6 +19,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Tpay\OpenApi\Utilities\Cache;
 
 #[AsLiveComponent]
 final class GatewayConfigurationComponent
@@ -43,6 +44,7 @@ final class GatewayConfigurationComponent
         private readonly FormFactoryInterface $formFactory,
         private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
         private readonly PaymentMethodFactoryInterface $paymentMethodFactory,
+        private readonly Cache $cache,
     ) {
     }
 
@@ -77,7 +79,7 @@ final class GatewayConfigurationComponent
         }
 
         try {
-            $tpayApi = new TpayApi($clientId, $clientSecret, $productionMode);
+            $tpayApi = new TpayApi($this->cache, $clientId, $clientSecret, $productionMode);
             $tpayApi->transactions()->getChannels();
 
             $this->connectionTestResult = 'success';

@@ -12,18 +12,9 @@ use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\NotifyFactory;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\NotifyFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactory;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\Token\NotifyTokenFactoryInterface;
-use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\TpayGatewayFactory;
-use Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder;
 
 return function(ContainerConfigurator $container): void {
     $services = $container->services();
-
-    $services->set('commerce_weavers_sylius_tpay.payum.factory.tpay_gateway', GatewayFactoryBuilder::class)
-        ->args([
-            TpayGatewayFactory::class,
-        ])
-        ->tag('payum.gateway_factory_builder', ['factory' => TpayGatewayFactory::NAME])
-    ;
 
     $services->set('commerce_weavers_sylius_tpay.payum.factory.notify', NotifyFactory::class)
         ->alias(NotifyFactoryInterface::class, 'commerce_weavers_sylius_tpay.payum.factory.notify')

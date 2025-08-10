@@ -8,11 +8,21 @@ use CommerceWeavers\SyliusTpayPlugin\CommerceWeaversSyliusTpayPlugin;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayFactory;
+use Payum\Core\GatewayFactoryInterface;
 use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
+use Tpay\OpenApi\Utilities\Cache;
 
 class TpayGatewayFactory extends GatewayFactory
 {
     public const NAME = 'tpay';
+
+    public function __construct(
+        private readonly Cache $cache,
+        array $defaultConfig = [],
+        ?GatewayFactoryInterface $coreGatewayFactory = null,
+    ) {
+        parent::__construct($defaultConfig, $coreGatewayFactory);
+    }
 
     protected function populateConfig(ArrayObject $config): void
     {
@@ -31,6 +41,7 @@ class TpayGatewayFactory extends GatewayFactory
             $testApiUrl = getenv('TPAY_API_URL') !== false ? getenv('TPAY_API_URL') : null;
 
             return new TpayApi(
+                $this->cache,
                 $clientId,
                 $clientSecret,
                 $productionMode,

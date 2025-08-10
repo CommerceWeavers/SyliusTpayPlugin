@@ -71,11 +71,11 @@ final readonly class CreateRedirectBasedPaymentPayloadFactory implements CreateR
             'code' => $billingAddress->getPostcode() ?? '',
             'country' => $billingAddress->getCountryCode() ?? '',
             'ip' => $this->ipAddressResolver->resolve(),
-            'useragent' => $this->userAgentResolver->resolve(),
+            'userAgent' => $this->userAgentResolver->resolve(),
         ];
 
-        $result = array_filter($result, static function (string $value) {
-            return $value !== '';
+        $result = array_filter($result, static function (string|null $value) {
+            return $value !== null && $value !== '';
         });
 
         return array_merge($requiredResult, $result);

@@ -75,6 +75,7 @@ return function(ContainerConfigurator $container): void {
     $services->set(TpayGetChannelsAction::class)
         ->args([
             service('sylius.context.locale'),
+            service('commerce_weavers_sylius_tpay.tpay.cache'),
         ])
         ->tag('controller.service_arguments')
     ;

@@ -102,7 +102,7 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'code' => '90 210',
                 'country' => 'PL',
                 'ip' => '127.0.0.1',
-                'useragent' => 'Carrier Pigeon 3000',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [
@@ -167,7 +167,7 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'code' => '90 210',
                 'country' => 'PL',
                 'ip' => '127.0.0.1',
-                'useragent' => 'Carrier Pigeon 3000',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [
@@ -234,7 +234,7 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'code' => '90 210',
                 'country' => 'PL',
                 'ip' => '127.0.0.1',
-                'useragent' => 'Carrier Pigeon 3000',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [

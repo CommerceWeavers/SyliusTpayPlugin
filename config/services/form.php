@@ -63,6 +63,9 @@ return static function(ContainerConfigurator $container): void {
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.set_payment_default_image_url', SetTpayDefaultPaymentImageUrlListener::class)
+        ->args([
+            service('commerce_weavers_sylius_tpay.tpay.cache'),
+        ])
     ;
 
     $services
