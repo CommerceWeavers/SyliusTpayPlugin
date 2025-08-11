@@ -1,4 +1,7 @@
 commerce_weavers_sylius_tpay:
+    admin:
+        payment_method:
+            image_has_been_removed: 'Logo metody płatności zostało usunięte'
     shop:
         retry_payment:
             cannot_be_retried: 'Wybrana płatność nie może być ponowiona'
