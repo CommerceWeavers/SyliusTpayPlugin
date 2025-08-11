@@ -20,6 +20,7 @@ return function(ContainerConfigurator $container): void {
             service('form.factory'),
             service('sylius.repository.payment_method'),
             service('sylius.factory.payment_method'),
+            service('commerce_weavers_sylius_tpay.tpay.cache'),
         ])
         ->call('setLiveResponder', [
             new Reference('ux.live_component.live_responder'),

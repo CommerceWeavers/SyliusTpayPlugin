@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Customer\Resolver\IpAddressResolverInterface;
+use CommerceWeavers\SyliusTpayPlugin\Customer\Resolver\UserAgentResolverInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Routing\Generator\CallbackUrlGeneratorInterface;
@@ -23,14 +25,28 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
 
     private const TRANSLATED_DESCRIPTION = 'Zamówienie #000000001';
 
-    private CallbackUrlGeneratorInterface|ObjectProphecy $callbackUrlGenerator;
+    /** @var ObjectProphecy<CallbackUrlGeneratorInterface> */
+    private ObjectProphecy $callbackUrlGenerator;
 
-    private TranslatorInterface|ObjectProphecy $translator;
+    /** @var ObjectProphecy<TranslatorInterface> */
+    private ObjectProphecy $translator;
+
+    /** @var ObjectProphecy<IpAddressResolverInterface> */
+    private ObjectProphecy $ipAddressResolver;
+
+    /** @var ObjectProphecy<UserAgentResolverInterface> */
+    private ObjectProphecy $userAgentResolver;
 
     protected function setUp(): void
     {
         $this->callbackUrlGenerator = $this->prophesize(CallbackUrlGeneratorInterface::class);
         $this->translator = $this->prophesize(TranslatorInterface::class);
+
+        $this->ipAddressResolver = $this->prophesize(IpAddressResolverInterface::class);
+        $this->ipAddressResolver->resolve()->willReturn('127.0.0.1');
+
+        $this->userAgentResolver = $this->prophesize(UserAgentResolverInterface::class);
+        $this->userAgentResolver->resolve()->willReturn('Carrier Pigeon 3000');
     }
 
     public function test_it_returns_a_payload_for_a_redirect_based_payment(): void
@@ -85,6 +101,8 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'city' => 'Sesame City',
                 'code' => '90 210',
                 'country' => 'PL',
+                'ip' => '127.0.0.1',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [
@@ -148,6 +166,8 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'phone' => '123123123',
                 'code' => '90 210',
                 'country' => 'PL',
+                'ip' => '127.0.0.1',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [
@@ -213,6 +233,8 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
                 'city' => 'Sesame City',
                 'code' => '90 210',
                 'country' => 'PL',
+                'ip' => '127.0.0.1',
+                'userAgent' => 'Carrier Pigeon 3000',
             ],
             'callbacks' => [
                 'payerUrls' => [
@@ -274,6 +296,8 @@ final class CreateRedirectBasedPaymentPayloadFactoryTest extends TestCase
         return new CreateRedirectBasedPaymentPayloadFactory(
             $this->callbackUrlGenerator->reveal(),
             $this->translator->reveal(),
+            $this->ipAddressResolver->reveal(),
+            $this->userAgentResolver->reveal(),
         );
     }
 }

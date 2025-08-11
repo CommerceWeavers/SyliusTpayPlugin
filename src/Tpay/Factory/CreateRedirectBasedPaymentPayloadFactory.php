@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Factory;
 
+use CommerceWeavers\SyliusTpayPlugin\Customer\Resolver\IpAddressResolverInterface;
+use CommerceWeavers\SyliusTpayPlugin\Customer\Resolver\UserAgentResolverInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Routing\Generator\CallbackUrlGeneratorInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
-final class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBasedPaymentPayloadFactoryInterface
+final readonly class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBasedPaymentPayloadFactoryInterface
 {
     public function __construct(
-        private readonly CallbackUrlGeneratorInterface $callbackUrlGenerator,
-        private readonly TranslatorInterface $translator,
+        private CallbackUrlGeneratorInterface $callbackUrlGenerator,
+        private TranslatorInterface $translator,
+        private IpAddressResolverInterface $ipAddressResolver,
+        private UserAgentResolverInterface $userAgentResolver,
     ) {
     }
 
@@ -66,10 +70,12 @@ final class CreateRedirectBasedPaymentPayloadFactory implements CreateRedirectBa
             'city' => $billingAddress->getCity() ?? '',
             'code' => $billingAddress->getPostcode() ?? '',
             'country' => $billingAddress->getCountryCode() ?? '',
+            'ip' => $this->ipAddressResolver->resolve(),
+            'userAgent' => $this->userAgentResolver->resolve(),
         ];
 
-        $result = array_filter($result, static function (string $value) {
-            return $value !== '';
+        $result = array_filter($result, static function (string|null $value) {
+            return $value !== null && $value !== '';
         });
 
         return array_merge($requiredResult, $result);

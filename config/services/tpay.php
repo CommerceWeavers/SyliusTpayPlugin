@@ -19,6 +19,8 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayl
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateRedirectBasedPaymentPayloadFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactory;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\CreateVisaMobilePaymentPayloadFactoryInterface;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\TpayApiFactory;
+use CommerceWeavers\SyliusTpayPlugin\Tpay\Factory\TpayApiFactoryInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\AvailableTpayChannelListProvider;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\AvailableTpayChannelListProviderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Provider\OrderAwareValidTpayChannelListProvider;
@@ -44,6 +46,7 @@ use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\Checksu
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\ChecksumVerifierInterface;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifier;
 use CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Verifier\SignatureVerifierInterface;
+use Tpay\OpenApi\Utilities\Cache;
 
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
@@ -85,6 +88,8 @@ return static function(ContainerConfigurator $container): void {
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.routing.generator.callback_url'),
             service('translator'),
+            service('commerce_weavers_sylius_tpay.customer.resolver.ip_address'),
+            service('commerce_weavers_sylius_tpay.customer.resolver.user_agent'),
         ])
         ->alias(CreateRedirectBasedPaymentPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload')
     ;
@@ -201,6 +206,12 @@ return static function(ContainerConfigurator $container): void {
             service('.inner'),
             service('cache.app'),
             param('commerce_weavers_sylius_tpay.tpay_transaction_channels.cache_ttl_in_seconds'),
+        ])
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.tpay.cache', Cache::class)
+        ->args([
+            service('cache.app'),
         ])
     ;
 };

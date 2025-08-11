@@ -12,6 +12,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\FormInterface;
 use Tpay\OpenApi\Api\Transactions\TransactionsApi;
+use Tpay\OpenApi\Utilities\Cache;
 
 final class SetTpayDefaultPaymentImageUrlListenerTest extends TestCase
 {
@@ -20,9 +21,13 @@ final class SetTpayDefaultPaymentImageUrlListenerTest extends TestCase
     /** @var ObjectProphecy<TpayApi> $tpayApi */
     private ObjectProphecy $tpayApi;
 
+    /** @var ObjectProphecy<Cache> $cache */
+    private ObjectProphecy $cache;
+
     protected function setUp(): void
     {
         $this->tpayApi = $this->prophesize(TpayApi::class);
+        $this->cache = $this->prophesize(Cache::class);
     }
 
     public function test_it_sets_default_image_url_on_pre_submit_event(): void
@@ -128,7 +133,7 @@ final class SetTpayDefaultPaymentImageUrlListenerTest extends TestCase
 
     private function createTestSubject(): SetTpayDefaultPaymentImageUrlListener
     {
-        $subject = new SetTpayDefaultPaymentImageUrlListener();
+        $subject = new SetTpayDefaultPaymentImageUrlListener($this->cache->reveal());
         $subject->setTpayApi($this->tpayApi->reveal());
 
         return $subject;

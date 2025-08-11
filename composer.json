@@ -31,7 +31,7 @@
         "symfony/http-kernel": "6.4.* || ^7.0",
         "symfony/routing": "6.4.* || ^7.0",
         "symfony/uid": "6.4.* || ^7.0",
-        "tpay-com/tpay-openapi-php": "^1.8"
+        "tpay-com/tpay-openapi-php": "^2.0"
     },
     "require-dev": {
         "ext-openssl": "*",

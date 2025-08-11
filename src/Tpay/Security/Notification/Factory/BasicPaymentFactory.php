@@ -6,8 +6,8 @@ namespace CommerceWeavers\SyliusTpayPlugin\Tpay\Security\Notification\Factory;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Tpay\OpenApi\Model\Fields\Field;
+use Tpay\OpenApi\Model\Objects\NotificationBody\BasicPayment;
 use Tpay\OpenApi\Utilities\Util;
-use tpaySDK\Model\Objects\NotificationBody\BasicPayment;
 
 final class BasicPaymentFactory implements BasicPaymentFactoryInterface
 {

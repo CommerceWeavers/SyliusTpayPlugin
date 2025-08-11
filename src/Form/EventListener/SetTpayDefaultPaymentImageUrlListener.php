@@ -6,11 +6,17 @@ namespace CommerceWeavers\SyliusTpayPlugin\Form\EventListener;
 
 use CommerceWeavers\SyliusTpayPlugin\Tpay\TpayApi;
 use Symfony\Component\Form\Event\PreSubmitEvent;
+use Tpay\OpenApi\Utilities\Cache;
 use Tpay\OpenApi\Utilities\TpayException;
 
 final class SetTpayDefaultPaymentImageUrlListener
 {
     private ?TpayApi $tpayApi = null;
+
+    public function __construct(
+        private readonly Cache $cache,
+    ) {
+    }
 
     public function __invoke(PreSubmitEvent $event): void
     {
@@ -71,6 +77,7 @@ final class SetTpayDefaultPaymentImageUrlListener
     {
         if (null === $this->tpayApi) {
             $this->setTpayApi(new TpayApi(
+                $this->cache,
                 $gatewayConfig['client_id'],
                 $gatewayConfig['client_secret'],
                 isset($gatewayConfig['production_mode']) && ((bool) $gatewayConfig['production_mode']),
