@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -40,6 +41,7 @@ final readonly class RemovePaymentMethodImageAction
             $this->paymentMethodImageRepository->remove($paymentMethodImage);
         }
 
+        /** @var Session $session */
         $session = $request->getSession();
         $this->addFlashMessage($session, 'success', 'commerce_weavers_sylius_tpay.admin.payment_method.image_has_been_removed');
 
