@@ -25,14 +25,18 @@ final class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
 
     public function test_it_throws_exception_if_payment_visa_mobile_key_is_missing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The given payment has no visa mobile phone number.');
+       self::expectException(\InvalidArgumentException::class);
+       self::expectExceptionMessage('The given payment has no visa mobile phone number.');
 
         $payment = $this->prophesize(PaymentInterface::class);
 
         $payment->getDetails()->willReturn(['tpay' => ['some_other_key' => true]]);
 
-        $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, 'https://cw.org/notify', 'pl_PL')->willReturn(['some' => 'data']);
+        $this->createRedirectBasedPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn(['some' => 'data'])
+            ->shouldBeCalled()
+        ;
 
         $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
     }
@@ -43,14 +47,52 @@ final class CreateVisaMobilePaymentPayloadFactoryTest extends TestCase
 
         $payment->getDetails()->willReturn(['tpay' => ['visa_mobile_phone_number' => '44123456789']]);
 
-        $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, 'https://cw.org/notify', 'pl_PL')->willReturn(['some' => 'data']);
+        $this->createRedirectBasedPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn(['some' => 'data'])
+            ->shouldBeCalled()
+        ;
 
         $payload = $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
 
-        $this->assertSame([
+        self::assertSame([
             'some' => 'data',
             'payer' => [
                 'phone' => '44123456789',
+            ],
+            'pay' => [
+                'groupId' => PayGroup::VISA_MOBILE,
+            ],
+        ], $payload);
+    }
+
+    public function test_it_removes_unsupported_payer_data_from_base_payload(): void
+    {
+        $payment = $this->prophesize(PaymentInterface::class);
+
+        $payment->getDetails()->willReturn(['tpay' => ['visa_mobile_phone_number' => '123123123']]);
+
+        $this->createRedirectBasedPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn([
+                'some' => 'data',
+                'payer' => [
+                    'phone' => '123123123',
+                    'city' => 'Warsaw',
+                    'ip' => '127.0.0.1',
+                    'userAgent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+                ],
+            ])
+            ->shouldBeCalled()
+        ;
+
+        $payload = $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
+
+        self::assertSame([
+            'some' => 'data',
+            'payer' => [
+                'phone' => '123123123',
+                'city' => 'Warsaw',
             ],
             'pay' => [
                 'groupId' => PayGroup::VISA_MOBILE,

@@ -18,7 +18,10 @@ final class CreateVisaMobilePaymentPayloadFactory implements CreateVisaMobilePay
 
     public function createFrom(PaymentInterface $payment, string $notifyUrl, string $localeCode): array
     {
-        /** @var array{pay: array<string, mixed>} $payload */
+        /** @var array{
+         *     pay: array<string, mixed>,
+         *     payer: array{phone: ?string, ip: ?string, userAgent: ?string},
+         * } $payload */
         $payload = $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, $notifyUrl, $localeCode);
 
         $paymentDetails = PaymentDetails::fromArray($payment->getDetails());
@@ -30,6 +33,13 @@ final class CreateVisaMobilePaymentPayloadFactory implements CreateVisaMobilePay
 
         $payload['payer']['phone'] = $visaMobilePhoneNumber;
         $payload['pay']['groupId'] = PayGroup::VISA_MOBILE;
+
+        return $this->removeUnsupportedPayerDetails($payload);
+    }
+
+    private function removeUnsupportedPayerDetails(array $payload): array
+    {
+        unset($payload['payer']['ip'], $payload['payer']['userAgent']);
 
         return $payload;
     }
