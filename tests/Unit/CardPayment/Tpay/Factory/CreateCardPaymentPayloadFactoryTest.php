@@ -28,12 +28,48 @@ final class CreateCardPaymentPayloadFactoryTest extends TestCase
     {
         $payment = $this->prophesize(PaymentInterface::class);
 
-        $this->createRedirectBasedPaymentPayloadFactory->createFrom($payment, 'https://cw.org/notify', 'pl_PL')->willReturn(['some' => 'data']);
+        $this->createRedirectBasedPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn(['some' => 'data'])
+            ->shouldBeCalled()
+        ;
 
         $payload = $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
 
-        $this->assertSame([
+        self::assertSame([
             'some' => 'data',
+            'pay' => [
+                'groupId' => PayGroup::CARD,
+            ],
+        ], $payload);
+    }
+
+    public function test_it_removes_unsupported_payer_data_from_base_payload(): void
+    {
+        $payment = $this->prophesize(PaymentInterface::class);
+
+        $this->createRedirectBasedPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn([
+                'some' => 'data',
+                'payer' => [
+                    'phone' => '123123123',
+                    'city' => 'Warsaw',
+                    'ip' => '127.0.0.1',
+                    'userAgent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+                ],
+            ])
+            ->shouldBeCalled()
+        ;
+
+        $payload = $this->createTestSubject()->createFrom($payment->reveal(), 'https://cw.org/notify', 'pl_PL');
+
+        self::assertSame([
+            'some' => 'data',
+            'payer' => [
+                'phone' => '123123123',
+                'city' => 'Warsaw',
+            ],
             'pay' => [
                 'groupId' => PayGroup::CARD,
             ],
