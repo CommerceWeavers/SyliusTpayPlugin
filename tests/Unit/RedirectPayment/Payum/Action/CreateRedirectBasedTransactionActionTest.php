@@ -49,7 +49,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
     public function test_it_supports_create_transaction_requests_with_a_valid_payment_model(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay_redirect');
+        $gatewayConfig->getFactoryName()->willReturn('tpay_redirect');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -93,7 +93,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
     public function test_it_does_not_support_requests_with_not_eligible_payment_model(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay_card');
+        $gatewayConfig->getFactoryName()->willReturn('tpay_card');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -208,7 +208,7 @@ final class CreateRedirectBasedTransactionActionTest extends TestCase
         $order->getLocaleCode()->willReturn('pl_PL');
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

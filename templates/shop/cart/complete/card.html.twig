@@ -1,7 +1,7 @@
 {% set order = get_hookable_context().resource %}
 {% set payment = order.lastCartPayment()|default(null) %}
 
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_card' %}
+{% if payment is not null and payment.method.gatewayConfig.factoryName == 'tpay_card' %}
     {% set form = get_hookable_context().form %}
 
     {% include '@CommerceWeaversSyliusTpayPlugin/shop/partial/card_form.html.twig' with { form, method: payment.method } %}

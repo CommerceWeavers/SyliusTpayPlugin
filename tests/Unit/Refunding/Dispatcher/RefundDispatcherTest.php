@@ -90,7 +90,7 @@ final class RefundDispatcherTest extends TestCase
         $gatewayName = 'tpay';
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn($gatewayName);
+        $gatewayConfig->getFactoryName()->willReturn($gatewayName);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -106,7 +106,7 @@ final class RefundDispatcherTest extends TestCase
         $gatewayName = 'tpay';
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn($gatewayName);
+        $gatewayConfig->getFactoryName()->willReturn($gatewayName);
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

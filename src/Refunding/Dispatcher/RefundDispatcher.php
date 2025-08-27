@@ -34,7 +34,7 @@ final class RefundDispatcher implements RefundDispatcherInterface
     {
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment instanceof PaymentInterface ? $payment->getMethod() : $payment->getPaymentMethod();
-        $gatewayName = $paymentMethod?->getGatewayConfig()?->getGatewayName();
+        $gatewayName = $paymentMethod?->getGatewayConfig()?->getFactoryName();
 
         Assert::notNull($gatewayName);
 

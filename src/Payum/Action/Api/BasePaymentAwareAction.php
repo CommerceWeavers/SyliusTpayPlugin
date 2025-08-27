@@ -65,6 +65,6 @@ abstract class BasePaymentAwareAction extends BaseApiAwareAction implements Gene
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment->getMethod();
 
-        return $paymentMethod?->getGatewayConfig()?->getGatewayName() ?? throw new \InvalidArgumentException('Cannot determine gateway name for a given payment');
+        return $paymentMethod?->getGatewayConfig()?->getFactoryName() ?? throw new \InvalidArgumentException('Cannot determine gateway name for a given payment');
     }
 }

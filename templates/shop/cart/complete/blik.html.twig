@@ -1,7 +1,7 @@
 {% set order = get_hookable_context().resource %}
 {% set payment = order.lastCartPayment()|default(null) %}
 
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_blik' %}
+{% if payment is not null and payment.method.gatewayConfig.factoryName == 'tpay_blik' %}
     {% set form = get_hookable_context().form.tpay %}
 
     <div class="container mt-5 card border-0 bg-body-tertiary mb-3">

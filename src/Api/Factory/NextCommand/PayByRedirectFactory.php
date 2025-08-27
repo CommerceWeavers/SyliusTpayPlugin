@@ -34,7 +34,7 @@ final class PayByRedirectFactory implements NextCommandFactoryInterface
 
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment->getMethod();
-        $gatewayName = $paymentMethod?->getGatewayConfig()?->getGatewayName();
+        $gatewayName = $paymentMethod?->getGatewayConfig()?->getFactoryName();
 
         return $gatewayName === GatewayFactory::NAME;
     }

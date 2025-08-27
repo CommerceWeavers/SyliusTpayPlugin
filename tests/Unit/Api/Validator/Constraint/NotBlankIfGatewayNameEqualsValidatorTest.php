@@ -117,7 +117,7 @@ final class NotBlankIfGatewayNameEqualsValidatorTest extends ConstraintValidator
     public function test_it_does_nothing_if_gateway_names_are_different(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -144,7 +144,7 @@ final class NotBlankIfGatewayNameEqualsValidatorTest extends ConstraintValidator
     public function test_it_adds_a_violation_if_value_is_null_and_gateway_names_matches(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -173,7 +173,7 @@ final class NotBlankIfGatewayNameEqualsValidatorTest extends ConstraintValidator
     public function test_it_adds_a_violation_if_value_is_an_empty_string_and_gateway_names_matches(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
