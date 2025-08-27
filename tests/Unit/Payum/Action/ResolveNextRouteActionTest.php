@@ -77,7 +77,7 @@ final class ResolveNextRouteActionTest extends TestCase
         $this->model->getState()->willReturn(PaymentInterface::STATE_PROCESSING);
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -123,7 +123,7 @@ final class ResolveNextRouteActionTest extends TestCase
         $this->model->getState()->willReturn(PaymentInterface::STATE_NEW);
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

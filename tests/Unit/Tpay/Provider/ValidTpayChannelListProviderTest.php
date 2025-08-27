@@ -139,7 +139,7 @@ final class ValidTpayChannelListProviderTest extends TestCase
     {
         $tpayBasedPaymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $tpayPblGatewayConfig = $this->prophesize(GatewayConfig::class);
-        $tpayPblGatewayConfig->getGatewayName()->willReturn(GatewayName::PAY_BY_LINK);
+        $tpayPblGatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
         $tpayBasedPaymentMethod->getGatewayConfig()->willReturn($tpayPblGatewayConfig);
 
         $this->availableTpayApiBankListProvider->provide()->willReturn(self::BANK_LIST);
@@ -170,12 +170,12 @@ final class ValidTpayChannelListProviderTest extends TestCase
         $tpayPblPaymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $tpayPblPaymentMethod->getGatewayConfig()->willReturn($tpayPblGatewayConfig = $this->prophesize(GatewayConfig::class));
 
-        $tpayPblGatewayConfig->getGatewayName()->willReturn(GatewayName::PAY_BY_LINK);
+        $tpayPblGatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
 
         $anotherTpayPblPaymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $anotherTpayPblPaymentMethod->getGatewayConfig()->willReturn($anotherTpayPblGatewayConfig = $this->prophesize(GatewayConfig::class));
 
-        $anotherTpayPblGatewayConfig->getGatewayName()->willReturn(GatewayName::VISA_MOBILE);
+        $anotherTpayPblGatewayConfig->getFactoryName()->willReturn(GatewayName::VISA_MOBILE);
 
         $this->availableTpayApiBankListProvider->provide()->willReturn(self::BANK_LIST);
 
@@ -210,12 +210,12 @@ final class ValidTpayChannelListProviderTest extends TestCase
         $tpayPblPaymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $tpayPblPaymentMethod->getGatewayConfig()->willReturn($tpayPblGatewayConfig = $this->prophesize(GatewayConfig::class));
 
-        $tpayPblGatewayConfig->getGatewayName()->willReturn(GatewayName::PAY_BY_LINK);
+        $tpayPblGatewayConfig->getFactoryName()->willReturn(GatewayName::PAY_BY_LINK);
 
         $anotherTpayPblPaymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $anotherTpayPblPaymentMethod->getGatewayConfig()->willReturn($anotherTpayPblGatewayConfig = $this->prophesize(GatewayConfig::class));
 
-        $anotherTpayPblGatewayConfig->getGatewayName()->willReturn('i_should_still_work');
+        $anotherTpayPblGatewayConfig->getFactoryName()->willReturn('i_should_still_work');
 
         $this->availableTpayApiBankListProvider->provide()->willReturn(self::BANK_LIST);
 

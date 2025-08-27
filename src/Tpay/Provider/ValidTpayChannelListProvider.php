@@ -59,7 +59,7 @@ final class ValidTpayChannelListProvider implements ValidTpayChannelListProvider
                 continue;
             }
 
-            $gatewayName = $tpayGatewayConfig->getGatewayName();
+            $gatewayName = $tpayGatewayConfig->getFactoryName();
 
             match ($gatewayName) {
                 GatewayName::VISA_MOBILE => array_push(
