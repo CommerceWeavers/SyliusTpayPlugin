@@ -8,22 +8,30 @@ use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\AddTpayImageFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\RemoveUnnecessaryPaymentDetailsFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\SetTpayDefaultPaymentImageUrlListener;
+use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CheckoutSelectPaymentTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CompleteTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentMethodTypeExtension;
-use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentTypeExtension;
+use CommerceWeavers\SyliusTpayPlugin\Form\Extension\SelectPaymentTypeExtension;
+use CommerceWeavers\SyliusTpayPlugin\Form\Type\CheckoutPaymentType;
+use CommerceWeavers\SyliusTpayPlugin\Form\Type\RetryPaymentType;
+use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayRetryPaymentDetailsType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\PaymentMethodImageType;
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayGatewayConfigurationType;
-use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
+use CommerceWeavers\SyliusTpayPlugin\Form\Type\CheckoutTpayPaymentDetailsType;
 use CommerceWeavers\SyliusTpayPlugin\Payum\Factory\TpayGatewayFactory;
 
 return static function(ContainerConfigurator $container): void {
     $services = $container->services();
 
-    $services->set(CompleteTypeExtension::class)
+    $services->set(CheckoutSelectPaymentTypeExtension::class)
         ->tag('form.type_extension')
     ;
 
-    $services->set(PaymentTypeExtension::class)
+    $services->set(SelectPaymentTypeExtension::class)
+        ->tag('form.type_extension')
+    ;
+
+    $services->set(CompleteTypeExtension::class)
         ->tag('form.type_extension')
     ;
 
@@ -35,6 +43,22 @@ return static function(ContainerConfigurator $container): void {
         ->tag('form.type_extension')
     ;
 
+    $services->set(CheckoutPaymentType::class)
+        ->args([
+            '%sylius.model.payment.class%',
+            '%sylius.form.type.checkout_payment.validation_groups%'
+        ])
+        ->tag('form.type')
+    ;
+
+    $services->set(RetryPaymentType::class)
+        ->args([
+            '%sylius.model.payment.class%',
+            '%sylius.form.type.checkout_payment.validation_groups%'
+        ])
+        ->tag('form.type')
+    ;
+
     $services->set(TpayGatewayConfigurationType::class)
         ->tag(
             'sylius.gateway_configuration_type',
@@ -43,10 +67,16 @@ return static function(ContainerConfigurator $container): void {
         ->tag('form.type')
     ;
 
-
-    $services->set(TpayPaymentDetailsType::class)
+    $services->set(CheckoutTpayPaymentDetailsType::class)
         ->args([
             service('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields'),
+            service('security.token_storage'),
+        ])
+        ->tag('form.type')
+    ;
+
+    $services->set(TpayRetryPaymentDetailsType::class)
+        ->args([
             service('security.token_storage'),
         ])
         ->tag('form.type')
