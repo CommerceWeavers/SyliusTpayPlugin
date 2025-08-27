@@ -241,7 +241,7 @@ final class CreateBlikLevelZeroTransactionActionTest extends TestCase
         $order->getLocaleCode()->willReturn('pl_PL');
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

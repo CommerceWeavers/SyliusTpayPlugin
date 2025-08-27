@@ -243,7 +243,7 @@ final class CreateGooglePayTransactionActionTest extends TestCase
         $payment->getOrder()->willReturn($order);
         $payment->getDetails()->willReturn([]);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
         $order->getLocaleCode()->willReturn('pl_PL');
         $this->notifyTokenFactory->create($payment, 'tpay', 'pl_PL')->willReturn($notifyToken);
         $this->api->transactions()->willReturn($transactions);

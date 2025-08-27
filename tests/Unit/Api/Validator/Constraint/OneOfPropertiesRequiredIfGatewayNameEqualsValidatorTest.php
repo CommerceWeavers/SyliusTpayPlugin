@@ -118,7 +118,7 @@ final class OneOfPropertiesRequiredIfGatewayNameEqualsValidatorTest extends Cons
     public function test_it_does_nothing_if_gateway_names_are_different(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -141,7 +141,7 @@ final class OneOfPropertiesRequiredIfGatewayNameEqualsValidatorTest extends Cons
     public function test_it_does_nothing_if_gateway_names_are_same_and_all_properties_are_set(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -164,7 +164,7 @@ final class OneOfPropertiesRequiredIfGatewayNameEqualsValidatorTest extends Cons
     public function test_it_adds_violation_if_gateway_names_are_same_and_any_of_required_properties_is_not_set(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('foo');
+        $gatewayConfig->getFactoryName()->willReturn('foo');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

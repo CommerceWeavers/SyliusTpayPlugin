@@ -50,7 +50,7 @@ final class NotBlankIfGatewayNameEqualsValidator extends ConstraintValidator
 
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $order?->getLastPayment(PaymentInterface::STATE_NEW)?->getMethod();
-        $gatewayName = $paymentMethod?->getGatewayConfig()?->getGatewayName();
+        $gatewayName = $paymentMethod?->getGatewayConfig()?->getFactoryName();
 
         if ($gatewayName !== $constraint->gatewayName) {
             return;

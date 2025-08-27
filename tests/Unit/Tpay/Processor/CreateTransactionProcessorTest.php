@@ -45,7 +45,7 @@ final class CreateTransactionProcessorTest extends TestCase
     public function test_it_processes_a_transaction_creation(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -72,7 +72,7 @@ final class CreateTransactionProcessorTest extends TestCase
         $this->expectExceptionMessage('So long and thanks for all the fish');
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -100,7 +100,7 @@ final class CreateTransactionProcessorTest extends TestCase
         $this->expectExceptionMessage('Payment failed');
 
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay');
+        $gatewayConfig->getFactoryName()->willReturn('tpay');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);

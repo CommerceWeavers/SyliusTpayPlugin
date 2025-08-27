@@ -72,7 +72,7 @@ final class CreateTransactionProcessor implements CreateTransactionProcessorInte
     {
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment->getMethod();
-        $gatewayName = $paymentMethod?->getGatewayConfig()?->getGatewayName();
+        $gatewayName = $paymentMethod?->getGatewayConfig()?->getFactoryName();
 
         Assert::notNull($gatewayName);
 

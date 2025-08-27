@@ -65,7 +65,7 @@ final class CreateRedirectBasedTransactionAction extends BasePaymentAwareAction
 
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $model->getMethod();
-        $gatewayName = $paymentMethod?->getGatewayConfig()?->getGatewayName();
+        $gatewayName = $paymentMethod?->getGatewayConfig()?->getFactoryName();
 
         return $gatewayName === GatewayFactory::NAME;
     }

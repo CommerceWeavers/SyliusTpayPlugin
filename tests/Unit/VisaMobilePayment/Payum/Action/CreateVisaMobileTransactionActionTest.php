@@ -41,7 +41,7 @@ final class CreateVisaMobileTransactionActionTest extends TestCase
     public function test_it_supports_create_transaction_requests_with_a_valid_gateway_name(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('tpay_visa_mobile');
+        $gatewayConfig->getFactoryName()->willReturn('tpay_visa_mobile');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -61,7 +61,7 @@ final class CreateVisaMobileTransactionActionTest extends TestCase
     public function test_it_does_not_support_create_transaction_requests_with_an_invalid_gateway_name(): void
     {
         $gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
-        $gatewayConfig->getGatewayName()->willReturn('invalid_gateway_name');
+        $gatewayConfig->getFactoryName()->willReturn('invalid_gateway_name');
 
         $paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
