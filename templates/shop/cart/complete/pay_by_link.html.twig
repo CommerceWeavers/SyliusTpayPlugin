@@ -1,7 +1,7 @@
 {% set order = get_hookable_context().resource %}
 {% set payment = order.lastCartPayment()|default(null) %}
 
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_pbl' %}
+{% if payment is not null and payment.method.gatewayConfig.factoryName == 'tpay_pbl' %}
     {% set form = get_hookable_context().form.tpay %}
 
     <div class="mb-1">

@@ -1,7 +1,7 @@
 {% set order = get_hookable_context().resource %}
 {% set payment = order.lastCartPayment()|default(null) %}
 
-{% if payment is not null and payment.method.gatewayConfig.gatewayName == 'tpay_google_pay' %}
+{% if payment is not null and payment.method.gatewayConfig.factoryName == 'tpay_google_pay' %}
     {% set form = get_hookable_context().form %}
 
     {% set gatewayConfig = payment.method.gatewayConfig %}
