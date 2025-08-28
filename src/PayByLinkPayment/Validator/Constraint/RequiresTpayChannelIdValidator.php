@@ -30,12 +30,7 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
             return;
         }
 
-        $payment = $order->getLastCartPayment();
-        if ($payment === null) {
-            return;
-        }
-
-        $factoryName = $payment->getMethod()?->getGatewayConfig()?->getFactoryName();
+        $factoryName = $this->getFactoryName($order, $constraint->isRetryPayment);
         if ($factoryName !== 'tpay_pbl') {
             return;
         }
@@ -46,5 +41,13 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
                 ->atPath('[tpay_channel_id]')
                 ->addViolation();
         }
+    }
+
+    private function getFactoryName(OrderLastNewPaymentAwareInterface $order, bool $isRetryPayment): ?string
+    {
+        return $isRetryPayment ?
+            $order->getLastNewPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName() :
+            $order->getLastCartPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName()
+        ;
     }
 }

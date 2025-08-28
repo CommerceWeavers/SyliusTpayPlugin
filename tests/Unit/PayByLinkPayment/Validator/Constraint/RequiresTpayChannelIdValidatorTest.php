@@ -88,6 +88,21 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
         $this->assertNoViolation();
     }
 
+    public function test_it_does_nothing_if_order_has_no_new_cart_payment_on_retry(): void
+    {
+        $this->initializeContextWithFactoryName('tpay_pbl');
+
+        $this->order
+            ->getLastNewPayment()
+            ->willReturn(null)
+            ->shouldBeCalled()
+        ;
+
+        $this->validator->validate([], new RequiresTpayChannelId(isRetryPayment: true));
+
+        $this->assertNoViolation();
+    }
+
     public function test_it_builds_violation_if_tpay_channel_id_is_missing_for_tpay_pbl(): void
     {
         $this->initializeContextWithFactoryName('tpay_pbl');
@@ -99,11 +114,43 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
             ->assertRaised();
     }
 
+    public function test_it_builds_violation_if_tpay_channel_id_is_missing_for_tpay_pbl_on_retry(): void
+    {
+        $this->initializeContextWithFactoryName('tpay_pbl');
+
+        $this->order->getLastNewPayment()
+            ->willReturn($this->payment->reveal())
+            ->shouldBeCalled()
+        ;
+
+        $this->validator->validate([], new RequiresTpayChannelId(isRetryPayment: true));
+
+        $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required')
+            ->atPath('property.path[tpay_channel_id]')
+            ->assertRaised();
+    }
+
     public function test_it_builds_violation_if_tpay_channel_id_is_empty_for_tpay_pbl(): void
     {
         $this->initializeContextWithFactoryName('tpay_pbl');
 
         $this->validator->validate(['tpay_channel_id' => ''], new RequiresTpayChannelId());
+
+        $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required')
+            ->atPath('property.path[tpay_channel_id]')
+            ->assertRaised();
+    }
+
+    public function test_it_builds_violation_if_tpay_channel_id_is_empty_for_tpay_pbl_on_retry(): void
+    {
+        $this->initializeContextWithFactoryName('tpay_pbl');
+
+        $this->order->getLastNewPayment()
+            ->willReturn($this->payment->reveal())
+            ->shouldBeCalled()
+        ;
+
+        $this->validator->validate(['tpay_channel_id' => ''], new RequiresTpayChannelId(isRetryPayment: true));
 
         $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required')
             ->atPath('property.path[tpay_channel_id]')
