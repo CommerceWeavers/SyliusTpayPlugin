@@ -25,13 +25,6 @@ final class CreateCardPaymentPayloadFactory implements CreateCardPaymentPayloadF
 
         $payload['pay']['groupId'] = PayGroup::CARD;
 
-        return $this->removeUnsupportedPayerDetails($payload);
-    }
-
-    private function removeUnsupportedPayerDetails(array $payload): array
-    {
-        unset($payload['payer']['ip'], $payload['payer']['userAgent']);
-
         return $payload;
     }
 }

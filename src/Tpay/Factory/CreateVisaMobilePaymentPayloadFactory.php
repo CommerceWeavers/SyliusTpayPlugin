@@ -34,13 +34,6 @@ final class CreateVisaMobilePaymentPayloadFactory implements CreateVisaMobilePay
         $payload['payer']['phone'] = $visaMobilePhoneNumber;
         $payload['pay']['groupId'] = PayGroup::VISA_MOBILE;
 
-        return $this->removeUnsupportedPayerDetails($payload);
-    }
-
-    private function removeUnsupportedPayerDetails(array $payload): array
-    {
-        unset($payload['payer']['ip'], $payload['payer']['userAgent']);
-
         return $payload;
     }
 }
