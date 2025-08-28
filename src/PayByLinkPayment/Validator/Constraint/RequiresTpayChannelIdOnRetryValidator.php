@@ -7,7 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint
 use Symfony\Component\Validator\Constraint;
 use Webmozart\Assert\Assert;
 
-final class RequiresTpayChannelIdValidator extends AbstractRequiresTpayChannelIdValidator
+final class RequiresTpayChannelIdOnRetryValidator extends AbstractRequiresTpayChannelIdValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
@@ -15,9 +15,9 @@ final class RequiresTpayChannelIdValidator extends AbstractRequiresTpayChannelId
             return;
         }
 
-        Assert::isInstanceOf($constraint, RequiresTpayChannelId::class);
+        Assert::isInstanceOf($constraint, RequiresTpayChannelIdOnRetry::class);
 
-        $payment = $this->getOrder()?->getLastCartPayment();
+        $payment = $this->getOrder()?->getLastNewPayment();
         if ($payment === null || !$this->isTpayPayByLinkFactory($payment)) {
             return;
         }

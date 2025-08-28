@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelIdOnRetry;
 use Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 final class RetryPaymentType extends AbstractType
 {
@@ -34,6 +36,11 @@ final class RetryPaymentType extends AbstractType
                 TpayRetryPaymentDetailsType::class,
                 [
                     'property_path' => 'details[tpay]',
+                    'constraints' => [
+                        new Valid(groups: ['sylius_checkout_complete']),
+                        new RequiresTpayChannelIdOnRetry(groups: ['sylius_checkout_complete']),
+                    ],
+                    'validation_groups' => ['sylius_checkout_complete'],
                 ],
             );
         });
