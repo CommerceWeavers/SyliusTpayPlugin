@@ -83,7 +83,7 @@ final class PayHandlerTest extends TestCase
         $this->messageBus
             ->dispatch(Argument::that(function (PayByBlik $pay): bool {
                 return $pay->blikToken === '777123' && $pay->paymentId === 1;
-            }), [])
+            }))
             ->shouldBeCalled()
             ->willReturn($payResultEnvelope)
         ;
