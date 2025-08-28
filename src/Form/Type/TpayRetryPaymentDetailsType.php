@@ -28,6 +28,8 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 final class TpayRetryPaymentDetailsType extends AbstractType
 {
+    private const PAYMENT_VALIDATION_GROUP_PREFIX = 'cw_payment_retry_';
+
     public function __construct(private readonly TokenStorageInterface $tokenStorage)
     {
     }
@@ -56,8 +58,8 @@ final class TpayRetryPaymentDetailsType extends AbstractType
                         return [$this->getValidationGroup($form)];
                     },
                     'constraints' => [
-                        new NotBlank(groups: ['payment_retry_' . BlikGatewayFactory::NAME]),
-                        new Length(exactly: 6, groups: ['payment_retry_' . BlikGatewayFactory::NAME]),
+                        new NotBlank(groups: [$this->provideRequiredValidationGroupByFactoryName(BlikGatewayFactory::NAME)]),
+                        new Length(exactly: 6, groups: [$this->provideRequiredValidationGroupByFactoryName(BlikGatewayFactory::NAME)]),
                     ],
                 ],
             )
@@ -71,7 +73,7 @@ final class TpayRetryPaymentDetailsType extends AbstractType
                         return [$this->getValidationGroup($form)];
                     },
                     'constraints' => [
-                        new EncodedGooglePayToken(groups: ['payment_retry_', GooglePayGatewayFactory::NAME]),
+                        new EncodedGooglePayToken(groups: [$this->provideRequiredValidationGroupByFactoryName(GooglePayGatewayFactory::NAME)]),
                     ],
                 ],
             )
@@ -94,7 +96,7 @@ final class TpayRetryPaymentDetailsType extends AbstractType
                         return [$this->getValidationGroup($form)];
                     },
                     'constraints' => [
-                        new ValidTpayChannel(groups: ['payment_retry_' . PBLGatewayFactory::NAME]),
+                        new ValidTpayChannel(groups: [$this->provideRequiredValidationGroupByFactoryName(PBLGatewayFactory::NAME)]),
                     ],
                 ],
             )
@@ -111,13 +113,13 @@ final class TpayRetryPaymentDetailsType extends AbstractType
                         return [$this->getValidationGroup($form)];
                     },
                     'constraints' => [
-                        new Length(min: 7, max: 15, groups: ['payment_retry_' . VisaMobileGatewayFactory::NAME]),
+                        new Length(min: 7, max: 15, groups: [$this->provideRequiredValidationGroupByFactoryName(VisaMobileGatewayFactory::NAME)]),
                         new Regex(
                             '/^\d+$/',
                             message: 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.regex',
-                            groups: ['payment_retry_' . VisaMobileGatewayFactory::NAME],
+                            groups: [$this->provideRequiredValidationGroupByFactoryName(VisaMobileGatewayFactory::NAME)],
                         ),
-                        new NotBlank(groups: ['payment_retry_' . VisaMobileGatewayFactory::NAME]),
+                        new NotBlank(groups: [$this->provideRequiredValidationGroupByFactoryName(VisaMobileGatewayFactory::NAME)]),
                     ],
                     'label' => 'sylius.ui.phone_number',
                 ],
@@ -152,8 +154,14 @@ final class TpayRetryPaymentDetailsType extends AbstractType
         }
 
         return \sprintf(
-            'payment_retry_%s',
+            '%s%s',
+            self::PAYMENT_VALIDATION_GROUP_PREFIX,
             $paymentMethod->getGatewayConfig()?->getFactoryName(),
         );
+    }
+
+    private function provideRequiredValidationGroupByFactoryName(string $factoryName): string
+    {
+        return \sprintf('%s%s', self::PAYMENT_VALIDATION_GROUP_PREFIX, $factoryName);
     }
 }

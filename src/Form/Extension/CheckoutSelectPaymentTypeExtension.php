@@ -24,6 +24,6 @@ final class CheckoutSelectPaymentTypeExtension extends AbstractTypeExtension
 
     public static function getExtendedTypes(): iterable
     {
-        return [CheckoutSelectPaymentType::class];
+        return yield CheckoutSelectPaymentType::class;
     }
 }
