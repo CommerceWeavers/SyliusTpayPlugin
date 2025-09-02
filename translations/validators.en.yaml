@@ -6,7 +6,7 @@ commerce_weavers_sylius_tpay:
             blik:
                 required_fields: 'You must provide a BLIK token or use an alias to pay with BLIK.'
             blik_token:
-                length: 'The BLIK token must have exactly {{ limit }} characters.'
+                length: 'The BLIK token must have exactly 6 characters.'
                 required: 'The BLIK token is required.'
                 required_with_alias_register: 'The BLIK token is required with an alias register action.'
             field:

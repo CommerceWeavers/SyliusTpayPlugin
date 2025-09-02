@@ -34,7 +34,8 @@
         </property>
         <property name="blikToken">
             <constraint name="Length">
-                <option name="value">6</option>
+                <option name="min">6</option>
+                <option name="max">6</option>
                 <option name="exactMessage">commerce_weavers_sylius_tpay.shop.pay.blik_token.length</option>
                 <option name="groups">
                     <value>commerce_weavers_sylius_tpay:shop:order:pay</value>
