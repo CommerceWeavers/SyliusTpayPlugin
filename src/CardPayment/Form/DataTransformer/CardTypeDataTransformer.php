@@ -16,12 +16,12 @@ final class CardTypeDataTransformer implements DataTransformerInterface
     /**
      * @param mixed|array{card: string} $value
      */
-    public function reverseTransform(mixed $value): string
+    public function reverseTransform(mixed $value): ?string
     {
-        if (!is_array($value)) {
-            return '';
+        if (!\is_array($value)) {
+            return null;
         }
 
-        return (string) ($value['card'] ?? '');
+        return isset($value['card']) ? (string) $value['card'] : null;
     }
 }

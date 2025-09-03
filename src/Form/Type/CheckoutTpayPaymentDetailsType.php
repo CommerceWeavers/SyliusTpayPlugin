@@ -18,9 +18,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-final class TpayPaymentDetailsType extends AbstractType
+final class CheckoutTpayPaymentDetailsType extends AbstractType
 {
     public function __construct(
         private readonly object $removeUnnecessaryPaymentDetailsFieldsListener,
@@ -51,6 +52,7 @@ final class TpayPaymentDetailsType extends AbstractType
                     'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
                         new Length(exactly: 6, groups: ['sylius_checkout_complete']),
+                        new NotBlank(groups: ['sylius_checkout_complete']),
                     ],
                 ],
             )
@@ -104,6 +106,7 @@ final class TpayPaymentDetailsType extends AbstractType
                             message: 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.regex',
                             groups: ['sylius_checkout_complete'],
                         ),
+                        new NotBlank(groups: ['sylius_checkout_complete']),
                     ],
                     'label' => 'sylius.ui.phone_number',
                 ],

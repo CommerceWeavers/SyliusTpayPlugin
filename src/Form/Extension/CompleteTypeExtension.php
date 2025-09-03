@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
-use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
+use CommerceWeavers\SyliusTpayPlugin\Form\Type\CheckoutTpayPaymentDetailsType;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelId;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -26,7 +26,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
         $builder
             ->add(
                 'tpay',
-                TpayPaymentDetailsType::class,
+                CheckoutTpayPaymentDetailsType::class,
                 [
                     'constraints' => [
                         new Valid(groups: ['sylius_checkout_complete']),
