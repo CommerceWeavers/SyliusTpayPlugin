@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
+use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\PaymentType;
+use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 
 final class PaymentTypeExtension extends AbstractTypeExtension
 {
@@ -19,6 +22,17 @@ final class PaymentTypeExtension extends AbstractTypeExtension
                 TpayPaymentDetailsType::class,
                 [
                     'property_path' => 'details[tpay]',
+                    'validation_groups' => static function (FormInterface $form) {
+                        $order = $form->getRoot()->getData();
+                        assert($order instanceof OrderInterface);
+                        assert($order instanceof OrderLastNewPaymentAwareInterface);
+
+                        if ($order->getState() === OrderInterface::STATE_CART) {
+                            return ['Default'];
+                        }
+
+                        return [$order->getLastPayment('new')?->getMethod()?->getGatewayConfig()?->getFactoryName()];
+                    },
                 ],
             )
         ;

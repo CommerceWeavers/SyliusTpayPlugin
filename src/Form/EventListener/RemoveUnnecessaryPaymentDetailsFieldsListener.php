@@ -10,6 +10,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
 {
     public function __invoke(FormEvent $event): void
     {
+        return;
         /** @var array{card?: string, blik_token?: string, tpay_channel_id?: string} $data */
         $data = $event->getData() ?? [];
         $form = $event->getForm();
