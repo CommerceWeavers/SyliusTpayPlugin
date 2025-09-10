@@ -107,7 +107,6 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         self::assertFalse($form->getElement()->findElement(WebDriverBy::cssSelector('button[type="submit"]'))->isDisplayed());
     }
 
-    /** @group requires-fixes */
     public function test_it_changes_payment_to_apple_pay(): void
     {
         $this->loadFixtures(['card_unpaid_order.yaml']);
@@ -117,8 +116,6 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->client->get('/en_US/order/tokenValue1');
         $form = $this->client->getCrawler()->selectButton('Pay')->form();
         $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Apple Pay (Tpay)')]"))->click();
-
-//        $this->client->waitFor('.apple-pay-btn-wrapper');
 
         self::assertTrue($this->client->executeScript('return typeof window.ApplePaySession !== "undefined";'));
         self::assertFalse($form->getElement()->findElement(WebDriverBy::cssSelector('button[type="submit"]'))->isDisplayed());
