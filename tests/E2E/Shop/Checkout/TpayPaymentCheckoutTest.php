@@ -60,9 +60,6 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         );
     }
 
-    /**
-     * @group dev
-     */
     public function test_it_does_not_allow_to_complete_checkout_without_filling_blik_token(): void
     {
         $this->processWithPaymentMethod('tpay_blik');
