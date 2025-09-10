@@ -98,7 +98,7 @@ web:
             allow: false
             rules:
                 # Only allow static files from the assets directories.
-                '\.(css|js|jpe?g|png|gif|svgz?|ico|bmp|tiff?|wbmp|ico|jng|bmp|html|pdf|otf|woff2|woff|eot|ttf|jar|swf|ogx|avi|wmv|asf|asx|mng|flv|webm|mov|ogv|mpe|mpe?g|mp4|3gpp|weba|ra|m4a|mp3|mp2|mpe?ga|midi?)$':
+                '\.(css|js|jpe?g|png|gif|webp|svgz?|ico|bmp|tiff?|wbmp|ico|jng|bmp|html|pdf|otf|woff2|woff|eot|ttf|jar|swf|ogx|avi|wmv|asf|asx|mng|flv|webm|mov|ogv|mpe|mpe?g|mp4|3gpp|weba|ra|m4a|mp3|mp2|mpe?ga|midi?)$':
                     allow: true
         '/media/image':
             expires: 2w
@@ -106,7 +106,7 @@ web:
             allow: false
             rules:
                 # Only allow static files from the assets directories.
-                '\.(jpe?g|png|gif|svgz?)$':
+                '\.(jpe?g|png|gif|webp|svgz?)$':
                     allow: true
         '/media/cache/resolve':
             passthru: "/index.php"
@@ -119,7 +119,7 @@ web:
             allow: false
             rules:
                 # Only allow static files from the assets directories.
-                '\.(jpe?g|png|gif|svgz?)$':
+                '\.(jpe?g|png|gif|webp|svgz?)$':
                     allow: true
 runtime:
     extensions:
