@@ -11,7 +11,11 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Valid;
+use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
+use Symfony\Component\Form\FormInterface;
 
+
+// ten form jest na ostatnim kroku koszyka tj /checkout/complete, wcześniej jest checkout/select-payment gdzie wybierasz blika google play visa itd
 final class CompleteTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -34,7 +38,13 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                     ],
                     'error_bubbling' => false,
                     'property_path' => 'last_cart_payment.details[tpay]',
-                    'validation_groups' => ['sylius_checkout_complete'],
+                    'validation_groups' => static function (FormInterface $form) {
+                        $order = $form->getRoot()->getData();
+
+                        assert($order instanceof OrderLastNewPaymentAwareInterface);
+
+                        return [$order->getLastCartPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName()];
+                    },
                 ],
             )
         ;
