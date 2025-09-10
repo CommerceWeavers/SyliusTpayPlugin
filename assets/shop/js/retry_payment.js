@@ -12,6 +12,12 @@ function showPaymentDetails(paymentCode) {
     .forEach(function(element) {
       element.disabled = false;
     });
+
+  const checkoutButton = document.querySelector('[data-test-pay-link], [data-pay-link]');
+  if (checkoutButton) {
+    const hiddenFor = ['tpay_apple_pay', 'tpay_google_pay'];
+    checkoutButton.hidden = hiddenFor.includes(paymentCode);
+  }
 }
 
 function resetPaymentDetails() {

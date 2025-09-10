@@ -1,5 +1,6 @@
 import './scss/style.scss';
 import './scss/pay_by_link.scss';
+import './js/apple_pay';
 import './js/blik_code';
 import './js/retry_payment';
 import './js/visa_mobile';

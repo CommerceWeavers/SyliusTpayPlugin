@@ -31,6 +31,18 @@ return static function(ContainerConfigurator $configurator): void {
                     'priority' => -300,
                 ],
             ],
+            'sylius_shop.order.show.content.form.select_payment.payment.choice.tpay_apple_pay.details' => [
+                'apple_pay' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/apple_pay.html.twig',
+                    'priority' => -300,
+                ],
+            ],
+            'sylius_shop.order.show.content.form.select_payment.payment.choice.tpay_google_pay.details' => [
+                'google_pay' => [
+                    'template' => '@CommerceWeaversSyliusTpayPlugin/shop/order/pay/google_pay.html.twig',
+                    'priority' => -300,
+                ],
+            ],
             'sylius_shop.order.show.content.form.select_payment.payment.choice.details' => [
                 'tpay_policies' => [
                     'component' => 'cw_tpay_shop:policies',
