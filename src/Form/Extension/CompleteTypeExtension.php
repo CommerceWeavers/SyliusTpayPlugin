@@ -43,7 +43,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
 
                         assert($order instanceof OrderLastNewPaymentAwareInterface);
 
-                        return [$order->getLastCartPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName()];
+                        return ['sylius_checkout_complete', $order->getLastCartPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName()];
                     },
                 ],
             )
