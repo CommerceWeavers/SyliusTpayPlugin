@@ -38,6 +38,10 @@ phpunit.e2e:
 	@vendor/bin/phpunit --testsuite e2e
 phpunit.unit:
 	@vendor/bin/phpunit --testsuite unit
+phpunit.dev:
+	@vendor/bin/phpunit --group dev
+phpunit.dev2:
+	@vendor/bin/phpunit --group dev2  --testdox
 phpunit.contract_external:
 	@vendor/bin/phpunit --testsuite contract_external
 qa.static-analysis: ecs phpstan
