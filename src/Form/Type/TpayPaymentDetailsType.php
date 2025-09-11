@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
 final class TpayPaymentDetailsType extends AbstractType
@@ -51,6 +52,9 @@ final class TpayPaymentDetailsType extends AbstractType
                     'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
                         new Length(exactly: 6, groups: ['sylius_checkout_complete']),
+                        new NotBlank([
+                            'groups' => ['sylius_checkout_complete'],
+                        ]),
                     ],
                 ],
             )

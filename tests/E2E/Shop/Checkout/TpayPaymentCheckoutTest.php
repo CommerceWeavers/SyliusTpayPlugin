@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Shop\Checkout;
 
+use Facebook\WebDriver\WebDriverBy;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\CartTrait;
@@ -56,6 +57,23 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
         $this->assertSame(
             'Podany kod jest nieprawidłowy, bądź utracił ważność.',
             $this->findElementByXpath("//div[contains(@class, 'alert') and contains(@class, 'alert-danger')]")->getText(),
+        );
+    }
+
+    public function test_it_does_not_allow_to_complete_checkout_without_filling_blik_token(): void
+    {
+        $this->processWithPaymentMethod('tpay_blik');
+        $this->fillBlikToken(self::FORM_ID, '');
+        $this->placeOrder();
+
+        $input = $this->client->findElement(WebDriverBy::id(\sprintf('%s_tpay_blik_token', self::FORM_ID)));
+        self::assertStringContainsString('is-invalid', $input->getAttribute('class') ?? '');
+
+        $validationElement = $this->client->findElement(WebDriverBy::cssSelector('.invalid-feedback'));
+        self::assertNotNull($validationElement);
+        self::assertSame(
+            'This value should not be blank.',
+            $validationElement->getText(),
         );
     }
 }
