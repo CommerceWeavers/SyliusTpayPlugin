@@ -46,6 +46,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set(TpayPaymentDetailsType::class)
         ->args([
+            service('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields'),
             service('security.token_storage'),
         ])
         ->tag('form.type')
