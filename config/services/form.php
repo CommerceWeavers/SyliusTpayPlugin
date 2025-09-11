@@ -6,6 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use CommerceWeavers\SyliusTpayPlugin\Entity\PaymentMethodImage;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\AddTpayImageFieldsListener;
+use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\RemoveUnnecessaryPaymentDetailsFieldsListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\EventListener\SetTpayDefaultPaymentImageUrlListener;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\CompleteTypeExtension;
 use CommerceWeavers\SyliusTpayPlugin\Form\Extension\PaymentMethodTypeExtension;
@@ -45,6 +46,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set(TpayPaymentDetailsType::class)
         ->args([
+            service('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields'),
             service('security.token_storage'),
         ])
         ->tag('form.type')
@@ -56,6 +58,8 @@ return static function(ContainerConfigurator $container): void {
         ])
         ->tag('form.type')
     ;
+
+    $services->set('commerce_weavers_sylius_tpay.form.event_listener.remove_unnecessary_payment_details_fields', RemoveUnnecessaryPaymentDetailsFieldsListener::class);
 
     $services
         ->set('commerce_weavers_sylius_tpay.form.event_listener.set_payment_default_image_url', SetTpayDefaultPaymentImageUrlListener::class)

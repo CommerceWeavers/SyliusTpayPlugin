@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -23,9 +24,9 @@ use Symfony\Component\Validator\Constraints\Regex;
 final class TpayPaymentDetailsType extends AbstractType
 {
     public function __construct(
+        private readonly object $removeUnnecessaryPaymentDetailsFieldsListener,
         private readonly TokenStorageInterface $tokenStorage,
-    )
-    {
+    ) {
     }
 
     /**
@@ -111,6 +112,11 @@ final class TpayPaymentDetailsType extends AbstractType
                 ],
             );
 
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            [$this->removeUnnecessaryPaymentDetailsFieldsListener, '__invoke'],
+        );
+
         $token = $this->tokenStorage->getToken();
         $user = $token?->getUser();
 
@@ -122,13 +128,15 @@ final class TpayPaymentDetailsType extends AbstractType
                     [
                         'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.card.save_credit_card_for_later.label',
                     ],
-                );
+                )
+            ;
 
             $builder
                 ->add(
                     'use_saved_credit_card',
                     TpayCreditCardChoiceType::class,
-                );
+                )
+            ;
         }
     }
 }
