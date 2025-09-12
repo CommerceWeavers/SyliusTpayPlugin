@@ -16,7 +16,7 @@ final class ArrayFieldToStringDataTransformer implements DataTransformerInterfac
     public function reverseTransform(mixed $value): string
     {
         if (\is_array($value)) {
-            return (string)($value['card'] ?? '');
+            return (string) ($value['card'] ?? '');
         }
 
         return '';

@@ -57,7 +57,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
 
                         $method = $order->getLastPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
-                        return array_unique(array_merge($validationGroups, $method));
+                        return array_unique(array_merge($validationGroups, [$method]));
                     },
                 ],
             );

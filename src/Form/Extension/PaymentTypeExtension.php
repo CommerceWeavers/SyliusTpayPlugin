@@ -18,8 +18,7 @@ final class PaymentTypeExtension extends AbstractTypeExtension
     public function __construct(
         private readonly array $validationGroups,
         private readonly DataTransformerInterface $cardDataTransformer,
-    )
-    {
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,7 +43,7 @@ final class PaymentTypeExtension extends AbstractTypeExtension
 
                         $method = $order->getLastPayment('new')?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
-                        return array_unique(array_merge($validationGroups, $method));
+                        return array_unique(array_merge($validationGroups, [$method]));
                     },
                 ],
             );
