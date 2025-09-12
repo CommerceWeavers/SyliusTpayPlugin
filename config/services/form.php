@@ -21,6 +21,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set(CompleteTypeExtension::class)
         ->args([
+            ['sylius_checkout_complete'],
             service('commerce_weavers_sylius_tpay.form.data_transformer.array_field_to_string'),
         ])
         ->tag('form.type_extension')
@@ -28,6 +29,7 @@ return static function(ContainerConfigurator $container): void {
 
     $services->set(PaymentTypeExtension::class)
         ->args([
+            [],
             service('commerce_weavers_sylius_tpay.form.data_transformer.array_field_to_null'),
         ])
         ->tag('form.type_extension')

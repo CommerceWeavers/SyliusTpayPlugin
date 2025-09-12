@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints\Valid;
 final class CompleteTypeExtension extends AbstractTypeExtension
 {
     public function __construct(
-        private DataTransformerInterface $cardDataTransformer,
+        private readonly array $validationGroups,
+        private readonly DataTransformerInterface $cardDataTransformer,
     ) {
     }
 
@@ -31,11 +32,11 @@ final class CompleteTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $this->addType($builder);
+        $this->addType($builder, $this->validationGroups);
         $this->addModelTransformer($builder);
     }
 
-    private function addType(FormBuilderInterface $builder): void
+    private function addType(FormBuilderInterface $builder, array $validationGroups): void
     {
         $builder
             ->add(
@@ -48,7 +49,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                         new Valid(groups: ['sylius_checkout_complete']),
                         new RequiresTpayChannelId(groups: ['sylius_checkout_complete']),
                     ],
-                    'validation_groups' => static function (FormInterface $form) {
+                    'validation_groups' => static function (FormInterface $form) use ($validationGroups): array {
                         $order = $form->getRoot()->getData();
 
                         assert($order instanceof OrderInterface);
@@ -56,7 +57,7 @@ final class CompleteTypeExtension extends AbstractTypeExtension
 
                         $method = $order->getLastPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
-                        return ['sylius_checkout_complete', $method];
+                        return array_unique(array_merge($validationGroups, $method));
                     },
                 ],
             );

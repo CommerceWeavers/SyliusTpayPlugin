@@ -16,18 +16,19 @@ use Symfony\Component\Form\FormInterface;
 final class PaymentTypeExtension extends AbstractTypeExtension
 {
     public function __construct(
-        private DataTransformerInterface $cardDataTransformer,
+        private readonly array $validationGroups,
+        private readonly DataTransformerInterface $cardDataTransformer,
     )
     {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $this->addType($builder);
+        $this->addType($builder, $this->validationGroups);
         $this->addModelTransformer($builder);
     }
 
-    private function addType(FormBuilderInterface $builder): void
+    private function addType(FormBuilderInterface $builder, array $validationGroups): void
     {
         $builder
             ->add(
@@ -35,7 +36,7 @@ final class PaymentTypeExtension extends AbstractTypeExtension
                 TpayPaymentDetailsType::class,
                 [
                     'property_path' => 'details[tpay]',
-                    'validation_groups' => static function (FormInterface $form) {
+                    'validation_groups' => static function (FormInterface $form) use ($validationGroups): array {
                         $order = $form->getRoot()->getData();
 
                         assert($order instanceof OrderInterface);
@@ -43,7 +44,7 @@ final class PaymentTypeExtension extends AbstractTypeExtension
 
                         $method = $order->getLastPayment('new')?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
-                        return [$method];
+                        return array_unique(array_merge($validationGroups, $method));
                     },
                 ],
             );
