@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
-use Sylius\Bundle\CoreBundle\Form\Type\Checkout\PaymentType;
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\FormBuilderInterface;
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
+use Sylius\Bundle\CoreBundle\Form\Type\Checkout\PaymentType;
 use Sylius\Component\Core\Model\OrderInterface;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 
 final class PaymentTypeExtension extends AbstractTypeExtension
 {
@@ -38,8 +38,8 @@ final class PaymentTypeExtension extends AbstractTypeExtension
                         $method = $order->getLastPayment('new')?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
                         return [$method];
-                    }
-                ]
+                    },
+                ],
             );
     }
 
@@ -55,9 +55,9 @@ final class PaymentTypeExtension extends AbstractTypeExtension
                         return null;
                     }
 
-                    return isset($value['card']) ? (string)$value['card'] : null;
-                }
-            )
+                    return isset($value['card']) ? (string) $value['card'] : null;
+                },
+            ),
         );
     }
 

@@ -52,8 +52,8 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                         $method = $order->getLastPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName();
 
                         return ['sylius_checkout_complete', $method];
-                    }
-                ]
+                    },
+                ],
             );
     }
 
@@ -70,8 +70,8 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                     }
 
                     return (string) ($value['card'] ?? '');
-                }
-            )
+                },
+            ),
         );
     }
 
