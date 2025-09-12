@@ -82,7 +82,6 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             cards_api: 'encrypted_<getenv("TPAY_CARDS_API")>'
             notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
             production_mode: false
-            notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
     gateway_tpay_blik:
         gatewayName: 'tpay_blik'
         factoryName: 'tpay_blik'
