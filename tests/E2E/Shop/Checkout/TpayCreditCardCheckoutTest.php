@@ -7,6 +7,8 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Shop\Checkout;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\CartTrait;
+use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\PaymentNotificationTrait;
+use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\TpayNotificationPayloadTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\TpayTrait;
 
 final class TpayCreditCardCheckoutTest extends E2ETestCase
@@ -14,6 +16,8 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
     use CartTrait;
     use TpayTrait;
     use LoginShopUserTrait;
+    use PaymentNotificationTrait;
+    use TpayNotificationPayloadTrait;
 
     private const FORM_ID = 'sylius_checkout_complete';
 
@@ -28,6 +32,7 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->loginShopUser('tony@nonexisting.cw', 'sylius');
         $this->showSelectingShippingMethodStep();
         $this->processWithDefaultShippingMethod();
+        $this->resetEntityManager();
     }
 
     public function test_it_completes_the_checkout_using_credit_card(): void
@@ -36,7 +41,13 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->fillCardData(self::FORM_ID, self::CARD_NUMBER, '123', '01', '2029');
         $this->placeOrder();
 
-        $this->assertPageTitleContains('Waiting for payment');
+        self::assertPageTitleContains('Waiting for payment');
+
+        $this->triggerNotificationForLastPayment($this->getCreditCardNotificationPayload());
+
+        $this->client->waitForElementToContain('body', 'Thank you!');
+
+        self::assertPageTitleContains('Thank you!');
     }
 
     public function test_it_completes_the_checkout_using_credit_card_and_saves_the_card(): void
@@ -45,6 +56,9 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->fillCardData(self::FORM_ID, self::CARD_NUMBER, '123', '01', '2029', true);
         $this->placeOrder();
 
-        $this->assertPageTitleContains('Waiting for payment');
+        $this->triggerNotificationForLastPayment($this->getCreditCardNotificationPayload());
+        $this->client->get('/en_US/account/credit-cards');
+
+        self::assertSelectorTextContains('[data-test-grid-table-body]', 'VISA 1111 01-2029');
     }
 }

@@ -67,6 +67,11 @@ abstract class E2ETestCase extends PantherTestCase
         $this->entityManager->clear();
     }
 
+    protected function resetEntityManager(): void
+    {
+        self::getContainer()->get('doctrine')->resetManager();
+    }
+
     protected function loadFixtures(array $fixtureFiles): void
     {
         $base = dirname(__FILE__, 1) . '/Resources/fixtures';
