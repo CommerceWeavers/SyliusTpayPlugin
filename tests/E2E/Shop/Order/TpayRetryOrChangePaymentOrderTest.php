@@ -9,6 +9,9 @@ use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\TpayTrait;
 
+/**
+ * @group retry-payment
+ */
 final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
 {
     use TpayTrait;

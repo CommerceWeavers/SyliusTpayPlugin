@@ -18,9 +18,6 @@ return function(ContainerConfigurator $container): void {
     ;
 
     $services->set('commerce_weavers_sylius_tpay.card_payment.form.type.tpay_card', TpayCardType::class)
-        ->args([
-            service('commerce_weavers_sylius_tpay.card_payment.form.data_transformer.card_type'),
-        ])
         ->tag('form.type')
     ;
 

@@ -17,7 +17,6 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
             return;
         }
 
-        /** @var array{card?: string, blik_token?: string, tpay_channel_id?: string} $data */
         $data = $event->getData() ?? [];
         $form = $event->getForm();
 
