@@ -11,6 +11,7 @@ use CommerceWeavers\SyliusTpayPlugin\Refunding\Checker\RefundPluginAvailabilityC
 use CommerceWeavers\SyliusTpayPlugin\Refunding\Dispatcher\RefundDispatcher;
 use CommerceWeavers\SyliusTpayPlugin\Refunding\Dispatcher\RefundDispatcherInterface;
 use CommerceWeavers\SyliusTpayPlugin\Refunding\Workflow\Listener\DispatchRefundListener;
+use CommerceWeavers\SyliusTpayPlugin\Refunding\Provider\TpayAwareRefundPaymentMethodsProvider;
 use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
 
 return function(ContainerConfigurator $container): void {
@@ -34,6 +35,14 @@ return function(ContainerConfigurator $container): void {
             service('commerce_weavers_sylius_tpay.refunding.checker.refund_dispatch_eligibility'),
         ])
         ->alias(RefundDispatcherInterface::class, 'commerce_weavers_sylius_tpay.refunding.dispatcher.refund')
+    ;
+
+    $services->set('commerce_weavers_sylius_tpay.refunding.provider.refund_payment_methods.tpay_aware', TpayAwareRefundPaymentMethodsProvider::class)
+        ->decorate('sylius_refund.provider.refund_payment_methods')
+        ->args([
+            service('.inner'),
+        ])
+        ->alias('sylius_refund.provider.refund_payment_methods', 'commerce_weavers_sylius_tpay.refunding.provider.refund_payment_methods.tpay_aware')
     ;
 
     if (SyliusCoreBundle::VERSION_ID >= 11300) {
