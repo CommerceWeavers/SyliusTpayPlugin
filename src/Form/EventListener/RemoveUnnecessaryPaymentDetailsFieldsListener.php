@@ -13,7 +13,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
     {
         $payment = $event->getForm()->getParent()?->getData();
 
-        if ($payment->getState() === OrderInterface::STATE_NEW) {
+        if ($payment?->getState() === OrderInterface::STATE_NEW) {
             return;
         }
 
