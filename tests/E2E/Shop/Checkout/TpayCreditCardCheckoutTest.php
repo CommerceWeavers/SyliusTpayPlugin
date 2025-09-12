@@ -30,6 +30,9 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->processWithDefaultShippingMethod();
     }
 
+    /**
+     * @group checkout
+     */
     public function test_it_completes_the_checkout_using_credit_card(): void
     {
         $this->processWithPaymentMethod('tpay_card');
@@ -39,6 +42,9 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment');
     }
 
+    /**
+     * @group checkout
+     */
     public function test_it_completes_the_checkout_using_credit_card_and_saves_the_card(): void
     {
         $this->processWithPaymentMethod('tpay_card');

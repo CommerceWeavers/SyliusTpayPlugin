@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
+use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelId;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 final class CompleteTypeExtension extends AbstractTypeExtension
@@ -28,16 +30,24 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                 'tpay',
                 TpayPaymentDetailsType::class,
                 [
+                    'error_bubbling' => false,
+                    'property_path' => 'last_cart_payment.details[tpay]',
                     'constraints' => [
                         new Valid(groups: ['sylius_checkout_complete']),
                         new RequiresTpayChannelId(groups: ['sylius_checkout_complete']),
                     ],
-                    'error_bubbling' => false,
-                    'property_path' => 'last_cart_payment.details[tpay]',
-                    'validation_groups' => ['sylius_checkout_complete'],
-                ],
-            )
-        ;
+                    'validation_groups' => static function (FormInterface $form) {
+                        $order = $form->getRoot()->getData();
+
+                        assert($order instanceof OrderInterface);
+                        assert($order instanceof OrderLastNewPaymentAwareInterface);
+
+                        $method = $order->getLastPayment()?->getMethod()?->getGatewayConfig()?->getFactoryName();
+
+                        return ['sylius_checkout_complete', $method];
+                    }
+                ]
+            );
     }
 
     public static function getExtendedTypes(): iterable

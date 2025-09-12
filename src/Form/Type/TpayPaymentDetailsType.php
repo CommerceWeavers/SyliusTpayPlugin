@@ -49,12 +49,9 @@ final class TpayPaymentDetailsType extends AbstractType
                     'data' => null,
                     'property_path' => '[blik_token]',
                     'label' => 'commerce_weavers_sylius_tpay.shop.order_summary.blik.token',
-                    'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
-                        new Length(exactly: 6, groups: ['sylius_checkout_complete']),
-                        new NotBlank([
-                            'groups' => ['sylius_checkout_complete'],
-                        ]),
+                        new NotBlank(groups: ['tpay_blik']),
+                        new Length(exactly: 6, groups: ['tpay_blik']),
                     ],
                 ],
             )
@@ -64,9 +61,9 @@ final class TpayPaymentDetailsType extends AbstractType
                 [
                     'property_path' => '[google_pay_token]',
                     'label' => false,
-                    'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
-                        new EncodedGooglePayToken(groups: ['sylius_checkout_complete']),
+                        new NotBlank(groups: ['tpay_google_pay']),
+                        new EncodedGooglePayToken(groups: ['tpay_google_pay']),
                     ],
                 ],
             )
@@ -76,7 +73,9 @@ final class TpayPaymentDetailsType extends AbstractType
                 [
                     'property_path' => '[apple_pay_token]',
                     'label' => false,
-                    'validation_groups' => ['sylius_checkout_complete'],
+                    'constraints' => [
+                        new NotBlank(groups: ['tpay_apple_pay']),
+                    ],
                 ],
             )
             ->add(
@@ -84,11 +83,11 @@ final class TpayPaymentDetailsType extends AbstractType
                 HiddenType::class,
                 [
                     'constraints' => [
-                        new ValidTpayChannel(groups: ['sylius_checkout_complete']),
+                        new NotBlank(groups: ['tpay_pbl']),
+                        new ValidTpayChannel(groups: ['tpay_pbl']),
                     ],
                     'error_bubbling' => false,
                     'property_path' => '[tpay_channel_id]',
-                    'validation_groups' => ['sylius_checkout_complete'],
                 ],
             )
             ->add(
@@ -100,13 +99,13 @@ final class TpayPaymentDetailsType extends AbstractType
                         'placeholder' => 'commerce_weavers_sylius_tpay.shop.order_summary.visa_mobile.placeholder',
                         'maxLength' => 15,
                     ],
-                    'validation_groups' => ['sylius_checkout_complete'],
                     'constraints' => [
-                        new Length(min: 7, max: 15, groups: ['sylius_checkout_complete']),
+                        new NotBlank(groups: ['tpay_visa_mobile']),
+                        new Length(min: 7, max: 15, groups: ['tpay_visa_mobile']),
                         new Regex(
                             '/^\d+$/',
                             message: 'commerce_weavers_sylius_tpay.shop.pay.visa_mobile.regex',
-                            groups: ['sylius_checkout_complete'],
+                            groups: ['tpay_visa_mobile'],
                         ),
                     ],
                     'label' => 'sylius.ui.phone_number',
