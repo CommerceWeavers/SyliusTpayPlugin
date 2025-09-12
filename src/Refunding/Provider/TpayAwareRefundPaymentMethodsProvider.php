@@ -48,5 +48,3 @@ final class TpayAwareRefundPaymentMethodsProvider implements RefundPaymentMethod
         return $order->getLastPayment(PaymentInterface::STATE_COMPLETED);
     }
 }
-
-
