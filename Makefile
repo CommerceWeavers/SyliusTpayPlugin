@@ -35,13 +35,17 @@ phpunit:
 phpunit.api:
 	@vendor/bin/phpunit --testsuite api
 phpunit.e2e:
-	@vendor/bin/phpunit --testsuite e2e
+	@vendor/bin/phpunit --testsuite e2e --testdox --exclude-group requires-fixes
 phpunit.unit:
 	@vendor/bin/phpunit --testsuite unit
 phpunit.dev:
-	@vendor/bin/phpunit --group dev
+	@vendor/bin/phpunit --group dev --testdox
+phpunit.checkout:
+	@vendor/bin/phpunit --group checkout
 phpunit.dev2:
 	@vendor/bin/phpunit --group dev2  --testdox
+phpunit.dev3:
+	@vendor/bin/phpunit --group dev3  --testdox
 phpunit.contract_external:
 	@vendor/bin/phpunit --testsuite contract_external
 qa.static-analysis: ecs phpstan
