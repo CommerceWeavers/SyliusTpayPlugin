@@ -12,9 +12,9 @@ use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 
 /** @mixin E2ETestCase */
-trait NotificationTrait
+trait PaymentNotificationTrait
 {
-    protected function sendNotificationForLastPayment(array $params): void
+    protected function triggerNotificationForLastPayment(array $params): void
     {
         $token = $this->createNotifyTokenForLastPayment('tpay_card', 'en_US');
 
@@ -25,16 +25,18 @@ trait NotificationTrait
         $bodyJs = json_encode($body);
         $urlJs = json_encode($pathWithQuery);
 
-        $this->client->executeScript(
+        $response = $this->client->executeScript(
             sprintf(
                 "var xhr = new XMLHttpRequest();xhr.open('POST', %s, false);xhr.setRequestHeader('x-jws-signature','dummy');xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');xhr.send(%s);return xhr.status + '|' + xhr.responseText;",
                 $urlJs,
                 $bodyJs,
             ),
         );
+
+        self::assertSame('200|TRUE', $response);
     }
 
-    protected function createNotifyTokenForLastPayment(string $gatewayName, string $locale): TokenInterface
+    private function createNotifyTokenForLastPayment(string $gatewayName, string $locale): TokenInterface
     {
         $order = $this->getLastOrder();
 
@@ -47,7 +49,7 @@ trait NotificationTrait
         return $notifyTokenFactory->create($payment, $gatewayName, $locale);
     }
 
-    protected function getLastOrder(): OrderInterface
+    private function getLastOrder(): OrderInterface
     {
         /** @var OrderRepositoryInterface $orderRepository */
         $orderRepository = static::getContainer()->get('sylius.repository.order');

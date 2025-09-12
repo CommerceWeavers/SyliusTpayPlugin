@@ -1,0 +1,10 @@
+services:
+  commerce_weavers_sylius_tpay.tests.always_valid_signature_verifier:
+    class: Tests\CommerceWeavers\SyliusTpayPlugin\Helper\AlwaysValidSignatureVerifier
+
+  commerce_weavers_sylius_tpay.tests.always_valid_checksum_verifier:
+    class: Tests\CommerceWeavers\SyliusTpayPlugin\Helper\AlwaysValidChecksumVerifier
+
+  commerce_weavers_sylius_tpay.tpay.security.notification.verifier.signature: '@commerce_weavers_sylius_tpay.tests.always_valid_signature_verifier'
+
+  commerce_weavers_sylius_tpay.tpay.security.notification.verifier.checksum: '@commerce_weavers_sylius_tpay.tests.always_valid_checksum_verifier'
