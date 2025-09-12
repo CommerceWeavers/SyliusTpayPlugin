@@ -10,13 +10,18 @@ use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\Requi
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 final class CompleteTypeExtension extends AbstractTypeExtension
 {
+    public function __construct(
+        private DataTransformerInterface $cardDataTransformer,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var OrderInterface $order */
@@ -59,20 +64,11 @@ final class CompleteTypeExtension extends AbstractTypeExtension
 
     private function addModelTransformer(FormBuilderInterface $builder): void
     {
-        $builder->get('tpay')->get('card')->addModelTransformer(
-            new CallbackTransformer(
-                function (mixed $value): null {
-                    return null;
-                },
-                function (mixed $value): string {
-                    if (!\is_array($value)) {
-                        return '';
-                    }
+        $builder = $builder->get('tpay');
 
-                    return (string) ($value['card'] ?? '');
-                },
-            ),
-        );
+        if ($builder->has('card')) {
+            $builder->get('card')->addModelTransformer($this->cardDataTransformer);
+        }
     }
 
     public static function getExtendedTypes(): iterable

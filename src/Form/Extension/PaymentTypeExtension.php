@@ -9,12 +9,18 @@ use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\PaymentType;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 
 final class PaymentTypeExtension extends AbstractTypeExtension
 {
+    public function __construct(
+        private DataTransformerInterface $cardDataTransformer,
+    )
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->addType($builder);
@@ -45,20 +51,11 @@ final class PaymentTypeExtension extends AbstractTypeExtension
 
     private function addModelTransformer(FormBuilderInterface $builder): void
     {
-        $builder->get('tpay')->get('card')->addModelTransformer(
-            new CallbackTransformer(
-                function (mixed $value): null {
-                    return null;
-                },
-                function (mixed $value): ?string {
-                    if (!\is_array($value)) {
-                        return null;
-                    }
+        $builder = $builder->get('tpay');
 
-                    return isset($value['card']) ? (string) $value['card'] : null;
-                },
-            ),
-        );
+        if ($builder->has('card')) {
+            $builder->get('card')->addModelTransformer($this->cardDataTransformer);
+        }
     }
 
     public static function getExtendedTypes(): iterable
