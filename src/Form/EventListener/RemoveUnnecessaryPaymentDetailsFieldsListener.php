@@ -11,7 +11,7 @@ final class RemoveUnnecessaryPaymentDetailsFieldsListener
 {
     public function __invoke(FormEvent $event): void
     {
-        $payment = $event->getForm()->getParent()->getData();
+        $payment = $event->getForm()->getParent()?->getData();
 
         if ($payment->getState() === OrderInterface::STATE_NEW) {
             return;
