@@ -40,9 +40,8 @@ return function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.refunding.provider.refund_payment_methods.tpay_aware', TpayAwareRefundPaymentMethodsProvider::class)
         ->decorate('sylius_refund.provider.refund_payment_methods')
         ->args([
-            service('.inner'),
+            service('.inner')
         ])
-        ->alias('sylius_refund.provider.refund_payment_methods', 'commerce_weavers_sylius_tpay.refunding.provider.refund_payment_methods.tpay_aware')
     ;
 
     if (SyliusCoreBundle::VERSION_ID >= 11300) {
