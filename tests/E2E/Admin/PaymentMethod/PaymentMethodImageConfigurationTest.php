@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Admin\PaymentMethod;
 
+use Facebook\WebDriver\Remote\LocalFileDetector;
 use Facebook\WebDriver\WebDriverBy;
 use TestApp\Entity\PaymentMethod;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
@@ -33,10 +34,20 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
 
     public function test_it_allows_to_upload_image_for_payment_method(): void
     {
-        $uploadField = $this->client->findElement(WebDriverBy::id('sylius_admin_payment_method_image_file'));
+        $this->uploadPaymentMethodImage();
 
-        self::assertNotNull($uploadField);
-        self::assertSame('file', $uploadField->getAttribute('type'));
+        self::assertSelectorExists('img[alt="method-logo"]');
+        self::assertSelectorAttributeContains('button.btn-danger', 'formaction', 'remove-image');
+    }
+
+    public function test_it_allows_to_remove_uploaded_image(): void
+    {
+        $this->uploadPaymentMethodImage();
+
+        $this->client->findElement(WebDriverBy::cssSelector('button.btn-danger'))->click();
+
+        self::assertSelectorNotExists('img[alt="method-logo"]');
+        self::assertSelectorNotExists('button.btn-danger');
     }
 
     private function goToEditPaymentMethodPage(): void
@@ -51,5 +62,19 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
             'GET',
             \sprintf('/admin/payment-methods/%s/edit', $paymentMethod->getId()),
         );
+    }
+
+    private function uploadPaymentMethodImage(): void
+    {
+        $uploadField = $this->client->findElement(WebDriverBy::id('sylius_admin_payment_method_image_file'));
+        $uploadField->setFileDetector(new LocalFileDetector());
+        $uploadField->sendKeys($this->getImagePath());
+
+        $this->client->submitForm('Update');
+    }
+
+    private function getImagePath(): string|false
+    {
+        return realpath(__DIR__ . '/../../Resources/media/test-image.gif');
     }
 }
