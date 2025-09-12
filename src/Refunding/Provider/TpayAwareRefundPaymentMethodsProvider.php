@@ -24,15 +24,14 @@ final class TpayAwareRefundPaymentMethodsProvider implements RefundPaymentMethod
 
         $lastCompletedPayment = $this->getLastCompletedPayment($order);
 
-        if ($lastCompletedPayment === null) {
+        if (null === $lastCompletedPayment) {
             return $paymentMethods;
         }
 
         $details = $lastCompletedPayment->getDetails();
         $paymentDetails = PaymentDetails::fromArray($details);
-        $transactionId = $paymentDetails->getTransactionId();
 
-        if ($transactionId !== null) {
+        if (null !== $paymentDetails->getTransactionId()) {
             return $paymentMethods;
         }
 
