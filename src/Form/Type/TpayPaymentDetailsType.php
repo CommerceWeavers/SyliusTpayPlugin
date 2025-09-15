@@ -83,7 +83,6 @@ final class TpayPaymentDetailsType extends AbstractType
                 'tpay_channel_id',
                 HiddenType::class,
                 [
-                    'data' => null,
                     'constraints' => [
                         new RequiresTpayChannelId(groups: ['tpay_pbl']),
                         new ValidTpayChannel(groups: ['tpay_pbl']),
@@ -114,10 +113,10 @@ final class TpayPaymentDetailsType extends AbstractType
                 ],
             );
 
-//        $builder->addEventListener(
-//            FormEvents::PRE_SUBMIT,
-//            [$this->removeUnnecessaryPaymentDetailsFieldsListener, '__invoke'],
-//        );
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            [$this->removeUnnecessaryPaymentDetailsFieldsListener, '__invoke'],
+        );
 
         $token = $this->tokenStorage->getToken();
         $user = $token?->getUser();
