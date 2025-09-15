@@ -7,6 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Form\Type;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\Type\TpayCardType;
 use CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\Type\TpayCreditCardChoiceType;
 use CommerceWeavers\SyliusTpayPlugin\GooglePayPayment\Validator\Constraint\EncodedGooglePayToken;
+use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelId;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\ValidTpayChannel;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Form\AbstractType;
@@ -83,7 +84,7 @@ final class TpayPaymentDetailsType extends AbstractType
                 HiddenType::class,
                 [
                     'constraints' => [
-                        new NotBlank(groups: ['tpay_pbl']),
+                        new RequiresTpayChannelId(groups: ['tpay_pbl']),
                         new ValidTpayChannel(groups: ['tpay_pbl']),
                     ],
                     'error_bubbling' => false,
