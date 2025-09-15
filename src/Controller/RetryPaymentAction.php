@@ -7,6 +7,7 @@ namespace CommerceWeavers\SyliusTpayPlugin\Controller;
 use CommerceWeavers\SyliusTpayPlugin\Command\CancelLastPayment;
 use CommerceWeavers\SyliusTpayPlugin\Payment\Exception\PaymentCannotBeCancelledException;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -48,6 +49,14 @@ final class RetryPaymentAction
 
         $order = $this->findOrderOr404($orderToken);
         Assert::notNull($order->getTokenValue());
+
+        if (null !== $order->getLastPayment(PaymentInterface::STATE_NEW)) {
+            $this->addFlashMessage(self::INFO_FLASH_TYPE, 'commerce_weavers_sylius_tpay.shop.retry_payment.ready_to_retry');
+
+            return new RedirectResponse(
+                $this->router->generate('sylius_shop_order_show', ['tokenValue' => $orderToken]),
+            );
+        }
 
         try {
             $this->messageBus->dispatch(new CancelLastPayment($order->getTokenValue()));

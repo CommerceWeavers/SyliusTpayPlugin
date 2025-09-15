@@ -6,3 +6,4 @@ commerce_weavers_sylius_tpay:
         retry_payment:
             cannot_be_retried: 'This payment cannot be retried'
             previous_payment_cancelled: 'The previous payment has been cancelled'
+            ready_to_retry: 'You can retry the payment now'
