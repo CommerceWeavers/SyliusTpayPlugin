@@ -6,22 +6,19 @@ namespace CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-final class CardTypeDataTransformer implements DataTransformerInterface
+final class ArrayFieldToStringDataTransformer implements DataTransformerInterface
 {
-    public function transform($value): ?array
+    public function transform(mixed $value): null
     {
         return null;
     }
 
-    /**
-     * @param mixed|array{card: string} $value
-     */
     public function reverseTransform(mixed $value): string
     {
-        if (!is_array($value)) {
-            return '';
+        if (\is_array($value)) {
+            return (string) ($value['card'] ?? '');
         }
 
-        return (string) ($value['card'] ?? '');
+        return '';
     }
 }

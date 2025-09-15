@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\CardPayment\Form\DataTransformer;
 
-use CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\DataTransformer\CardTypeDataTransformer;
+use CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\DataTransformer\ArrayFieldToStringDataTransformer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\DataTransformerInterface;
 
-final class CardTypeDataTransformerTest extends TestCase
+final class ArrayFieldToStringDataTransformerTest extends TestCase
 {
     public function test_it_returns_null_on_a_transform(): void
     {
@@ -42,6 +42,6 @@ final class CardTypeDataTransformerTest extends TestCase
 
     private function createTestSubject(): DataTransformerInterface
     {
-        return new CardTypeDataTransformer();
+        return new ArrayFieldToStringDataTransformer();
     }
 }

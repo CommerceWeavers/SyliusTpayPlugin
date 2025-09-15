@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\CardPayment\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,11 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 final class TpayCardType extends AbstractType
 {
     private const PREDICTED_MAX_CARD_VALIDITY_YEARS = 10;
-
-    public function __construct(
-        private DataTransformerInterface $cardTypeDataTransformer,
-    ) {
-    }
 
     /**
      * @param array<string, mixed> $options
@@ -81,8 +75,6 @@ final class TpayCardType extends AbstractType
             )
             ->add('card', HiddenType::class)
         ;
-
-        $builder->addModelTransformer($this->cardTypeDataTransformer);
     }
 
     private function getCardValidYearsRange(): array

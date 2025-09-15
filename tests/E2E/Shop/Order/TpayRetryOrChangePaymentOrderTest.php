@@ -9,6 +9,9 @@ use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Order\TpayTrait;
 
+/**
+ * @group retry-payment
+ */
 final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
 {
     use TpayTrait;
@@ -35,6 +38,27 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->client->submitForm('Pay');
 
         $this->assertPageTitleContains('Waiting for payment');
+    }
+
+    public function test_it_does_not_allow_to_complete_retrying_blik_payment_without_filling_blik_token(): void
+    {
+        $this->loadFixtures(['blik_unpaid_order.yaml']);
+        $this->loginShopUser('tony@nonexisting.cw', 'sylius');
+
+        $this->client->get('/en_US/order/tokenValue1');
+        $this->fillBlikToken(self::SELECT_FIRST_PAYMENT_FORM_ID, '');
+        $this->client->submitForm('Pay');
+
+        $input = $this->client->findElement(WebDriverBy::id(\sprintf('%s_tpay_blik_token', self::SELECT_FIRST_PAYMENT_FORM_ID)));
+        self::assertStringContainsString('is-invalid', $input->getAttribute('class') ?? '');
+
+        $inputFieldWrapper = $this->client->findElement(WebDriverBy::cssSelector('div.field.mb-3.required.error'));
+        $validationErrorMessageElement = $inputFieldWrapper->findElement(WebDriverBy::cssSelector('div.invalid-feedback'));
+        self::assertNotNull($validationErrorMessageElement);
+        self::assertSame(
+            'This value should not be blank.',
+            $validationErrorMessageElement->getText(),
+        );
     }
 
     /** @group requires-fixes */

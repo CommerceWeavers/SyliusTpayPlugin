@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Form\EventListener;
 
+use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Component\Form\FormEvent;
 
 final class RemoveUnnecessaryPaymentDetailsFieldsListener
 {
     public function __invoke(FormEvent $event): void
     {
-        /** @var array{card?: string, blik_token?: string, tpay_channel_id?: string} $data */
+        $payment = $event->getForm()->getParent()?->getData();
+
+        if ($payment?->getState() === OrderInterface::STATE_NEW) {
+            return;
+        }
+
         $data = $event->getData() ?? [];
         $form = $event->getForm();
 

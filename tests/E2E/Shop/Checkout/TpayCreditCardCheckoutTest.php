@@ -35,6 +35,9 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         $this->resetEntityManager();
     }
 
+    /**
+     * @group checkout
+     */
     public function test_it_completes_the_checkout_using_credit_card(): void
     {
         $this->processWithPaymentMethod('tpay_card');
@@ -50,6 +53,9 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
         self::assertPageTitleContains('Thank you!');
     }
 
+    /**
+     * @group checkout
+     */
     public function test_it_completes_the_checkout_using_credit_card_and_saves_the_card(): void
     {
         $this->processWithPaymentMethod('tpay_card');
