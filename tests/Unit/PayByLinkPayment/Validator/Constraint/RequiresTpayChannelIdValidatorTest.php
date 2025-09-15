@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Unit\PayByLinkPayment\Validator\Constraint;
 
-use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelId;
 use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelIdValidator;
 use InvalidArgumentException;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Symfony\Component\Form\FormInterface;
@@ -24,7 +24,7 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
     /** @var ObjectProphecy<FormInterface> */
     private ObjectProphecy $form;
 
-    /** @var ObjectProphecy<OrderLastNewPaymentAwareInterface> */
+    /** @var ObjectProphecy<OrderInterface> */
     private ObjectProphecy $order;
 
     /** @var ObjectProphecy<PaymentInterface> */
@@ -39,7 +39,7 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
     protected function setUp(): void
     {
         $this->form = $this->prophesize(FormInterface::class);
-        $this->order = $this->prophesize(OrderLastNewPaymentAwareInterface::class);
+        $this->order = $this->prophesize(OrderInterface::class);
         $this->payment = $this->prophesize(PaymentInterface::class);
         $this->paymentMethod = $this->prophesize(PaymentMethodInterface::class);
         $this->gatewayConfig = $this->prophesize(GatewayConfigInterface::class);
@@ -54,16 +54,18 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
         $this->initializeContextWithFactoryName('tpay_pbl');
 
         $this->validator->validate(
-            ['tpay_channel_id' => null],
+            1,
             $this->prophesize(Constraint::class)->reveal(),
         );
     }
 
-    public function test_it_does_nothing_if_value_is_not_an_array(): void
+    public function test_it_does_nothing_if_order_has_no_last_payment(): void
     {
         $this->initializeContextWithFactoryName('tpay_pbl');
 
-        $this->validator->validate('not-an-array', new RequiresTpayChannelId());
+        $this->order->getLastPayment()->willReturn(null);
+
+        $this->validator->validate(1, new RequiresTpayChannelId());
 
         $this->assertNoViolation();
     }
@@ -72,49 +74,39 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
     {
         $this->initializeContextWithFactoryName('tpay_card');
 
-        $this->validator->validate([], new RequiresTpayChannelId());
+        $this->validator->validate(1, new RequiresTpayChannelId());
 
         $this->assertNoViolation();
     }
 
-    public function test_it_does_nothing_if_order_has_no_last_cart_payment(): void
+    /**
+     * @dataProvider emptyValueProvider
+     */
+    public function test_it_builds_violation_if_tpay_pbl_channel_value_is_empty(mixed $givenValue): void
     {
         $this->initializeContextWithFactoryName('tpay_pbl');
 
-        $this->order->getLastCartPayment()->willReturn(null);
-
-        $this->validator->validate([], new RequiresTpayChannelId());
-
-        $this->assertNoViolation();
-    }
-
-    public function test_it_builds_violation_if_tpay_channel_id_is_missing_for_tpay_pbl(): void
-    {
-        $this->initializeContextWithFactoryName('tpay_pbl');
-
-        $this->validator->validate([], new RequiresTpayChannelId());
+        $this->validator->validate($givenValue, new RequiresTpayChannelId());
 
         $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required')
-            ->atPath('property.path[tpay_channel_id]')
             ->assertRaised();
     }
 
-    public function test_it_builds_violation_if_tpay_channel_id_is_empty_for_tpay_pbl(): void
+    public function emptyValueProvider(): array
     {
-        $this->initializeContextWithFactoryName('tpay_pbl');
-
-        $this->validator->validate(['tpay_channel_id' => ''], new RequiresTpayChannelId());
-
-        $this->buildViolation('commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required')
-            ->atPath('property.path[tpay_channel_id]')
-            ->assertRaised();
+        return [
+            ['value is null' => null],
+            ['value is empty string' => ''],
+            ['value is empty array' => []],
+            ['value is 0' => 0]
+        ];
     }
 
     public function test_it_does_nothing_if_tpay_channel_id_is_provided_for_tpay_pbl(): void
     {
         $this->initializeContextWithFactoryName('tpay_pbl');
 
-        $this->validator->validate(['tpay_channel_id' => '123'], new RequiresTpayChannelId());
+        $this->validator->validate(123, new RequiresTpayChannelId());
 
         $this->assertNoViolation();
     }
@@ -129,7 +121,7 @@ final class RequiresTpayChannelIdValidatorTest extends ConstraintValidatorTestCa
         $this->gatewayConfig->getFactoryName()->willReturn($factoryName);
         $this->paymentMethod->getGatewayConfig()->willReturn($this->gatewayConfig->reveal());
         $this->payment->getMethod()->willReturn($this->paymentMethod->reveal());
-        $this->order->getLastCartPayment()->willReturn($this->payment->reveal());
+        $this->order->getLastPayment()->willReturn($this->payment->reveal());
 
         $this->form->getData()->willReturn($this->order->reveal());
         $this->setRoot($this->form->reveal());

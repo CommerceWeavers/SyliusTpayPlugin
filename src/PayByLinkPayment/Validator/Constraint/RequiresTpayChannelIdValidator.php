@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint;
 
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -14,10 +15,6 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!\is_array($value)) {
-            return;
-        }
-
         Assert::isInstanceOf($constraint, RequiresTpayChannelId::class);
 
         $root = $this->context->getRoot();
@@ -26,11 +23,11 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
         }
 
         $order = $root->getData();
-        if (!$order instanceof OrderLastNewPaymentAwareInterface) {
+        if (!$order instanceof OrderInterface) {
             return;
         }
 
-        $payment = $order->getLastCartPayment();
+        $payment = $order->getLastPayment();
         if ($payment === null) {
             return;
         }
@@ -40,11 +37,8 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
             return;
         }
 
-        $channelId = $value['tpay_channel_id'] ?? null;
-        if ($channelId === null || $channelId === '') {
-            $this->context->buildViolation($constraint->message)
-                ->atPath('[tpay_channel_id]')
-                ->addViolation();
+        if (empty((int) $value)) {
+            $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
 }
