@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint;
 
-use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraint;
@@ -37,7 +36,7 @@ final class RequiresTpayChannelIdValidator extends ConstraintValidator
             return;
         }
 
-        if (empty((int) $value)) {
+        if (0 === (int) $value) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
