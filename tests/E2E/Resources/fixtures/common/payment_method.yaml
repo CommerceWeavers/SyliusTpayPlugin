@@ -76,10 +76,13 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
         gatewayName: 'tpay_card'
         factoryName: 'tpay_card'
         config:
+            merchant_id: 'encrypted_<getenv("TPAY_MERCHANT_ID")>'
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             cards_api: 'encrypted_<getenv("TPAY_CARDS_API")>'
+            notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
             production_mode: false
+            notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
     gateway_tpay_blik:
         gatewayName: 'tpay_blik'
         factoryName: 'tpay_blik'
@@ -87,6 +90,7 @@ Sylius\Bundle\PayumBundle\Model\GatewayConfig:
             client_id: 'encrypted_<getenv("TPAY_CLIENT_ID")>'
             client_secret: 'encrypted_<getenv("TPAY_CLIENT_SECRET")>'
             production_mode: false
+            notification_security_code: 'encrypted_<getenv("TPAY_NOTIFICATION_SECURITY_CODE")>'
     gateway_tpay_google_pay:
         gatewayName: 'tpay_google_pay'
         factoryName: 'tpay_google_pay'
