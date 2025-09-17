@@ -13,7 +13,7 @@ function showPaymentDetails(paymentCode) {
       element.disabled = false;
     });
 
-  const checkoutButton = document.querySelector('[data-test-pay-link], [data-pay-link]');
+  const checkoutButton = document.querySelector('form[name="sylius_checkout_select_payment"] button[type="submit"]');
   if (checkoutButton) {
     const hiddenFor = ['tpay_apple_pay', 'tpay_google_pay'];
     checkoutButton.hidden = hiddenFor.includes(paymentCode);
