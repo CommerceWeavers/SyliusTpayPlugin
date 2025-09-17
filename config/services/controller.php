@@ -9,7 +9,6 @@ use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayPaymentFailedPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayThankYouPageAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\DisplayWaitingForPaymentPage;
 use CommerceWeavers\SyliusTpayPlugin\Controller\PaymentNotificationAction;
-use CommerceWeavers\SyliusTpayPlugin\Controller\RetryPaymentAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\TpayGetChannelsAction;
 use CommerceWeavers\SyliusTpayPlugin\Controller\TpayNotificationAction;
 
@@ -48,17 +47,6 @@ return function(ContainerConfigurator $container): void {
             service('payum'),
             service('commerce_weavers_sylius_tpay.payum.factory.notify'),
             service('commerce_weavers_sylius_tpay.payum.factory.notify_data'),
-        ])
-        ->tag('controller.service_arguments')
-    ;
-
-    $services->set(RetryPaymentAction::class)
-        ->args([
-            service('security.csrf.token_manager'),
-            service('sylius.command_bus'),
-            service('sylius.repository.order'),
-            service('router'),
-            service('request_stack'),
         ])
         ->tag('controller.service_arguments')
     ;

@@ -30,7 +30,6 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->retryPayment();
 
         $this->assertPageTitleContains('Summary of your order');
-        $this->assertSelectorWillContain('.alert', 'You can retry the payment now');
     }
 
     public function test_it_prevents_retrying_not_qualifying_payments(): void
@@ -41,6 +40,6 @@ final class RetryingPaymentTest extends E2ETestCase
         $this->showPaymentFailedPage('t0k3n');
         $this->retryPayment();
 
-        $this->assertSelectorWillContain('.alert', 'This payment cannot be retried');
+        $this->assertPageTitleContains('Summary of your order');
     }
 }

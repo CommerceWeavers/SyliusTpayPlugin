@@ -21,12 +21,9 @@
                 </div>
 
                 <div class="mt-4">
-                    <form action="{{ path(constant('CommerceWeavers\\SyliusTpayPlugin\\Routing::SHOP_RETRY_PAYMENT'), {'orderToken': order.tokenValue}) }}" method="post" novalidate>
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token(order.tokenValue) }}" />
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-undo me-2"></i>{{ 'commerce_weavers_sylius_tpay.shop.payment_failed.retry_payment'|trans }}
-                        </button>
-                    </form>
+                    <a href="{{ path('sylius_shop_order_show', {'tokenValue': order.tokenValue}) }}" class="btn btn-primary">
+                        <i class="fas fa-undo me-2"></i>{{ 'commerce_weavers_sylius_tpay.shop.payment_failed.retry_payment'|trans }}
+                    </a>
                 </div>
             </div>
         </div>
