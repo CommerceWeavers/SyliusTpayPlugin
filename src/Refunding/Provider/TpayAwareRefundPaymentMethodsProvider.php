@@ -38,7 +38,7 @@ final class TpayAwareRefundPaymentMethodsProvider implements RefundPaymentMethod
         return array_values(array_filter($paymentMethods, function (PaymentMethodInterface $method): bool {
             $factoryName = $method->getGatewayConfig()?->getFactoryName();
 
-            return null !== $factoryName && 'tpay_redirect' !== $factoryName;
+            return null !== $factoryName && !str_starts_with($factoryName, 'tpay_');
         }));
     }
 
