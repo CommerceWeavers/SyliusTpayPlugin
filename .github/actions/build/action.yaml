@@ -42,20 +42,11 @@ runs:
                 fi
             shell: bash
 
-        -   name: "Create cache suffix"
-            run: echo "CACHE_KEY=${{ github.run_id }}-${{ runner.os }}-${{ inputs.php }}-${{ inputs.sylius }}-${{ inputs.symfony }}" >> $GITHUB_ENV
-            shell: bash
-
-        -   name: "Cache composer"
-            id: cache-composer-lock
-            uses: actions/cache@v4
+        -   uses: ./.github/actions/composer-cache
             with:
-                path: |
-                    tests/Application/composer.lock
-                    composer.lock
-                    tests/Application/vendor/
-                    vendor/
-                key: composer-${{ hashFiles('composer.json', 'tests/Application/composer.json') }}-${{ env.CACHE_KEY }}
+                php: ${{ inputs.php }}
+                sylius: ${{ inputs.sylius }}
+                symfony: ${{ inputs.symfony }}
 
         -   name: "Build application"
             uses: SyliusLabs/BuildTestAppAction@v2.4
