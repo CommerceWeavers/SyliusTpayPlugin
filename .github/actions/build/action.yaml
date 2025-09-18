@@ -62,7 +62,7 @@ runs:
                 e2e_js: ${{ inputs.e2e_js }}
                 node_version: "20.x"
             env:
-                DATABASE_URL: "mysql://root:root@127.0.0.1:3306/sylius?serverVersion=${{ matrix.mysql }}"
+                DATABASE_URL: "mysql://root:root@127.0.0.1:3306/sylius?serverVersion=${{ inputs.mysql }}"
 
         -   name: "Save Docker image to cache"
             run: |

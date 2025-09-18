@@ -49,7 +49,7 @@ jobs:
                     sylius: ${{ matrix.sylius }}
                     symfony: ${{ matrix.symfony }}
                     check_service_definitions: yes
-
+    
     static-analysis:
         name: Static analysis - PHP ${{ matrix.php || '' }}
         needs: [ get-matrix, build ]
@@ -71,7 +71,7 @@ jobs:
 
             -   name: ECS
                 run: vendor/bin/ecs check
-
+    
     unit-tests:
         name: Unit tests - PHP ${{ matrix.php || '' }}
         needs: [ get-matrix, build ]
@@ -94,7 +94,7 @@ jobs:
                 if: always()
                 with:
                     subject: Unit tests - PHP ${{ matrix.php || '' }}
-
+    
     e2e-tests:
         name: E2E tests - PHP ${{ matrix.php || '' }}
         needs: [ get-matrix, build ]
@@ -123,17 +123,18 @@ jobs:
                     symfony: ${{ matrix.symfony }}
                     e2e: yes
                     e2e_js: yes
-
+                    
             -   name: Install browser drivers
                 run: vendor/bin/bdi detect drivers
 
-            -   run: vendor/bin/phpunit --testsuite e2e --exclude-group requires-fixes --testdox
+            -   run: vendor/bin/phpunit --testsuite e2e --exclude-group requires-fixes
+                timeout-minutes: 10
 
             -   uses: ./.github/actions/upload-logs
                 if: always()
                 with:
                     subject: E2E tests - PHP ${{ matrix.php || '' }}
-
+    
     api-tests:
         name: API tests - PHP ${{ matrix.php || '' }}
         needs: [ get-matrix, build ]

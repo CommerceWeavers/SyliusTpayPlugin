@@ -12,4 +12,9 @@ trait OrderLastNewPaymentAwareTrait
     {
         return $this->getLastPayment('cart');
     }
+
+    public function getLastNewPayment(): ?PaymentInterface
+    {
+        return $this->getLastPayment('new');
+    }
 }
