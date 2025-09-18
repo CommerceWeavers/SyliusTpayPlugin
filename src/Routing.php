@@ -30,10 +30,6 @@ final class Routing
 
     public const SHOP_PAYMENT_FAILED_PATH = '/tpay/order/{orderToken}/payment-failed';
 
-    public const SHOP_RETRY_PAYMENT = 'commerce_weavers_sylius_tpay_retry_payment';
-
-    public const SHOP_RETRY_PAYMENT_PATH = '/tpay/order/{orderToken}/retry-payment';
-
     public const SHOP_THANK_YOU = 'commerce_weavers_sylius_tpay_thank_you';
 
     public const SHOP_THANK_YOU_PATH = '/tpay/order/{orderToken}/thank-you';

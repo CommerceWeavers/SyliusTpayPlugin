@@ -18,6 +18,6 @@ trait RetryPaymentTrait
 
     public function retryPayment(): void
     {
-        $this->client->submitForm('Retry payment');
+        $this->client->clickLink('Retry payment');
     }
 }
