@@ -1,0 +1,8 @@
+{% set order = get_hookable_context().resource %}
+{% set form = get_hookable_context().payment_form %}
+{% set payment = form.vars.data %}
+{% set gatewayConfig = payment.method.gatewayConfig %}
+
+<div data-payment-details="tpay_apple_pay">
+    {% include '@CommerceWeaversSyliusTpayPlugin/shop/partial/apple_pay_button.html.twig' with { order, form, gatewayConfig } %}
+</div>

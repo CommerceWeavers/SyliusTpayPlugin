@@ -91,6 +91,36 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment');
     }
 
+    public function test_it_changes_payment_to_google_pay(): void
+    {
+        $this->loadFixtures(['card_unpaid_order.yaml']);
+
+        $this->loginShopUser('tony@nonexisting.cw', 'sylius');
+
+        $this->client->get('/en_US/order/tokenValue1');
+        $form = $this->client->getCrawler()->selectButton('Pay')->form();
+        $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Google Pay (Tpay)')]"))->click();
+
+        $this->client->waitFor('#gpay-button-online-api-id');
+
+        self::assertTrue($this->client->executeScript('return typeof window.getGoogleIsReadyToPayRequest !== "undefined";'));
+        self::assertFalse($form->getElement()->findElement(WebDriverBy::cssSelector('button[type="submit"]'))->isDisplayed());
+    }
+
+    public function test_it_changes_payment_to_apple_pay(): void
+    {
+        $this->loadFixtures(['card_unpaid_order.yaml']);
+
+        $this->loginShopUser('tony@nonexisting.cw', 'sylius');
+
+        $this->client->get('/en_US/order/tokenValue1');
+        $form = $this->client->getCrawler()->selectButton('Pay')->form();
+        $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Apple Pay (Tpay)')]"))->click();
+
+        self::assertTrue($this->client->executeScript('return typeof window.ApplePaySession !== "undefined";'));
+        self::assertFalse($form->getElement()->findElement(WebDriverBy::cssSelector('button[type="submit"]'))->isDisplayed());
+    }
+
     /** @group requires-fixes */
     public function test_it_changes_payment_to_card(): void
     {
