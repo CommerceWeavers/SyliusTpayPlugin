@@ -1,0 +1,19 @@
+name: "Upload logs"
+description: "Uploads logs on failure"
+inputs:
+    subject:
+        description: "Subject, e.g. E2E tests - PHP 8.2"
+        required: true
+
+runs:
+    using: "composite"
+    steps:
+        -   name: "Upload logs"
+            if: failure()
+            uses: actions/upload-artifact@v4
+            with:
+                name: "Logs for ${{ inputs.subject }}"
+                path: |
+                    tests/Application/var/log
+                    tests/Application/var/panther
+                if-no-files-found: warn
