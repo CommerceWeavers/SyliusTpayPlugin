@@ -2,12 +2,10 @@
     "@context": "/api/v2/contexts/Error",
     "@id": "/api/v2/errors/400",
     "@type": "hydra:Error",
-    "title": "An error occurred",
     "detail": "The Blik Alias expired. Please register a new one or use a Blik token.",
     "status": 400,
     "type": "/errors/400",
     "trace": "@array@",
-    "description": "The Blik Alias expired. Please register a new one or use a Blik token.",
     "hydra:description": "The Blik Alias expired. Please register a new one or use a Blik token.",
     "hydra:title": "An error occurred"
 }
