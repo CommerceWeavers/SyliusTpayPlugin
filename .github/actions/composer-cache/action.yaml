@@ -1,0 +1,30 @@
+name: "Composer cache"
+description: "Cache composer or retrieve cached composer"
+inputs:
+    php:
+        description: "PHP version, e.g. 8.2"
+        required: true
+    symfony:
+        description: "Symfony version, e.g. ~6.4.0"
+        required: true
+    sylius:
+        description: "Sylius version, e.g. ~2.0.0"
+        required: true
+
+runs:
+    using: "composite"
+    steps:
+        -   name: "Create cache suffix"
+            run: echo "COMPOSER_CACHE_KEY=${{ github.run_id }}-${{ runner.os }}-${{ inputs.php }}-${{ inputs.sylius }}-${{ inputs.symfony }}" >> $GITHUB_ENV
+            shell: bash
+            
+        -   name: "Cache composer"
+            id: cache-composer-lock
+            uses: actions/cache@v4
+            with:
+                path: |
+                    tests/Application/composer.lock
+                    composer.lock
+                    tests/Application/vendor/
+                    vendor/
+                key: composer-${{ hashFiles('composer.json', 'tests/Application/composer.json') }}-${{ env.COMPOSER_CACHE_KEY }}

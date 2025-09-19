@@ -7,7 +7,7 @@ namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Facebook\WebDriver\Firefox\FirefoxOptions;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\WebDriverDimension;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Symfony\Component\Panther\Client;
@@ -24,11 +24,8 @@ abstract class E2ETestCase extends PantherTestCase
 
     protected function setUp(): void
     {
-        $options = new FirefoxOptions();
-        $options->setPreference('intl.accept_languages', 'en-US');
-
         $this->client = static::createPantherClient([
-            'browser' => self::FIREFOX, [], $options,
+            'browser' => self::CHROME, [], new ChromeOptions(),
         ]);
         $this->client->manage()->window()->setSize(
             new WebDriverDimension(1500, 4000),
