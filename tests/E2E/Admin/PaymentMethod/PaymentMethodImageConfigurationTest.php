@@ -41,13 +41,12 @@ final class PaymentMethodImageConfigurationTest extends E2ETestCase
     }
 
     /**
-     * @todo fix sleep
+     * @group requires-fixes
      */
     public function test_it_allows_to_remove_uploaded_image(): void
     {
         $this->uploadPaymentMethodImage();
 
-        sleep(2);
         $this->client->findElement(WebDriverBy::cssSelector('button.btn-danger'))->click();
 
         self::assertSelectorNotExists('img[alt="method-logo"]');

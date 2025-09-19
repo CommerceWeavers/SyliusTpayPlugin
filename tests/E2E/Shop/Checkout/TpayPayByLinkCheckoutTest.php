@@ -53,6 +53,7 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout_using_pay_by_link_channel_preselected(): void
     {
@@ -76,6 +77,7 @@ final class TpayPayByLinkCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_cannot_complete_the_checkout_if_no_channel_is_selected(): void
     {

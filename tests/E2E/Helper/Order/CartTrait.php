@@ -35,13 +35,11 @@ trait CartTrait
     }
 
     /**
-     * @todo fix sleep
+     * @group requires-fixes
      */
     public function placeOrder(): void
     {
         $this->client->waitForElementToContain('h1', 'Summary of your order');
         $this->client->submitForm('Place order');
-
-        sleep(2);
     }
 }

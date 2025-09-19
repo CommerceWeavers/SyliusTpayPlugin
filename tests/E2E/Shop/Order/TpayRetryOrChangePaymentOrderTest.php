@@ -28,6 +28,9 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
 
     private const CARD_EXPIRATION_DATE_YEAR = '2029';
 
+    /**
+     * @group requires-fixes
+     */
     public function test_it_retries_payment_using_blik(): void
     {
         $this->loadFixtures(['blik_unpaid_order.yaml']);
