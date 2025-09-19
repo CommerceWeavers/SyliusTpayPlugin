@@ -41,6 +41,9 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment');
     }
 
+    /**
+     * @todo fix sleep
+     */
     public function test_it_does_not_allow_to_complete_retrying_blik_payment_without_filling_blik_token(): void
     {
         $this->loadFixtures(['blik_unpaid_order.yaml']);
@@ -50,6 +53,7 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->fillBlikToken(self::SELECT_FIRST_PAYMENT_FORM_ID, '');
         $this->client->submitForm('Pay');
 
+        sleep(2);
         $input = $this->client->findElement(WebDriverBy::id(\sprintf('%s_tpay_blik_token', self::SELECT_FIRST_PAYMENT_FORM_ID)));
         self::assertStringContainsString('is-invalid', $input->getAttribute('class') ?? '');
 
