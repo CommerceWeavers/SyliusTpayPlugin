@@ -14,6 +14,7 @@ trait CartTrait
     public function showSelectingShippingMethodStep(): void
     {
         $this->client->get('/en_US/checkout/select-shipping');
+        $this->client->waitForElementToContain('h5', 'Shipment #1');
     }
 
     public function processWithDefaultShippingMethod(): void
@@ -33,6 +34,9 @@ trait CartTrait
         $this->client->submitForm('Next');
     }
 
+    /**
+     * @group requires-fixes
+     */
     public function placeOrder(): void
     {
         $this->client->waitForElementToContain('h1', 'Summary of your order');

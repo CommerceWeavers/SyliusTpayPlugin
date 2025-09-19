@@ -6,7 +6,6 @@ namespace CommerceWeavers\SyliusTpayPlugin\Form\Extension;
 
 use CommerceWeavers\SyliusTpayPlugin\Form\Type\TpayPaymentDetailsType;
 use CommerceWeavers\SyliusTpayPlugin\Model\OrderLastNewPaymentAwareInterface;
-use CommerceWeavers\SyliusTpayPlugin\PayByLinkPayment\Validator\Constraint\RequiresTpayChannelId;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -47,7 +46,6 @@ final class CompleteTypeExtension extends AbstractTypeExtension
                     'property_path' => 'last_cart_payment.details[tpay]',
                     'constraints' => [
                         new Valid(groups: ['sylius_checkout_complete']),
-                        new RequiresTpayChannelId(groups: ['sylius_checkout_complete']),
                     ],
                     'validation_groups' => static function (FormInterface $form) use ($validationGroups): array {
                         $order = $form->getRoot()->getData();
