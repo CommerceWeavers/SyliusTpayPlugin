@@ -108,6 +108,9 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->assertPageTitleContains('Waiting for payment | Web Channel');
     }
 
+    /**
+     * @todo fix sleep
+     */
     public function test_it_changes_payment_to_pay_by_link(): void
     {
         $this->loadFixtures(['pbl_unpaid_order.yaml']);
@@ -125,6 +128,7 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         );
         $this->client->submitForm('Pay');
 
+        sleep(2);
         self::assertPageTitleContains('Thank you');
     }
 
