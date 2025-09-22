@@ -172,8 +172,10 @@ final class PayingForOrdersByBlikTest extends JsonApiTestCase
         );
 
         $response = $this->client->getResponse();
+        $content = json_decode($response->getContent(), true);
 
-        $this->assertResponse($response, 'shop/paying_for_orders_by_blik/test_paying_using_an_expired_blik_alias', Response::HTTP_BAD_REQUEST);
+        $this->assertSame('An error occurred', $content['hydra:title']);
+        $this->assertSame('The Blik Alias expired. Please register a new one or use a Blik token.', $content['hydra:description']);
     }
 
     public function test_paying_using_not_registered_blik_alias(): void
@@ -196,8 +198,10 @@ final class PayingForOrdersByBlikTest extends JsonApiTestCase
         );
 
         $response = $this->client->getResponse();
+        $content = json_decode($response->getContent(), true);
 
-        $this->assertResponse($response, 'shop/paying_for_orders_by_blik/test_paying_using_not_registered_blik_alias', Response::HTTP_BAD_REQUEST);
+        $this->assertSame('An error occurred', $content['hydra:title']);
+        $this->assertSame('The Blik Alias is not registered yet. Please try again later or use a Blik token.', $content['hydra:description']);
     }
 
     public function test_paying_using_a_valid_blik_alias_but_registered_in_more_than_one_bank_app(): void

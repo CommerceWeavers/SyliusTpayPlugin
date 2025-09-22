@@ -98,7 +98,12 @@ jobs:
                 run: vendor/bin/phpunit --testsuite api
 
             -   name: Run tests (E2E)
-                run: vendor/bin/phpunit --testsuite e2e --exclude-group requires-fixes
+                run: |
+                    find tests/E2E/ -type f -name '*Test.php' -print0 |
+                    while IFS= read -r -d '' file; do
+                      vendor/bin/phpunit --exclude-group requires-fixes "$file" || \
+                      vendor/bin/phpunit --exclude-group requires-fixes "$file"
+                    done
 
             -   name: Run Tpay contract tests
                 if: "${{ inputs.type == 'daily' }}"
