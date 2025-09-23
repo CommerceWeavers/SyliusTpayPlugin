@@ -1,0 +1,83 @@
+name: "Build"
+description: "Build test application"
+inputs:
+    php:
+        description: "PHP version, e.g. 8.2"
+        required: true
+    mysql:
+        description: "MySQL version, e.g. 8.0"
+        required: true
+    symfony:
+        description: "Symfony version, e.g. ~6.4.0"
+        required: true
+    sylius:
+        description: "Sylius version, e.g. ~2.0.0"
+        required: true
+    e2e:
+        description: "Whether prepare the test application for e2e tests"
+        required: false
+        default: "no"
+    e2e_js:
+        description: "Whether prepare the test application for e2e tests with JS"
+        required: false
+        default: "no"
+    check_service_definitions:
+        description: "Whether check service definitions"
+        required: false
+        default: "no"
+
+runs:
+    using: "composite"
+    steps:
+        -   name: "Cache Docker images"
+            uses: actions/cache@v4
+            with:
+                path: /tmp/docker-images
+                key: docker-mysql-${{ inputs.mysql }}
+
+        -   name: "Load cached Docker image"
+            run: |
+                if [ -f /tmp/docker-images/mysql.tar ]; then
+                  docker load -i /tmp/docker-images/mysql.tar
+                fi
+            shell: bash
+
+        -   uses: ./.github/actions/composer-cache
+            with:
+                php: ${{ inputs.php }}
+                sylius: ${{ inputs.sylius }}
+                symfony: ${{ inputs.symfony }}
+
+        -   name: "Build application"
+            uses: SyliusLabs/BuildTestAppAction@v2.4
+            with:
+                build_type: "plugin"
+                cache_key: ${{ env.CACHE_KEY }}
+                cache_restore_key: ${{ env.CACHE_KEY }}
+                database_version: ${{ inputs.mysql }}
+                php_version: ${{ inputs.php }}
+                symfony_version: ${{ inputs.symfony }}
+                sylius_version: ${{ inputs.sylius }}
+                e2e: ${{ inputs.e2e }}
+                e2e_js: ${{ inputs.e2e_js }}
+                node_version: "20.x"
+            env:
+                DATABASE_URL: "mysql://root:root@127.0.0.1:3306/sylius?serverVersion=${{ inputs.mysql }}"
+
+        -   name: "Save Docker image to cache"
+            run: |
+                mkdir -p /tmp/docker-images
+                docker save mysql:${{ inputs.mysql }} -o /tmp/docker-images/mysql.tar
+            shell: bash
+
+        -   name: "Check service definitions"
+            if: inputs.check_service_definitions == 'yes'
+            run: |
+                tests/Application/bin/console -edev lint:container
+                tests/Application/bin/console -eprod lint:container
+            shell: bash
+
+        -   uses: ./.github/actions/upload-logs
+            if: always()
+            with:
+                subject: ${{ format('Build - PHP {0}', inputs.php) }}
