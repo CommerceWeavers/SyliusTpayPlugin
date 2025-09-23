@@ -24,14 +24,22 @@ abstract class E2ETestCase extends PantherTestCase
 
     protected function setUp(): void
     {
+        $options = new ChromeOptions();
+
         $this->client = static::createPantherClient([
-            'browser' => self::CHROME, [], new ChromeOptions(),
+            'browser' => self::CHROME, [], $options,
         ]);
         $this->client->manage()->window()->setSize(
             new WebDriverDimension(1500, 4000),
         );
 
         parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        $this->client->restart();
     }
 
     /**

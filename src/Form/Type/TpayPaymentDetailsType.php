@@ -83,7 +83,7 @@ final class TpayPaymentDetailsType extends AbstractType
                 HiddenType::class,
                 [
                     'constraints' => [
-                        new NotBlank(groups: ['tpay_pbl']),
+                        new NotBlank(message: 'commerce_weavers_sylius_tpay.shop.pay.tpay_channel.required', groups: ['tpay_pbl']),
                         new ValidTpayChannel(groups: ['tpay_pbl']),
                     ],
                     'error_bubbling' => false,

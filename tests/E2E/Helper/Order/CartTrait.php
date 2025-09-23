@@ -14,6 +14,7 @@ trait CartTrait
     public function showSelectingShippingMethodStep(): void
     {
         $this->client->get('/en_US/checkout/select-shipping');
+        $this->client->waitForElementToContain('h5', 'Shipment #1');
     }
 
     public function processWithDefaultShippingMethod(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Shop\Order;
 
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\E2ETestCase;
 use Tests\CommerceWeavers\SyliusTpayPlugin\E2E\Helper\Account\LoginShopUserTrait;
@@ -170,5 +171,25 @@ final class TpayRetryOrChangePaymentOrderTest extends E2ETestCase
         $this->client->submitForm('Pay');
 
         self::assertPageTitleContains('Waiting for payment');
+    }
+
+    public function test_it_cannot_retry_payment_using_pay_by_link_if_no_channel_is_selected(): void
+    {
+        $this->loadFixtures(['pbl_unpaid_order.yaml']);
+        $this->loginShopUser('tony@nonexisting.cw', 'sylius');
+        $this->client->get('/en_US/order/tokenValue1');
+        $form = $this->client->getCrawler()->selectButton('Pay')->form();
+        $form->getElement()->findElement(WebDriverBy::xpath("//label[contains(text(),'Choose bank (Tpay)')]"))->click();
+
+        $this->client->submitForm('Pay');
+
+        $validationErrors = array_map(
+            fn(RemoteWebElement $e): string => $e->getText(),
+            $this->client->findElements(WebDriverBy::cssSelector('[data-test-validation-error]'))
+        );
+        $this->assertContains(
+            'Please select a bank',
+            $validationErrors
+        );
     }
 }

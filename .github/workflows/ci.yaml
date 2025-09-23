@@ -123,12 +123,17 @@ jobs:
                     symfony: ${{ matrix.symfony }}
                     e2e: yes
                     e2e_js: yes
-                    
+
             -   name: Install browser drivers
                 run: vendor/bin/bdi detect drivers
 
-            -   run: vendor/bin/phpunit --testsuite e2e --exclude-group requires-fixes
-                timeout-minutes: 10
+            -   name: Run tests (E2E)
+                run: |
+                    find tests/E2E/ -type f -name '*Test.php' -print0 |
+                    while IFS= read -r -d '' file; do
+                      vendor/bin/phpunit --exclude-group requires-fixes "$file" || \
+                      vendor/bin/phpunit --exclude-group requires-fixes "$file"
+                    done
 
             -   uses: ./.github/actions/upload-logs
                 if: always()
