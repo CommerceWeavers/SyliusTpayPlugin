@@ -18,7 +18,6 @@
         "php": "^8.2",
         "ext-curl": "*",
         "defuse/php-encryption": "^2.4",
-        "firebase/php-jwt": "^6.10 || ^7.0",
         "nyholm/psr7": "^1.8",
         "payum/core": "^1.7",
         "sylius/api-bundle": "^2.0",

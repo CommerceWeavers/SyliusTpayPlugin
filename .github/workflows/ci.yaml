@@ -59,6 +59,11 @@ jobs:
                     data-file: "./tests/mockoon_tpay.json"
                     port: 4000
 
+            -   name: Setup NSS database for mkcert
+                run: |
+                    mkdir -p ~/.pki/nssdb
+                    certutil -d ~/.pki/nssdb -N --empty-password
+
             -   name: Build application
                 uses: SyliusLabs/BuildTestAppAction@v2.4
                 with:
