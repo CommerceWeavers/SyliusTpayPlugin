@@ -9,8 +9,10 @@
 
 | Package       | Version |
 |---------------|---------|
-| PHP           | ^8.1    |
-| sylius/sylius | ^1.12   |
+| PHP           | ^8.2    |
+| sylius/sylius | ^2.0    |
+
+> **Note:** For Sylius 1.x support, please use version `2.x` of this plugin.
 
 ### Overview
 
