@@ -52,7 +52,7 @@ WORKDIR /app
 
 COPY --from=php_prod_build /app/vendor /app/vendor
 COPY tests/Application/assets/ /app/tests/Application/assets/
-COPY tests/Application/package.json tests/Application/yarn.lock tests/Application/webpack.config.js /app/tests/Application/
+COPY tests/Application/package.json tests/Application/webpack.config.js /app/tests/Application/
 
 WORKDIR /app/tests/Application
 
