@@ -38,7 +38,7 @@ WORKDIR /app
 
 FROM php_base AS php_prod_build
 
-COPY composer.json composer.lock /app/
+COPY composer.json /app/
 COPY tests/Application/src/Kernel.php /app/tests/Application/src/Kernel.php
 
 RUN  composer install --no-dev --no-interaction --no-scripts; \
