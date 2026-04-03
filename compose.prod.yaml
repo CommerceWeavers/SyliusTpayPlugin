@@ -7,7 +7,7 @@ services:
       target: php_prod
     environment:
         - APP_ENV=${APP_ENV:-prod}
-        - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}:@${DB_SERVICE:-db}/${DB_NAME:-app}
+        - DATABASE_URL=${DATABASE_URL}
         - PAYUM_CYPHER_KEY=${PAYUM_CYPHER_KEY}
         - TPAY_CLIENT_ID=${TPAY_CLIENT_ID}
         - TPAY_CLIENT_SECRET=${TPAY_CLIENT_SECRET}
