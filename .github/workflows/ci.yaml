@@ -5,97 +5,127 @@ on:
     workflow_call:
         inputs:
             type:
-                description: "Type of the build"
+                description: Type of the build
                 required: true
                 type: string
 
+env:
+    APP_ENV: test
+    TPAY_CLIENT_ID: ${{ secrets.TPAY_CLIENT_ID }}
+    TPAY_CLIENT_SECRET: ${{ secrets.TPAY_CLIENT_SECRET }}
+    TPAY_CARDS_API: ${{ secrets.TPAY_CARDS_API }}
+    PAYUM_CYPHER_KEY: ${{ secrets.PAYUM_CYPHER_KEY }}
+
 jobs:
     get-matrix:
+        name: Get matrix
         runs-on: ubuntu-latest
-        name: "Get matrix"
         outputs:
             matrix: ${{ steps.matrix.outputs.prop }}
         steps:
-            -   name: "Checkout"
-                uses: actions/checkout@v4
+            -   uses: actions/checkout@v4
 
-            -
-                name: "Get matrix"
+            -   name: Get matrix
                 id: matrix
                 uses: notiz-dev/github-action-json-property@release
                 with:
-                    path: '.github/workflows/_matrix.json'
-                    prop_path: '${{ inputs.type }}.ci'
-
-    tests:
+                    path: .github/workflows/_matrix.json
+                    prop_path: ${{ inputs.type }}.ci
+    
+    build:
+        name: Build - PHP ${{ matrix.php || '' }}
         needs: get-matrix
-        
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: true
+            matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        steps:
+            -   uses: actions/checkout@v4
 
-        name: "Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}, State Machine ${{ matrix.state_machine }}"
-
+            -   uses: ./.github/actions/build
+                with:
+                    php: ${{ matrix.php }}
+                    mysql: ${{ matrix.mysql }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+                    check_service_definitions: yes
+    
+    static-analysis:
+        name: Static analysis - PHP ${{ matrix.php || '' }}
+        needs: [ get-matrix, build ]
+        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
-
-        env:
-            APP_ENV: test
-            DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
-            STATE_MACHINE_DEFAULT_ADAPTER: ${{ matrix.state_machine }}
-            TPAY_CLIENT_ID: '${{ secrets.TPAY_CLIENT_ID }}'
-            TPAY_CLIENT_SECRET: '${{ secrets.TPAY_CLIENT_SECRET }}'
-            TPAY_CARDS_API: '${{ secrets.TPAY_CARDS_API }}'
-            PAYUM_CYPHER_KEY: '${{ secrets.PAYUM_CYPHER_KEY }}'
-
         steps:
-            -
-                uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
 
-            -
-                name: Run Mockoon CLI
+            -   uses: ./.github/actions/composer-cache
+                with:
+                    php: ${{ matrix.php }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+
+            -   name: PHPStan
+                run: vendor/bin/phpstan
+
+            -   name: ECS
+                run: vendor/bin/ecs check
+    
+    unit-tests:
+        name: Unit tests - PHP ${{ matrix.php || '' }}
+        needs: [ get-matrix, build ]
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   uses: ./.github/actions/composer-cache
+                with:
+                    php: ${{ matrix.php }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+
+            -   run: vendor/bin/phpunit --testsuite unit --exclude-group requires-fixes
+
+            -   uses: ./.github/actions/upload-logs
+                if: always()
+                with:
+                    subject: Unit tests - PHP ${{ matrix.php || '' }}
+    
+    e2e-tests:
+        name: E2E tests - PHP ${{ matrix.php || '' }}
+        needs: [ get-matrix, build ]
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        env:
+            DATABASE_URL: "mysql://root:root@127.0.0.1:3306/sylius?serverVersion=${{ matrix.mysql }}"
+            STATE_MACHINE_DEFAULT_ADAPTER: ${{ matrix.state_machine }}
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Run Mockoon
                 uses: mockoon/cli-action@v2
                 with:
-                    version: "latest"
-                    data-file: "./tests/mockoon_tpay.json"
+                    version: latest
+                    data-file: ./tests/mockoon_tpay.json
                     port: 4000
 
-            -   name: Build application
-                uses: SyliusLabs/BuildTestAppAction@v2.4
+            -   uses: ./.github/actions/build
                 with:
-                    build_type: "plugin"
-                    cache_key: "${{ github.run_id }}-${{ runner.os }}-${{ hashFiles('composer.json') }}-sylius-${{ matrix.sylius }}-symfony-${{ matrix.symfony }}"
-                    cache_restore_key: "${{ github.run_id }}-${{ runner.os }}-${{ hashFiles('composer.json') }}-sylius-${{ matrix.sylius }}-symfony-${{ matrix.symfony }}"
-                    database_version: ${{ matrix.mysql }}
-                    php_version: ${{ matrix.php }}
-                    symfony_version: ${{ matrix.symfony }}
-                    sylius_version: ${{ matrix.sylius }}
-                    e2e: "yes"
-                    e2e_js: "yes"
-                    node_version: '20.x'
+                    php: ${{ matrix.php }}
+                    mysql: ${{ matrix.mysql }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+                    e2e: yes
+                    e2e_js: yes
 
             -   name: Install browser drivers
                 run: vendor/bin/bdi detect drivers
-
-            -   name: Check dependencies
-                continue-on-error: true
-                run: vendor/bin/composer-dependency-analyser
-
-            -   name: Check service definitions
-                run: |
-                    tests/Application/bin/console -edev lint:container
-                    tests/Application/bin/console -eprod lint:container
-
-            -   name: Static analysis
-                run: vendor/bin/phpstan
-
-            -   name: Check coding standard
-                run: vendor/bin/ecs check
-
-            -   name: Run tests (Unit)
-                run: vendor/bin/phpunit --testsuite unit --exclude-group requires-fixes
-                
-            -   name: Run tests (API)
-                run: vendor/bin/phpunit --testsuite api
 
             -   name: Run tests (E2E)
                 run: |
@@ -105,16 +135,65 @@ jobs:
                       vendor/bin/phpunit --exclude-group requires-fixes "$file"
                     done
 
-            -   name: Run Tpay contract tests
-                if: "${{ inputs.type == 'daily' }}"
-                run: vendor/bin/phpunit --testsuite contract_external
-
-            -   name: Upload logs
-                uses: actions/upload-artifact@v4
-                if: failure()
+            -   uses: ./.github/actions/upload-logs
+                if: always()
                 with:
-                    name: "Logs for (Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}, State Machine ${{ matrix.state_machine }})"
-                    path: |
-                        tests/Application/var/log
-                        tests/Application/var/panther
-                    if-no-files-found: ignore
+                    subject: E2E tests - PHP ${{ matrix.php || '' }}
+    
+    api-tests:
+        name: API tests - PHP ${{ matrix.php || '' }}
+        needs: [ get-matrix, build ]
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        env:
+            DATABASE_URL: "mysql://root:root@127.0.0.1:3306/sylius?serverVersion=${{ matrix.mysql }}"
+            STATE_MACHINE_DEFAULT_ADAPTER: ${{ matrix.state_machine }}
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Run Mockoon
+                uses: mockoon/cli-action@v2
+                with:
+                    version: latest
+                    data-file: ./tests/mockoon_tpay.json
+                    port: 4000
+
+            -   uses: ./.github/actions/build
+                with:
+                    php: ${{ matrix.php }}
+                    mysql: ${{ matrix.mysql }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+
+            -   run: vendor/bin/phpunit --testsuite api
+
+            -   uses: ./.github/actions/upload-logs
+                if: always()
+                with:
+                    subject: API tests - PHP ${{ matrix.php || '' }}
+
+    contract-tests:
+        name: Contract tests - PHP ${{ matrix.php || '' }}
+        needs: [ get-matrix, build ]
+        if: "${{ inputs.type == 'daily' }}"
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   uses: ./.github/actions/composer-cache
+                with:
+                    php: ${{ matrix.php }}
+                    sylius: ${{ matrix.sylius }}
+                    symfony: ${{ matrix.symfony }}
+
+            -   run: vendor/bin/phpunit --testsuite contract_external
+
+            -   uses: ./.github/actions/upload-logs
+                if: always()
+                with:
+                    subject: Contract tests - PHP ${{ matrix.php || '' }}
