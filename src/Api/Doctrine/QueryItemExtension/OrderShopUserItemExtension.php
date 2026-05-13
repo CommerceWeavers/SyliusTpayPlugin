@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 final readonly class OrderShopUserItemExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private QueryItemExtensionInterface|QueryCollectionExtensionInterface $decorated,
+        private QueryItemExtensionInterface $decorated,
         private UserContextInterface $userContext,
         private AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {

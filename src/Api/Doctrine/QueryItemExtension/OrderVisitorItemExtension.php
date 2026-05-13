@@ -16,7 +16,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 final class OrderVisitorItemExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly QueryItemExtensionInterface|QueryCollectionExtensionInterface $decorated,
+        private readonly QueryItemExtensionInterface $decorated,
         private readonly UserContextInterface $userContext,
         private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
