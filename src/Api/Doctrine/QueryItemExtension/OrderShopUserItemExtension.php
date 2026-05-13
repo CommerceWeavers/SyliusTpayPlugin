@@ -36,7 +36,9 @@ final readonly class OrderShopUserItemExtension implements QueryItemExtensionInt
         }
 
         if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
-            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            if ($this->decorated instanceof QueryItemExtensionInterface) {
+                $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            }
 
             return;
         }
@@ -50,7 +52,9 @@ final readonly class OrderShopUserItemExtension implements QueryItemExtensionInt
         $customer = $user->getCustomer();
 
         if ($customer === null) {
-            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            if ($this->decorated instanceof QueryItemExtensionInterface) {
+                $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            }
 
             return;
         }
