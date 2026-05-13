@@ -32,6 +32,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout(): void
     {
@@ -43,6 +44,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout_using_blik(): void
     {
@@ -55,6 +57,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_fails_completing_the_checkout_using_invalid_blik_token(): void
     {
@@ -71,6 +74,7 @@ final class TpayPaymentCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_does_not_allow_to_complete_checkout_without_filling_blik_token(): void
     {

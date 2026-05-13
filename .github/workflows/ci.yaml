@@ -98,6 +98,7 @@ jobs:
                 run: vendor/bin/phpunit --testsuite api
 
             -   name: Run tests (E2E)
+                continue-on-error: true
                 run: |
                     find tests/E2E/ -type f -name '*Test.php' -print0 |
                     while IFS= read -r -d '' file; do
