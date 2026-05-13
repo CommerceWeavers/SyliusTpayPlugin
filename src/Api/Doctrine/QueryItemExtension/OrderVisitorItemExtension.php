@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension;
 
+use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
@@ -12,10 +13,10 @@ use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-final class OrderVisitorItemExtension implements QueryItemExtensionInterface
+final class OrderVisitorItemExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly QueryItemExtensionInterface $decorated,
+        private readonly QueryItemExtensionInterface|QueryCollectionExtensionInterface $decorated,
         private readonly UserContextInterface $userContext,
         private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
@@ -62,4 +63,43 @@ final class OrderVisitorItemExtension implements QueryItemExtensionInterface
         ;
     }
 
+    public function applyToCollection(
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $resourceClass,
+        ?Operation $operation = null,
+        array $context = [],
+    ): void {
+        if (!is_a($resourceClass, OrderInterface::class, true)) {
+            return;
+        }
+
+        if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
+            if ($this->decorated instanceof QueryCollectionExtensionInterface) {
+                $this->decorated->applyToCollection($queryBuilder, $queryNameGenerator, $resourceClass, $operation, $context);
+            }
+
+            return;
+        }
+
+        $user = $this->userContext->getUser();
+        if ($user !== null) {
+            return;
+        }
+
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+
+        $queryBuilder
+            ->leftJoin(sprintf('%s.customer', $rootAlias), 'customer')
+            ->leftJoin('customer.user', 'user')
+            ->andWhere($queryBuilder->expr()->orX(
+                'user IS NULL',
+                sprintf('%s.customer IS NULL', $rootAlias),
+                $queryBuilder->expr()->andX(
+                    sprintf('%s.customer IS NOT NULL', $rootAlias),
+                    sprintf('%s.createdByGuest = :createdByGuest', $rootAlias),
+                ),
+            ))->setParameter('createdByGuest', true)
+        ;
+    }
 }
