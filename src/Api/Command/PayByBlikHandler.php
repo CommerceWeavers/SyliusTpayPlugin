@@ -40,7 +40,6 @@ final class PayByBlikHandler extends AbstractPayByHandler
             match ($command->blikAliasAction) {
                 BlikAliasAction::APPLY => $this->activeBlikAliasPreconditionGuard->denyIfNotActive($blikAlias),
                 BlikAliasAction::REGISTER => $blikAlias->redefine(),
-                default => null,
             };
         }
 
