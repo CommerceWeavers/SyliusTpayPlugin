@@ -29,6 +29,7 @@ abstract class E2ETestCase extends PantherTestCase
         $this->client = static::createPantherClient([
             'browser' => self::CHROME, [], $options,
         ]);
+        $this->client->restart();
         $this->client->manage()->window()->setSize(
             new WebDriverDimension(1500, 4000),
         );
@@ -39,7 +40,6 @@ abstract class E2ETestCase extends PantherTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->client->restart();
     }
 
     /**
