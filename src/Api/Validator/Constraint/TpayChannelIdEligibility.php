@@ -21,7 +21,7 @@ class TpayChannelIdEligibility extends Constraint
     public string $doesNotExistMessage = 'commerce_weavers_sylius_tpay.shop.pay.tpay_channel_id.does_not_exist';
 
     /**
-     * @return array<string>
+     * @return array<'class'|'property'>
      */
     public function getTargets(): array
     {
