@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CommerceWeavers\SyliusTpayPlugin\Api\Doctrine\QueryItemExtension;
 
-use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
@@ -14,10 +13,10 @@ use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 
-final readonly class OrderShopUserItemExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
+final readonly class OrderShopUserItemExtension implements QueryItemExtensionInterface
 {
     public function __construct(
-        private QueryItemExtensionInterface|QueryCollectionExtensionInterface $decorated,
+        private QueryItemExtensionInterface $decorated,
         private UserContextInterface $userContext,
         private AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
@@ -68,47 +67,4 @@ final readonly class OrderShopUserItemExtension implements QueryItemExtensionInt
         ;
     }
 
-    public function applyToCollection(
-        QueryBuilder $queryBuilder,
-        QueryNameGeneratorInterface $queryNameGenerator,
-        string $resourceClass,
-        ?Operation $operation = null,
-        array $context = [],
-    ): void {
-        if (!is_a($resourceClass, OrderInterface::class, true)) {
-            return;
-        }
-
-        if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
-            if ($this->decorated instanceof QueryCollectionExtensionInterface) {
-                $this->decorated->applyToCollection($queryBuilder, $queryNameGenerator, $resourceClass, $operation, $context);
-            }
-
-            return;
-        }
-
-        $user = $this->userContext->getUser();
-
-        if (!$user instanceof ShopUserInterface) {
-            return;
-        }
-
-        $customer = $user->getCustomer();
-
-        if ($customer === null) {
-            if ($this->decorated instanceof QueryCollectionExtensionInterface) {
-                $this->decorated->applyToCollection($queryBuilder, $queryNameGenerator, $resourceClass, $operation, $context);
-            }
-
-            return;
-        }
-
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $customerParameterName = $queryNameGenerator->generateParameterName('customer');
-
-        $queryBuilder
-            ->andWhere(sprintf('%s.customer = :%s', $rootAlias, $customerParameterName))
-            ->setParameter($customerParameterName, $customer->getId())
-        ;
-    }
 }
