@@ -16,7 +16,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 final class OrderVisitorItemExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly QueryItemExtensionInterface $decorated,
+        private readonly QueryItemExtensionInterface|QueryCollectionExtensionInterface $decorated,
         private readonly UserContextInterface $userContext,
         private readonly AllowedOrderOperationsProviderInterface $allowedOrderOperationsProvider,
     ) {
@@ -35,7 +35,9 @@ final class OrderVisitorItemExtension implements QueryItemExtensionInterface, Qu
         }
 
         if ($operation === null || !in_array($operation->getName(), $this->allowedOrderOperationsProvider->provide(), true)) {
-            $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            if ($this->decorated instanceof QueryItemExtensionInterface) {
+                $this->decorated->applyToItem($queryBuilder, $queryNameGenerator, $resourceClass, $identifiers, $operation, $context);
+            }
 
             return;
         }
