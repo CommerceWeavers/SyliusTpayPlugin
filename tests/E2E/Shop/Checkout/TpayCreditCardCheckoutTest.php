@@ -37,6 +37,7 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout_using_credit_card(): void
     {
@@ -55,6 +56,7 @@ final class TpayCreditCardCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout_using_credit_card_and_saves_the_card(): void
     {

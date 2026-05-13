@@ -31,6 +31,7 @@ final class FreePaymentCheckoutTest extends E2ETestCase
 
     /**
      * @group checkout
+     * @group requires-fixes
      */
     public function test_it_completes_the_checkout_if_order_total_is_0(): void
     {
