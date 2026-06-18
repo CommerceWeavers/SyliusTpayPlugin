@@ -7,7 +7,7 @@ services:
       target: php_prod
     environment:
         - APP_ENV=${APP_ENV:-prod}
-        - DATABASE_URL='******db/cw_sylius_tpay_plugin_%kernel.environment%?serverVersion=10.11.0-MariaDB'
+        - DATABASE_URL=mysql://root:cw_rocks@db/cw_sylius_tpay_plugin_%kernel.environment%?serverVersion=mariadb-10.11.0
         - PAYUM_CYPHER_KEY=${PAYUM_CYPHER_KEY}
         - TPAY_CLIENT_ID=${TPAY_CLIENT_ID}
         - TPAY_CLIENT_SECRET=${TPAY_CLIENT_SECRET}
