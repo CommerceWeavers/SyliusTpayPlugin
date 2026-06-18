@@ -28,7 +28,7 @@ services:
     image: mariadb:10.11
     restart: always
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       start_period: 30s
       interval: 10s
       timeout: 5s
