@@ -28,11 +28,11 @@ services:
     image: mariadb:10.11
     restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      start_period: 10s
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 30s
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 10
     environment:
       MARIADB_ROOT_PASSWORD: cw_rocks
     volumes:
