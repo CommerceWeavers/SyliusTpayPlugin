@@ -7,7 +7,7 @@ services:
       target: php_prod
     environment:
         - APP_ENV=${APP_ENV:-prod}
-        - DATABASE_URL=${DATABASE_URL}
+        - DATABASE_URL='******db/cw_sylius_tpay_plugin_%kernel.environment%?serverVersion=10.11.0-MariaDB'
         - PAYUM_CYPHER_KEY=${PAYUM_CYPHER_KEY}
         - TPAY_CLIENT_ID=${TPAY_CLIENT_ID}
         - TPAY_CLIENT_SECRET=${TPAY_CLIENT_SECRET}
@@ -25,7 +25,7 @@ services:
         condition: service_healthy
 
   db:
-    image: mysql
+    image: mariadb:10.11
     restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
@@ -34,7 +34,7 @@ services:
       timeout: 5s
       retries: 3
     environment:
-      MYSQL_ROOT_PASSWORD: cw_rocks
+      MARIADB_ROOT_PASSWORD: cw_rocks
     volumes:
       - database:/var/lib/mysql
 
