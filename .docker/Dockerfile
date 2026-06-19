@@ -38,7 +38,11 @@ WORKDIR /app
 
 FROM php_base AS php_prod_build
 
+RUN composer global config allow-plugins.symfony/flex true \
+    && composer global require symfony/flex --no-progress --no-scripts
+
 COPY composer.json /app/
+COPY patches/ /app/patches/
 COPY tests/Application/src/Kernel.php /app/tests/Application/src/Kernel.php
 
 RUN  composer install --no-interaction --no-scripts; \

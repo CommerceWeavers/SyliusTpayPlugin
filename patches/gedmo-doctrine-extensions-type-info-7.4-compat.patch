@@ -1,0 +1,33 @@
+--- a/src/Loggable/Entity/MappedSuperclass/AbstractLogEntry.php
++++ b/src/Loggable/Entity/MappedSuperclass/AbstractLogEntry.php
+@@ -15,7 +15,7 @@
+ use Gedmo\Loggable\Loggable;
+ 
+ /**
+- * @phpstan-template T of Loggable|object
++ * @phpstan-template T of object
+  *
+  * @phpstan-implements LogEntryInterface<T>
+  *
+--- a/src/Loggable/LogEntryInterface.php
++++ b/src/Loggable/LogEntryInterface.php
+@@ -12,7 +12,7 @@
+ /**
+  * Interface to be implemented by log entry models.
+  *
+- * @phpstan-template T of Loggable|object
++ * @phpstan-template T of object
+  *
+  * @author Javier Spagnoletti <phansys@gmail.com>
+  */
+--- a/src/Loggable/LoggableListener.php
++++ b/src/Loggable/LoggableListener.php
+@@ -36,7 +36,7 @@
+  *   versioned?: string[],
+  * }
+  *
+- * @template T of Loggable|object
++ * @template T of object
+  *
+  * @phpstan-extends MappedEventSubscriber<LoggableConfiguration, LoggableAdapter>
+  */
