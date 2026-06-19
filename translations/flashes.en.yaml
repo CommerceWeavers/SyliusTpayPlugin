@@ -2,7 +2,3 @@ commerce_weavers_sylius_tpay:
     admin:
         payment_method:
             image_has_been_removed: 'Payment method image has been removed'
-    shop:
-        retry_payment:
-            cannot_be_retried: 'This payment cannot be retried'
-            previous_payment_cancelled: 'The previous payment has been cancelled'
