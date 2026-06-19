@@ -1,0 +1,146 @@
+include:
+    - ../common/channel.yaml
+    - ../common/country.yaml
+    - ../common/customer.yaml
+    - ../common/payment_method.yaml
+    - ../common/shipping_category.yaml
+    - ../common/shipping_method.yaml
+    - ../common/tax_category.yaml
+    - ../common/admin.yaml
+
+Sylius\Component\Core\Model\Product:
+    product_refund_wo_tx:
+        fallbackLocale: en_US
+        currentLocale: en
+        code: 'MUG_REFUND_WO_TX'
+        translations:
+            - '@product_refund_wo_tx_translation'
+    product_refund_w_tx:
+        fallbackLocale: en_US
+        currentLocale: en
+        code: 'MUG_REFUND_W_TX'
+        translations:
+            - '@product_refund_w_tx_translation'
+
+Sylius\Component\Core\Model\ProductTranslation:
+    product_refund_wo_tx_translation:
+        name: 'Mug Refund WO TX'
+        slug: 'mug-refund-wo-tx'
+        locale: 'en_US'
+        translatable: '@product_refund_wo_tx'
+    product_refund_w_tx_translation:
+        name: 'Mug Refund W TX'
+        slug: 'mug-refund-w-tx'
+        locale: 'en_US'
+        translatable: '@product_refund_w_tx'
+
+Sylius\Component\Core\Model\ProductVariant:
+    product_variant_refund_wo_tx:
+        code: 'MUG_REFUND_WO_TX_V'
+        product: '@product_refund_wo_tx'
+        channelPricings:
+            channel_web: '@product_variant_refund_wo_tx_pricing'
+        enabled: true
+        tracked: true
+        onHold: 0
+        onHand: 10
+    product_variant_refund_w_tx:
+        code: 'MUG_REFUND_W_TX_V'
+        product: '@product_refund_w_tx'
+        channelPricings:
+            channel_web: '@product_variant_refund_w_tx_pricing'
+        enabled: true
+        tracked: true
+        onHold: 0
+        onHand: 10
+
+Sylius\Component\Core\Model\ChannelPricing:
+    product_variant_refund_wo_tx_pricing:
+        channelCode: 'WEB'
+        price: 2000
+    product_variant_refund_w_tx_pricing:
+        channelCode: 'WEB'
+        price: 2000
+
+Sylius\Component\Core\Model\Address:
+    address_refund_wo_tx:
+        firstName: 'Tony'
+        lastName: 'Doe'
+        street: 'Green Avenue 1'
+        countryCode: 'US'
+        city: 'New York'
+        postcode: '00001'
+    address_refund_w_tx:
+        firstName: 'Tony'
+        lastName: 'Doe'
+        street: 'Green Avenue 2'
+        countryCode: 'US'
+        city: 'New York'
+        postcode: '00002'
+
+TestApp\Entity\Order:
+    order_refund_wo_tx:
+        number: '000000030'
+        tokenValue: 'tokenValue30'
+        channel: '@channel_web'
+        currencyCode: 'USD'
+        localeCode: 'en_US'
+        customerWithAuthorization: '@customer_tony'
+        state: 'fulfilled'
+        checkoutState: 'completed'
+        paymentState: 'paid'
+        shippingState: 'shipped'
+        shippingAddress: '@address_refund_wo_tx'
+        billingAddress: '@address_refund_wo_tx'
+        __calls:
+            - addItem: ['@order_item_refund_wo_tx']
+    order_refund_w_tx:
+        number: '000000031'
+        tokenValue: 'tokenValue31'
+        channel: '@channel_web'
+        currencyCode: 'USD'
+        localeCode: 'en_US'
+        customerWithAuthorization: '@customer_tony'
+        state: 'fulfilled'
+        checkoutState: 'completed'
+        paymentState: 'paid'
+        shippingState: 'shipped'
+        shippingAddress: '@address_refund_w_tx'
+        billingAddress: '@address_refund_w_tx'
+        __calls:
+            - addItem: ['@order_item_refund_w_tx']
+
+Sylius\Component\Core\Model\OrderItem:
+    order_item_refund_wo_tx:
+        variant: '@product_variant_refund_wo_tx'
+        unitPrice: 2000
+    order_item_refund_w_tx:
+        variant: '@product_variant_refund_w_tx'
+        unitPrice: 2000
+
+Sylius\Component\Core\Model\OrderItemUnit:
+    order_item_unit_refund_wo_tx:
+        __construct: ['@order_item_refund_wo_tx']
+    order_item_unit_refund_w_tx:
+        __construct: ['@order_item_refund_w_tx']
+
+Sylius\Component\Core\Model\Payment:
+    payment_refund_wo_tx:
+        method: '@tpay'
+        order: '@order_refund_wo_tx'
+        currency_code: 'USD'
+        amount: 2000
+        state: completed
+        details:
+            tpay: { }
+    payment_refund_w_tx:
+        method: '@tpay'
+        order: '@order_refund_w_tx'
+        currency_code: 'USD'
+        amount: 2000
+        state: completed
+        details:
+            tpay:
+                transaction_id: 'foo'
+
+
