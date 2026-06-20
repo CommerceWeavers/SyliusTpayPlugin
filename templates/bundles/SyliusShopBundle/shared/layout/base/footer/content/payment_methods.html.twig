@@ -1,23 +1,13 @@
 <div class="col-12 text-center col-md-6 order-md-4 text-md-start col-lg-3 order-lg-4 text-lg-center">
     <div class="mb-3 fw-medium">Payment methods:</div>
 
-    <div class="d-flex flex-wrap justify-content-center justify-content-md-start justify-content-lg-center align-items-center gap-2 mb-4">
-        {% set payment_method_logos = [
-            { image: 'tpay.svg', name: 'Tpay' },
-            { image: 'blik.svg', name: 'BLIK' },
-            { image: 'google-pay.svg', name: 'Google Pay' },
-            { image: 'apple-pay.svg', name: 'Apple Pay' },
-            { image: 'mastercard.svg', name: 'Mastercard' },
-        ] %}
-
-        {% for logo in payment_method_logos %}
-            <img
-                class="img-fluid"
-                src="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/images/payment/' ~ logo.image) }}"
-                style="height: 32px; width: auto;"
-                alt="{{ logo.name }}"
-            />
-        {% endfor %}
+    <div class="mb-4">
+        <img
+            class="img-fluid"
+            src="{{ asset('bundles/commerceweaverssyliustpayplugin/shop/images/payment/tpay-full-300x203.svg') }}"
+            style="max-width: 220px; height: auto;"
+            alt="Tpay"
+        />
     </div>
 
     <div class="d-flex justify-content-center justify-content-md-start justify-content-lg-center gap-3 mb-5">
