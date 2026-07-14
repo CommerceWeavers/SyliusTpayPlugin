@@ -6,10 +6,6 @@ framework:
         handler_id: ~
     annotations:
         enabled: false
-    # The application runs behind a reverse proxy (e.g. Coolify's Caddy) that
-    # terminates HTTPS and forwards the request to the container over plain
-    # HTTP on port 80. Trusting the proxy and its X-Forwarded-* headers lets
-    # Symfony detect the original HTTPS scheme and generate correct HTTPS URLs.
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
 
