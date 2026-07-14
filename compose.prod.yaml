@@ -7,6 +7,9 @@ services:
       target: php_prod
     environment:
         - APP_ENV=${APP_ENV:-prod}
+        # Trust proxies on the private network (e.g. Coolify's Caddy) so the
+        # X-Forwarded-Proto header is honoured and HTTPS URLs are generated.
+        - TRUSTED_PROXIES=${TRUSTED_PROXIES:-private_ranges}
         - DATABASE_URL=mysql://root:cw_rocks@db/cw_sylius_tpay_plugin_%kernel.environment%?serverVersion=mariadb-10.11.0
         - PAYUM_CYPHER_KEY=${PAYUM_CYPHER_KEY}
         - TPAY_CLIENT_ID=${TPAY_CLIENT_ID}
