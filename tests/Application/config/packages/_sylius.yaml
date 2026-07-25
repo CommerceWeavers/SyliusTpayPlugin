@@ -39,3 +39,6 @@ sylius_twig_hooks:
         'sylius_admin.base#javascripts':
             app_javascripts:
                 template: 'admin/scripts.html.twig'
+        'sylius_shop.base.footer.content':
+            payment_methods:
+                template: 'shop/footer/payment_methods.html.twig'
