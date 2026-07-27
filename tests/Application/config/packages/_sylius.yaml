@@ -39,3 +39,7 @@ sylius_twig_hooks:
         'sylius_admin.base#javascripts':
             app_javascripts:
                 template: 'admin/scripts.html.twig'
+        'sylius_shop.base#metatags':
+            app_meta_tags:
+                template: 'shop/metatags.html.twig'
+                priority: -10
