@@ -17,5 +17,8 @@
     "@symfony/stimulus-bridge": "^3.2.0",
     "@symfony/webpack-encore": "^5.0.1",
     "tom-select": "^2.2.2"
+  },
+  "resolutions": {
+    "webpack": "~5.111.0"
   }
 }
