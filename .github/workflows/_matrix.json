@@ -4,7 +4,7 @@
       "include": [
         {
           "php": "8.2",
-          "sylius": "~2.0.0",
+          "sylius": "~2.1.0",
           "symfony": "~6.4.0",
           "mysql": "8.0",
           "state_machine": "winzou_state_machine"
@@ -22,7 +22,7 @@
   "daily": {
     "ci": {
       "php": ["8.2", "8.4"],
-      "sylius": ["~2.0.0", "~2.1.0"],
+      "sylius": ["~2.1.0"],
       "symfony": ["~6.4.0", "~7.4.0"],
       "mysql": ["8.0"],
       "state_machine": ["winzou_state_machine", "symfony_workflow"]
