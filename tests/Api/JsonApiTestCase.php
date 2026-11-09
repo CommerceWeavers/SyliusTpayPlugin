@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\CommerceWeavers\SyliusTpayPlugin\Api;
 
 use ApiTestCase\JsonApiTestCase as BaseJsonApiTestCase;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,15 +17,11 @@ abstract class JsonApiTestCase extends BaseJsonApiTestCase
 
     protected function generateBearerToken(UserInterface $user): string
     {
-        /** @var JWTEncoderInterface $encoder */
-        $encoder = $this->getContainer()->get(JWTEncoderInterface::class);
+        /** @var JWTTokenManagerInterface $manager */
+        $manager = $this->getContainer()->get('lexik_jwt_authentication.jwt_manager');
 
-        $jwt = $encoder->encode([
-            'username' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ]);
-
-        return sprintf('Bearer %s', $jwt);
+        // Creating the token through the manager dispatches JWT_CREATED, letting Sylius add claims it validates (e.g. "aud")
+        return sprintf('Bearer %s', $manager->create($user));
     }
 
     protected function generateAuthorizationHeader(UserInterface $user): array
