@@ -45,6 +45,7 @@ final class CreateGooglePayTransactionAction extends BasePaymentAwareAction
                 }
             },
             onFailure: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_FAILED),
+            onUnknownOutcome: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_PROCESSING),
         );
     }
 
