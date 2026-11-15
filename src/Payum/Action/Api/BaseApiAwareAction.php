@@ -22,15 +22,26 @@ abstract class BaseApiAwareAction implements ActionInterface, ApiAwareInterface
         $this->apiClass = TpayApi::class;
     }
 
-    protected function do(callable $func, callable $onSuccess, callable $onFailure): void
+    protected function do(callable $func, callable $onSuccess, callable $onFailure, ?callable $onUnknownOutcome = null): void
     {
         try {
             $response = $func();
         } catch (TpayException $e) {
+            if (null !== $onUnknownOutcome && $this->isOutcomeUnknown($e)) {
+                $onUnknownOutcome();
+
+                return;
+            }
+
             $response = ['result' => 'failed', 'error' => $e->getMessage()];
         }
 
         $this->isResponseSuccessful($response) ? $onSuccess($response) : $onFailure($response);
+    }
+
+    private function isOutcomeUnknown(TpayException $exception): bool
+    {
+        return str_starts_with($exception->getMessage(), 'Unknown error response code');
     }
 
     /**

@@ -12,15 +12,22 @@ use CommerceWeavers\SyliusTpayPlugin\VisaMobilePayment\Payum\Action\CreateVisaMo
 use Sylius\Component\Payment\Model\GatewayConfigInterface;
 use Payum\Core\Request\Capture;
 use Payum\Core\Security\GenericTokenFactoryInterface;
+use Payum\Core\Security\TokenInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Tests\CommerceWeavers\SyliusTpayPlugin\Helper\PaymentDetailsHelperTrait;
+use Tpay\OpenApi\Api\Transactions\TransactionsApi;
+use Tpay\OpenApi\Utilities\TpayException;
 
 final class CreateVisaMobileTransactionActionTest extends TestCase
 {
     use ProphecyTrait;
+
+    use PaymentDetailsHelperTrait;
 
     private TpayApi|ObjectProphecy $api;
 
@@ -89,6 +96,41 @@ final class CreateVisaMobileTransactionActionTest extends TestCase
         $isSupported = $this->createTestSubject()->supports($request->reveal());
 
         $this->assertFalse($isSupported);
+    }
+
+    public function test_it_marks_payment_as_processing_if_tpay_does_not_answer(): void
+    {
+        $order = $this->prophesize(OrderInterface::class);
+        $order->getLocaleCode()->willReturn('pl_PL');
+
+        $payment = $this->prophesize(PaymentInterface::class);
+        $payment->getOrder()->willReturn($order);
+        $payment->getDetails()->willReturn([]);
+        $payment->setDetails(
+            $this->getExpectedDetails(status: 'processing'),
+        )->shouldBeCalled();
+
+        $token = $this->prophesize(TokenInterface::class);
+        $token->getGatewayName()->willReturn('tpay');
+
+        $request = $this->prophesize(CreateTransaction::class);
+        $request->getModel()->willReturn($payment);
+        $request->getToken()->willReturn($token);
+
+        $notifyToken = $this->prophesize(TokenInterface::class);
+        $notifyToken->getTargetUrl()->willReturn('https://cw.org/notify');
+
+        $transactions = $this->prophesize(TransactionsApi::class);
+        $transactions->createTransaction(['factored' => 'payload'])->willThrow(new TpayException('Unknown error response code 0'));
+
+        $this->notifyTokenFactory->create($payment, 'tpay', 'pl_PL')->willReturn($notifyToken);
+        $this->api->transactions()->willReturn($transactions);
+        $this->createVisaMobilePaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn(['factored' => 'payload'])
+        ;
+
+        $this->createTestSubject()->execute($request->reveal());
     }
 
     private function createTestSubject(): CreateVisaMobileTransactionAction
