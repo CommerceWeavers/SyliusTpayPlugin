@@ -208,6 +208,41 @@ final class CreateApplePayTransactionActionTest extends TestCase
         $transactions->createTransaction(Argument::any())->willThrow(new TpayException('Some message'));
     }
 
+    public function test_it_marks_payment_as_processing_if_tpay_does_not_answer(): void
+    {
+        $order = $this->prophesize(OrderInterface::class);
+        $order->getLocaleCode()->willReturn('pl_PL');
+
+        $payment = $this->prophesize(PaymentInterface::class);
+        $payment->getOrder()->willReturn($order);
+        $payment->getDetails()->willReturn([]);
+        $payment->setDetails(
+            $this->getExpectedDetails(status: 'processing'),
+        )->shouldBeCalled();
+
+        $token = $this->prophesize(TokenInterface::class);
+        $token->getGatewayName()->willReturn('tpay');
+
+        $request = $this->prophesize(CreateTransaction::class);
+        $request->getModel()->willReturn($payment);
+        $request->getToken()->willReturn($token);
+
+        $notifyToken = $this->prophesize(TokenInterface::class);
+        $notifyToken->getTargetUrl()->willReturn('https://cw.org/notify');
+
+        $transactions = $this->prophesize(TransactionsApi::class);
+        $transactions->createTransaction(['factored' => 'payload'])->willThrow(new TpayException('Unknown error response code 0'));
+
+        $this->notifyTokenFactory->create($payment, 'tpay', 'pl_PL')->willReturn($notifyToken);
+        $this->api->transactions()->willReturn($transactions);
+        $this->createApplePayPaymentPayloadFactory
+            ->createFrom($payment, 'https://cw.org/notify', 'pl_PL')
+            ->willReturn(['factored' => 'payload'])
+        ;
+
+        $this->createTestSubject()->execute($request->reveal());
+    }
+
     public function test_it_throws_exception_if_3d_secure_authentication_required_but_transaction_payment_url_is_missing(): void
     {
         $this->expectException(\InvalidArgumentException::class);

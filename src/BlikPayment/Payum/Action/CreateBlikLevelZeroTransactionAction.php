@@ -55,6 +55,7 @@ final class CreateBlikLevelZeroTransactionAction extends BasePaymentAwareAction
 
                 $this->handleErrors($response);
             },
+            onUnknownOutcome: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_PROCESSING),
         );
     }
 

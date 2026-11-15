@@ -38,6 +38,7 @@ final class CreateVisaMobileTransactionAction extends BasePaymentAwareAction
                 $paymentDetails->setStatus($response['status']);
             },
             onFailure: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_FAILED),
+            onUnknownOutcome: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_PROCESSING),
         );
     }
 
