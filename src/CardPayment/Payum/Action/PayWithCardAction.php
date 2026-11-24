@@ -38,6 +38,7 @@ class PayWithCardAction extends BasePaymentAwareAction
                 $paymentDetails->setPaymentUrl($response['transactionPaymentUrl'] ?? null);
             },
             onFailure: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_FAILED),
+            onUnknownOutcome: fn () => $paymentDetails->setStatus(PaymentInterface::STATE_PROCESSING),
         );
 
         $paymentDetails->clearSensitiveData();

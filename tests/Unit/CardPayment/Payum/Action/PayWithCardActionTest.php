@@ -150,6 +150,45 @@ final class PayWithCardActionTest extends TestCase
         $subject->execute($request->reveal());
     }
 
+    public function test_it_marks_payment_as_processing_if_tpay_does_not_answer(): void
+    {
+        $order = $this->prophesize(OrderInterface::class);
+        $order->getLocaleCode()->willReturn('en_US');
+
+        $request = $this->prophesize(PayWithCard::class);
+        $details = [
+            'tpay' => [
+                'card' => 'test-card',
+                'transaction_id' => 'abcd',
+            ],
+        ];
+
+        $paymentModel = $this->prophesize(PaymentInterface::class);
+        $paymentModel->getOrder()->willReturn($order->reveal());
+        $paymentModel->getDetails()->willReturn($details);
+
+        $token = $this->prophesize(TokenInterface::class);
+        $token->getGatewayName()->willReturn('tpay');
+
+        $request->getModel()->willReturn($paymentModel->reveal());
+        $request->getToken()->willReturn($token->reveal());
+
+        $transactions = $this->prophesize(TransactionsApi::class);
+
+        $this->mapper->getPayload(Argument::type(PaymentDetails::class), $paymentModel->reveal())->willReturn(['GENERATED' => 'PAYLOAD']);
+        $transactions->createPaymentByTransactionId(['GENERATED' => 'PAYLOAD'], $details['tpay']['transaction_id'])->willThrow(new TpayException('Unknown error response code 0'));
+
+        $this->api->transactions()->willReturn($transactions);
+
+        $paymentModel->setDetails(
+            $this->getExpectedDetails(status: 'processing', transaction_id: 'abcd')
+        )->shouldBeCalled();
+
+        $subject = $this->createTestSubject();
+
+        $subject->execute($request->reveal());
+    }
+
     public function test_it_marks_a_payment_status_as_failed_once_a_transaction_status_is_failed(): void
     {
         $details = [

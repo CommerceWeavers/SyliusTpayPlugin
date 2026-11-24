@@ -157,6 +157,34 @@ final class CreateGooglePayTransactionActionTest extends TestCase
         $this->createTestSubject()->execute($this->request->reveal());
     }
 
+    public function test_it_marks_payment_as_processing_if_tpay_does_not_answer(): void
+    {
+        $this->payment->getDetails()->willReturn([]);
+        $this->payment
+            ->setDetails(
+                $this->getExpectedDetails(status: 'processing')
+            )
+            ->shouldBeCalled()
+        ;
+
+        $transactions = $this->prophesize(TransactionsApi::class);
+        $transactions->createTransaction(['factored' => 'payload'])->willThrow(new TpayException('Unknown error response code 0'));
+
+        $this->api->transactions()->willReturn($transactions);
+
+        $notifyToken = $this->prophesize(TokenInterface::class);
+        $notifyToken->getTargetUrl()->willReturn('https://cw.org/notify');
+
+        $this->notifyTokenFactory->create($this->payment, 'tpay', 'en_US')->willReturn($notifyToken);
+
+        $this->createGooglePayPaymentPayloadFactory
+            ->createFrom($this->payment, 'https://cw.org/notify', 'en_US')
+            ->willReturn(['factored' => 'payload'])
+        ;
+
+        $this->createTestSubject()->execute($this->request->reveal());
+    }
+
     public function test_it_redirects_payment_if_3d_secure_authentication_required(): void
     {
         $this->expectException(HttpRedirect::class);
