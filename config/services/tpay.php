@@ -97,6 +97,7 @@ return static function(ContainerConfigurator $container): void {
     $services->set('commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_channel_payment_payload', CreatePayByLinkChannelPayloadFactory::class)
         ->args([
             service('commerce_weavers_sylius_tpay.tpay.factory.create_redirect_based_payment_payload'),
+            service('payum.dynamic_gateways.cypher')->nullOnInvalid(),
         ])
         ->alias(CreatePayByLinkChannelPayloadFactoryInterface::class, 'commerce_weavers_sylius_tpay.tpay.factory.create_pay_by_link_channel_payment_payload')
     ;

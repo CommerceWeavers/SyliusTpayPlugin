@@ -73,6 +73,11 @@
         "api-platform/state": "< 4.1.17"
     },
     "config": {
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        },
         "sort-packages": true,
         "allow-plugins": {
             "cweagans/composer-patches": true,
