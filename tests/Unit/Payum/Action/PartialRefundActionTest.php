@@ -118,6 +118,50 @@ final class PartialRefundActionTest extends TestCase
 
         $this->createTestSubject()->execute($this->refundRequest->reveal());    }
 
+    public function test_it_throws_an_exception_when_tpay_rejects_the_partial_refund(): void
+    {
+        $this->expectException(RefundCannotBeMadeException::class);
+        $this->expectExceptionMessage('No sufficient funds or the refund limit has been reached');
+
+        $paymentDetails = [
+            'tpay' => [
+                'transaction_id' => 'tr4ns4ct!0n_!d',
+            ],
+        ];
+        $payment = $this->prophesize(PaymentInterface::class);
+        $payment->getDetails()->willReturn($paymentDetails);
+        $payment->getAmount()->willReturn(100);
+
+        $order = $this->prophesize(OrderInterface::class);
+        $order->getLastPayment()->willReturn($payment);
+
+        $this->refundPayment->getAmount()->willReturn(90);
+        $this->refundPayment->getOrder()->willReturn($order);
+
+        $this->gateway->execute(Argument::any())->shouldNotBeCalled();
+
+        $transactions = $this->prophesize(TransactionsApi::class);
+        $transactions->createRefundByTransactionId(['amount' => 0.90], 'tr4ns4ct!0n_!d')
+            ->willReturn([
+                'result' => 'failed',
+                'requestId' => 'b5c1e1ba6f5e0d8a4c2f',
+                'errors' => [
+                    [
+                        'errorCode' => 'no_sufficient_funds_or_refund_limit_reached',
+                        'errorMessage' => 'No sufficient funds or the refund limit has been reached',
+                        'fieldName' => '',
+                        'devMessage' => '',
+                        'docUrl' => '',
+                    ],
+                ],
+            ])
+        ;
+
+        $this->tpayApi->transactions()->willReturn($transactions);
+
+        $this->createTestSubject()->execute($this->refundRequest->reveal());
+    }
+
     private function createTestSubject(): PartialRefundAction
     {
         $action = new PartialRefundAction();

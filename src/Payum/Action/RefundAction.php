@@ -27,7 +27,11 @@ final class RefundAction extends BaseApiAwareAction
             throw new RefundCannotBeMadeException('Tpay transaction id cannot be found.');
         }
 
-        $this->api->transactions()->createRefundByTransactionId([], $transactionId);
+        $response = $this->api->transactions()->createRefundByTransactionId([], $transactionId);
+
+        if ('failed' === ($response['result'] ?? null)) {
+            throw new RefundCannotBeMadeException($response['errors'][0]['errorMessage'] ?? 'Tpay rejected the refund.');
+        }
     }
 
     public function supports(mixed $request): bool

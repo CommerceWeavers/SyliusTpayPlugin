@@ -39,10 +39,14 @@ final class PartialRefundAction extends BaseApiAwareAction implements GatewayAwa
             return;
         }
 
-        $this->api->transactions()->createRefundByTransactionId(
+        $response = $this->api->transactions()->createRefundByTransactionId(
             ['amount' => $this->convertFromMinorToMajorCurrency($refundPayment->getAmount())],
             $transactionId,
         );
+
+        if ('failed' === ($response['result'] ?? null)) {
+            throw new RefundCannotBeMadeException($response['errors'][0]['errorMessage'] ?? 'Tpay rejected the refund.');
+        }
     }
 
     public function supports(mixed $request): bool

@@ -72,6 +72,33 @@ final class RefundActionTest extends TestCase
         $this->createTestSubject()->execute($this->request->reveal());
     }
 
+    public function test_it_throws_an_exception_when_tpay_rejects_the_refund(): void
+    {
+        $this->expectException(RefundCannotBeMadeException::class);
+        $this->expectExceptionMessage('No sufficient funds or the refund limit has been reached');
+
+        $this->model->getDetails()->willReturn(['tpay' => ['transaction_id' => 'tr4ns4ct!0n']]);
+
+        $transactionApi = $this->prophesize(TransactionsApi::class);
+        $transactionApi->createRefundByTransactionId([], 'tr4ns4ct!0n')->willReturn([
+            'result' => 'failed',
+            'requestId' => 'b5c1e1ba6f5e0d8a4c2f',
+            'errors' => [
+                [
+                    'errorCode' => 'no_sufficient_funds_or_refund_limit_reached',
+                    'errorMessage' => 'No sufficient funds or the refund limit has been reached',
+                    'fieldName' => '',
+                    'devMessage' => '',
+                    'docUrl' => '',
+                ],
+            ],
+        ]);
+
+        $this->api->transactions()->willReturn($transactionApi);
+
+        $this->createTestSubject()->execute($this->request->reveal());
+    }
+
     private function createTestSubject(): RefundAction
     {
         $action = new RefundAction();
